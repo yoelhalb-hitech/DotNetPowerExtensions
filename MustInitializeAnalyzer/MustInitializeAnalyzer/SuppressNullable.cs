@@ -48,7 +48,8 @@ namespace MustInitializeAnalyzer
             var mustInitializeDecl = context.Compilation.GetTypeByMetadataName(typeof(MustInitializeAttribute).FullName);
             if (mustInitializeDecl == null) return false;
 
-            var propSymbol = context.Compilation.GetSymbolsWithName(name).First();
+            //var propSymbol = context.Compilation.GetSymbolsWithName(name).First(); This confuses everything in the project...
+            var propSymbol = context.Compilation.GetSemanticModel(member.SyntaxTree).GetDeclaredSymbol(member);
             return propSymbol.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, mustInitializeDecl));
         }
 

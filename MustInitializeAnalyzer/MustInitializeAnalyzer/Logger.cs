@@ -11,7 +11,7 @@ namespace MustInitializeAnalyzer
     class Logger
     {
         // The file name needs to based on the process and the thread so not have an error on locking...
-        private static string FileName => $@"C:\Users\Desk\Desktop\AnalyzerLogs\Log_{Process.GetCurrentProcess().Id}_{Thread.CurrentThread.ManagedThreadId}.txt";
+        private static string FileName => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), $@"MustInitializeAnalyzer\AnalyzerLogs\Log_{Process.GetCurrentProcess().Id}_{Thread.CurrentThread.ManagedThreadId}.txt");
         public static void LogError(Exception ex) =>
             File.AppendAllText(FileName,
                 $"{DateTime.Now.ToString("yy-MM-dd hh:mm:ss")} :: Error:\nType: {ex.GetType().Name}\nMessage: {ex.Message}\nStack: {ex.StackTrace}\nHasInner: {ex.InnerException != null}");

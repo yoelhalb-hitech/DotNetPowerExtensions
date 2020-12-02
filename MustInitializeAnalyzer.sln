@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustInitializeAnalyzer", "MustInitializeAnalyzer\MustInitializeAnalyzer\MustInitializeAnalyzer.csproj", "{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustInitializeAnalyzer.Test", "MustInitializeAnalyzer\MustInitializeAnalyzer.Test\MustInitializeAnalyzer.Test.csproj", "{3EE082A9-5EC7-4DED-873B-B7AA52283C4A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustInitializeAnalyzer.Vsix", "MustInitializeAnalyzer\MustInitializeAnalyzer.Vsix\MustInitializeAnalyzer.Vsix.csproj", "{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3EE082A9-5EC7-4DED-873B-B7AA52283C4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3EE082A9-5EC7-4DED-873B-B7AA52283C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3EE082A9-5EC7-4DED-873B-B7AA52283C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3EE082A9-5EC7-4DED-873B-B7AA52283C4A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}.Release|Any CPU.ActiveCfg = Release|Any CPU
