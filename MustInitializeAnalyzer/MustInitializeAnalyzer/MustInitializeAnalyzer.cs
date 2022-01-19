@@ -82,7 +82,7 @@ namespace MustInitializeAnalyzer
                     context.ReportDiagnostic(diagnostic);
                 }
 
-                var parent = context.Compilation.GetSymbolsWithName(expr.Parent.AncestorsAndSelf().OfType<ClassDeclarationSyntax>().First().Identifier.Text).First() as INamedTypeSymbol;
+                var parent = context.Compilation.GetSymbolsWithName(expr.Parent.AncestorsAndSelf().OfType<ClassDeclarationSyntax>().First().Identifier.Text).OfType<INamedTypeSymbol>().First();
                 var accessibilty = parent.Constructors.Select(c => c.DeclaredAccessibility).Min();
 
                 if (prop.DeclaredAccessibility < accessibilty)
