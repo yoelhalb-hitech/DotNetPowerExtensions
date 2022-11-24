@@ -11,6 +11,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Rename;
 using Microsoft.CodeAnalysis.Editing;
 using System;
+using DotNetPowerExtensions.MustInitialize;
 
 namespace MustInitializeAnalyzer
 {

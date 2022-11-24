@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MustInitializeAnalyzer
+namespace DotNetPowerExtensions.MustInitialize
 {
     [AttributeUsage(AttributeTargets.Property|AttributeTargets.Field)]
     public class MustInitializeAttribute : Attribute
