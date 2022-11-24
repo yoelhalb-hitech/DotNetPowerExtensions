@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 
 namespace TestHelper
@@ -58,6 +59,9 @@ namespace TestHelper
             foreach (var project in projects)
             {
                 var compilationWithAnalyzers = project.GetCompilationAsync().Result.WithAnalyzers(ImmutableArray.Create(analyzer));
+                var errors = compilationWithAnalyzers.GetAllDiagnosticsAsync().Result.Where(e => e.Severity == DiagnosticSeverity.Error);
+                errors.FirstOrDefault(e => throw new Exception(e.ToString() + " - At '" + (e.Location?.SourceTree?.ToString().Substring(e.Location?.SourceSpan.Start ?? 0, e.Location?.SourceSpan.Length ?? 0) ?? "N/A") + "'"));
+                
                 var diags = compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync().Result;
                 foreach (var diag in diags)
                 {
@@ -152,7 +156,10 @@ namespace TestHelper
                 .AddMetadataReference(projectId, CorlibReference)
                 .AddMetadataReference(projectId, SystemCoreReference)
                 .AddMetadataReference(projectId, CSharpSymbolsReference)
-                .AddMetadataReference(projectId, CodeAnalysisReference);
+                .AddMetadataReference(projectId, CodeAnalysisReference)
+                .AddMetadataReference(projectId, CreateFromRuntimeLibrary("netstandard.dll"))
+                .AddMetadataReference(projectId, CreateFromRuntimeLibrary("System.Runtime.dll"))
+                .AddMetadataReference(projectId, MustInitializeReference);
 
             int count = 0;
             foreach (var source in sources)
@@ -162,8 +169,29 @@ namespace TestHelper
                 solution = solution.AddDocument(documentId, newFileName, SourceText.From(source));
                 count++;
             }
+
+            // From https://davidwalschots.com/fixing-roslyn-compilation-errors-in-unit-tests-of-a-code-analyzer/
+            solution = solution.WithProjectCompilationOptions(projectId,
+                                solution.GetProject(projectId).CompilationOptions
+                                    .WithOutputKind(OutputKind.DynamicallyLinkedLibrary));
             return solution.GetProject(projectId);
         }
+
+        // From https://www.damirscorner.com/blog/posts/20150509-QuickGuideToUnitTestingDiagnosticAnalyzers.html
+        private static readonly MetadataReference MustInitializeReference =
+                MetadataReference.CreateFromFile(
+                        typeof(MustInitializeAnalyzer.MustInitializeAnalyzer).Assembly.Location);
+
+        // based on https://davidwalschots.com/fixing-roslyn-compilation-errors-in-unit-tests-of-a-code-analyzer/
+        private static MetadataReference CreateFromRuntimeLibrary(string fileName)
+        {
+            var runtimeDirectory = System.Runtime.InteropServices.RuntimeEnvironment
+                .GetRuntimeDirectory();
+            var dll = Path.Combine(runtimeDirectory, fileName);
+
+            return MetadataReference.CreateFromFile(dll);
+        }
+
         #endregion
     }
 }

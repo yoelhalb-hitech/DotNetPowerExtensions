@@ -74,9 +74,9 @@ namespace MustInitializeAnalyzer
                 }
 
                 var symbol = document.GetSemanticModelAsync().Result.GetTypeInfo(typeDecl).Type as ITypeSymbol;
-                var mustInitializeName = typeof(MustInitializeAttribute).FullName;
 
-                var mustInitializeClassMetadata = document.GetSemanticModelAsync().Result.Compilation.GetTypeByMetadataName(mustInitializeName);
+                var mustInitializeClassMetadata = document.GetSemanticModelAsync().Result
+                            .Compilation.GetTypeByMetadataName(MustInitializeAnalyzer.MustInitializeAttributeFullName);
                 var props = symbol.GetMembers()
                                     .OfType<IPropertySymbol>()
                                     .Where(p => !p.IsReadOnly && p.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, mustInitializeClassMetadata)))

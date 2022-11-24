@@ -42,11 +42,11 @@ namespace MustInitializeAnalyzer
         private const string mustInitialize = "MustInitialize";
         private bool ContainsMustInitialize(MemberDeclarationSyntax member, SuppressionAnalysisContext context, string name)
         {
-            if (!member.AttributeLists.Any(al => al.Attributes.Any(a => a.Name is IdentifierNameSyntax identifierName &&
-                    identifierName.Identifier.ValueText == mustInitialize))) return false;
+            if (!member.AttributeLists.Any(MustInitializeAnalyzer.BasicPredicate)) return false;
 
             // Make sure it is the correct type and not just something with the same name...            
-            var mustInitializeDecl = context.Compilation.GetTypeByMetadataName(typeof(MustInitializeAttribute).FullName);
+            var mustInitializeDecl = context.Compilation
+                        .GetTypeByMetadataName(MustInitializeAnalyzer.MustInitializeAttributeFullName);
             if (mustInitializeDecl == null) return false;
 
             //var propSymbol = context.Compilation.GetSymbolsWithName(name).First(); This confuses everything in the project...
@@ -66,7 +66,7 @@ namespace MustInitializeAnalyzer
                 }
                 else if ((node.Parent.Parent) is FieldDeclarationSyntax f)
                 {
-                    if (!ContainsMustInitialize(f, context, (node as VariableDeclaratorSyntax).Identifier.Text)) return;
+                    if (!ContainsMustInitialize(f, context, (node as VariableDeclaratorSyntax)?.Identifier.Text ?? "")) return;
                 }
                 else if (node is ConstructorDeclarationSyntax)
                 {

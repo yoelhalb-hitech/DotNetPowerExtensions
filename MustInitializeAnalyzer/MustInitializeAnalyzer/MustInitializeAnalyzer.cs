@@ -14,6 +14,8 @@ namespace MustInitializeAnalyzer
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class MustInitializeAnalyzer : DiagnosticAnalyzer
     {
+        public static readonly string MustInitializeAttributeFullName = typeof(MustInitializeAttribute).FullName;
+
         private const string mustInitialize = "MustInitialize";
 
         public const string DiagnosticId = mustInitialize;
@@ -57,17 +59,21 @@ namespace MustInitializeAnalyzer
             }
         }
 
-        Func<AttributeListSyntax, bool> predicate = al => al.Attributes.Any(a => a.Name is IdentifierNameSyntax name && name.Identifier.ValueText == mustInitialize);
+        public static Func<AttributeListSyntax, bool> BasicPredicate = al => al.Attributes
+                        .Any(a =>
+                        {
+                            var name = a.Name as IdentifierNameSyntax ?? (a.Name as QualifiedNameSyntax)?.Right as IdentifierNameSyntax;
+                            return name?.Identifier.ValueText == mustInitialize || name?.Identifier.ValueText == "MustInitializeAttribute";
+                        });
         private void AnalyzeProperty(SyntaxNodeAnalysisContext context)
         {
             try
             {
                 var expr = context.Node as PropertyDeclarationSyntax;
-                if (!expr?.AttributeLists.Any(predicate) ?? false) return;
+                if (expr is null || !expr.AttributeLists.Any(BasicPredicate)) return;
 
                 // First we checked with syntax expressions for optimization, now we need to actually check if it is our attribute
-                var mustInitializeName = typeof(MustInitializeAttribute).FullName;
-                var mustInitializeClassMetadata = context.Compilation.GetTypeByMetadataName(mustInitializeName);
+                var mustInitializeClassMetadata = context.Compilation.GetTypeByMetadataName(MustInitializeAttributeFullName);
                 if (mustInitializeClassMetadata == null) return;
 
                 var metadataDefinition = mustInitializeClassMetadata.OriginalDefinition;
@@ -81,12 +87,9 @@ namespace MustInitializeAnalyzer
                     var diagnostic = Diagnostic.Create(WritableRule, Location.Create(expr.SyntaxTree, expr.Span));
 
                     context.ReportDiagnostic(diagnostic);
-                }
+                }  
 
-                var parent = context.Compilation.GetSymbolsWithName(expr.Parent.AncestorsAndSelf().OfType<ClassDeclarationSyntax>().First().Identifier.Text).OfType<INamedTypeSymbol>().First();
-                var accessibilty = parent.Constructors.Select(c => c.DeclaredAccessibility).Min();
-
-                if (prop.DeclaredAccessibility < accessibilty)
+                if (!IsAccessibilityValid(prop.DeclaredAccessibility, expr.Parent, context))
                 {
                     var diagnostic = Diagnostic.Create(AccessibleRule, Location.Create(expr.SyntaxTree, expr.Span));
                     context.ReportDiagnostic(diagnostic);
@@ -104,11 +107,10 @@ namespace MustInitializeAnalyzer
             try
             {
                 var expr = context.Node as FieldDeclarationSyntax;
-                if (!expr.AttributeLists.Any(predicate)) return;
+                if (expr is null || !expr.AttributeLists.Any(BasicPredicate)) return;
 
                 // First we checked with syntax expressions for optimization, now we need to actually check if it is our attribute
-                var mustInitializeName = typeof(MustInitializeAttribute).FullName;
-                var mustInitializeClassMetadata = context.Compilation.GetTypeByMetadataName(mustInitializeName);
+                var mustInitializeClassMetadata = context.Compilation.GetTypeByMetadataName(MustInitializeAttributeFullName);
                 if (mustInitializeClassMetadata == null) return;
 
                 // Note we need to filter by IFieldSymbol and not just take the first, in case the type and the field name are the same....
@@ -122,10 +124,7 @@ namespace MustInitializeAnalyzer
                     context.ReportDiagnostic(diagnostic);
                 }
 
-                var parent = context.Compilation.GetSymbolsWithName(expr.Parent.AncestorsAndSelf().OfType<ClassDeclarationSyntax>().First().Identifier.Text).First() as INamedTypeSymbol;
-                var accessibilty = parent.Constructors.Select(c => c.DeclaredAccessibility).Min();
-
-                if (prop.DeclaredAccessibility < accessibilty)
+                if (!IsAccessibilityValid(prop.DeclaredAccessibility, expr.Parent, context))
                 {
                     var diagnostic = Diagnostic.Create(AccessibleRule, Location.Create(expr.SyntaxTree, expr.Span));
 
@@ -139,18 +138,33 @@ namespace MustInitializeAnalyzer
             }
         }
 
+        private bool IsAccessibilityValid(Accessibility accessibility, SyntaxNode parent, SyntaxNodeAnalysisContext context)
+        {
+            var className = parent.AncestorsAndSelf().OfType<ClassDeclarationSyntax>().First().Identifier.Text;
+            var classSymbol = context.Compilation.GetSymbolsWithName(className).First() as INamedTypeSymbol;
+            if(classSymbol is null)
+            {
+                Logger.LogInfo("Class missing for symbol, how is that possible?");
+                return true;
+            }
+
+            var ctorAccessibilty = classSymbol.Constructors.Select(c => c.DeclaredAccessibility).Min();
+
+            return accessibility >= ctorAccessibilty;
+        }
+
         private void AnalyzeCreation(SyntaxNodeAnalysisContext context)
         {
             try
             {
                 //if(context.SemanticModel.Compilation.get)
                 var expr = context.Node as ObjectCreationExpressionSyntax;
+                if (expr is null) return;
 
                 var symbol = context.SemanticModel.GetTypeInfo(expr).Type as ITypeSymbol;
 
                 // First we checked with syntax expressions for optimization, now we need to actually check if it is our attribute
-                var mustInitializeName = typeof(MustInitializeAttribute).FullName;
-                var mustInitializeClassMetadata = context.Compilation.GetTypeByMetadataName(mustInitializeName);
+                var mustInitializeClassMetadata = context.Compilation.GetTypeByMetadataName(MustInitializeAttributeFullName);
                 if (mustInitializeClassMetadata == null) return;
 
                 var props = symbol.GetMembers()
