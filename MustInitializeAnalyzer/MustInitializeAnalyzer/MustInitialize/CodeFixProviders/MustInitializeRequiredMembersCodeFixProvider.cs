@@ -1,127 +1,57 @@
-﻿using System.Collections.Immutable;
+﻿using DotNetPowerExtensions.MustInitialize;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Editing;
+using DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
+using DotNetPowerExtensionsAnalyzer.Utils;
+using System;
+using System.Collections.Generic;
 using System.Composition;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Rename;
-using Microsoft.CodeAnalysis.Editing;
-using System;
-using DotNetPowerExtensions.MustInitialize;
 
-namespace MustInitializeAnalyzer
+namespace DotNetPowerExtensionsAnalyzer.MustInitialize.CodeFixProviders;
+
+[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MustInitializeRequiredMembersCodeFixProvider)), Shared]
+public class MustInitializeRequiredMembersCodeFixProvider : MustInitializeCodeFixProviderBase<MustInitializeRequiredMembers, ObjectCreationExpressionSyntax>
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MustInitializeCodeFixProvider)), Shared]
-    public class MustInitializeCodeFixProvider : CodeFixProvider
+    protected override string Title => "Initialize Required Properties";
+
+    protected Type[] Attributes =
     {
-        private const string title = "Initialize Required Properties";
+        typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute),
+    };
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds
+    protected override async Task<(SyntaxNode, SyntaxNode)?> CreateChanges(Document document, ObjectCreationExpressionSyntax typeDecl, CancellationToken cancellationToken)
+    {
+        var symbol = (await document.GetTypeInfo(typeDecl, cancellationToken).ConfigureAwait(false))?.Type;
+
+        var mustInitializeSymbols = await Task.WhenAll(
+                Attributes.Select(async a => await document.GetTypeByMetadataName(a).ConfigureAwait(false))
+        ).ConfigureAwait(false);
+        if (symbol is null || mustInitializeSymbols.Any(s => s is null)) return null;
+
+        var props = MustInitializeRequiredMembers.GetNotInitializedNames(typeDecl, symbol, mustInitializeSymbols.OfType<INamedTypeSymbol>().ToArray());
+
+        var initalizer = typeDecl.Initializer
+                        ?? SyntaxFactory.InitializerExpression(SyntaxKind.ObjectInitializerExpression);
+        foreach (var prop in props ?? new string[] { })
         {
-            get { return ImmutableArray.Create(MustInitializeAnalyzer.DiagnosticId); }
+            var expr = SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression,
+                                                        SyntaxFactory.IdentifierName(prop),
+                                                        SyntaxFactory.LiteralExpression(SyntaxKind.DefaultLiteralExpression));
+            initalizer = initalizer.AddExpressions(expr);
         }
 
-        public sealed override FixAllProvider GetFixAllProvider()
+        // Remmeber that everything is immutable
+        if (typeDecl.Initializer is null)
         {
-            // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/FixAllProvider.md for more information on Fix All Providers
-            return WellKnownFixAllProviders.BatchFixer;
+            return (typeDecl, typeDecl.WithInitializer(initalizer));
         }
-
-        public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
-        {
-            try
-            {
-                var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
-
-                // TODO: Replace the following code with your own analysis, generating a CodeAction for each fix to suggest
-                var diagnostic = context.Diagnostics.First();
-                var diagnosticSpan = diagnostic.Location.SourceSpan;
-
-                // Find the type declaration identified by the diagnostic.
-                //var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<TypeDeclarationSyntax>().First();
-                var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<ObjectCreationExpressionSyntax>().First();
-
-                // Register a code action that will invoke the fix.
-                context.RegisterCodeFix(
-                    CodeAction.Create(
-                        title: title,
-                        //createChangedSolution: c => MakeUppercaseAsync(context.Document, declaration, c),
-                        createChangedDocument: c => MakeInitializeAsync(context.Document, declaration, c),
-                        equivalenceKey: title),
-                    diagnostic);
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex);
-                throw;
-            }
-        }
-
-        private async Task<Document> MakeInitializeAsync(Document document, ObjectCreationExpressionSyntax typeDecl, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var documentEditor = await DocumentEditor.CreateAsync(document);
-
-                var initalizer = typeDecl.Initializer;
-                if (typeDecl.Initializer == null)
-                {
-                    initalizer = SyntaxFactory.InitializerExpression(SyntaxKind.ObjectInitializerExpression);
-                }
-
-                var symbol = document.GetSemanticModelAsync().Result.GetTypeInfo(typeDecl).Type as ITypeSymbol;
-
-                var mustInitializeClassMetadata = document.GetSemanticModelAsync().Result
-                            .Compilation.GetTypeByMetadataName(MustInitializeAnalyzer.MustInitializeAttributeFullName);
-                var props = symbol.GetMembers()
-                                    .OfType<IPropertySymbol>()
-                                    .Where(p => !p.IsReadOnly && p.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, mustInitializeClassMetadata)))
-                                    .Select(p => p.Name)
-                                    .Union(
-                                        symbol.GetMembers()
-                                            .OfType<IFieldSymbol>()
-                                            .Where(p => !p.IsReadOnly && p.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, mustInitializeClassMetadata)))
-                                            .Select(p => p.Name));
-
-                if (typeDecl.Initializer != null)
-                {
-                    var childs = typeDecl.Initializer.ChildNodes();
-                    var propsInitialized = childs.OfType<IdentifierNameSyntax>()
-                            .Union(childs.OfType<AssignmentExpressionSyntax>().Select(c => c.Left).OfType<IdentifierNameSyntax>())
-                        .Select(c => c.Identifier.Text);
-
-                    props = props.Except(propsInitialized);
-                }
-
-                foreach (var prop in props)
-                {
-                    var expr = SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression,
-                                                                    SyntaxFactory.IdentifierName(prop),
-                                                                    SyntaxFactory.LiteralExpression(SyntaxKind.DefaultLiteralExpression));
-                    initalizer = initalizer.AddExpressions(expr);
-                }
-
-                // Remmeber that everything is immutable
-                if (typeDecl.Initializer == null)
-                {
-                    documentEditor.ReplaceNode(typeDecl, typeDecl.WithInitializer(initalizer));
-                }
-                else
-                {
-                    documentEditor.ReplaceNode(typeDecl.Initializer, initalizer);
-                }
-
-                return documentEditor.GetChangedDocument();
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex);
-                throw;
-            }
-        } 
+            
+        return (typeDecl.Initializer, initalizer); 
     }
 }

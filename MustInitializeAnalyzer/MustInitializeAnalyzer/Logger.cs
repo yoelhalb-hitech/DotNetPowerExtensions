@@ -6,20 +6,42 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 
-namespace MustInitializeAnalyzer
+namespace DotNetPowerExtensionsAnalyzer
 {
     class Logger
     {
-        // The file name needs to based on the process and the thread so not have an error on locking...
-        private static string FileName => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), $@"MustInitializeAnalyzer\AnalyzerLogs\Log_{Process.GetCurrentProcess().Id}_{Thread.CurrentThread.ManagedThreadId}.txt");
-        public static void LogError(Exception ex) =>
-            File.AppendAllText(FileName,
-                $"{DateTime.Now.ToString("yy-MM-dd hh:mm:ss")} :: Error:\nType: {ex.GetType().Name}\nMessage: {ex.Message}\nStack: {ex.StackTrace}\nHasInner: {ex.InnerException != null}");
-        public static void LogLineNumber([CallerLineNumber] int lineNumber = 0) =>
-    File.AppendAllText(FileName, $"{DateTime.Now.ToString("yy-MM-dd hh:mm:ss")} :: Line: {lineNumber.ToString()} {Environment.NewLine}");
+        static Logger()
+        {
+            if (!Directory.Exists(folderName)) Directory.CreateDirectory(folderName);
+        }
 
-        public static void LogInfo(string info) =>
-    File.AppendAllText(FileName, $"{DateTime.Now.ToString("yy-MM-dd hh:mm:ss")} :: Info: {info} {Environment.NewLine}");
+        // The file name needs to based on the process and the thread so not have an error on locking...
+        private static readonly string folderName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), $@"DotNetPowerExtensionsAnalyzer\AnalyzerLogs");
+        [ThreadStatic] private static readonly string fileName = Path.Combine(folderName, @$"Log_{Process.GetCurrentProcess().Id}_{Thread.CurrentThread.ManagedThreadId}.txt");
+        [ThreadStatic] private static object lockObject = new object();
+        private static void Log(string str)
+        {
+            try
+            {
+                lock (lockObject)
+                {
+                    File.AppendAllText(fileName, str);
+                }
+            }
+            catch (IOException)
+            {
+                // TODO...
+            }
+            catch { } // TODO...
+        }
+        public static void LogError(Exception ex)
+          => Log($"{DateTime.Now.ToString("yy-MM-dd hh:mm:ss")} :: Error:\nType: {ex.GetType().Name}\nMessage: {ex.Message}\nStack: {ex.StackTrace}\nHasInner: {ex.InnerException != null}");
+             
+        public static void LogLineNumber([CallerLineNumber] int lineNumber = 0)
+            => Log($"{DateTime.Now.ToString("yy-MM-dd hh:mm:ss")} :: Line: {lineNumber.ToString()} {Environment.NewLine}");
+
+        public static void LogInfo(string info) 
+            => Log($"{DateTime.Now.ToString("yy-MM-dd hh:mm:ss")} :: Info: {info} {Environment.NewLine}");
 
     }
 }

@@ -1,26 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	<LangVersion>10.0</LangVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>	
 	<Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>MustInitializeAnalyzer</PackageId>
-    <PackageVersion>1.0.0.0</PackageVersion>
+    <PackageId>DotNetPowerExtensionsAnalyzer</PackageId>
+    <PackageVersion>1.0.2</PackageVersion>
     <Authors>Yoel</Authors>
     <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/yoelhalb-hitech/mustinitialize-analyzer</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</PackageProjectUrl>
     <PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>
-    <RepositoryUrl>https://github.com/yoelhalb-hitech/mustinitialize-analyzer</RepositoryUrl>
+    <RepositoryUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>MustInitializeAnalyzer</Description>
+    <Description>DotNetPowerExtensionsAnalyzer</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
-    <PackageTags>TestCodeFix, analyzers, nullable, MustInitialize</PackageTags>
+    <PackageTags>TestCodeFix, analyzers, nullable, DotNetPowerExtensions</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <Company>HiTech</Company>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -30,14 +29,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.9.8" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.3.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.4.0" PrivateAssets="all" />    
     <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" PrivateAssets="All"
-                      IncludeInPackage="true" />
+    <ProjectReference Include="..\..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" PrivateAssets="All" IncludeInPackage="true" />
   </ItemGroup>
 
   <ItemGroup>
