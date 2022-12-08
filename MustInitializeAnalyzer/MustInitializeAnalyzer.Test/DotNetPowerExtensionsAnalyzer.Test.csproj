@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MustInitializeAnalyzer\MustInitializeAnalyzer.csproj" />   
+    <ProjectReference Include="..\MustInitializeAnalyzer\DotNetPowerExtensionsAnalyzer.csproj" />   
   </ItemGroup>
 
 </Project>

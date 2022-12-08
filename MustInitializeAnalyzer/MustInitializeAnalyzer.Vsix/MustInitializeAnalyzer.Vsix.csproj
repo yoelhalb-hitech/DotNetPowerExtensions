@@ -62,7 +62,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MustInitializeAnalyzer\MustInitializeAnalyzer.csproj">
+    <ProjectReference Include="..\MustInitializeAnalyzer\DotNetPowerExtensionsAnalyzer.csproj">
       <Project>{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}</Project>
       <Name>MustInitializeAnalyzer</Name>
     </ProjectReference>
