@@ -8,18 +8,12 @@ using System.Threading.Tasks;
 
 namespace DotNetPowerExtensionsAnalyzer.Test.MustInitialize.MustInitializeAttribute;
 
-internal class MustInitializeNotAllowedOnExplicitImplementation_Tests : AnalyzerVerifierBase<MustInitializeNotAllowedOnExplicitImplementation>
+internal class MustInitializeNotAllowedOnExplicitImplementation_Tests : MustInitializeAnalyzerVerifierBase<MustInitializeNotAllowedOnExplicitImplementation>
 {
-    public static string[] Suffixes = { "", "Attribute", "()", "Attribute()" };
-    public static string[] Prefixes = {"", "DotNetPowerExtensions.MustInitialize.",
-                                                                    "global::DotNetPowerExtensions.MustInitialize." };
-
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             string TestProp { get; set; }
@@ -37,8 +31,6 @@ internal class MustInitializeNotAllowedOnExplicitImplementation_Tests : Analyzer
     public async Task Test_DoesNotWarn_WhenOtherMustInitialize([ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public class MustInitializeAttribute : System.Attribute {}
         public interface IDeclareType
         {
@@ -57,8 +49,6 @@ internal class MustInitializeNotAllowedOnExplicitImplementation_Tests : Analyzer
     public async Task Test_Works([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             string TestProp { get; set; }
@@ -96,8 +86,6 @@ internal class MustInitializeNotAllowedOnExplicitImplementation_Tests : Analyzer
     public async Task Test_Works_WithInterfaceAndBase([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             string TestProp { get; set; }
@@ -116,8 +104,6 @@ internal class MustInitializeNotAllowedOnExplicitImplementation_Tests : Analyzer
     public async Task Test_Works_WithInterface_AndOtherInterfaces([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             string OtherMethod();

@@ -8,12 +8,8 @@ using System.Threading.Tasks;
 
 namespace DotNetPowerExtensionsAnalyzer.Test.MustInitialize.MustInitializeAttribute;
 
-internal class MustInitializeNotSupportedOnReadonly_Tests : AnalyzerVerifierBase<MustInitializeNotSupportedOnReadonly>
+internal class MustInitializeNotSupportedOnReadonly_Tests : MustInitializeAnalyzerVerifierBase<MustInitializeNotSupportedOnReadonly>
 {
-    public static string[] Suffixes = { "", "Attribute", "()", "Attribute()" };
-    public static string[] Prefixes = {"", "DotNetPowerExtensions.MustInitialize.",
-                                                                    "global::DotNetPowerExtensions.MustInitialize." };
-
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
     {
@@ -50,8 +46,6 @@ internal class MustInitializeNotSupportedOnReadonly_Tests : AnalyzerVerifierBase
                                                                                 [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         public class TypeName
         {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
@@ -89,8 +83,6 @@ internal class MustInitializeNotSupportedOnReadonly_Tests : AnalyzerVerifierBase
                                                                             [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         public class TypeName
         {
             [[|{{prefix}}MustInitialize{{suffix}}|]] string TestProp { get; }

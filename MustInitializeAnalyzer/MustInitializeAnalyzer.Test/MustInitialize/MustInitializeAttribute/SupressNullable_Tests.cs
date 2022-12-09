@@ -8,12 +8,8 @@ using System.Threading.Tasks;
 
 namespace DotNetPowerExtensionsAnalyzer.Test.MustInitialize.MustInitializeAttribute;
 
-internal class SupressNullable_Tests : NullableAnalyzerVerifierBase<SuppressNullableAnalyzer>
+internal class SupressNullable_Tests : NullableMustInitializeAnalyzerVerifierBase<SuppressNullableAnalyzer>
 {
-    public static string[] Suffixes = { "", "Attribute", "()", "Attribute()" };
-    public static string[] Prefixes = {"", "DotNetPowerExtensions.MustInitialize.",
-                                                                    "global::DotNetPowerExtensions.MustInitialize." };
-
     [Test]
     public async Task Test_Warns_WhenNoMustInitialize()
     {
@@ -30,8 +26,6 @@ internal class SupressNullable_Tests : NullableAnalyzerVerifierBase<SuppressNull
     public async Task Test_Warns_WhenOtherMustInitialize([ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public class MustInitializeAttribute : System.Attribute {}
         public class Test
         {
@@ -46,8 +40,6 @@ internal class SupressNullable_Tests : NullableAnalyzerVerifierBase<SuppressNull
     public async Task Test_DoesNotWarn_WhenMustInitialize([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         public class Test
         {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
@@ -62,8 +54,6 @@ internal class SupressNullable_Tests : NullableAnalyzerVerifierBase<SuppressNull
     public async Task Test_DoesNotWarn_WhenMustInitialize_AndCtor([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         public class Test
         {
             public Test(string test){}
@@ -79,8 +69,6 @@ internal class SupressNullable_Tests : NullableAnalyzerVerifierBase<SuppressNull
     public async Task Test_DoesNotWarn_WhenMustInitialize_AndMultipleCtors([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         public class Test
         {
             public Test(string test){}
@@ -97,8 +85,6 @@ internal class SupressNullable_Tests : NullableAnalyzerVerifierBase<SuppressNull
     public async Task Test_Works_WithOthers([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             string OtherMethod();

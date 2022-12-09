@@ -8,18 +8,12 @@ using System.Threading.Tasks;
 
 namespace DotNetPowerExtensionsAnalyzer.Test.MustInitialize.MustInitializeAttribute;
 
-internal class DisallowHidingMustInitialize_Tests : AnalyzerVerifierBase<DisallowHidingMustInitialize>
+internal class DisallowHidingMustInitialize_Tests : MustInitializeAnalyzerVerifierBase<DisallowHidingMustInitialize>
 {
-    public static string[] Suffixes = { "", "Attribute", "()", "Attribute()" };
-    public static string[] Prefixes = {"", "DotNetPowerExtensions.MustInitialize.",
-                                                                    "global::DotNetPowerExtensions.MustInitialize." };
-
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public class DeclareTypeBase
         {
             public virtual string TestProp { get; set; }
@@ -36,9 +30,7 @@ internal class DisallowHidingMustInitialize_Tests : AnalyzerVerifierBase<Disallo
     [Test]
     public async Task Test_DoesNotWarn_WhenOtherMustInitialize([ValueSource(nameof(Suffixes))] string suffix)
     {
-        var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
+        var test = $$"""        
         public class MustInitializeAttribute : System.Attribute {}
         public class DeclareTypeBase
         {
@@ -57,8 +49,6 @@ internal class DisallowHidingMustInitialize_Tests : AnalyzerVerifierBase<Disallo
     public async Task Test_DoesNotWarn_WhenOverride([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         public class DeclareTypeBase
         {
             [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
@@ -78,8 +68,6 @@ internal class DisallowHidingMustInitialize_Tests : AnalyzerVerifierBase<Disallo
              [Values(true, false)] bool mustInitializeOnNew)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         public class DeclareTypeBase
         {
             [{{prefix}}MustInitialize{{suffix}}] public {{(baseVirtual ? "virtual" : "")}} string TestProp { get; set; }
@@ -102,8 +90,6 @@ internal class DisallowHidingMustInitialize_Tests : AnalyzerVerifierBase<Disallo
         Assume.That(!subShouldHaveDecleration || baseVirtual); // For subShouldHaveDecleration we need virtual or we will have a compile error
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         public class DeclareTypeBase
         {
             [{{prefix}}MustInitialize{{suffix}}] public {{(baseVirtual ? "virtual" : "")}} string TestProp { get; set; }
@@ -127,8 +113,6 @@ internal class DisallowHidingMustInitialize_Tests : AnalyzerVerifierBase<Disallo
     {
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         public abstract class DeclareTypeBase
         {
             [{{prefix}}MustInitialize{{suffix}}] public abstract string TestProp { get; set; }

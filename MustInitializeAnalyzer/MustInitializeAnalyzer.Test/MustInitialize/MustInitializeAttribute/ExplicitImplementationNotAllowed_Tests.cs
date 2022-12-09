@@ -8,18 +8,12 @@ using System.Threading.Tasks;
 
 namespace DotNetPowerExtensionsAnalyzer.Test.MustInitialize.MustInitializeAttribute;
 
-internal class ExplicitImplementationNotAllowed_Tests : AnalyzerVerifierBase<ExplicitImplementationNotAllowed>
+internal class ExplicitImplementationNotAllowed_Tests : MustInitializeAnalyzerVerifierBase<ExplicitImplementationNotAllowed>
 {
-    public static string[] Suffixes = { "", "Attribute", "()", "Attribute()" };
-    public static string[] Prefixes = {"", "DotNetPowerExtensions.MustInitialize.",
-                                                                    "global::DotNetPowerExtensions.MustInitialize." };
-
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             string TestProp { get; set; }          
@@ -37,8 +31,6 @@ internal class ExplicitImplementationNotAllowed_Tests : AnalyzerVerifierBase<Exp
     public async Task Test_DoesNotWarn_WhenOtherMustInitialize([ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public class MustInitializeAttribute : System.Attribute {}
         public interface IDeclareType
         {
@@ -57,8 +49,6 @@ internal class ExplicitImplementationNotAllowed_Tests : AnalyzerVerifierBase<Exp
     public async Task Test_Works([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
@@ -76,8 +66,6 @@ internal class ExplicitImplementationNotAllowed_Tests : AnalyzerVerifierBase<Exp
     public async Task Test_Works_WithSubclassedInterface([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
@@ -96,14 +84,12 @@ internal class ExplicitImplementationNotAllowed_Tests : AnalyzerVerifierBase<Exp
     public async Task Test_Works_WithInterfaceAndBase([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
-            [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }           
+            [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
         }
         public class DeclareTypeBase {}
-        public class DeclareType : DeclareTypeBase, IDeclareType 
+        public class DeclareType : DeclareTypeBase, IDeclareType
         {
             [|string IDeclareType.TestProp { get; set; }|]
         }
@@ -116,8 +102,6 @@ internal class ExplicitImplementationNotAllowed_Tests : AnalyzerVerifierBase<Exp
     public async Task Test_Works_WithInterface_AndOtherInterfaces([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             string OtherMethod();

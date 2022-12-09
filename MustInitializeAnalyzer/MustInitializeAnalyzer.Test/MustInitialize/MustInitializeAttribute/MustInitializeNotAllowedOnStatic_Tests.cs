@@ -8,18 +8,12 @@ using System.Threading.Tasks;
 
 namespace DotNetPowerExtensionsAnalyzer.Test.MustInitialize.MustInitializeAttribute;
 
-internal class MustInitializeNotAllowedOnStatic_Tests : AnalyzerVerifierBase<MustInitializeNotSupportedOnStatic>
+internal class MustInitializeNotAllowedOnStatic_Tests : MustInitializeAnalyzerVerifierBase<MustInitializeNotSupportedOnStatic>
 {
-    public static string[] Suffixes = { "", "Attribute", "()", "Attribute()" };
-    public static string[] Prefixes = {"", "DotNetPowerExtensions.MustInitialize.",
-                                                                    "global::DotNetPowerExtensions.MustInitialize." };
-
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             static string TestProp { get; set; }
@@ -39,8 +33,6 @@ internal class MustInitializeNotAllowedOnStatic_Tests : AnalyzerVerifierBase<Mus
     public async Task Test_DoesNotWarn_WhenOtherMustInitialize([ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public class MustInitializeAttribute : System.Attribute {}
         public interface IDeclareType
         {
@@ -63,8 +55,6 @@ internal class MustInitializeNotAllowedOnStatic_Tests : AnalyzerVerifierBase<Mus
     public async Task Test_WorksOnProperty_WithClass([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public class DeclareType
         {
             [[|{{prefix}}MustInitialize{{suffix}}|]] public static string TestProp { get; set; }
@@ -78,8 +68,6 @@ internal class MustInitializeNotAllowedOnStatic_Tests : AnalyzerVerifierBase<Mus
     public async Task Test_WorksOnProperty_WithInterface([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {            
             [[|{{prefix}}MustInitialize{{suffix}}|]] public static string TestProp { get; set; }
@@ -97,8 +85,6 @@ internal class MustInitializeNotAllowedOnStatic_Tests : AnalyzerVerifierBase<Mus
     public async Task Test_WorksOnField_WithClass([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-       
         public class DeclareType
         {
             [[|{{prefix}}MustInitialize{{suffix}}|]] public static string TestField;
@@ -112,8 +98,6 @@ internal class MustInitializeNotAllowedOnStatic_Tests : AnalyzerVerifierBase<Mus
     public async Task Test_WorksOnField_WithInterface([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {          
             [[|{{prefix}}MustInitialize{{suffix}}|]] public static string TestProp { get; set; }
@@ -131,8 +115,6 @@ internal class MustInitializeNotAllowedOnStatic_Tests : AnalyzerVerifierBase<Mus
     public async Task Test_WorksOnPropertyAndField_WhenClass([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public class DeclareType
         {            
             [[|{{prefix}}MustInitialize{{suffix}}|]] public static string TestProp { get; set; }

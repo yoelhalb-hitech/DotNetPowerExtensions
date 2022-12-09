@@ -9,11 +9,8 @@ using System.Threading.Tasks;
 
 namespace DotNetPowerExtensionsAnalyzer.Test.MustInitialize.MustInitializeAttribute;
 
-internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : AnalyzerVerifierBase<MustIinitializeAccessibilityNotLessThanConstructor>
+internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustInitializeAnalyzerVerifierBase<MustIinitializeAccessibilityNotLessThanConstructor>
 {
-    public static string[] Suffixes = { "", "Attribute", "()", "Attribute()" };
-    public static string[] Prefixes = {"", "DotNetPowerExtensions.MustInitialize.",
-                                                                    "global::DotNetPowerExtensions.MustInitialize." };
     public static List<string> AccessTypes = new List<string> { "private", "private protected", "protected", "internal", "internal protected", "public" };
     public static List<string> AccessTypesWithEmpty => AccessTypes.Union(new[] { "" }).ToList();
 
@@ -23,8 +20,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         public class DeclareType
         {
             public DeclareType(){}
@@ -40,8 +35,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
     public async Task Test_DoesNotWarn_WhenOtherMustInitialize([ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public class MustInitializeAttribute : System.Attribute {}
         public class DeclareType
         {
@@ -63,8 +56,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
                             [ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         {{outerAccess}} class Outer
         {
             {{access}} class TypeName
@@ -84,8 +75,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
                         [ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;     
-        
         {{access}} class TypeName
         {
             [{{prefix}}MustInitialize{{suffix}}] {{access}} string TestProp { get; set; }
@@ -105,8 +94,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
                         [ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         {{outerAccess}} class Outer
         {
             {{innerAccess}} class TypeName
@@ -128,8 +115,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
                         [ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;     
-        
         {{classAccess}} class TypeName
         {
             {{access}} TypeName(){}
@@ -150,8 +135,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
                     [ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         {{outerAccess}} class Outer
         {
             {{innerAccess}} class TypeName
@@ -173,8 +156,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
                         [ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;     
-        
         {{classAccess}} class TypeName
         {
             {{access}} TypeName(string t){}
@@ -203,8 +184,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(AccessTypes.IndexOf(propAccess) < AccessTypes.IndexOf(innerAccess) || propAccess == "internal" && innerAccess == "protected");
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         {{outerAccess}} class Outer
         {
             {{innerAccess}} class TypeName
@@ -227,8 +206,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(AccessTypes.IndexOf(propAccess) < AccessTypes.IndexOf(classAccess) || propAccess == "internal" && classAccess == "protected");
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;     
-
         {{classAccess}} class TypeName
         {
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{propAccess}} string TestProp { get; set; }
@@ -250,8 +227,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(AccessTypes.IndexOf(propAccess) < AccessTypes.IndexOf(innerAccess) || propAccess == "internal" && innerAccess == "protected");
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         {{outerAccess}} class Outer
         {
             {{innerAccess}} class TypeName
@@ -275,8 +250,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(AccessTypes.IndexOf(propAccess) < AccessTypes.IndexOf(classAccess) || propAccess == "internal" && classAccess == "protected");
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;     
-
         {{classAccess}} class TypeName
         {
             {{classAccess}} TypeName(){}
@@ -299,8 +272,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(AccessTypes.IndexOf(propAccess) < AccessTypes.IndexOf(innerAccess) || propAccess == "internal" && innerAccess == "protected");
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         {{outerAccess}} class Outer
         {
             {{innerAccess}} class TypeName
@@ -325,8 +296,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(AccessTypes.IndexOf(propAccess) < AccessTypes.IndexOf(classAccess) || propAccess == "internal" && classAccess == "protected");
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         {{classAccess}} class TypeName
         {
             public TypeName(string t){}
@@ -351,8 +320,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(propAccess != "protected" || innerAccess != "internal"); //Otherwise we can have a compile error
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-        
         {{outerAccess}} class Outer
         {
             {{innerAccess}} class TypeName
@@ -376,8 +343,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(propAccess != "protected" || classAccess != "internal"); //Otherwise we can have a compile error
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;     
-
         {{classAccess}} class TypeName
         {
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{classAccess}} string TestProp { get; {{propAccess}} set; }
@@ -400,8 +365,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(propAccess != "protected" || innerAccess != "internal"); //Otherwise we can have a compile error
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         {{outerAccess}} class Outer
         {
             {{innerAccess}} class TypeName
@@ -426,8 +389,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(propAccess != "protected" || classAccess != "internal"); //Otherwise we can have a compile error
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;     
-
         {{classAccess}} class TypeName
         {
             {{classAccess}} TypeName(){}
@@ -451,8 +412,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(propAccess != "protected" || innerAccess != "internal"); //Otherwise we can have a compile error
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         {{outerAccess}} class Outer
         {
             {{innerAccess}} class TypeName
@@ -478,8 +437,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
         Assume.That(propAccess != "protected" || classAccess != "internal"); //Otherwise we can have a compile error
 
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;     
-
         {{classAccess}} class TypeName
         {
             public TypeName(string t){}
@@ -516,8 +473,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : Analyz
     {
         // Remember that class default is internal while member default is private
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         class DeclareType
         {            
             [[|{{prefix}}MustInitialize{{suffix}}|]] string TestProp { get; set; }
