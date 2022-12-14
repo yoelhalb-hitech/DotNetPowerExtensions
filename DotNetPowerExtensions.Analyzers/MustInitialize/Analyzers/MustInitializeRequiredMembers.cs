@@ -1,17 +1,5 @@
-using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Text;
-using DotNetPowerExtensions.MustInitialize;
-using Microsoft.CodeAnalysis.Operations;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Linq;
-using DotNetPowerExtensionsAnalyzer.Utils;
 
-namespace DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustInitializeRequiredMembers : MustInitializeAnalyzerBase, IMustInitializeAnalyzer

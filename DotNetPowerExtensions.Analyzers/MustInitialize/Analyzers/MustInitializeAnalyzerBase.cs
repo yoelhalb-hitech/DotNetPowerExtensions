@@ -1,15 +1,6 @@
-﻿using DotNetPowerExtensions.MustInitialize;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Diagnostics;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Immutable;
 
-namespace DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class MustInitializeAnalyzerBase : DiagnosticAnalyzer
 {
@@ -34,8 +25,8 @@ public abstract class MustInitializeAnalyzerBase : DiagnosticAnalyzer
     new[]
     {
         typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute).FullName!,
-        typeof(MustInitializeIfSetAttribute).FullName!,
-        typeof(MustInitializeIfNotSetAttribute).FullName!,
+        typeof(DotNetPowerExtensions.MustInitialize.MustInitializeIfSetAttribute).FullName!,
+        typeof(DotNetPowerExtensions.MustInitialize.MustInitializeIfNotSetAttribute).FullName!,
     };
 
     public override void Initialize(AnalysisContext context)

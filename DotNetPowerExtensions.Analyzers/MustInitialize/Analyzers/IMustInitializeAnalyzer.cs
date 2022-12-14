@@ -1,4 +1,4 @@
-﻿namespace DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
+﻿namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public interface IMustInitializeAnalyzer
 {

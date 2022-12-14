@@ -1,13 +1,9 @@
-﻿using DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 using Microsoft.CodeAnalysis.Testing;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DotNetPowerExtensionsAnalyzer.Test.MustInitialize;
+namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize;
 
-internal class MustInitializeAnalyzerVerifierBase<TAnalyzer> 
+internal class MustInitializeAnalyzerVerifierBase<TAnalyzer>
         : AnalyzerVerifierBase<TAnalyzer> where TAnalyzer : MustInitializeAnalyzerBase, new()
 {
     const string NamespaceString = $"{nameof(DotNetPowerExtensions)}.{nameof(DotNetPowerExtensions.MustInitialize)}";

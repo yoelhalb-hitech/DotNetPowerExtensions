@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensionsAnalyzer", "MustInitializeAnalyzer\MustInitializeAnalyzer\DotNetPowerExtensionsAnalyzer.csproj", "{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Analyzers", "DotNetPowerExtensions.Analyzers\DotNetPowerExtensions.Analyzers.csproj", "{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustInitializeAnalyzer.Vsix", "MustInitializeAnalyzer\MustInitializeAnalyzer.Vsix\MustInitializeAnalyzer.Vsix.csproj", "{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.Analyzers.Vsix", "DotNetPowerExtensions.Analyzers.Vsix\DotNetPowerExtensions.Analyzers.Vsix.csproj", "{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensionsAnalyzer.Test", "MustInitializeAnalyzer\MustInitializeAnalyzer.Test\DotNetPowerExtensionsAnalyzer.Test.csproj", "{8C1003BC-C123-4575-8670-0467A3404396}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Analyzers.Tests", "DotNetPowerExtensions.Analyzers.Tests\DotNetPowerExtensions.Analyzers.Tests.csproj", "{8C1003BC-C123-4575-8670-0467A3404396}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions", "DotNetPowerExtensions\DotNetPowerExtensions.csproj", "{639544EE-B1B2-42AC-8CCC-6768895379DC}"
 EndProject

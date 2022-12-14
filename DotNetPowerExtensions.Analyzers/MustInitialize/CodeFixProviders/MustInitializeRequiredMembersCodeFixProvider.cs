@@ -1,19 +1,6 @@
-﻿using DotNetPowerExtensions.MustInitialize;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Editing;
-using DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
-using DotNetPowerExtensionsAnalyzer.Utils;
-using System;
-using System.Collections.Generic;
-using System.Composition;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
-namespace DotNetPowerExtensionsAnalyzer.MustInitialize.CodeFixProviders;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MustInitializeRequiredMembersCodeFixProvider)), Shared]
 public class MustInitializeRequiredMembersCodeFixProvider : MustInitializeCodeFixProviderBase<MustInitializeRequiredMembers, ObjectCreationExpressionSyntax>
@@ -51,7 +38,7 @@ public class MustInitializeRequiredMembersCodeFixProvider : MustInitializeCodeFi
         {
             return (typeDecl, typeDecl.WithInitializer(initalizer));
         }
-            
-        return (typeDecl.Initializer, initalizer); 
+
+        return (typeDecl.Initializer, initalizer);
     }
 }

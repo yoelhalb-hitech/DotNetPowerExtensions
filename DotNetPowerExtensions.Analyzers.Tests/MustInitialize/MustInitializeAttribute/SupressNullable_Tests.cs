@@ -1,12 +1,6 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute;
 
-namespace DotNetPowerExtensionsAnalyzer.Test.MustInitialize.MustInitializeAttribute;
+namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
 internal class SupressNullable_Tests : NullableMustInitializeAnalyzerVerifierBase<SuppressNullableAnalyzer>
 {

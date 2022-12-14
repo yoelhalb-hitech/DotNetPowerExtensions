@@ -1,17 +1,9 @@
-﻿using DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
-using DotNetPowerExtensionsAnalyzer.MustInitialize.CodeFixProviders;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
 
-namespace DotNetPowerExtensionsAnalyzer.Test.MustInitialize.MustInitializeAttribute;
+namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class MustInitializeRequiredWhenOverriding_Tests 
+internal class MustInitializeRequiredWhenOverriding_Tests
     : MustInitializeCodeFixVerifierBase<MustInitializeRequiredWhenOverriding, MustInitializeRequiredWhenOverridingCodeFixProvider, PropertyDeclarationSyntax>
 {
     [Test]

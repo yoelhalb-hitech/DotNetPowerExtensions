@@ -10,7 +10,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>MustInitializeAnalyzer_SignatureKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>DotNetPowerExtensions_Analyzers_SignatureKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -22,8 +22,8 @@
     <ProjectGuid>{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MustInitializeAnalyzer.Vsix</RootNamespace>
-    <AssemblyName>MustInitializeAnalyzer</AssemblyName>
+    <RootNamespace>DotNetPowerExtensions.Analyzers.Vsix</RootNamespace>
+    <AssemblyName>DotNetPowerExtensions.Analyzers</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>false</IncludeAssemblyInVSIXContainer>
@@ -62,9 +62,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MustInitializeAnalyzer\DotNetPowerExtensionsAnalyzer.csproj">
+    <ProjectReference Include="..\DotNetPowerExtensions.Analyzers\DotNetPowerExtensions.Analyzers.csproj">
       <Project>{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}</Project>
-      <Name>DotNetPowerExtensionsAnalyzer</Name>
+      <Name>DotNetPowerExtensions.Analyzers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

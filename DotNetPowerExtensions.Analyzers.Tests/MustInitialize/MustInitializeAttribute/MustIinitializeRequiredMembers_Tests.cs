@@ -1,16 +1,9 @@
-﻿using DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
-using DotNetPowerExtensionsAnalyzer.MustInitialize.CodeFixProviders;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
-namespace DotNetPowerExtensionsAnalyzer.Test.MustInitialize.MustInitializeAttribute;
+namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class MustIinitializeRequiredMembers_Tests 
+internal class MustIinitializeRequiredMembers_Tests
     : MustInitializeCodeFixVerifierBase<MustInitializeRequiredMembers, MustInitializeRequiredMembersCodeFixProvider, ObjectCreationExpressionSyntax>
 {
     [Test]

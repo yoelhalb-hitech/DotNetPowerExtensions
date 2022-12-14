@@ -1,13 +1,6 @@
-﻿using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp;
-using DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
-namespace DotNetPowerExtensionsAnalyzer.MustInitialize.CodeFixProviders;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class ByAttributeCodeFixProviderBase<TAnalyzer, TNode> : MustInitializeCodeFixProviderBase<TAnalyzer, TNode>
                                             where TAnalyzer : ByAttributeAnalyzerBase, IMustInitializeAnalyzer

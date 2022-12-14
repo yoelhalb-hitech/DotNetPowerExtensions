@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" />
-    <ProjectReference Include="..\MustInitializeAnalyzer\DotNetPowerExtensionsAnalyzer.csproj" />   
+    <ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.Analyzers\DotNetPowerExtensions.Analyzers.csproj" />   
   </ItemGroup>
 
 </Project>

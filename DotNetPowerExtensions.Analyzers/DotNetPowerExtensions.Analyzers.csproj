@@ -16,7 +16,7 @@
     <PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>
     <RepositoryUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>DotNetPowerExtensionsAnalyzer</Description>
+    <Description>DotNetPowerExtensions.Analyzers</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
     <PackageTags>TestCodeFix, analyzers, nullable, DotNetPowerExtensions</PackageTags>
@@ -35,7 +35,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" PrivateAssets="All" IncludeInPackage="true" />
+    <ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" PrivateAssets="All" IncludeInPackage="true" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,7 +47,7 @@
     <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="lib/$(TargetFramework)" Visible="false" />
-    <None Include="..\..\README.md">
+    <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

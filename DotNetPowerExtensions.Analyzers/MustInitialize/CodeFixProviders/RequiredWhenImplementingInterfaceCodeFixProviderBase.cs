@@ -1,25 +1,9 @@
-﻿using DotNetPowerExtensions.MustInitialize;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Editing;
-using DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
-using DotNetPowerExtensionsAnalyzer.Utils;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
-namespace DotNetPowerExtensionsAnalyzer.MustInitialize.CodeFixProviders;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class RequiredWhenImplementingInterfaceCodeFixProviderBase<TAnalyzer>
-                                    : ByAttributeCodeFixProviderBase<TAnalyzer, PropertyDeclarationSyntax> 
+                                    : ByAttributeCodeFixProviderBase<TAnalyzer, PropertyDeclarationSyntax>
                             where TAnalyzer : RequiredWhenImplementingInterfaceBase, IMustInitializeAnalyzer
 {
     protected virtual AttributeSyntax GetAttribute(IPropertySymbol prop, INamedTypeSymbol mustInitializeSymbol)
@@ -40,7 +24,7 @@ public abstract class RequiredWhenImplementingInterfaceCodeFixProviderBase<TAnal
 
         var attributeList = SyntaxFactory.AttributeList()
                                     .WithAttributes(SyntaxFactory.SeparatedList(new[] { GetAttribute(symbol, mustInitializeClassMetadata) }));
- 
+
         return (propertyDecl, propertyDecl.AddAttributeLists(attributeList));
     }
 }

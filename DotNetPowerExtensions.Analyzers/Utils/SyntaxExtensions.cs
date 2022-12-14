@@ -1,10 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotNetPowerExtensionsAnalyzer.Utils;
+﻿
+namespace DotNetPowerExtensions.Analyzers.Utils;
 
 internal static class SyntaxExtensions
 {
@@ -17,7 +12,7 @@ internal static class SyntaxExtensions
         if (namespaceParent is null) return nameSpace;
 
         nameSpace = namespaceParent.Name.ToString();
-        
+
         while ((namespaceParent = namespaceParent!.FirstAncestorOrSelf<BaseNamespaceDeclarationSyntax>()) is not null)
             nameSpace = $"{namespaceParent.Name}.{nameSpace}";
 
@@ -34,7 +29,7 @@ internal static class SyntaxExtensions
 
         name = classDecl.Identifier.Text.ToString();
 
-        
+
         while (true)
         {
             var newDecl = classDecl!.FirstAncestorOrSelf<BaseTypeDeclarationSyntax>();
@@ -44,7 +39,7 @@ internal static class SyntaxExtensions
             name = $"{classDecl.Identifier.Text}+{name}";
         }
 
-        return GetNamespace(classDecl) + "." + name;
+        return classDecl.GetNamespace() + "." + name;
 
     }
 }

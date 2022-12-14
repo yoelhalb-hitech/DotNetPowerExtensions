@@ -1,13 +1,10 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Testing;
-using Microsoft.CodeAnalysis.CSharp.Testing.NUnit;
+﻿using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace DotNetPowerExtensionsAnalyzer.Test;
+namespace DotNetPowerExtensions.Analyzers.Tests;
 
 public abstract class AnalyzerVerifierBase<TAnlayzer> : AnalyzerVerifier<TAnlayzer, CSharpAnalyzerTest<TAnlayzer, NUnitVerifier>, NUnitVerifier>
             where TAnlayzer : DiagnosticAnalyzer, new()

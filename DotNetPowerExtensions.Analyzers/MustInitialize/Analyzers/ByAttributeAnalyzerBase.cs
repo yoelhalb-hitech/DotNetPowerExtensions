@@ -1,11 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
+﻿
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class ByAttributeAnalyzerBase : MustInitializeAnalyzerBase
 {

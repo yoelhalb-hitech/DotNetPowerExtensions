@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DotNetPowerExtensionsAnalyzer {
+namespace DotNetPowerExtensions.Analyzers {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace DotNetPowerExtensionsAnalyzer {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DotNetPowerExtensionsAnalyzer.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DotNetPowerExtensions.Analyzers.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

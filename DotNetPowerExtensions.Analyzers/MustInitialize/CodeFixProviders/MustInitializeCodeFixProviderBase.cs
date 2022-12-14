@@ -1,19 +1,9 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
-using DotNetPowerExtensionsAnalyzer.MustInitialize.Analyzers;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace DotNetPowerExtensionsAnalyzer.MustInitialize.CodeFixProviders;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class MustInitializeCodeFixProviderBase<TAnalyzer, TNode> : CodeFixProvider
                                             where TAnalyzer : MustInitializeAnalyzerBase, IMustInitializeAnalyzer

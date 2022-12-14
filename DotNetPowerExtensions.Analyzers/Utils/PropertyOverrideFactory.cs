@@ -1,13 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DotNetPowerExtensionsAnalyzer.Utils;
+﻿
+namespace DotNetPowerExtensions.Analyzers.Utils;
 
 internal class PropertyOverrideFactory
 {
@@ -32,7 +24,7 @@ internal class PropertyOverrideFactory
     protected virtual AccessorDeclarationSyntax CreateAccessor(AccessorDeclarationSyntax original, string? arrowBody)
     {
         var newAccessor = SyntaxFactory.AccessorDeclaration(original.Kind()).WithModifiers(original.Modifiers);
-        
+
         if (!string.IsNullOrWhiteSpace(arrowBody))
         {
             var exprssionBody = SyntaxFactory.ArrowExpressionClause(SyntaxFactory.ParseExpression(arrowBody));
