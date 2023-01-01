@@ -1,16 +1,40 @@
-# MustInitialize Analyzer
+# DotNetPowerExtensions And Analyzer
 
-## What is the purpose of MustInitialize Analyzer?
+## What is the purpose of DotNetPowerExtensions and Analyzer?
+- To add functionality and diagnostics currently not available in .Net
+
+### 1. Dependency Attributes
+You can now decorate your DI services with the an attribtue describing the service type, and insert all such classes in the DI at once
+
+##### Example Code
+    
+    // [Singleton] // For a Singleton service
+    // [Scoped] // For a Scoped service
+    [Transient] // For a transient service
+    public class TestClass{}
+    
+And in your DI setup code, just have the following (Where `services` is an IServiceCollection instance):
+
+    services.AddDependencies(); // That's is
+
+### 2. MustInitialize
+
 - Allows you enforce that the given property or field has to be initialized when instantiated.
-- Removes the need to set a value when in a nullable context (in C# 8 and upwards) for such a property or field
+- Removes the need to set a value when in a nullable context (in C# 8 and upwards) for such a property or field (NOTE: This only works in projects compatible with .Net Standard 2.0, as otherwise the functionality isn't available in Roslyn)
+
+##### Update for C#11
+As C# 11 introduced the `required` keyword which has even more features than we have currently (but we hope to add and way more) then in general you should the new keyword instead.
+However MustInitalize stil has a use even in C#11 in the following situations:
+- When you want to be able to suppress it (as in C#11 it is a compile error not a warning)
+- When you want to be able to use in generic class with the `new()` constraint (which isn't allowed in C#)
 
 ##### Example Code
 
-    1.   public class TestClass
-    2.   {
-    3.       [MustInitialize] public string TestProperty { get; set; } 
-    4.   }
-    5.   var testObj = new TestClass();
+    public class TestClass
+    {
+        [MustInitialize] public string TestProperty { get; set; } 
+    }
+    var testObj = new TestClass();
 
 Without MustInitialize the following error will be reported on line 3
 
