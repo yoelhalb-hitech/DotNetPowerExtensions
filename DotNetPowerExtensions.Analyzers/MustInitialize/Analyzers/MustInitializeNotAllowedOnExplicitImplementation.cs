@@ -4,9 +4,14 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustInitializeNotAllowedOnExplicitImplementation : MustInitializeAnalyzerBase
 {
-    public override string RuleId => "DNPE0108";
-    protected override string Title => "MustInitializeNotAllowedOnExplicitImplementation";
-    protected override string Message => "MustInitialize cannot be used on an explicit implementation";
+    public const string RuleId = "DNPE0108";
+    protected const string Title = "MustInitializeNotAllowedOnExplicitImplementation";
+    protected const string Message = "MustInitialize cannot be used on an explicit implementation.";
+
+    protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
+
+    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(RuleId, Title, Title, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message);
+
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
         => compilationContext.RegisterSymbolAction(c => AnalyzeSymbol(c, mustInitializeSymbols), SymbolKind.Property);

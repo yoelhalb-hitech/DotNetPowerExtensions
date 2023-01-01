@@ -4,9 +4,14 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustIinitializeAccessibilityNotLessThanConstructor : MustInitializeAnalyzerBase
 {
-    public override string RuleId => "DNPE0102";
-    protected override string Title => "MustInitializeShouldBeAccessible";
-    protected override string Message => "MustInitialize accessibility cannot be less than the constuctur.";
+    public const string RuleId = "DNPE0102";
+    protected const string Title = "MustInitializeShouldBeAccessible";
+    protected const string Message = "MustInitialize accessibility cannot be less than the constuctur.";
+
+    protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
+
+    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(RuleId, Title, Title, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message);
+
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
         => compilationContext.RegisterSymbolAction(c => AnalyzeSymbol(c, mustInitializeSymbols), SymbolKind.Property, SymbolKind.Field);

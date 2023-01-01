@@ -3,9 +3,6 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class RequiredWhenImplementingInterfaceBase : ByAttributeAnalyzerBase
 {
-    protected override string Title => DescriptiveName + "RequiredWhenImplementingInterface";
-    protected override string Message => DescriptiveName + " is required when the interface property is " + DescriptiveName;
-
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
         => compilationContext.RegisterSymbolAction(c => AnalyzeSymbol(c, mustInitializeSymbols), SymbolKind.Property);
 

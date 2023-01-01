@@ -3,9 +3,6 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class RequiredWhenOverridingBase : ByAttributeAnalyzerBase
 {
-    protected override string Title => DescriptiveName + "RequiredWhenOverriding";
-    protected override string Message => DescriptiveName + " is required when oevrriding a property with " + DescriptiveName;
-
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
         => compilationContext.RegisterSymbolAction(c => AnalyzeSymbol(c, mustInitializeSymbols), SymbolKind.Property);
 

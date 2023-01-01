@@ -5,10 +5,14 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-DNPE0001 | Language | Warning | MustInitializeNotSupportedOnReadonly
-DNPE0002 | Language | Warning | AccessibilityMustBeGreaterThanConstructor
-DNPE0003 | Language | Warning | MustIinitializeRequiredMemebers
 DNPE0101 | Language | Warning | MustInitializeNotSupportedOnReadonly
 DNPE0102 | Language | Warning | MustIinitializeAccessibilityNotLessThanConstructor
 DNPE0103 | Language | Warning | MustIinitializeRequiredMemebers
 DNPE0104 | Language | Warning | MustInitializeRequiredWhenImplementingInterface
+DNPE0105 | Language | Warning | CannotUseBaseImplementationForMustInitialize
+DNPE0106 | Language | Warning | MustInitializeNotSupportedOnStatic
+DNPE0107 | Language | Warning | ExplicitImplementationNotAllowed
+DNPE0108 | Language | Warning | MustInitializeNotAllowedOnExplicitImplementation
+DNPE0109 | Language | Warning | MustInitializeNotAllowedOnDefaultInterfaceImplementation
+DNPE0110 | Language | Warning | MustInitializeRequiredWhenOverriding
+DNPE0111 | Language | Warning | DisallowHidingMustInitialize

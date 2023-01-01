@@ -4,9 +4,14 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class DisallowHidingMustInitialize : MustInitializeAnalyzerBase
 {
-    public override string RuleId => "DNPE0111";
-    protected override string Title => "DisallowHidingMustInitialize";
-    protected override string Message => "Cannot hide a property with MustInitialize";
+    public const string RuleId = "DNPE0111";
+    protected const string Title = "DisallowHidingMustInitialize";
+    protected const string Message = "Cannot hide a property with MustInitialize.";
+
+    protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
+
+    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(RuleId, Title, Title, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message);
+
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
         => compilationContext.RegisterSymbolAction(c => AnalyzeSymbol(c, mustInitializeSymbols), SymbolKind.Property);

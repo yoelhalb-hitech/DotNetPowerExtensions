@@ -4,9 +4,14 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustInitializeNotSupportedOnReadonly : MustInitializeAnalyzerBase
 {
-    public override string RuleId => "DNPE0101";
-    protected override string Title => "MustInitializeWritable";
-    protected override string Message => "MustInitialize is not allowed on read only properties/fields.";
+    public const string RuleId = "DNPE0101";
+    protected const string Title = "MustInitializeWritable";
+    protected const string Message = "MustInitialize is not allowed on read only properties/fields.";
+
+    protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
+
+    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(RuleId, Title, Title, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message);
+
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
         => compilationContext.RegisterSymbolAction(c => AnalyzeSymbol(c, mustInitializeSymbols), SymbolKind.Property, SymbolKind.Field);

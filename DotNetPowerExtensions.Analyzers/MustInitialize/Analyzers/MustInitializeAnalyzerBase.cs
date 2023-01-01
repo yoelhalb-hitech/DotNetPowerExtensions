@@ -4,12 +4,9 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class MustInitializeAnalyzerBase : DiagnosticAnalyzer
 {
-    public abstract string RuleId { get; }
-    protected abstract string Title { get; }
-    protected abstract string Message { get; }
+    protected const string Category = "Language";
 
-    protected virtual string Category => "Language";
-    protected virtual DiagnosticDescriptor DiagnosticDesc => new(RuleId, Title, Title, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message);
+    protected abstract DiagnosticDescriptor DiagnosticDesc { get; }
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDesc);
 

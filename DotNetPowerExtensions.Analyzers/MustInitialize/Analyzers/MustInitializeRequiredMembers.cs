@@ -4,10 +4,14 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustInitializeRequiredMembers : MustInitializeAnalyzerBase
 {
-    public static string DiagnosticId => "DNPE0103";
-    public override string RuleId => DiagnosticId;
-    protected override string Title => "MustInitializeRequiredMembers";
-    protected override string Message => "Must initilalize all memebers decorated with MustInitialize.";
+    public const string DiagnosticId = "DNPE0103";
+   
+    protected const string Title = "MustInitializeRequiredMembers";
+    protected const string Message = "Must initilalize all memebers decorated with MustInitialize.";
+
+    protected override DiagnosticDescriptor DiagnosticDesc => Diagnostics;
+
+    protected DiagnosticDescriptor Diagnostics = new DiagnosticDescriptor(DiagnosticId, Title, Title, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message);
 
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)

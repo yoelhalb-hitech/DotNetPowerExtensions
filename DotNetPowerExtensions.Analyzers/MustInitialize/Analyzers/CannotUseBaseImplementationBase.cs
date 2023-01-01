@@ -3,12 +3,8 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class CannotUseBaseImplementationBase : ByAttributeAnalyzerBase
 {
-    protected override string Title => "CannotUseBaseImplementation";
-    protected override string Message => "Cannot use base implementation of {0} because it lacks " + DescriptiveName;
-
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
         => compilationContext.RegisterSymbolAction(c => AnalyzeSymbol(c, mustInitializeSymbols), SymbolKind.NamedType);
-
 
     public static IPropertySymbol[] GetRequiredProperties(ITypeSymbol symbol, INamedTypeSymbol[] mustInitializeSymbols)
     {

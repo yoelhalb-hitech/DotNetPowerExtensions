@@ -5,9 +5,13 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustInitializeRequiredWhenImplementingInterface : RequiredWhenImplementingInterfaceBase
 {
-    public static string DiagnosticId => "DNPE0104";
+    public const string DiagnosticId = "DNPE0104";
+    protected const string Title = "RequiredWhenImplementingInterface";
+    protected const string Message = "{1} is required when the interface property is {1}.";
 
-    public override string RuleId => DiagnosticId;
+    protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
+
+    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Title, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message);
 
 
     protected override Type AttributeType => typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute);
