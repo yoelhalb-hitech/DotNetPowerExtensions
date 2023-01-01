@@ -5,7 +5,7 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class RequiredWhenOverridingCodeFixProviderBase<TAnalyzer>
     : ByAttributeCodeFixProviderBase<TAnalyzer, PropertyDeclarationSyntax>
-                        where TAnalyzer : MustInitializeRequiredWhenOverriding, IMustInitializeAnalyzer
+                        where TAnalyzer : MustInitializeRequiredWhenOverriding
 {
     protected virtual AttributeSyntax GetAttribute(IPropertySymbol prop, INamedTypeSymbol mustInitializeSymbol)
     {

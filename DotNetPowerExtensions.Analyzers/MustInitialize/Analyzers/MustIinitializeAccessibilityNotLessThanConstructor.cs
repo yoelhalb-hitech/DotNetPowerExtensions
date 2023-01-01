@@ -35,7 +35,12 @@ public class MustIinitializeAccessibilityNotLessThanConstructor : MustInitialize
             //              we know that nobody can create the object outside the scope even if the ctor would allow outside
             if (predicate(accesibility, symbol.ContainingType.DeclaredAccessibility)) return;
             for (var containingType = symbol.ContainingType.ContainingType; containingType?.ContainingType is not null
-                    && !SymbolEqualityComparer.Default.Equals(containingType, containingType.ContainingType); containingType = containingType.ContainingType)
+#if NETSTANDARD2_0_OR_GREATER
+                        && !SymbolEqualityComparer.Default.Equals(containingType, containingType.ContainingType);
+#else
+                        && containingType?.Equals(containingType.ContainingType) != true;
+#endif
+                    containingType = containingType!.ContainingType)
             {
                 if (predicate(accesibility, symbol.ContainingType.DeclaredAccessibility)) return;
             }

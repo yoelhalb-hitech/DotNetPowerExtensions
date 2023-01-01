@@ -3,7 +3,7 @@
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class MustInitializeRequiredWhenImplementingInterface : RequiredWhenImplementingInterfaceBase, IMustInitializeAnalyzer
+public class MustInitializeRequiredWhenImplementingInterface : RequiredWhenImplementingInterfaceBase
 {
     public static string DiagnosticId => "DNPE0104";
 

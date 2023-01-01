@@ -7,6 +7,8 @@ public class MustInitializeRequiredMembersCodeFixProvider : MustInitializeCodeFi
 {
     protected override string Title => "Initialize Required Properties";
 
+    protected override string DiagnosticId => MustInitializeRequiredMembers.DiagnosticId;
+
     protected Type[] Attributes =
     {
         typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute),
@@ -29,7 +31,11 @@ public class MustInitializeRequiredMembersCodeFixProvider : MustInitializeCodeFi
         {
             var expr = SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression,
                                                         SyntaxFactory.IdentifierName(prop),
+#if NETSTANDARD2_0_OR_GREATER
                                                         SyntaxFactory.LiteralExpression(SyntaxKind.DefaultLiteralExpression));
+#else
+                                                        SyntaxFactory.LiteralExpression(SyntaxKind.DefaultKeyword));
+#endif
             initalizer = initalizer.AddExpressions(expr);
         }
 

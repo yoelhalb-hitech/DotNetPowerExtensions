@@ -7,7 +7,7 @@ namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize;
 
 internal class MustInitializeCodeFixVerifierBase<TAnalyzer, TCodeFix, TNode>
         : CodeFixVerifierBase<TAnalyzer, TCodeFix>
-    where TAnalyzer : MustInitializeAnalyzerBase, IMustInitializeAnalyzer, new()
+    where TAnalyzer : MustInitializeAnalyzerBase, new()
     where TCodeFix : MustInitializeCodeFixProviderBase<TAnalyzer, TNode>, new()
     where TNode : CSharpSyntaxNode
 {

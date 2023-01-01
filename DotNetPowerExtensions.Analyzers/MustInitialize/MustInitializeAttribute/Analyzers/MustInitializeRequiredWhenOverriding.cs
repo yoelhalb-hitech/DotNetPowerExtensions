@@ -3,7 +3,7 @@
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class MustInitializeRequiredWhenOverriding : RequiredWhenOverridingBase, IMustInitializeAnalyzer
+public class MustInitializeRequiredWhenOverriding : RequiredWhenOverridingBase
 {
     public static string DiagnosticId => "DNPE0110";
 

@@ -11,6 +11,8 @@ public class MustInitializeRequiredWhenImplementingInterfaceCodeFixProvider
 
     protected override Type AttributeType => typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute);
 
+    protected override string DiagnosticId => MustInitializeRequiredWhenImplementingInterface.DiagnosticId;
+
     protected override AttributeSyntax GetAttribute(IPropertySymbol prop, INamedTypeSymbol mustInitializeSymbol)
         => SyntaxFactory.Attribute(SyntaxFactory.IdentifierName(AttributeType.Name.Replace(nameof(Attribute), ""))); // No need to go through the interfaces
 

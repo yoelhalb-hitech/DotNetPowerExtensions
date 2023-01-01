@@ -11,6 +11,8 @@ public class MustInitializeRequiredWhenOverridingCodeFixProvider
 
     protected override Type AttributeType => typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute);
 
+    protected override string DiagnosticId => MustInitializeRequiredWhenOverriding.DiagnosticId;
+
     protected override AttributeSyntax GetAttribute(IPropertySymbol prop, INamedTypeSymbol mustInitializeSymbol)
         => SyntaxFactory.Attribute(SyntaxFactory.IdentifierName(AttributeType.Name.Replace(nameof(Attribute), ""))); // No need to go through the base class
 }

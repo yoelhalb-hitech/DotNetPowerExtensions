@@ -47,7 +47,11 @@ internal static class SymbolExtensions
     public static AttributeData? GetAttribute(this ISymbol symbol, ITypeSymbol[] mustInitializeSymbols)
         => symbol
             .GetAttributes()
+#if NETSTANDARD2_0_OR_GREATER
             .FirstOrDefault(a => mustInitializeSymbols.Any(s => SymbolEqualityComparer.Default.Equals(a.AttributeClass?.ConstructedFrom, s)));
+#else
+            .FirstOrDefault(a => mustInitializeSymbols.Any(s => s.Equals(a.AttributeClass?.ConstructedFrom)));
+#endif
 
     public static bool HasAttribute(this ISymbol symbol, ITypeSymbol[] mustInitializeSymbols)
         => symbol.GetAttribute(mustInitializeSymbols) is not null;

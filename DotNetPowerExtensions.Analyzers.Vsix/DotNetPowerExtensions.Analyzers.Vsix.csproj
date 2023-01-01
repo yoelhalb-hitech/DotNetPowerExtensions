@@ -65,6 +65,8 @@
     <ProjectReference Include="..\DotNetPowerExtensions.Analyzers\DotNetPowerExtensions.Analyzers.csproj">
       <Project>{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}</Project>
       <Name>DotNetPowerExtensions.Analyzers</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

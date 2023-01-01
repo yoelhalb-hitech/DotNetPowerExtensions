@@ -6,12 +6,12 @@ using System.Collections.Immutable;
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class MustInitializeCodeFixProviderBase<TAnalyzer, TNode> : CodeFixProvider
-                                            where TAnalyzer : MustInitializeAnalyzerBase, IMustInitializeAnalyzer
+                                            where TAnalyzer : MustInitializeAnalyzerBase
                                             where TNode : CSharpSyntaxNode
 {
     protected abstract string Title { get; }
-
-    public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(TAnalyzer.DiagnosticId);
+    protected abstract string DiagnosticId { get; }
+    public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(DiagnosticId);
 
     public override FixAllProvider GetFixAllProvider()
     {

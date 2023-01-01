@@ -8,13 +8,22 @@ internal static class SyntaxExtensions
     {
         string nameSpace = string.Empty;
 
+#if NETSTANDARD2_0_OR_GREATER
         var namespaceParent = syntax.FirstAncestorOrSelf<BaseNamespaceDeclarationSyntax>();
+#else
+        var namespaceParent = syntax.FirstAncestorOrSelf<NamespaceDeclarationSyntax>();
+#endif
         if (namespaceParent is null) return nameSpace;
 
         nameSpace = namespaceParent.Name.ToString();
 
+#if NETSTANDARD2_0_OR_GREATER
         while ((namespaceParent = namespaceParent!.FirstAncestorOrSelf<BaseNamespaceDeclarationSyntax>()) is not null)
             nameSpace = $"{namespaceParent.Name}.{nameSpace}";
+#else
+        while ((namespaceParent = namespaceParent!.FirstAncestorOrSelf<NamespaceDeclarationSyntax>()) is not null)
+            nameSpace = $"{namespaceParent.Name}.{nameSpace}";
+#endif
 
         return nameSpace;
     }

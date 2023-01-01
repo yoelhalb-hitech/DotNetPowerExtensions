@@ -25,11 +25,23 @@ internal class PropertyOverrideFactory
     {
         var newAccessor = SyntaxFactory.AccessorDeclaration(original.Kind()).WithModifiers(original.Modifiers);
 
+#if NETSTANDARD2_0_OR_GREATER
         if (!string.IsNullOrWhiteSpace(arrowBody))
         {
-            var exprssionBody = SyntaxFactory.ArrowExpressionClause(SyntaxFactory.ParseExpression(arrowBody));
+            var exprssionBody = SyntaxFactory.ArrowExpressionClause(SyntaxFactory.ParseExpression(arrowBody!));
             newAccessor = newAccessor.WithExpressionBody(exprssionBody);
         }
+#else
+        if (!string.IsNullOrWhiteSpace(arrowBody))
+        {
+            StatementSyntax statementBody =
+                original.Kind() == SyntaxKind.GetAccessorDeclaration 
+                    ? SyntaxFactory.ReturnStatement(SyntaxFactory.ParseExpression(arrowBody!)) 
+                    : SyntaxFactory.ExpressionStatement(SyntaxFactory.ParseExpression(arrowBody!));
+
+            newAccessor = newAccessor.WithBody(SyntaxFactory.Block(statementBody));
+        }
+#endif
 
         return newAccessor.WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken));
     }

@@ -3,7 +3,7 @@
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class CannotUseBaseImplementationCodeFixProviderBase<TAnalyzer>
-            : ByAttributeCodeFixProviderBase<TAnalyzer, TypeDeclarationSyntax> where TAnalyzer : CannotUseBaseImplementationBase, IMustInitializeAnalyzer
+            : ByAttributeCodeFixProviderBase<TAnalyzer, TypeDeclarationSyntax> where TAnalyzer : CannotUseBaseImplementationBase
 {
     protected override string Title => "Implement Required Properties";
 
@@ -54,7 +54,13 @@ public abstract class CannotUseBaseImplementationCodeFixProviderBase<TAnalyzer>
         {
             var expr = await GetPropertyDeclaration(prop, baseTypes, mustInitializeClassMetadata).ConfigureAwait(false);
 
+#if NETSTANDARD2_0_OR_GREATER
             if (expr is not null) typeDecl = typeDecl.AddMembers(expr);
+#else
+            if (expr is not null) typeDecl = 
+                    SyntaxFactory.ClassDeclaration(typeDecl.AttributeLists, typeDecl.Modifiers, typeDecl.Identifier,
+                    typeDecl.TypeParameterList, typeDecl.BaseList, typeDecl.ConstraintClauses, typeDecl.Members.Add(expr));
+#endif
         }
 
         return (originalTypeDecl, typeDecl);

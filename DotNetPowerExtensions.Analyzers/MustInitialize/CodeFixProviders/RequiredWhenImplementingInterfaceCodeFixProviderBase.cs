@@ -4,7 +4,7 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class RequiredWhenImplementingInterfaceCodeFixProviderBase<TAnalyzer>
                                     : ByAttributeCodeFixProviderBase<TAnalyzer, PropertyDeclarationSyntax>
-                            where TAnalyzer : RequiredWhenImplementingInterfaceBase, IMustInitializeAnalyzer
+                            where TAnalyzer : RequiredWhenImplementingInterfaceBase
 {
     protected virtual AttributeSyntax GetAttribute(IPropertySymbol prop, INamedTypeSymbol mustInitializeSymbol)
     {

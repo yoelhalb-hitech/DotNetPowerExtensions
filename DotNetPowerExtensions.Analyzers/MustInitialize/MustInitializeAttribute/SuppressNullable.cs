@@ -3,6 +3,8 @@ using System.Text.RegularExpressions;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute;
 
+#if NETSTANDARD2_0_OR_GREATER
+
 // This has to be in a different assembly than the other analyzer for it to work..
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class SuppressNullableAnalyzer : DiagnosticSuppressor
@@ -100,3 +102,5 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
         }
     }
 }
+
+#endif

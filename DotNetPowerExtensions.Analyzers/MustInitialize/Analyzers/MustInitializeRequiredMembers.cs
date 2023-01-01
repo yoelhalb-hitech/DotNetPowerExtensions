@@ -2,7 +2,7 @@
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class MustInitializeRequiredMembers : MustInitializeAnalyzerBase, IMustInitializeAnalyzer
+public class MustInitializeRequiredMembers : MustInitializeAnalyzerBase
 {
     public static string DiagnosticId => "DNPE0103";
     public override string RuleId => DiagnosticId;
@@ -21,7 +21,11 @@ public class MustInitializeRequiredMembers : MustInitializeAnalyzerBase, IMustIn
         // We don't need the interfaces, since we require to specify it directly on the implementation, and c# 8 default interfaces are not allowed
         var symbols = new[] { symbol }.Concat(symbol.GetAllBaseTypes());
 
+#if NETSTANDARD2_0_OR_GREATER
         Func<AttributeData, bool> hasMustInitialize = a => mustInitializeSymbols.Any(s => SymbolEqualityComparer.Default.Equals(a.AttributeClass, s));
+#else
+        Func<AttributeData, bool> hasMustInitialize = a => mustInitializeSymbols.Any(s => s.Equals(a.AttributeClass));
+#endif
 
         var props = symbols.SelectMany(s => s.GetMembers()
                                     .OfType<IPropertySymbol>()
