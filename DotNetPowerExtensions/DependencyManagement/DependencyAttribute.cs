@@ -1,0 +1,55 @@
+﻿
+namespace DotNetPowerExtensions.DependencyManagement;
+
+// TODO... add analyzer to force subclasses to be services
+[AttributeUsage(AttributeTargets.Class|AttributeTargets.Struct|AttributeTargets.Interface, AllowMultiple = false, Inherited = false)]
+public abstract class DependencyAttribute : Attribute
+{
+    public DependencyAttribute(DependencyType dependencyType)
+    {
+        DependencyType = dependencyType;
+    }
+
+    public virtual DependencyType DependencyType { get; }
+    public virtual Type? For { get; set; }
+}
+
+public class ScopedAttribute : DependencyAttribute
+{
+    public ScopedAttribute() : base(DependencyType.Scoped) {}
+}
+
+public class ScopedAttribute<T> : ScopedAttribute
+{
+    public ScopedAttribute() => For = typeof(T);
+}
+
+public class TransientAttribute : DependencyAttribute
+{
+    public TransientAttribute() : base(DependencyType.Transient) {}
+}
+
+public class TransientAttribute<T> : TransientAttribute
+{
+    public TransientAttribute() => For = typeof(T);
+}
+
+public class SingletonAttribute : DependencyAttribute
+{
+    public SingletonAttribute() : base(DependencyType.Singleton) {}
+}
+
+public class SingletonAttribute<T> : SingletonAttribute
+{
+    public SingletonAttribute() => For = typeof(T);
+}
+
+public class NonDependencyAttribute : DependencyAttribute
+{
+    public NonDependencyAttribute() : base(DependencyType.None) {}
+}
+
+public class NonDependencyAttribute<T> : NonDependencyAttribute
+{
+    public NonDependencyAttribute() => For = typeof(T);
+}
