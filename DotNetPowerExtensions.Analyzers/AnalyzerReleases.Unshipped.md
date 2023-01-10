@@ -16,3 +16,4 @@ DNPE0108 | Language | Warning | MustInitializeNotAllowedOnExplicitImplementation
 DNPE0109 | Language | Warning | MustInitializeNotAllowedOnDefaultInterfaceImplementation
 DNPE0110 | Language | Warning | MustInitializeRequiredWhenOverriding
 DNPE0111 | Language | Warning | DisallowHidingMustInitialize
+DNPE0401 | Language | Warning | AsShouldBeAssignableType

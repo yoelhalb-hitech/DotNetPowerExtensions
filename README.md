@@ -3,7 +3,27 @@
 ## What is the purpose of DotNetPowerExtensions and Analyzer?
 - To add functionality and diagnostics currently not available in .Net
 
-### 1. Dependency Attributes
+### 1. Of<> Classes
+#### Motivation
+Sometimes we want to return a one of two possible values from a method, and of course it is not typesafe to return `object`, while returning a Tuple or other solutions might be too cumbersome
+Therefore we created a low ceremony typesafe struct Of<> taking 2 or 3 type arguments
+
+##### Example Code
+    
+    using DotNetPowerExtensions.Of;
+
+    public interface IReturnType { string Name { get; set; }}
+    public class ReturnType1 : IReturnType { public string Name { get; set; }}
+    public class ReturnType2 : IReturnType { public string Name { get; set; }}
+
+    public Of<ReturnType1, RertunType2> TestMethod()
+                => new Of<ReturnType1, RertunType2>(new ReturnType1 { Name = "Test" });
+
+    var retValue = TestMethod();
+    var n1 = retValue.First?.Name ?? retValue.Second!.Name; // n1 == "Test"
+    var n2 = retValue.As<IReturnType>().Name; // n2 == "Test"
+
+### 2. Dependency Attributes
 You can now decorate your DI services with the an attribtue describing the service type, and insert all such classes in the DI at once
 
 ##### Example Code
@@ -17,7 +37,7 @@ And in your DI setup code, just have the following (Where `services` is an IServ
 
     services.AddDependencies(); // That's is
 
-### 2. MustInitialize
+### 3. MustInitialize
 
 - Allows you enforce that the given property or field has to be initialized when instantiated.
 - Removes the need to set a value when in a nullable context (in C# 8 and upwards) for such a property or field (NOTE: This only works in projects compatible with .Net Standard 2.0, as otherwise the functionality isn't available in Roslyn)
