@@ -1,11 +1,31 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
+using Microsoft.CodeAnalysis.Testing;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
 internal sealed class MustIinitializeRequiredMembers_Tests
     : MustInitializeCodeFixVerifierBase<MustInitializeRequiredMembers, MustInitializeRequiredMembersCodeFixProvider, ObjectCreationExpressionSyntax>
 {
+    [Test]
+    public async Task Test_HasCorrectMessage([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""        
+        public class DeclareType
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => new DeclareType{}; }
+        """;
+
+        await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0103", DiagnosticSeverity.Warning)
+                                            .WithSpan(8, 32, 8, 49)
+                                            .WithMessage("Must initialize 'TestProp, TestField'"))
+            .ConfigureAwait(false);
+    }
+
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
     {

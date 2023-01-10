@@ -1,45 +1,41 @@
 
+using DotNetPowerExtensions.Of;
+using Microsoft.CodeAnalysis;
+using System.Reflection;
+
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
-[DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class MustInitializeRequiredMembers : MustInitializeAnalyzerBase
+public abstract class MustInitializeRequiredMembersBase : MustInitializeAnalyzerBase
 {
-    public const string DiagnosticId = "DNPE0103";
-   
-    protected const string Title = "MustInitializeRequiredMembers";
-    protected const string Message = "Must initilalize all memebers decorated with MustInitialize.";
-
-    protected override DiagnosticDescriptor DiagnosticDesc => Diagnostics;
-
-    protected DiagnosticDescriptor Diagnostics = new DiagnosticDescriptor(DiagnosticId, Title, Title, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message);
-
-
-    public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
+    private static IEnumerable<Of<IPropertySymbol, IFieldSymbol>> GetMembersWithMustInitialize(IEnumerable<ITypeSymbol> symbols, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        // TODO... maybe use an IOperation instead...
-        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeCreation(c, mustInitializeSymbols), SyntaxKind.ObjectCreationExpression);
-    }
+        Func<AttributeData, bool> hasMustInitialize = a => mustInitializeSymbols.Any(s => s.IsEqualTo(a.AttributeClass));
 
-    public static IEnumerable<string> GetNotInitializedNames(ObjectCreationExpressionSyntax typeDecl, ITypeSymbol symbol, INamedTypeSymbol[] mustInitializeSymbols)
-    {
-        // We don't need the interfaces, since we require to specify it directly on the implementation, and c# 8 default interfaces are not allowed
-        var symbols = new[] { symbol }.Concat(symbol.GetAllBaseTypes());
-
-#if NETSTANDARD2_0_OR_GREATER
-        Func<AttributeData, bool> hasMustInitialize = a => mustInitializeSymbols.Any(s => SymbolEqualityComparer.Default.Equals(a.AttributeClass, s));
-#else
-        Func<AttributeData, bool> hasMustInitialize = a => mustInitializeSymbols.Any(s => s.Equals(a.AttributeClass));
-#endif
-
-        var props = symbols.SelectMany(s => s.GetMembers()
+        return symbols.SelectMany(s => s.GetMembers()
                                     .OfType<IPropertySymbol>()
                                     .Where(p => !p.IsReadOnly && p.GetAttributes().Any(hasMustInitialize))
-                                    .Select(p => p.Name)
+                                    .Select(p => new Of<IPropertySymbol, IFieldSymbol>(p))
                                 .Concat(
                                     s.GetMembers()
                                         .OfType<IFieldSymbol>()
                                         .Where(p => !p.IsReadOnly && p.GetAttributes().Any(hasMustInitialize))
-                                        .Select(p => p.Name)));
+                                        .Select(p => new Of<IPropertySymbol, IFieldSymbol>(p))));
+    }
+
+    public static IEnumerable<Of<IPropertySymbol, IFieldSymbol>> GetMembersWithMustInitialize(ITypeSymbol symbol, INamedTypeSymbol[] mustInitializeSymbols)
+    {
+        // We don't need the interfaces, since we require to specify it directly on the implementation, and c# 8 default interfaces are not allowed
+        var symbols = new[] { symbol }.Concat(symbol.GetAllBaseTypes());
+        var result = GetMembersWithMustInitialize(symbols, mustInitializeSymbols);
+
+        var byNames = result.GroupBy(r => r.As<ISymbol>()!.Name);
+        return byNames.Select(n => n.First());
+    }
+
+
+    public static IEnumerable<string> GetNotInitializedNames(ObjectCreationExpressionSyntax typeDecl, ITypeSymbol symbol, INamedTypeSymbol[] mustInitializeSymbols)
+    {
+        var props = GetMembersWithMustInitialize(symbol, mustInitializeSymbols).Select(m => m.As<ISymbol>()!.Name);
 
         if (typeDecl.Initializer is not null)
         {
@@ -54,27 +50,13 @@ public class MustInitializeRequiredMembers : MustInitializeAnalyzerBase
         return props;
     }
 
-    private void AnalyzeCreation(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols)
+    protected void ReportDiagnostics(SyntaxNodeAnalysisContext context, CSharpSyntaxNode node, IEnumerable<string> props)
     {
-        try
-        {
-            var expr = context.Node as ObjectCreationExpressionSyntax;
-            if (expr is null) return;
+        if (!props.Any()) return;
 
-            var symbol = context.SemanticModel.GetTypeInfo(expr).Type as ITypeSymbol;
-            if (symbol is null) return;
+        var combined = string.Join(", ", props);
+        var diagnostic = Diagnostic.Create(DiagnosticDesc, node.GetLocation(), combined);
 
-            var props = GetNotInitializedNames(expr, symbol, mustInitializeSymbols);
-            if (!props.Any()) return;
-
-            var combined = string.Join(", ", props);
-            var diagnostic = Diagnostic.Create(DiagnosticDesc, expr.GetLocation(), props.Skip(1).Any() ? "ies" : "y", combined);
-
-            context.ReportDiagnostic(diagnostic);
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        context.ReportDiagnostic(diagnostic);
     }
 }

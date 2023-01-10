@@ -1,30 +1,37 @@
 ﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
 using DotNetPowerExtensions.Polyfill;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MustInitializeRequiredMembersCodeFixProvider)), Shared]
-public class MustInitializeRequiredMembersCodeFixProvider : MustInitializeCodeFixProviderBase<MustInitializeRequiredMembers, ObjectCreationExpressionSyntax>
+public abstract class MustInitializeRequiredMembersCodeFixProviderBase<TAnalyzer, TNode> : MustInitializeCodeFixProviderBase<TAnalyzer, TNode> 
+                                                                                    where TAnalyzer : MustInitializeRequiredMembersBase
+                                                                                    where TNode : CSharpSyntaxNode
 {
     protected override string Title => "Initialize Required Properties";
-
-    protected override string DiagnosticId => MustInitializeRequiredMembers.DiagnosticId;
-
-    protected Type[] Attributes =
+   
+    private Type[] Attributes =
     {
         typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute),
     };
 
-    protected override async Task<(SyntaxNode, SyntaxNode)?> CreateChanges(Document document, ObjectCreationExpressionSyntax typeDecl, CancellationToken cancellationToken)
+    protected virtual async Task<INamedTypeSymbol[]> GetMustInitializedSymbols(Document document) =>
+        (await Task.WhenAll(
+                Attributes.Select(async a => await document.GetTypeByMetadataName(a).ConfigureAwait(false))
+        ).ConfigureAwait(false))
+        .Where(s => s is not null)
+        .OfType<INamedTypeSymbol>()
+        .ToArray();
+
+    protected virtual async Task<(SyntaxNode, SyntaxNode)?> GetInitializerChanges(Document document, ObjectCreationExpressionSyntax typeDecl, CancellationToken cancellationToken)
     {
         var symbol = (await document.GetTypeInfo(typeDecl, cancellationToken).ConfigureAwait(false))?.Type;
+        if (symbol is null) return null;
 
-        var mustInitializeSymbols = await Task.WhenAll(
-                Attributes.Select(async a => await document.GetTypeByMetadataName(a).ConfigureAwait(false))
-        ).ConfigureAwait(false);
-        if (symbol is null || mustInitializeSymbols.Any(s => s is null)) return null;
+        var mustInitializeSymbols = await GetMustInitializedSymbols(document).ConfigureAwait(false);
+        if (!mustInitializeSymbols.Any()) return null;
 
-        var props = MustInitializeRequiredMembers.GetNotInitializedNames(typeDecl, symbol, mustInitializeSymbols.OfType<INamedTypeSymbol>().ToArray());
+        var props = MustInitializeRequiredMembersBase.GetNotInitializedNames(typeDecl, symbol, mustInitializeSymbols);
 
         var initalizer = typeDecl.Initializer
                         ?? SyntaxFactory.InitializerExpression(SyntaxKind.ObjectInitializerExpression);
