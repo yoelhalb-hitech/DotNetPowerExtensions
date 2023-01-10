@@ -52,17 +52,17 @@ internal static class SymbolExtensions
         yield break;
     }
 
-    public static AttributeData? GetAttribute(this ISymbol symbol, ITypeSymbol[] mustInitializeSymbols)
+    public static AttributeData? GetAttribute(this ISymbol symbol, ITypeSymbol[] attributeSymbols)
         => symbol
             .GetAttributes()
-            .FirstOrDefault(a => mustInitializeSymbols.Any(s => s.IsEqualTo(a.AttributeClass?.ConstructedFrom)));
+            .FirstOrDefault(a => attributeSymbols.Any(s => s.IsEqualTo(a.AttributeClass?.ConstructedFrom)));
 
-    public static bool HasAttribute(this ISymbol symbol, ITypeSymbol[] mustInitializeSymbols)
-        => symbol.GetAttribute(mustInitializeSymbols) is not null;
+    public static bool HasAttribute(this ISymbol symbol, ITypeSymbol[] attributeSymbols)
+        => symbol.GetAttribute(attributeSymbols) is not null;
 
-    public static AttributeData? GetAttribute(this ISymbol symbol, ITypeSymbol mustInitializeSymbol)
-        => symbol.GetAttribute(new[] { mustInitializeSymbol });
+    public static AttributeData? GetAttribute(this ISymbol symbol, ITypeSymbol attributeSymbols)
+        => symbol.GetAttribute(new[] { attributeSymbols });
 
-    public static bool HasAttribute(this ISymbol symbol, ITypeSymbol mustInitializeSymbol)
-        => symbol.HasAttribute(new[] { mustInitializeSymbol });
+    public static bool HasAttribute(this ISymbol symbol, ITypeSymbol attributeSymbols)
+        => symbol.HasAttribute(new[] { attributeSymbols });
 }

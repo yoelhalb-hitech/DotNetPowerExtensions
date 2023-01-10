@@ -23,7 +23,11 @@ Therefore we created a low ceremony typesafe struct Of<> taking 2 or 3 type argu
     var n1 = retValue.First?.Name ?? retValue.Second!.Name; // n1 == "Test"
     var n2 = retValue.As<IReturnType>().Name; // n2 == "Test"
 
-### 2. Dependency Attributes
+### 2. NonDelegate
+Decorate a method with `[NonDelegate]` in order to prevent it from being used as a callback and/or saved in a variable/property/argument.
+This is useful for Analyzers that rely on compile time static analysis (such as the `LocalService.Get()` method, see below).
+
+### 3. Dependency Attributes
 You can now decorate your DI services with the an attribtue describing the service type, and insert all such classes in the DI at once
 
 ##### Example Code
@@ -37,7 +41,7 @@ And in your DI setup code, just have the following (Where `services` is an IServ
 
     services.AddDependencies(); // That's is
 
-### 3. MustInitialize
+### 4. MustInitialize
 
 - Allows you enforce that the given property or field has to be initialized when instantiated.
 - Removes the need to set a value when in a nullable context (in C# 8 and upwards) for such a property or field (NOTE: This only works in projects compatible with .Net Standard 2.0, as otherwise the functionality isn't available in Roslyn)
