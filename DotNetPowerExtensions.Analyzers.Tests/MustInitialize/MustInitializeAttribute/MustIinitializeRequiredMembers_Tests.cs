@@ -3,7 +3,7 @@ using DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class MustIinitializeRequiredMembers_Tests
+internal sealed class MustIinitializeRequiredMembers_Tests
     : MustInitializeCodeFixVerifierBase<MustInitializeRequiredMembers, MustInitializeRequiredMembersCodeFixProvider, ObjectCreationExpressionSyntax>
 {
     [Test]
@@ -19,7 +19,7 @@ internal class MustIinitializeRequiredMembers_Tests
         class Program { void Main() => new DeclareType{}; }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -36,7 +36,7 @@ internal class MustIinitializeRequiredMembers_Tests
         class Program { void Main() => new DeclareType{}; }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -54,7 +54,7 @@ internal class MustIinitializeRequiredMembers_Tests
 
         var fixCode = $$""" TestProp = default, TestField = default """;
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -72,7 +72,7 @@ internal class MustIinitializeRequiredMembers_Tests
 
         var fixCode = $$""" { TestProp = default, TestField = default }""";
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -91,7 +91,7 @@ internal class MustIinitializeRequiredMembers_Tests
 
         var fixCode = $$""", TestProp = default, TestField = default""";
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -111,7 +111,7 @@ internal class MustIinitializeRequiredMembers_Tests
 
         var fixCode = $$""", TestProp = default, TestField = default""";
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -129,7 +129,7 @@ internal class MustIinitializeRequiredMembers_Tests
 
         var fixCode = $$""", TestField = default""";
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -148,7 +148,7 @@ internal class MustIinitializeRequiredMembers_Tests
 
         var fixCode = $$""" TestProp = default, TestField = default """;
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -169,7 +169,7 @@ internal class MustIinitializeRequiredMembers_Tests
 
         var fixCode = $$""" TestProp = default """;
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     // Basically this is to test that if the MustInitalize is on both the base and the sub it doesn't need to initalize twice...
@@ -190,6 +190,6 @@ internal class MustIinitializeRequiredMembers_Tests
         class Program { void Main() => new Subclass(){ TestProp = "" }; }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 }

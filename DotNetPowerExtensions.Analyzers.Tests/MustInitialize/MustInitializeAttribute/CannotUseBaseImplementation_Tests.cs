@@ -3,7 +3,7 @@ using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Cod
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class CannotUseBaseImplementation_Tests
+internal sealed class CannotUseBaseImplementation_Tests
     : MustInitializeCodeFixVerifierBase<CannotUseBaseImplementationForMustInitialize,
                         CannotUseBaseImplementationForMustInitializeCodeFixProvider, TypeDeclarationSyntax>
 {
@@ -24,7 +24,7 @@ internal class CannotUseBaseImplementation_Tests
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -45,7 +45,7 @@ internal class CannotUseBaseImplementation_Tests
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -76,7 +76,7 @@ internal class CannotUseBaseImplementation_Tests
 
         """;
 
-        await VerifyCodeFixAsync(test, codeFix);
+        await VerifyCodeFixAsync(test, codeFix).ConfigureAwait(false);
     }
 
     [Test]
@@ -103,7 +103,7 @@ internal class CannotUseBaseImplementation_Tests
         
         """;
 
-        await VerifyCodeFixAsync(test, codeFix);
+        await VerifyCodeFixAsync(test, codeFix).ConfigureAwait(false);
     }
 
     [Test]
@@ -134,7 +134,7 @@ internal class CannotUseBaseImplementation_Tests
 
         """;
 
-        await VerifyCodeFixAsync(test, codeFix);
+        await VerifyCodeFixAsync(test, codeFix).ConfigureAwait(false);
     }
 
     [Test]
@@ -161,7 +161,7 @@ internal class CannotUseBaseImplementation_Tests
         
         """;
 
-        await VerifyCodeFixAsync(test, codeFix);
+        await VerifyCodeFixAsync(test, codeFix).ConfigureAwait(false);
     }
 
 
@@ -182,7 +182,7 @@ internal class CannotUseBaseImplementation_Tests
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -210,7 +210,7 @@ internal class CannotUseBaseImplementation_Tests
         
         """;
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -262,7 +262,7 @@ internal class CannotUseBaseImplementation_Tests
         
         """;
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 }
 

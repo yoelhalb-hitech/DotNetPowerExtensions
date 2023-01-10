@@ -11,39 +11,39 @@ public class DependencyInjectionExtensions_Tests
     #region Test Classes
 
     [Transient]
-    public class FooTransient { }
+    internal sealed class FooTransient { }
 
     [Scoped]
-    public class FooScoped { }
+    internal sealed class FooScoped { }
 
     [Singleton]
-    public class FooSingleton { }
+    internal sealed class FooSingleton { }
 
-    public class FooBase { }
+    internal class FooBase { }
 
     [Transient(For = typeof(FooBase))]
-    public class FooTransientForBase : FooBase { }
+    internal sealed class FooTransientForBase : FooBase { }
     
     [Scoped(For = typeof(FooBase))]
-    public class FooScopedForBase : FooBase { }
+    internal sealed class FooScopedForBase : FooBase { }
 
     [Singleton(For = typeof(FooBase))]
-    public class FooSingletonForBase : FooBase { }
+    internal sealed class FooSingletonForBase : FooBase { }
 
-    public interface IFoo { }
+    internal interface IFoo { }
 
     [Transient(For = typeof(IFoo))]
-    public class FooTransientForInterface : IFoo { }
+    internal sealed class FooTransientForInterface : IFoo { }
 
     [Scoped(For = typeof(IFoo))]
-    public class FooScopedForInterface : IFoo { }
+    internal sealed class FooScopedForInterface : IFoo { }
 
     [Singleton(For = typeof(IFoo))]
-    public class FooSingletonForInterface : IFoo { }
+    internal sealed class FooSingletonForInterface : IFoo { }
 
     #endregion
 
-    private Func<ServiceDescriptor, bool> GetPredicate(Type type, Type forType, ServiceLifetime lifetime)
+    private static Func<ServiceDescriptor, bool> GetPredicate(Type type, Type forType, ServiceLifetime lifetime)
         => r => r.ImplementationType == type && r.ServiceType == forType && r.Lifetime == lifetime;
 
     [Test]

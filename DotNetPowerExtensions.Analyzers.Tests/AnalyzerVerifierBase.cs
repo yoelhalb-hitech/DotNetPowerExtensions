@@ -6,6 +6,7 @@ using System.Threading;
 
 namespace DotNetPowerExtensions.Analyzers.Tests;
 
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "This is how Microsoft does it")]
 public abstract class AnalyzerVerifierBase<TAnlayzer> : AnalyzerVerifier<TAnlayzer, CSharpAnalyzerTest<TAnlayzer, NUnitVerifier>, NUnitVerifier>
             where TAnlayzer : DiagnosticAnalyzer, new()
 {

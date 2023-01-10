@@ -1,4 +1,5 @@
 ﻿
+﻿using DotNetPowerExtensions.Polyfill;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DotNetPowerExtensions.DependencyManagement
@@ -14,7 +15,7 @@ namespace DotNetPowerExtensions.DependencyManagement
                                  {
                                      return a.GetTypes();
                                  }
-                                 catch { return new Type[]{}; } // Sometimes it throws
+                                 catch { return ArrayUtils.Empty<Type>(); } // Sometimes it throws
                              })
                              .Where(t =>
                              {

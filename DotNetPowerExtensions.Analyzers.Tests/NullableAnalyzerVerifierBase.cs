@@ -6,10 +6,11 @@ using System.Threading;
 
 namespace DotNetPowerExtensions.Analyzers.Tests;
 
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "This is how Microsoft does it")]
 public abstract class NullableAnalyzerVerifierBase<TAnlayzer> : AnalyzerVerifier<TAnlayzer, CSharpAnalyzerTest<TAnlayzer, NUnitVerifier>, NUnitVerifier>
             where TAnlayzer : DiagnosticAnalyzer, new()
 {
-    [Obsolete]
+    [Obsolete("Use NullableVerifyAnalyzerAsync instead")]
     public static new Task VerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)
     {
         throw new NotSupportedException("Use NullableVerifyAnalyzerAsync instead"); // This way we make sure that it's not easy to confuse

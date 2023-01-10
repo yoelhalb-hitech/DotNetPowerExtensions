@@ -1,4 +1,5 @@
-﻿
+﻿using DotNetPowerExtensions.Polyfill;
+
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class CannotUseBaseImplementationBase : ByAttributeAnalyzerBase
@@ -8,7 +9,7 @@ public abstract class CannotUseBaseImplementationBase : ByAttributeAnalyzerBase
 
     public static IPropertySymbol[] GetRequiredProperties(ITypeSymbol symbol, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        if (symbol.BaseType is null) return new IPropertySymbol[] { };
+        if (symbol.BaseType is null) return ArrayUtils.Empty<IPropertySymbol>();
 
         var implementedProps = symbol.GetMembers().OfType<IPropertySymbol>().Select(p => p.Name).ToArray();
 

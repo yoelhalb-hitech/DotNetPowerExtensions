@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class MustInitializeDefaultInterfaceImplementationNotAllowed_Tests
+internal sealed class MustInitializeDefaultInterfaceImplementationNotAllowed_Tests
     : MustInitializeAnalyzerVerifierBase<MustInitializeNotAllowedOnDefaultInterfaceImplementation>
 {
     [Test]
@@ -15,7 +15,7 @@ internal class MustInitializeDefaultInterfaceImplementationNotAllowed_Tests
         }       
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -29,7 +29,7 @@ internal class MustInitializeDefaultInterfaceImplementationNotAllowed_Tests
         }        
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -42,7 +42,7 @@ internal class MustInitializeDefaultInterfaceImplementationNotAllowed_Tests
         }        
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -55,6 +55,6 @@ internal class MustInitializeDefaultInterfaceImplementationNotAllowed_Tests
         }        
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 }

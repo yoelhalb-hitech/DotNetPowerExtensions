@@ -17,21 +17,23 @@ public abstract class RequiredWhenOverridingCodeFixProviderBase<TAnalyzer>
             var member = baseType.GetMembers(name).FirstOrDefault();
             if (member is null) continue;
 
+#pragma warning disable CA2201 // Exception type System.Exception is not sufficiently specific
             return member.GetAttribute(mustInitializeSymbol)?.ApplicationSyntaxReference?.GetSyntax() as AttributeSyntax ?? throw new Exception("Base prop issue");
         }
 
         throw new Exception("Base prop not found");
+#pragma warning restore CA2201 // Exception type System.Exception is not sufficiently specific        
     }
 
-    protected override async Task<(SyntaxNode declToReplace, SyntaxNode newDecl)?> CreateChanges(Document document, PropertyDeclarationSyntax propertyDecl, CancellationToken c)
+    protected override async Task<(SyntaxNode declToReplace, SyntaxNode newDecl)?> CreateChanges(Document document, PropertyDeclarationSyntax declaration, CancellationToken c)
     {
-        var symbol = await document.GetDeclaredSymbol<IPropertySymbol>(propertyDecl, c).ConfigureAwait(false);
+        var symbol = await document.GetDeclaredSymbol<IPropertySymbol>(declaration, c).ConfigureAwait(false);
         var mustInitializeClassMetadata = await document.GetTypeByMetadataName(AttributeType, c).ConfigureAwait(false);
         if (symbol is null || mustInitializeClassMetadata is null) return null;
 
         var attributeList = SyntaxFactory.AttributeList()
                         .WithAttributes(SyntaxFactory.SeparatedList(new[] { GetAttribute(symbol, mustInitializeClassMetadata) }));
 
-        return (propertyDecl, propertyDecl.AddAttributeLists(attributeList));
+        return (declaration, declaration.AddAttributeLists(attributeList));
     }
 }

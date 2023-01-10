@@ -11,5 +11,8 @@ internal static class DocumentExtensions
         => (await document.GetSemanticModelAsync(token).ConfigureAwait(false))?.Compilation.GetTypeByMetadataName(type.FullName!);
 
     public async static Task<TypeInfo?> GetTypeInfo(this Document document, ExpressionSyntax expr, CancellationToken token = default)
-        => (await document.GetSemanticModelAsync(token).ConfigureAwait(false))?.GetTypeInfo(expr);
+        => (await document.GetSemanticModelAsync(token).ConfigureAwait(false))?.GetTypeInfo(expr, token);
+    
+    public async static Task<SymbolInfo?> GetSymbolInfo(this Document document, ExpressionSyntax expr, CancellationToken token = default)
+        => (await document.GetSemanticModelAsync(token).ConfigureAwait(false))?.GetSymbolInfo(expr, token);
 }

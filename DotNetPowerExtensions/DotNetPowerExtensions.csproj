@@ -1,8 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net45;net7.0</TargetFrameworks>
 	<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<AnalysisMode>Recommended</AnalysisMode>
+	<ImplicitUsings>enable</ImplicitUsings>
 	<LangVersion>11.0</LangVersion>
 	<Nullable>enable</Nullable>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -24,8 +26,6 @@
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <Company>HiTech</Company>
     <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
-
-
   </PropertyGroup>
 	
   <ItemGroup>

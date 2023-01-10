@@ -3,13 +3,12 @@ using System.Text.RegularExpressions;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute;
 
-#if NETSTANDARD2_0_OR_GREATER
+#if !NET45 && !NET46
 
 // This has to be in a different assembly than the other analyzer for it to work..
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class SuppressNullableAnalyzer : DiagnosticSuppressor
 {
-
     private static readonly SuppressionDescriptor MustInitializeRule = new SuppressionDescriptor(
         id: "YH10001",
         suppressedDiagnosticId: "CS8618",
@@ -23,7 +22,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
         {
             foreach (var diagnostic in context.ReportedDiagnostics)
             {
-                AnalyzeDiagnostic(diagnostic, context);
+                SuppressNullableAnalyzer.AnalyzeDiagnostic(diagnostic, context);
             }
         }
         catch (Exception ex)
@@ -33,7 +32,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
         }
     }
     private const string mustInitialize = "MustInitialize";
-    private bool ContainsMustInitialize(MemberDeclarationSyntax member, SuppressionAnalysisContext context, string name)
+    private static bool ContainsMustInitialize(MemberDeclarationSyntax member, SuppressionAnalysisContext context, string name)
     {
         // Make sure it is the correct type and not just something with the same name...            
         var mustInitializeDecl = context.Compilation
@@ -51,10 +50,10 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
 
         var propSymbol = context.GetSemanticModel(member.SyntaxTree).GetDeclaredSymbol(member);
 
-        return propSymbol?.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, mustInitializeDecl)) ?? false;
+        return propSymbol?.GetAttributes().Any(a => a.AttributeClass.IsEqualTo(mustInitializeDecl)) ?? false;
     }
 
-    private void AnalyzeDiagnostic(Diagnostic diagnostic, SuppressionAnalysisContext context)
+    private static void AnalyzeDiagnostic(Diagnostic diagnostic, SuppressionAnalysisContext context)
     {
         try
         {
@@ -71,7 +70,9 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
             else if (node is ConstructorDeclarationSyntax) // Because sometimes the warning is on the constructor instead of the proeprty/field
             {
                 var regex = new Regex(@"(\S*)\s*'(.*)'");
+#pragma warning disable CA1305 // The behavior of '{0}' could vary based on the current user's locale settings. Provide a value for the 'IFormatProvider' argument.
                 var match = regex.Match(diagnostic.GetMessage());
+#pragma warning restore CA1305 // The behavior of '{0}' could vary based on the current user's locale settings. Provide a value for the 'IFormatProvider' argument.
                 var type = match.Groups[1].Value;
                 var name = match.Groups[2].Value;
 

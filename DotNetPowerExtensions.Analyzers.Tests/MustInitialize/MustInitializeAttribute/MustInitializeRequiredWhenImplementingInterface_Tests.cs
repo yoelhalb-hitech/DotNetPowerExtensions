@@ -3,7 +3,7 @@ using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Cod
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class MustInitializeRequiredWhenImplementingInterface_Tests
+internal sealed class MustInitializeRequiredWhenImplementingInterface_Tests
                     : MustInitializeCodeFixVerifierBase<MustInitializeRequiredWhenImplementingInterface,
                         MustInitializeRequiredWhenImplementingInterfaceCodeFixProvider, PropertyDeclarationSyntax>
 {
@@ -21,7 +21,7 @@ internal class MustInitializeRequiredWhenImplementingInterface_Tests
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -39,7 +39,7 @@ internal class MustInitializeRequiredWhenImplementingInterface_Tests
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -56,7 +56,7 @@ internal class MustInitializeRequiredWhenImplementingInterface_Tests
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
 
@@ -76,7 +76,7 @@ internal class MustInitializeRequiredWhenImplementingInterface_Tests
 
         var fixCode = "    [MustInitialize]" + Environment.NewLine;
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -95,7 +95,7 @@ internal class MustInitializeRequiredWhenImplementingInterface_Tests
 
         var fixCode = "    [MustInitialize]" + Environment.NewLine;
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -115,7 +115,7 @@ internal class MustInitializeRequiredWhenImplementingInterface_Tests
 
         var fixCode = "    [MustInitialize]" + Environment.NewLine;
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -135,7 +135,7 @@ internal class MustInitializeRequiredWhenImplementingInterface_Tests
 
         var fixCode = "    [MustInitialize]" + Environment.NewLine;
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -159,7 +159,7 @@ internal class MustInitializeRequiredWhenImplementingInterface_Tests
         var fixCode = "    [MustInitialize]" + Environment.NewLine;
 
         // No code fix for this situation
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 
     [Test]
@@ -182,7 +182,7 @@ internal class MustInitializeRequiredWhenImplementingInterface_Tests
 
         var codeFix = "    [MustInitialize]" + Environment.NewLine;
 
-        await VerifyCodeFixAsync(test, codeFix);
+        await VerifyCodeFixAsync(test, codeFix).ConfigureAwait(false);
     }
 
     [Test]
@@ -224,6 +224,6 @@ internal class MustInitializeRequiredWhenImplementingInterface_Tests
             $"[MustInitialize]{Environment.NewLine}    ",
         };
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 }

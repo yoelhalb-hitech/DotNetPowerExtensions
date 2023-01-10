@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class MustInitializeNotAllowedOnStatic_Tests : MustInitializeAnalyzerVerifierBase<MustInitializeNotSupportedOnStatic>
+internal sealed class MustInitializeNotAllowedOnStatic_Tests : MustInitializeAnalyzerVerifierBase<MustInitializeNotSupportedOnStatic>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
@@ -20,7 +20,7 @@ internal class MustInitializeNotAllowedOnStatic_Tests : MustInitializeAnalyzerVe
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -40,7 +40,7 @@ internal class MustInitializeNotAllowedOnStatic_Tests : MustInitializeAnalyzerVe
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     #region Property
@@ -55,7 +55,7 @@ internal class MustInitializeNotAllowedOnStatic_Tests : MustInitializeAnalyzerVe
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -68,7 +68,7 @@ internal class MustInitializeNotAllowedOnStatic_Tests : MustInitializeAnalyzerVe
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     #endregion
@@ -85,7 +85,7 @@ internal class MustInitializeNotAllowedOnStatic_Tests : MustInitializeAnalyzerVe
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -98,7 +98,7 @@ internal class MustInitializeNotAllowedOnStatic_Tests : MustInitializeAnalyzerVe
         }        
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     #endregion
@@ -116,7 +116,7 @@ internal class MustInitializeNotAllowedOnStatic_Tests : MustInitializeAnalyzerVe
         }        
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     #endregion

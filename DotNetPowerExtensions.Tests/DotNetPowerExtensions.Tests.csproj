@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
+	<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<AnalysisMode>all</AnalysisMode>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 

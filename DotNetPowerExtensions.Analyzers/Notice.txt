@@ -1,5 +1,5 @@
 ﻿In order for the compiler to notice that the analyzer as part of the release, it needs the following:
-	- A field of Type DiagnasticDescriptor in the class of the intializer (not a base)
+	- A field of Type DiagnasticDescriptor in the class of the intializer (not a base and not a property)
 	- It also has to be initalized with a DiagnasticDescriptor
 	- Note that the new() syntax doesn't work only new DiagnasticDescriptor()
 	- However the DiagnosticDescriptor so far doesn't appear to have to be references...
@@ -8,3 +8,4 @@ Otherwise if the diagnostic is references in unshipped it will throw a warning
 
 If the parameters passed to the new DiagnasticDescriptor() are not present in the current file it will throw a warning in some framework versions:
 	`CSC : error AD0001: Analyzer 'Microsoft.CodeAnalysis.Analyzers.MetaAnalyzers.DiagnosticDescriptorCreationAnalyzer' threw an exception of type 'System.ArgumentException' with message 'Syntax node is not within syntax tree'.`
+And in some versions the Analyzer will not be recognized as part of the release

@@ -1,4 +1,6 @@
 ﻿
+using System.Diagnostics.CodeAnalysis;
+
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -10,6 +12,7 @@ public class MustIinitializeAccessibilityNotLessThanConstructor : MustInitialize
 
     protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
 
+    [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
     protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(RuleId, Title, Title, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message);
 
 
@@ -39,13 +42,9 @@ public class MustIinitializeAccessibilityNotLessThanConstructor : MustInitialize
             // When the containing type (or container of container) is the same as the property
             //              we know that nobody can create the object outside the scope even if the ctor would allow outside
             if (predicate(accesibility, symbol.ContainingType.DeclaredAccessibility)) return;
-            for (var containingType = symbol.ContainingType.ContainingType; containingType?.ContainingType is not null
-#if NETSTANDARD2_0_OR_GREATER
-                        && !SymbolEqualityComparer.Default.Equals(containingType, containingType.ContainingType);
-#else
-                        && containingType?.Equals(containingType.ContainingType) != true;
-#endif
-                    containingType = containingType!.ContainingType)
+            for (var containingType = symbol.ContainingType.ContainingType; 
+                containingType?.ContainingType is not null && containingType?.IsEqualTo(containingType.ContainingType) != true;
+                containingType = containingType!.ContainingType)
             {
                 if (predicate(accesibility, symbol.ContainingType.DeclaredAccessibility)) return;
             }

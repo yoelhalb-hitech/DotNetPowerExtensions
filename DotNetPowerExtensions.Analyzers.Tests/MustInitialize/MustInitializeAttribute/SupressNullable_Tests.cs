@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class SupressNullable_Tests : NullableMustInitializeAnalyzerVerifierBase<SuppressNullableAnalyzer>
+internal sealed class SupressNullable_Tests : NullableMustInitializeAnalyzerVerifierBase<SuppressNullableAnalyzer>
 {
     [Test]
     public async Task Test_Warns_WhenNoMustInitialize()
@@ -13,7 +13,7 @@ internal class SupressNullable_Tests : NullableMustInitializeAnalyzerVerifierBas
                 public string {|CS8618:TestStr|} { get; set; }
             }
         """;
-        await NullableVerifyAnalyzerAsync(code);
+        await NullableVerifyAnalyzerAsync(code).ConfigureAwait(false);
     }
 
     [Test]
@@ -27,7 +27,7 @@ internal class SupressNullable_Tests : NullableMustInitializeAnalyzerVerifierBas
         }
         """;
 
-        await NullableVerifyAnalyzerAsync(test);
+        await NullableVerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -41,7 +41,7 @@ internal class SupressNullable_Tests : NullableMustInitializeAnalyzerVerifierBas
         }
         """;
 
-        await NullableVerifyAnalyzerAsync(test);
+        await NullableVerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -56,7 +56,7 @@ internal class SupressNullable_Tests : NullableMustInitializeAnalyzerVerifierBas
         }
         """;
 
-        await NullableVerifyAnalyzerAsync(test);
+        await NullableVerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -72,7 +72,7 @@ internal class SupressNullable_Tests : NullableMustInitializeAnalyzerVerifierBas
         }
         """;
 
-        await NullableVerifyAnalyzerAsync(test);
+        await NullableVerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -108,6 +108,6 @@ internal class SupressNullable_Tests : NullableMustInitializeAnalyzerVerifierBas
         }
         """;
 
-        await NullableVerifyAnalyzerAsync(test);
+        await NullableVerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 }

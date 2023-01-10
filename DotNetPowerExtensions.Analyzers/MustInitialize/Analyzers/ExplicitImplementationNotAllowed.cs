@@ -1,4 +1,6 @@
 ﻿
+using System.Diagnostics.CodeAnalysis;
+
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -10,6 +12,7 @@ public class ExplicitImplementationNotAllowed : MustInitializeAnalyzerBase
 
     protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
 
+    [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
     protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(RuleId, Title, Title, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message);
 
 

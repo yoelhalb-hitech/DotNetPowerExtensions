@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFrameworks>netstandard2.0;net45;net46</TargetFrameworks>
-	<!--<EnableNETAnalyzers>true</EnableNETAnalyzers>
-	<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>-->
+	<TargetFrameworks>netstandard2.0;netstandard2.1;net45;net7.0;net46</TargetFrameworks>
+	<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<AnalysisMode>recommended</AnalysisMode>
+	<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+	<ImplicitUsings>enable</ImplicitUsings>
 	<LangVersion>11.0</LangVersion>
     <!--<IncludeBuildOutput>false</IncludeBuildOutput>-->
 	<IsPackable>true</IsPackable>

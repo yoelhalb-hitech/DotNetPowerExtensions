@@ -61,7 +61,7 @@ namespace DotNetPowerExtensions.Analyzers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Propert{0} marked MustInitialize was not initialized.
+        ///   Looks up a localized string similar to Propert{0} marked MustInitialize was not initialized..
         /// </summary>
         internal static string AnalyzerDescription {
             get {

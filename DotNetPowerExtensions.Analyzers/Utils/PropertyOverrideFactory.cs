@@ -1,9 +1,9 @@
 ﻿
 namespace DotNetPowerExtensions.Analyzers.Utils;
 
-internal class PropertyOverrideFactory
+internal sealed class PropertyOverrideFactory
 {
-    public PropertyDeclarationSyntax CreatePropertyOverride(PropertyDeclarationSyntax baseSyntax)
+    public static PropertyDeclarationSyntax CreatePropertyOverride(PropertyDeclarationSyntax baseSyntax)
     {
         var isAbstract = baseSyntax!.Modifiers.Any(m => m.IsKind(SyntaxKind.AbstractKeyword));
         var name = baseSyntax.Identifier.Text;
@@ -21,7 +21,7 @@ internal class PropertyOverrideFactory
                 baseSyntax!.Type, null, baseSyntax.Identifier, accessorList.WithAccessors(SyntaxFactory.List(accessors)));
     }
 
-    protected virtual AccessorDeclarationSyntax CreateAccessor(AccessorDeclarationSyntax original, string? arrowBody)
+    private static AccessorDeclarationSyntax CreateAccessor(AccessorDeclarationSyntax original, string? arrowBody)
     {
         var newAccessor = SyntaxFactory.AccessorDeclaration(original.Kind()).WithModifiers(original.Modifiers);
 
@@ -46,7 +46,7 @@ internal class PropertyOverrideFactory
         return newAccessor.WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken));
     }
 
-    protected virtual SyntaxTokenList GetModifiers(SyntaxTokenList modifiers, bool isAbstract)
+    private static SyntaxTokenList GetModifiers(SyntaxTokenList modifiers, bool isAbstract)
     {
         var overrideKeyword = SyntaxFactory.Token(SyntaxKind.OverrideKeyword);
 

@@ -14,8 +14,11 @@ public abstract class CannotUseBaseImplementationCodeFixProviderBase<TAnalyzer>
 
         var interfaceProp = interfaces.SelectMany(i => i.GetMembers(name)).First(m => m.HasAttribute(mustInitializeSymbol));
 
+#pragma warning disable CA2201 // Exception type System.Exception is not sufficiently specific
         return interfaceProp.GetAttribute(mustInitializeSymbol)?.ApplicationSyntaxReference?.GetSyntax() as AttributeSyntax
                                                                                     ?? throw new Exception("Interface prop not found");
+#pragma warning restore CA2201 // Exception type System.Exception is not sufficiently specific
+
     }
 
     protected virtual async Task<PropertyDeclarationSyntax?> GetPropertyDeclaration(IPropertySymbol prop, ITypeSymbol[] baseTypes,
@@ -25,11 +28,13 @@ public abstract class CannotUseBaseImplementationCodeFixProviderBase<TAnalyzer>
         var baseSyntax = await baseProperty.DeclaringSyntaxReferences.First().GetSyntaxAsync().ConfigureAwait(false) as PropertyDeclarationSyntax;
         if (baseSyntax is null)
         {
+#pragma warning disable CA2201 // Exception type System.Exception is not sufficiently specific
             Logger.LogError(new Exception("BaseSyntax is null"));
+#pragma warning restore CA2201 // Exception type System.Exception is not sufficiently specific
             return null;
         }
 
-        var newDecl = new PropertyOverrideFactory().CreatePropertyOverride(baseSyntax);
+        var newDecl = PropertyOverrideFactory.CreatePropertyOverride(baseSyntax);
 
         var attribute = GetAttribute(prop, mustInitializeSymbol);
         var attributeList = SyntaxFactory.AttributeList().WithAttributes(SyntaxFactory.SeparatedList(new[] { attribute }));
@@ -37,11 +42,11 @@ public abstract class CannotUseBaseImplementationCodeFixProviderBase<TAnalyzer>
         return newDecl.WithAttributeLists(newDecl.AttributeLists.Add(attributeList));
     }
 
-    protected override async Task<(SyntaxNode, SyntaxNode)?> CreateChanges(Document document, TypeDeclarationSyntax typeDecl, CancellationToken c)
+    protected override async Task<(SyntaxNode, SyntaxNode)?> CreateChanges(Document document, TypeDeclarationSyntax declaration, CancellationToken c)
     {
-        var originalTypeDecl = typeDecl;
+        var originalTypeDecl = declaration;
 
-        var symbol = await document.GetDeclaredSymbol<ITypeSymbol>(typeDecl, c).ConfigureAwait(false);
+        var symbol = await document.GetDeclaredSymbol<ITypeSymbol>(declaration, c).ConfigureAwait(false);
 
         var mustInitializeClassMetadata = await document.GetTypeByMetadataName(AttributeType, c).ConfigureAwait(false);
         if (symbol is null || mustInitializeClassMetadata is null) return null;
@@ -55,14 +60,14 @@ public abstract class CannotUseBaseImplementationCodeFixProviderBase<TAnalyzer>
             var expr = await GetPropertyDeclaration(prop, baseTypes, mustInitializeClassMetadata).ConfigureAwait(false);
 
 #if NETSTANDARD2_0_OR_GREATER
-            if (expr is not null) typeDecl = typeDecl.AddMembers(expr);
+            if (expr is not null) declaration = declaration.AddMembers(expr);
 #else
-            if (expr is not null) typeDecl = 
-                    SyntaxFactory.ClassDeclaration(typeDecl.AttributeLists, typeDecl.Modifiers, typeDecl.Identifier,
-                    typeDecl.TypeParameterList, typeDecl.BaseList, typeDecl.ConstraintClauses, typeDecl.Members.Add(expr));
+            if (expr is not null) declaration = 
+                    SyntaxFactory.ClassDeclaration(declaration.AttributeLists, declaration.Modifiers, declaration.Identifier,
+                    declaration.TypeParameterList, declaration.BaseList, declaration.ConstraintClauses, declaration.Members.Add(expr));
 #endif
         }
 
-        return (originalTypeDecl, typeDecl);
+        return (originalTypeDecl, declaration);
     }
 }

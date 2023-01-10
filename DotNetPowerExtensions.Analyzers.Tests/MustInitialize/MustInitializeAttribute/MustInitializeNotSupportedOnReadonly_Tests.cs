@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class MustInitializeNotSupportedOnReadonly_Tests : MustInitializeAnalyzerVerifierBase<MustInitializeNotSupportedOnReadonly>
+internal sealed class MustInitializeNotSupportedOnReadonly_Tests : MustInitializeAnalyzerVerifierBase<MustInitializeNotSupportedOnReadonly>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
@@ -16,7 +16,7 @@ internal class MustInitializeNotSupportedOnReadonly_Tests : MustInitializeAnalyz
 
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -32,7 +32,7 @@ internal class MustInitializeNotSupportedOnReadonly_Tests : MustInitializeAnalyz
 
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -49,7 +49,7 @@ internal class MustInitializeNotSupportedOnReadonly_Tests : MustInitializeAnalyz
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -69,7 +69,7 @@ internal class MustInitializeNotSupportedOnReadonly_Tests : MustInitializeAnalyz
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -85,6 +85,6 @@ internal class MustInitializeNotSupportedOnReadonly_Tests : MustInitializeAnalyz
 
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 }

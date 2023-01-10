@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.Testing;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize;
 
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "This is how Microsoft does it")]
 internal class MustInitializeCodeFixVerifierBase<TAnalyzer, TCodeFix, TNode>
         : CodeFixVerifierBase<TAnalyzer, TCodeFix>
     where TAnalyzer : MustInitializeAnalyzerBase, new()

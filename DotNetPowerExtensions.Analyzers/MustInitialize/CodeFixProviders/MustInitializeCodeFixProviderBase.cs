@@ -52,7 +52,7 @@ public abstract class MustInitializeCodeFixProviderBase<TAnalyzer, TNode> : Code
     {
         try
         {
-            var documentEditor = await DocumentEditor.CreateAsync(document).ConfigureAwait(false);
+            var documentEditor = await DocumentEditor.CreateAsync(document, c).ConfigureAwait(false);
 
             var result = await CreateChanges(document, declaration, c).ConfigureAwait(false);
             if (!result.HasValue) return document;

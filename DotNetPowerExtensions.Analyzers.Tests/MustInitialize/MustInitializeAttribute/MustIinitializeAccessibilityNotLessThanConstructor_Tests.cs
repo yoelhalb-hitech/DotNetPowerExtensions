@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustInitializeAnalyzerVerifierBase<MustIinitializeAccessibilityNotLessThanConstructor>
+internal sealed class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustInitializeAnalyzerVerifierBase<MustIinitializeAccessibilityNotLessThanConstructor>
 {
     public static List<string> AccessTypes = new List<string> { "private", "private protected", "protected", "internal", "internal protected", "public" };
     public static List<string> AccessTypesWithEmpty => AccessTypes.Union(new[] { "" }).ToList();
@@ -21,7 +21,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -37,7 +37,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     #region Non Diagnostics
@@ -60,7 +60,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -76,7 +76,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -99,7 +99,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -117,7 +117,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -140,7 +140,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -159,7 +159,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     #endregion
@@ -188,7 +188,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -207,7 +207,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -232,7 +232,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -252,7 +252,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -278,7 +278,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -299,7 +299,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -324,7 +324,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -344,7 +344,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -370,7 +370,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -391,7 +391,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -418,7 +418,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -440,7 +440,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         """;
 
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     #endregion
@@ -458,7 +458,7 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -473,6 +473,6 @@ internal class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustIn
         }        
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 }

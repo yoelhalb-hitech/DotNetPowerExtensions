@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class ExplicitImplementationNotAllowed_Tests : MustInitializeAnalyzerVerifierBase<ExplicitImplementationNotAllowed>
+internal sealed class ExplicitImplementationNotAllowed_Tests : MustInitializeAnalyzerVerifierBase<ExplicitImplementationNotAllowed>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
@@ -18,7 +18,7 @@ internal class ExplicitImplementationNotAllowed_Tests : MustInitializeAnalyzerVe
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -36,7 +36,7 @@ internal class ExplicitImplementationNotAllowed_Tests : MustInitializeAnalyzerVe
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -53,7 +53,7 @@ internal class ExplicitImplementationNotAllowed_Tests : MustInitializeAnalyzerVe
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -71,7 +71,7 @@ internal class ExplicitImplementationNotAllowed_Tests : MustInitializeAnalyzerVe
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -89,7 +89,7 @@ internal class ExplicitImplementationNotAllowed_Tests : MustInitializeAnalyzerVe
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -118,6 +118,6 @@ internal class ExplicitImplementationNotAllowed_Tests : MustInitializeAnalyzerVe
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 }

@@ -1,6 +1,8 @@
 ﻿
 namespace DotNetPowerExtensions.DependencyManagement;
 
+#pragma warning disable CA1813 // Avoid unsealed attributes
+
 // TODO... add analyzer to force subclasses to be services
 [AttributeUsage(AttributeTargets.Class|AttributeTargets.Struct|AttributeTargets.Interface, AllowMultiple = false, Inherited = false)]
 public abstract class DependencyAttribute : Attribute
@@ -11,7 +13,10 @@ public abstract class DependencyAttribute : Attribute
     }
 
     public virtual DependencyType DependencyType { get; }
+
+#pragma warning disable CA1716
     public virtual Type? For { get; set; }
+#pragma warning restore CA1716
 }
 
 public class ScopedAttribute : DependencyAttribute

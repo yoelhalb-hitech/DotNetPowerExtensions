@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class DisallowHidingMustInitialize_Tests : MustInitializeAnalyzerVerifierBase<DisallowHidingMustInitialize>
+internal sealed class DisallowHidingMustInitialize_Tests : MustInitializeAnalyzerVerifierBase<DisallowHidingMustInitialize>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
@@ -18,7 +18,7 @@ internal class DisallowHidingMustInitialize_Tests : MustInitializeAnalyzerVerifi
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -36,7 +36,7 @@ internal class DisallowHidingMustInitialize_Tests : MustInitializeAnalyzerVerifi
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -53,7 +53,7 @@ internal class DisallowHidingMustInitialize_Tests : MustInitializeAnalyzerVerifi
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -72,7 +72,7 @@ internal class DisallowHidingMustInitialize_Tests : MustInitializeAnalyzerVerifi
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -98,7 +98,7 @@ internal class DisallowHidingMustInitialize_Tests : MustInitializeAnalyzerVerifi
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -121,6 +121,6 @@ internal class DisallowHidingMustInitialize_Tests : MustInitializeAnalyzerVerifi
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 }

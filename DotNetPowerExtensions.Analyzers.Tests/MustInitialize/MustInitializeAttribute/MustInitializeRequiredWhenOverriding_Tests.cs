@@ -3,7 +3,7 @@ using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Cod
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal class MustInitializeRequiredWhenOverriding_Tests
+internal sealed class MustInitializeRequiredWhenOverriding_Tests
     : MustInitializeCodeFixVerifierBase<MustInitializeRequiredWhenOverriding, MustInitializeRequiredWhenOverridingCodeFixProvider, PropertyDeclarationSyntax>
 {
     [Test]
@@ -20,7 +20,7 @@ internal class MustInitializeRequiredWhenOverriding_Tests
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -38,7 +38,7 @@ internal class MustInitializeRequiredWhenOverriding_Tests
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -62,7 +62,7 @@ internal class MustInitializeRequiredWhenOverriding_Tests
 
         var codeFix = $"[MustInitialize]{Environment.NewLine}    ";
 
-        await VerifyCodeFixAsync(test, codeFix);
+        await VerifyCodeFixAsync(test, codeFix).ConfigureAwait(false);
     }
 
     [Test]
@@ -83,7 +83,7 @@ internal class MustInitializeRequiredWhenOverriding_Tests
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -103,7 +103,7 @@ internal class MustInitializeRequiredWhenOverriding_Tests
         }
         """;
 
-        await VerifyAnalyzerAsync(test);
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
     [Test]
@@ -147,6 +147,6 @@ internal class MustInitializeRequiredWhenOverriding_Tests
             $"[MustInitialize]{Environment.NewLine}    ",
         };
 
-        await VerifyCodeFixAsync(test, fixCode);
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
 }

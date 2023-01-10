@@ -1,4 +1,5 @@
 ﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using DotNetPowerExtensions.Polyfill;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
@@ -27,7 +28,7 @@ public class MustInitializeRequiredMembersCodeFixProvider : MustInitializeCodeFi
 
         var initalizer = typeDecl.Initializer
                         ?? SyntaxFactory.InitializerExpression(SyntaxKind.ObjectInitializerExpression);
-        foreach (var prop in props ?? new string[] { })
+        foreach (var prop in props ?? ArrayUtils.Empty<string>())
         {
             var expr = SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression,
                                                         SyntaxFactory.IdentifierName(prop),
