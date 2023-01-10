@@ -9,7 +9,7 @@ public abstract class MustInitializeRequiredMembersBase : MustInitializeAnalyzer
 {
     private static IEnumerable<Of<IPropertySymbol, IFieldSymbol>> GetMembersWithMustInitialize(IEnumerable<ITypeSymbol> symbols, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        Func<AttributeData, bool> hasMustInitialize = a => mustInitializeSymbols.Any(s => s.IsEqualTo(a.AttributeClass));
+        Func<AttributeData, bool> hasMustInitialize = a => mustInitializeSymbols.ContainsSymbol(a.AttributeClass);
 
         return symbols.SelectMany(s => s.GetMembers()
                                     .OfType<IPropertySymbol>()

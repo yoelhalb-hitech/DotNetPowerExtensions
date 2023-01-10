@@ -56,8 +56,7 @@ public class ShouldBeAssignableType : DiagnosticAnalyzer
                 || methodSymbol.Name != nameof(Of<object, object>.As)
                 || !methodSymbol.IsGenericMethod) return;
 
-            var unboundType = classType.ConstructUnboundGenericType();
-            if (!symbols.Any(s => s.ConstructUnboundGenericType().IsEqualTo(unboundType))) return;
+            if (!symbols.ContainsGeneric(classType)) return;
 
             var genericClassArgs = classType.TypeArguments;
             var methodArg = methodSymbol.TypeArguments.FirstOrDefault();

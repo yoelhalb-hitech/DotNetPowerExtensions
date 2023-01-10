@@ -51,7 +51,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
 
         var propSymbol = context.GetSemanticModel(member.SyntaxTree).GetDeclaredSymbol(member);
 
-        return propSymbol?.GetAttributes().Any(a => a.AttributeClass.IsEqualTo(mustInitializeDecl)) ?? false;
+        return propSymbol?.HasAttribute(mustInitializeDecl) ?? false;
     }
 
     private static void AnalyzeDiagnostic(Diagnostic diagnostic, SuppressionAnalysisContext context)
@@ -69,15 +69,11 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
                 || methodSymbol.Name != nameof(Of<object, object>.As)
                 || !methodSymbol.IsGenericMethod) return;
 
-            var unboundType = classType.ConstructUnboundGenericType();
-            if(unboundType is null) return;
-
             var typeName1 = typeof(DotNetPowerExtensions.Of.Of<,>).FullName!;
             var typeName2 = typeof(DotNetPowerExtensions.Of.Of<,,>).FullName!;
             var symbol1 = context.Compilation.GetTypeByMetadataName(typeName1);
             var symbol2 = context.Compilation.GetTypeByMetadataName(typeName2);
-            if ((symbol1 is null || !symbol1.ConstructUnboundGenericType().IsEqualTo(unboundType)) 
-                    && (symbol2 is null || !symbol2.ConstructUnboundGenericType().IsEqualTo(unboundType))) return;
+            if (!new[] { symbol1, symbol2 }.ContainsGeneric(classType)) return;
 
             context.ReportSuppression(Suppression.Create(OfRule, diagnostic));
         }

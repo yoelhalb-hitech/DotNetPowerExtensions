@@ -40,7 +40,16 @@ internal static class SymbolExtensions
 #else
         symbol is not null && other is not null && EqualityComparer<T>.Default.Equals(symbol, other);
 #endif
-    
+
+    public static bool IsGenericEqual<T>(this T? symbol, T? other) where T : INamedTypeSymbol
+        => symbol is not null && other?.IsGenericType == symbol!.IsGenericType 
+            && (!symbol!.IsGenericType ? symbol.IsEqualTo(other) : symbol.ConstructUnboundGenericType().IsEqualTo(other.ConstructUnboundGenericType()));
+
+    public static bool ContainsSymbol<T>(this IEnumerable<T> symbols, T? other) where T : ISymbol
+        => other is not null && symbols.Any(s => s.IsEqualTo(other));
+
+    public static bool ContainsGeneric<T>(this IEnumerable<T?> symbols, T? other) where T : INamedTypeSymbol
+        => other is not null && symbols.Any(s => s?.IsGenericEqual(other) ?? false);
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("MicrosoftCodeAnalysisCorrectness",
                 "RS1024:Symbols should be compared for equality", Justification = "Comparing to null")]
@@ -52,17 +61,17 @@ internal static class SymbolExtensions
         yield break;
     }
 
-    public static AttributeData? GetAttribute(this ISymbol symbol, ITypeSymbol[] attributeSymbols)
+    public static AttributeData? GetAttribute(this ISymbol symbol, INamedTypeSymbol[] attributeSymbols)
         => symbol
             .GetAttributes()
-            .FirstOrDefault(a => attributeSymbols.Any(s => s.IsEqualTo(a.AttributeClass?.ConstructedFrom)));
+            .FirstOrDefault(a => attributeSymbols.ContainsGeneric(a.AttributeClass?.ConstructedFrom));
 
-    public static bool HasAttribute(this ISymbol symbol, ITypeSymbol[] attributeSymbols)
+    public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol[] attributeSymbols)
         => symbol.GetAttribute(attributeSymbols) is not null;
 
-    public static AttributeData? GetAttribute(this ISymbol symbol, ITypeSymbol attributeSymbols)
-        => symbol.GetAttribute(new[] { attributeSymbols });
+    public static AttributeData? GetAttribute(this ISymbol symbol, INamedTypeSymbol attributeSymbol)
+        => symbol.GetAttribute(new[] { attributeSymbol });
 
-    public static bool HasAttribute(this ISymbol symbol, ITypeSymbol attributeSymbols)
-        => symbol.HasAttribute(new[] { attributeSymbols });
+    public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol? attributeSymbol)
+        => attributeSymbol is null ? false : symbol.HasAttribute(new[] { attributeSymbol });
 }

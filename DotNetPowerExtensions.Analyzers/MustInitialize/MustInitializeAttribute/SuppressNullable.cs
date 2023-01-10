@@ -50,7 +50,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
 
         var propSymbol = context.GetSemanticModel(member.SyntaxTree).GetDeclaredSymbol(member);
 
-        return propSymbol?.GetAttributes().Any(a => a.AttributeClass.IsEqualTo(mustInitializeDecl)) ?? false;
+        return propSymbol?.HasAttribute(mustInitializeDecl) ?? false;
     }
 
     private static void AnalyzeDiagnostic(Diagnostic diagnostic, SuppressionAnalysisContext context)
