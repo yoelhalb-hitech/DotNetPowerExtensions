@@ -39,18 +39,47 @@ You can now decorate your DI services with the an attribtue describing the servi
     
 And in your DI setup code, just have the following (Where `services` is an IServiceCollection instance):
 
-    services.AddDependencies(); // That's is
+    services.AddDependencies(); // That's it
+
+### 3.1 LocalService
+Many times we just want an object to be local to a specific function instead of having an object for the entire lifetime of the object.
+We can use for that `LocalService<>` which is like a factory class and decorate the service with `Local`.
+
+##### Example Code    
+    
+    // Declaring service
+    [Local]
+    public class TestClass : IDisposable { public void Dispose(){} }
+
+    // Using service
+    [Transient]
+    public class TestUserClass
+    {
+        private LocalService<TestClass> testClassFactory;
+        public TestUserClass(LocalService<TestClass> testClassFactory)
+        {
+            this.testClassFactory = testClassFactory;
+        }
+
+        public void SomeMethod()
+        {
+            using var testClass = testClassFactory.Get();
+            // Do something
+        }
+    }
 
 ### 4. MustInitialize
 
 - Allows you enforce that the given property or field has to be initialized when instantiated.
 - Removes the need to set a value when in a nullable context (in C# 8 and upwards) for such a property or field (NOTE: This only works in projects compatible with .Net Standard 2.0, as otherwise the functionality isn't available in Roslyn)
+- Also adds the ability to have DI services that the caller has to initialize before usage via `LocalService<>`
 
 ##### Update for C#11
 As C# 11 introduced the `required` keyword which has even more features than we have currently (but we hope to add and way more) then in general you should the new keyword instead.
 However MustInitalize stil has a use even in C#11 in the following situations:
 - When you want to be able to suppress it (as in C#11 it is a compile error not a warning)
 - When you want to be able to use in generic class with the `new()` constraint (which isn't allowed in C#)
+- We can initialize in a DI service by using a `LocaService<>` and passing an anonymous object with the required properties
 
 ##### Example Code
 
@@ -67,6 +96,32 @@ Without MustInitialize the following error will be reported on line 3
 However with MustInitialize it will report the following on line 5
 
     warning MustInitialize: Property 'TestProperty' must be initialized
+
+##### Example Code for DI service with LocalService
+
+    // Declaring service
+    [Local]
+    public class TestClass
+    {
+        [MustInitialize] public string TestProperty { get; set; } 
+    }
+
+    // Using service
+    [Transient]
+    public class TestUserClass
+    {
+        private LocalService<TestClass> testClassFactory;
+        public TestUserClass(LocalService<TestClass> testClassFactory)
+        {
+            this.testClassFactory = testClassFactory;
+        }
+
+        public void SomeMethod()
+        {
+            var testClass = testClassFactory.Get(new { TestProperty = "SomeString" });
+            Assert.Equals(testClass.TestProperty, "SomeString");
+        }
+    }
 
 ## Componenets of MustInitialize Analyzer
 - A Roslyn analyzer which can be installed as a Nuget package

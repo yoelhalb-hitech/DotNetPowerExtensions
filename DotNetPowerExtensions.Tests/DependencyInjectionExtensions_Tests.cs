@@ -19,6 +19,9 @@ public class DependencyInjectionExtensions_Tests
     [Singleton]
     internal sealed class FooSingleton { }
 
+    [Local]
+    internal sealed class FooLocal { }
+
     internal class FooBase { }
 
     [Transient(For = typeof(FooBase))]
@@ -30,6 +33,9 @@ public class DependencyInjectionExtensions_Tests
     [Singleton(For = typeof(FooBase))]
     internal sealed class FooSingletonForBase : FooBase { }
 
+    [Local(For = typeof(FooBase))]
+    internal sealed class FooLocalForBase : FooBase { }
+
     internal interface IFoo { }
 
     [Transient(For = typeof(IFoo))]
@@ -40,6 +46,9 @@ public class DependencyInjectionExtensions_Tests
 
     [Singleton(For = typeof(IFoo))]
     internal sealed class FooSingletonForInterface : IFoo { }
+
+    [Local(For = typeof(IFoo))]
+    internal sealed class FooLocalForInterface : IFoo { }
 
     #endregion
 
@@ -108,6 +117,32 @@ public class DependencyInjectionExtensions_Tests
     }
 
     [Test]
+    [TestCase(typeof(FooLocal))]
+    [TestCase(typeof(FooLocalForBase))]
+    [TestCase(typeof(FooLocalForInterface))]
+    public void Test_Singleton_RegistersLocalServiceForSelf(Type type)
+    {
+        var mock = new Mock<IServiceCollection>();
+
+        var list = new List<ServiceDescriptor>();
+
+        mock
+            .Setup(m => m.Add(It.IsAny<ServiceDescriptor>()))
+            .Callback<ServiceDescriptor>(c => list.Add(c));
+
+        DependencyInjectionExtensions.AddDependencies(mock.Object);
+
+        list.Any(GetPredicate(type, type, ServiceLifetime.Transient)).Should().BeFalse();
+        list.Any(GetPredicate(type, type, ServiceLifetime.Scoped)).Should().BeFalse();
+        list.Any(GetPredicate(type, type, ServiceLifetime.Singleton)).Should().BeFalse();
+
+        var constructed = typeof(LocalService<>).MakeGenericType(type);
+        list.Any(GetPredicate(constructed, constructed, ServiceLifetime.Transient)).Should().BeTrue();
+        list.Any(GetPredicate(constructed, constructed, ServiceLifetime.Scoped)).Should().BeFalse();
+        list.Any(GetPredicate(constructed, constructed, ServiceLifetime.Singleton)).Should().BeFalse();
+    }
+
+    [Test]
     [TestCase(typeof(FooTransientForBase), typeof(FooBase))]
     [TestCase(typeof(FooTransientForInterface), typeof(IFoo))]
     public void Test_Transient_RegistersFor(Type type, Type forType)
@@ -165,5 +200,31 @@ public class DependencyInjectionExtensions_Tests
         list.Any(GetPredicate(type, forType, ServiceLifetime.Transient)).Should().BeFalse();
         list.Any(GetPredicate(type, forType, ServiceLifetime.Scoped)).Should().BeFalse();
         list.Any(GetPredicate(type, forType, ServiceLifetime.Singleton)).Should().BeTrue();
+    }
+
+    [Test]
+    [TestCase(typeof(FooSingletonForBase), typeof(FooBase))]
+    [TestCase(typeof(FooSingletonForInterface), typeof(IFoo))]
+    public void Test_Singleton_RegistersLocalServiceFor(Type type, Type forType)
+    {
+        var mock = new Mock<IServiceCollection>();
+
+        var list = new List<ServiceDescriptor>();
+
+        mock
+            .Setup(m => m.Add(It.IsAny<ServiceDescriptor>()))
+            .Callback<ServiceDescriptor>(c => list.Add(c));
+
+        DependencyInjectionExtensions.AddDependencies(mock.Object);
+
+        list.Any(GetPredicate(type, forType, ServiceLifetime.Transient)).Should().BeFalse();
+        list.Any(GetPredicate(type, forType, ServiceLifetime.Scoped)).Should().BeFalse();
+        list.Any(GetPredicate(type, forType, ServiceLifetime.Singleton)).Should().BeFalse();
+
+        var constructed = typeof(LocalService<>).MakeGenericType(type);
+        var constructedFor = typeof(LocalService<>).MakeGenericType(forType);
+        list.Any(GetPredicate(constructed, constructedFor, ServiceLifetime.Transient)).Should().BeTrue();
+        list.Any(GetPredicate(constructed, constructed, ServiceLifetime.Scoped)).Should().BeFalse();
+        list.Any(GetPredicate(constructed, constructed, ServiceLifetime.Singleton)).Should().BeFalse();
     }
 }

@@ -18,6 +18,24 @@ internal static class SymbolExtensions
         return nameSpace;
     }
 
+    public static string ToStringWithoutNamesapce(this ITypeSymbol symbol)
+    {
+        string str = symbol.ToString()!; // This will handle correctly keywords such as string and generics and tuples
+
+        GetNamespaces(symbol).Distinct().ToList().ForEach(ns => str = str.Replace(ns + ".", "")); // But it also has namespaces whcih we have to remove
+        
+        return str;
+
+        IEnumerable<string> GetNamespaces(ITypeSymbol type)
+        {
+            if(type.ContainingNamespace is not null) yield return type.ContainingNamespace.ToString();
+
+            if (type is INamedTypeSymbol named && named.IsGenericType)
+                foreach (var t in named.TypeArguments)
+                    foreach (var @namespace in GetNamespaces(t)) yield return @namespace;
+        }
+    }
+
     // TODO... so far this doesn't work on inner methods...
     public static string GetContainerFullName(this ISymbol symbol)
     {

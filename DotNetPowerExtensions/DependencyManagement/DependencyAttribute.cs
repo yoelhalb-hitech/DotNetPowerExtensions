@@ -39,6 +39,17 @@ public class TransientAttribute<T> : TransientAttribute
     public TransientAttribute() => For = typeof(T);
 }
 
+public class LocalAttribute : DependencyAttribute
+{
+    public LocalAttribute() : base(DependencyType.Local) {}
+}
+
+public class LocalAttribute<T> : LocalAttribute
+{
+    public LocalAttribute() => For = typeof(T);
+}
+
+
 public class SingletonAttribute : DependencyAttribute
 {
     public SingletonAttribute() : base(DependencyType.Singleton) {}
@@ -48,6 +59,7 @@ public class SingletonAttribute<T> : SingletonAttribute
 {
     public SingletonAttribute() => For = typeof(T);
 }
+
 
 public class NonDependencyAttribute : DependencyAttribute
 {
