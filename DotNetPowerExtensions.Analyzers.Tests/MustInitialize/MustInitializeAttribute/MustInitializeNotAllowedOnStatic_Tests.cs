@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal sealed class MustInitializeNotAllowedOnStatic_Tests : MustInitializeAnalyzerVerifierBase<MustInitializeNotSupportedOnStatic>
+internal sealed class MustInitializeNotAllowedOnStatic_Tests : AnalyzerVerifierBase<MustInitializeNotSupportedOnStatic>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()

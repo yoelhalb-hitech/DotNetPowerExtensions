@@ -1,8 +1,6 @@
 ﻿#pragma warning disable CA1716
 
-using DotNetPowerExtensions.AccessControl;
-
-namespace DotNetPowerExtensions.Of;
+namespace DotNetPowerExtensions;
 
 internal interface IOf
 {

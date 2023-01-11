@@ -1,13 +1,8 @@
-﻿using DotNetPowerExtensions.Of;
+﻿using DotNetPowerExtensions;
 using DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
 using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 using DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
-using Microsoft.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
-using System.Xml.Linq;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.CodeFixProviders;
 

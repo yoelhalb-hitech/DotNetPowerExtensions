@@ -1,7 +1,4 @@
-﻿
-using DotNetPowerExtensions.Of;
-using Microsoft.CodeAnalysis.CSharp;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DotNetPowerExtensions.Analyzers.Of;
@@ -29,8 +26,8 @@ public class ShouldBeAssignableType : DiagnosticAnalyzer
 
             context.RegisterCompilationStartAction(compilationContext =>
             {
-                var typeName1 = typeof(DotNetPowerExtensions.Of.Of<,>).FullName!;
-                var typeName2 = typeof(DotNetPowerExtensions.Of.Of<,,>).FullName!;
+                var typeName1 = typeof(DotNetPowerExtensions.Of<,>).FullName!;
+                var typeName2 = typeof(DotNetPowerExtensions.Of<,,>).FullName!;
                 var symbol1 = compilationContext.Compilation.GetTypeByMetadataName(typeName1);
                 var symbol2 = compilationContext.Compilation.GetTypeByMetadataName(typeName2);
                 if (symbol1 is null && symbol2 is null) return;

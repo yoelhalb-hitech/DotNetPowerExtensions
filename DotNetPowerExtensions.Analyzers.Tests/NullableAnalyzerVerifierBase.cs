@@ -7,9 +7,12 @@ using System.Threading;
 namespace DotNetPowerExtensions.Analyzers.Tests;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "This is how Microsoft does it")]
-public abstract class NullableAnalyzerVerifierBase<TAnlayzer> : AnalyzerVerifier<TAnlayzer, CSharpAnalyzerTest<TAnlayzer, NUnitVerifier>, NUnitVerifier>
-            where TAnlayzer : DiagnosticAnalyzer, new()
+internal abstract class NullableAnalyzerVerifierBase<TAnalyzer> : AnalyzerVerifier<TAnalyzer, CSharpAnalyzerTest<TAnalyzer, NUnitVerifier>, NUnitVerifier>
+            where TAnalyzer : DiagnosticAnalyzer, new()
 {
+    public static string[] Suffixes = AnalyzerVerifierBase<TAnalyzer>.Suffixes;
+    public static string[] Prefixes = AnalyzerVerifierBase<TAnalyzer>.Prefixes;
+
     [Obsolete("Use NullableVerifyAnalyzerAsync instead")]
     public static new Task VerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)
     {
@@ -17,13 +20,13 @@ public abstract class NullableAnalyzerVerifierBase<TAnlayzer> : AnalyzerVerifier
     }
     public static Task NullableVerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)
     {
-        var test = new NullableCSharpAnalyzerTest<TAnlayzer, NUnitVerifier>
+        var test = new NullableCSharpAnalyzerTest<TAnalyzer, NUnitVerifier>
         {
-            TestCode = "#nullable enable" + Environment.NewLine + source,
+            TestCode = "#nullable enable" + Environment.NewLine + AnalyzerVerifierBase<TAnalyzer>.NamespacePart + source,
         };       
 
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
-                                                typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute).Assembly.Location));
+                                                typeof(DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
         test.ExpectedDiagnostics.AddRange(expected);
 
         return test.RunAsync(CancellationToken.None);

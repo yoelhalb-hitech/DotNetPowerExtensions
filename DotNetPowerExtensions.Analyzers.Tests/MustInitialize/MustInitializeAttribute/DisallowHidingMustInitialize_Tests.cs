@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal sealed class DisallowHidingMustInitialize_Tests : MustInitializeAnalyzerVerifierBase<DisallowHidingMustInitialize>
+internal sealed class DisallowHidingMustInitialize_Tests : AnalyzerVerifierBase<DisallowHidingMustInitialize>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()

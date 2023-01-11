@@ -1,5 +1,5 @@
 ﻿
-namespace DotNetPowerExtensions.DependencyManagement;
+namespace DotNetPowerExtensions;
 
 public enum DependencyType
 {

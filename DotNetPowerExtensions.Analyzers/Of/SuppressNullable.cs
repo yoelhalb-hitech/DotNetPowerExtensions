@@ -1,4 +1,4 @@
-﻿using DotNetPowerExtensions.Of;
+﻿using DotNetPowerExtensions;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
@@ -37,7 +37,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
     {
         // Make sure it is the correct type and not just something with the same name...            
         var mustInitializeDecl = context.Compilation
-                    .GetTypeByMetadataName(typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute).FullName!);
+                    .GetTypeByMetadataName(typeof(DotNetPowerExtensions.MustInitializeAttribute).FullName!);
         if (mustInitializeDecl is null) return false;
 
         var propSymbols = context.Compilation.GetSymbolsWithName(name);
@@ -69,8 +69,8 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
                 || methodSymbol.Name != nameof(Of<object, object>.As)
                 || !methodSymbol.IsGenericMethod) return;
 
-            var typeName1 = typeof(DotNetPowerExtensions.Of.Of<,>).FullName!;
-            var typeName2 = typeof(DotNetPowerExtensions.Of.Of<,,>).FullName!;
+            var typeName1 = typeof(DotNetPowerExtensions.Of<,>).FullName!;
+            var typeName2 = typeof(DotNetPowerExtensions.Of<,,>).FullName!;
             var symbol1 = context.Compilation.GetTypeByMetadataName(typeName1);
             var symbol2 = context.Compilation.GetTypeByMetadataName(typeName2);
             if (!new[] { symbol1, symbol2 }.ContainsGeneric(classType)) return;

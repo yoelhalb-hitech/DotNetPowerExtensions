@@ -16,5 +16,5 @@ public class CannotUseBaseImplementationForMustInitialize : CannotUseBaseImpleme
     protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Title, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message);
 
 
-    protected override Type AttributeType => typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute);
+    protected override Type AttributeType => typeof(DotNetPowerExtensions.MustInitializeAttribute);
 }

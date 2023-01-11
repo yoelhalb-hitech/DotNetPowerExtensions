@@ -3,7 +3,7 @@
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
 internal sealed class MustInitializeDefaultInterfaceImplementationNotAllowed_Tests
-    : MustInitializeAnalyzerVerifierBase<MustInitializeNotAllowedOnDefaultInterfaceImplementation>
+                            : AnalyzerVerifierBase<MustInitializeNotAllowedOnDefaultInterfaceImplementation>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()

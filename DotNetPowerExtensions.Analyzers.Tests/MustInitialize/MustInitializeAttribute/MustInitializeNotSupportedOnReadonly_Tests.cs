@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal sealed class MustInitializeNotSupportedOnReadonly_Tests : MustInitializeAnalyzerVerifierBase<MustInitializeNotSupportedOnReadonly>
+internal sealed class MustInitializeNotSupportedOnReadonly_Tests : AnalyzerVerifierBase<MustInitializeNotSupportedOnReadonly>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
@@ -57,8 +57,6 @@ internal sealed class MustInitializeNotSupportedOnReadonly_Tests : MustInitializ
                                                                             [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         namespace System.Runtime.CompilerServices { public class IsExternalInit{} } // Needed so far for compiling
 
         public class TypeName

@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal sealed class MustInitializeNotAllowedOnExplicitImplementation_Tests : MustInitializeAnalyzerVerifierBase<MustInitializeNotAllowedOnExplicitImplementation>
+internal sealed class MustInitializeNotAllowedOnExplicitImplementation_Tests : AnalyzerVerifierBase<MustInitializeNotAllowedOnExplicitImplementation>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
@@ -60,8 +60,6 @@ internal sealed class MustInitializeNotAllowedOnExplicitImplementation_Tests : M
     public async Task Test_Works_WithSubclassedInterface([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             string TestProp { get; set; }

@@ -36,7 +36,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
     {
         // Make sure it is the correct type and not just something with the same name...            
         var mustInitializeDecl = context.Compilation
-                    .GetTypeByMetadataName(typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute).FullName!);
+                    .GetTypeByMetadataName(typeof(DotNetPowerExtensions.MustInitializeAttribute).FullName!);
         if (mustInitializeDecl is null) return false;
 
         var propSymbols = context.Compilation.GetSymbolsWithName(name);

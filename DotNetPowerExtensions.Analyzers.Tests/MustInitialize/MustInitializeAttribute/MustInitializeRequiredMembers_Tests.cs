@@ -4,8 +4,8 @@ using Microsoft.CodeAnalysis.Testing;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal sealed class MustIinitializeRequiredMembers_Tests
-    : MustInitializeCodeFixVerifierBase<MustInitializeRequiredMembers, MustInitializeRequiredMembersCodeFixProvider, ObjectCreationExpressionSyntax>
+internal sealed class MustInitializeRequiredMembers_Tests
+                    : CodeFixVerifierBase<MustInitializeRequiredMembers, MustInitializeRequiredMembersCodeFixProvider>
 {
     [Test]
     public async Task Test_HasCorrectMessage([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)

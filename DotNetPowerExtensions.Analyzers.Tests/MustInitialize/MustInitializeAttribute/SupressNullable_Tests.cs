@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal sealed class SupressNullable_Tests : NullableMustInitializeAnalyzerVerifierBase<SuppressNullableAnalyzer>
+internal sealed class SupressNullable_Tests : NullableAnalyzerVerifierBase<SuppressNullableAnalyzer>
 {
     [Test]
     public async Task Test_Warns_WhenNoMustInitialize()

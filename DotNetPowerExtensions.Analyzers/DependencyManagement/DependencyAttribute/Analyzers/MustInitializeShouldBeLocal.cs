@@ -1,8 +1,7 @@
 ﻿
 using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using DotNetPowerExtensions.DependencyManagement;
+using DotNetPowerExtensions;
 using System.Diagnostics.CodeAnalysis;
-using System.Xml.Linq;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 

@@ -1,4 +1,3 @@
-using DotNetPowerExtensions.DependencyManagement;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;

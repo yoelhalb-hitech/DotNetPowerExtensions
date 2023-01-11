@@ -1,8 +1,7 @@
-﻿using DotNetPowerExtensions.AccessControl;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable CA1716
-namespace DotNetPowerExtensions.Of;
+namespace DotNetPowerExtensions;
 
 public struct Of<TFirst, TSecond> : IOf
     where TFirst : class 

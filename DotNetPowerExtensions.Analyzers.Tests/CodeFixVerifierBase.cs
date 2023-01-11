@@ -3,17 +3,18 @@ using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
-using System.Threading;
-using System;
 
 namespace DotNetPowerExtensions.Analyzers.Tests;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "This is how Microsoft does it")]
-public abstract class CodeFixVerifierBase<TAnlayzer, TCodeFix> : 
-                        CodeFixVerifier<TAnlayzer, TCodeFix, CSharpCodeFixTest<TAnlayzer, TCodeFix, NUnitVerifier>, NUnitVerifier>
-            where TAnlayzer : DiagnosticAnalyzer, new()
+internal abstract class CodeFixVerifierBase<TAnalyzer, TCodeFix> : 
+                        CodeFixVerifier<TAnalyzer, TCodeFix, CSharpCodeFixTest<TAnalyzer, TCodeFix, NUnitVerifier>, NUnitVerifier>
+            where TAnalyzer : DiagnosticAnalyzer, new()
             where TCodeFix : CodeFixProvider, new()
 {
+    public static string[] Suffixes = AnalyzerVerifierBase<TAnalyzer>.Suffixes;
+    public static string[] Prefixes = AnalyzerVerifierBase<TAnalyzer>.Prefixes;
+
     public static Task VerifyCodeFixAsync(string source, params string[] fixedSource)
         => VerifyCodeFixAsync(source, DiagnosticResult.EmptyDiagnosticResults, fixedSource);
 
@@ -28,13 +29,13 @@ public abstract class CodeFixVerifierBase<TAnlayzer, TCodeFix> :
 
     public static new Task VerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)
     {
-        var test = new CSharpAnalyzerTest<TAnlayzer, NUnitVerifier>
+        var test = new CSharpAnalyzerTest<TAnalyzer, NUnitVerifier>
         {
-            TestCode = source,
+            TestCode = AnalyzerVerifierBase<TAnalyzer>.NamespacePart + source,
         };
 
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
-                                                typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute).Assembly.Location));
+                                                typeof(DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
         test.ExpectedDiagnostics.AddRange(expected);
 
         return test.RunAsync(CancellationToken.None);
@@ -56,6 +57,8 @@ public abstract class CodeFixVerifierBase<TAnlayzer, TCodeFix> :
         if(string.IsNullOrWhiteSpace(source)) throw new ArgumentNullException(nameof(source));
         if(string.IsNullOrWhiteSpace(fixedSource?.FirstOrDefault())) throw new ArgumentNullException(nameof(fixedSource));
 #endif
+        source = AnalyzerVerifierBase<TAnalyzer>.NamespacePart + source;
+
         var newFix = fixedSource.First();
         if (source.Contains("/:") && source.Contains(":/"))
         {
@@ -68,14 +71,14 @@ public abstract class CodeFixVerifierBase<TAnlayzer, TCodeFix> :
         else if (fixedSource.Length > 1)
             throw new System.Exception("Cannot have multiple fix strings if the source doesn't have the /::/ placeholders");
 
-        var test = new CSharpCodeFixTest<TAnlayzer, TCodeFix, NUnitVerifier>
+        var test = new CSharpCodeFixTest<TAnalyzer, TCodeFix, NUnitVerifier>
         {
             TestCode = source,
             FixedCode = newFix,
         };
 
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
-                                                typeof(DotNetPowerExtensions.MustInitialize.MustInitializeAttribute).Assembly.Location));
+                                                typeof(DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
         test.ExpectedDiagnostics.AddRange(expected);
 
         return test.RunAsync(CancellationToken.None);

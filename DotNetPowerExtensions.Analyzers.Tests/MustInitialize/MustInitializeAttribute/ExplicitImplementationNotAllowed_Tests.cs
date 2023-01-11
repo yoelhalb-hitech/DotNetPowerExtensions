@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal sealed class ExplicitImplementationNotAllowed_Tests : MustInitializeAnalyzerVerifierBase<ExplicitImplementationNotAllowed>
+internal sealed class ExplicitImplementationNotAllowed_Tests : AnalyzerVerifierBase<ExplicitImplementationNotAllowed>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()

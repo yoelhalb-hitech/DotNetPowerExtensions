@@ -1,5 +1,5 @@
 ﻿
-namespace DotNetPowerExtensions.DependencyManagement;
+namespace DotNetPowerExtensions;
 
 #pragma warning disable CA1813 // Avoid unsealed attributes
 

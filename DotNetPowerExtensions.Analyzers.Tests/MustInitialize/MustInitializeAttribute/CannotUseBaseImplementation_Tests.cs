@@ -4,8 +4,7 @@ using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Cod
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
 internal sealed class CannotUseBaseImplementation_Tests
-    : MustInitializeCodeFixVerifierBase<CannotUseBaseImplementationForMustInitialize,
-                        CannotUseBaseImplementationForMustInitializeCodeFixProvider, TypeDeclarationSyntax>
+                    : CodeFixVerifierBase<CannotUseBaseImplementationForMustInitialize, CannotUseBaseImplementationForMustInitializeCodeFixProvider>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()

@@ -19,8 +19,8 @@ internal class ShouldBeAssignableType_Tests : AnalyzerVerifierBase<ShouldBeAssig
         { 
             void Main() 
             { 
-                _ = new DotNetPowerExtensions.Of.Of<DeclareType1, DeclareType2>(new DeclareType1()).[|As<DeclareType3>|](); 
-                _ = new DotNetPowerExtensions.Of.Of<DeclareType1, DeclareType2, DeclareType3>(new DeclareType1()).[|As<DeclareType4>|]();            
+                _ = new Of<DeclareType1, DeclareType2>(new DeclareType1()).[|As<DeclareType3>|](); 
+                _ = new Of<DeclareType1, DeclareType2, DeclareType3>(new DeclareType1()).[|As<DeclareType4>|]();            
             }
         }
         
@@ -36,7 +36,7 @@ internal class ShouldBeAssignableType_Tests : AnalyzerVerifierBase<ShouldBeAssig
         public class DeclareType1{}
         public class DeclareType2{} 
 
-        class Program { void Main() => new DotNetPowerExtensions.Of.Of<DeclareType1, DeclareType2>(new DeclareType1()).As<DeclareType1>(); }
+        class Program { void Main() => new Of<DeclareType1, DeclareType2>(new DeclareType1()).As<DeclareType1>(); }
         
         """;
 
@@ -51,7 +51,7 @@ internal class ShouldBeAssignableType_Tests : AnalyzerVerifierBase<ShouldBeAssig
         public class DeclareType1 : IDeclareType {}
         public class DeclareType2 : IDeclareType {}
 
-        class Program { void Main() => new DotNetPowerExtensions.Of.Of<DeclareType1, DeclareType2>(new DeclareType1()).As<IDeclareType>(); }
+        class Program { void Main() => new Of<DeclareType1, DeclareType2>(new DeclareType1()).As<IDeclareType>(); }
         
         """;
 
@@ -61,7 +61,7 @@ internal class ShouldBeAssignableType_Tests : AnalyzerVerifierBase<ShouldBeAssig
     [Test]
     public async Task Test_DoesNotWarn_WhenOther()
     {
-        var test = $$"""        
+        var test = $$"""
         public class DeclareType1 {}
         public class DeclareType2 {}
         public class DeclareType3 {}

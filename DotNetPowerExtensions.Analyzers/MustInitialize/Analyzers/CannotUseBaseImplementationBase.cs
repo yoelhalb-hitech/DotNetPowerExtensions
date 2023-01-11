@@ -1,4 +1,4 @@
-﻿using DotNetPowerExtensions.Polyfill;
+﻿using DotNetPowerExtensions;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 

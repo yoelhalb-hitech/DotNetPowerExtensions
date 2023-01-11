@@ -1,7 +1,4 @@
-
-using DotNetPowerExtensions.Of;
-using Microsoft.CodeAnalysis;
-using System.Reflection;
+using DotNetPowerExtensions;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 

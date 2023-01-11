@@ -1,10 +1,8 @@
-﻿
-using DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
-using DotNetPowerExtensions.Analyzers.Tests.MustInitialize;
+﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.LocalService;
 
-internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : MustInitializeAnalyzerVerifierBase<OnlyAnonymousForRequiredMembersForLocalService>
+internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : AnalyzerVerifierBase<OnlyAnonymousForRequiredMembersForLocalService>
 {
     [Test]
     public async Task Test_DoesNotWarnWhenNoAttribute()
@@ -19,7 +17,7 @@ internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : MustInitia
             public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get(); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -39,7 +37,7 @@ internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : MustInitia
             [MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get(); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -58,7 +56,7 @@ internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : MustInitia
             [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get([|new DeclareType{}|]); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new DeclareType{}|]); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -77,7 +75,7 @@ internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : MustInitia
             [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get([|new DeclareType()|]); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new DeclareType()|]); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -96,7 +94,7 @@ internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : MustInitia
             [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
         public class Other{}
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get([|new Other{}|]); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new Other{}|]); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotNetPowerExtensions.Polyfill;
+﻿
+namespace DotNetPowerExtensions;
 
 public static class ArrayUtils
 {

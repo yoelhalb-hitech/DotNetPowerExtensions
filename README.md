@@ -10,7 +10,7 @@ Therefore we created a low ceremony typesafe struct Of<> taking 2 or 3 type argu
 
 ##### Example Code
     
-    using DotNetPowerExtensions.Of;
+    using DotNetPowerExtensions;
 
     public interface IReturnType { string Name { get; set; }}
     public class ReturnType1 : IReturnType { public string Name { get; set; }}

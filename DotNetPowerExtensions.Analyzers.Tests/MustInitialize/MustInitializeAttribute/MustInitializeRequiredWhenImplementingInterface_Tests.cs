@@ -4,8 +4,7 @@ using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Cod
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
 internal sealed class MustInitializeRequiredWhenImplementingInterface_Tests
-                    : MustInitializeCodeFixVerifierBase<MustInitializeRequiredWhenImplementingInterface,
-                        MustInitializeRequiredWhenImplementingInterfaceCodeFixProvider, PropertyDeclarationSyntax>
+                    : CodeFixVerifierBase<MustInitializeRequiredWhenImplementingInterface, MustInitializeRequiredWhenImplementingInterfaceCodeFixProvider>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()

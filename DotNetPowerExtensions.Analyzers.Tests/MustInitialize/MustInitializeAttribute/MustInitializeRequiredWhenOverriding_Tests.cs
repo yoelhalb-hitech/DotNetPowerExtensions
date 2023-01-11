@@ -4,7 +4,7 @@ using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Cod
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
 internal sealed class MustInitializeRequiredWhenOverriding_Tests
-    : MustInitializeCodeFixVerifierBase<MustInitializeRequiredWhenOverriding, MustInitializeRequiredWhenOverridingCodeFixProvider, PropertyDeclarationSyntax>
+    : CodeFixVerifierBase<MustInitializeRequiredWhenOverriding, MustInitializeRequiredWhenOverridingCodeFixProvider>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
@@ -110,8 +110,6 @@ internal sealed class MustInitializeRequiredWhenOverriding_Tests
     public async Task Test_Works_WithMultiple([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public class DeclareTypeBase
         {
             public string OtherMethod() => "Test";

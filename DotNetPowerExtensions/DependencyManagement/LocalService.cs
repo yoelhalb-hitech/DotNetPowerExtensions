@@ -1,10 +1,6 @@
-﻿using DotNetPowerExtensions.AccessControl;
-using DotNetPowerExtensions.MustInitialize;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
+﻿using System.Reflection;
 
-namespace DotNetPowerExtensions.DependencyManagement;
+namespace DotNetPowerExtensions;
 
 public class LocalService<TClass>
 {

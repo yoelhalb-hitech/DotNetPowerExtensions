@@ -1,10 +1,9 @@
 ﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
-using DotNetPowerExtensions.Analyzers.Tests.MustInitialize;
 using Microsoft.CodeAnalysis.Testing;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.LocalService;
 
-internal class TypeMismatchForLocalService_Tests: MustInitializeAnalyzerVerifierBase<TypeMismatchForLocalService>
+internal class TypeMismatchForLocalService_Tests: AnalyzerVerifierBase<TypeMismatchForLocalService>
 {
     [Test]
     public async Task Test_HasCorrectMessage([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
@@ -20,7 +19,7 @@ internal class TypeMismatchForLocalService_Tests: MustInitializeAnalyzerVerifier
         }
 
         class Program { void Main() => 
-            new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(new 
+            new LocalService<DeclareType>(null).Get(new 
             {
                 TestProp = 10,
                 TestGeneralName = "",
@@ -54,7 +53,7 @@ internal class TypeMismatchForLocalService_Tests: MustInitializeAnalyzerVerifier
         }
 
         class Program { void Main() => 
-            new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(new 
+            new LocalService<DeclareType>(null).Get(new 
             {
                 TestProp = 10,
                 TestGeneralName = "",
@@ -80,7 +79,7 @@ internal class TypeMismatchForLocalService_Tests: MustInitializeAnalyzerVerifier
         }
 
         class Program { void Main() => 
-            new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(new 
+            new LocalService<DeclareType>(null).Get(new 
             {
                 TestProp = 10,
                 TestGeneralName = "",
@@ -105,7 +104,7 @@ internal class TypeMismatchForLocalService_Tests: MustInitializeAnalyzerVerifier
         }
 
         class Program { void Main() => 
-            new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(new 
+            new LocalService<DeclareType>(null).Get(new 
             {
                 TestProp = [|10|],
                 TestGeneralName = [|""|],
@@ -131,7 +130,7 @@ internal class TypeMismatchForLocalService_Tests: MustInitializeAnalyzerVerifier
         public class Subclass : DeclareType{}
 
         class Program { void Main() => 
-            new DotNetPowerExtensions.DependencyManagement.LocalService<Subclass>(null).Get(new 
+            new LocalService<Subclass>(null).Get(new 
             {
                 TestProp = [|10|],
                 TestGeneralName = [|""|],
@@ -160,7 +159,7 @@ internal class TypeMismatchForLocalService_Tests: MustInitializeAnalyzerVerifier
         }
 
         class Program { void Main() => 
-            new DotNetPowerExtensions.DependencyManagement.LocalService<Subclass>(null).Get(new 
+            new LocalService<Subclass>(null).Get(new 
             {
                 TestProp = 10,
                 TestGeneralName = "",

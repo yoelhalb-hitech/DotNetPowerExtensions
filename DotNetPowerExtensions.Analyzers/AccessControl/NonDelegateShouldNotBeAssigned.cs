@@ -1,6 +1,4 @@
-﻿
-using Microsoft.CodeAnalysis;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DotNetPowerExtensions.Analyzers.AccessControl;
@@ -30,7 +28,7 @@ public class NonDelegateShouldNotBeAssigned : DiagnosticAnalyzer
 
             context.RegisterCompilationStartAction(compilationContext =>
             {
-                var typeName = typeof(DotNetPowerExtensions.AccessControl.NonDelegateAttribute).FullName!;
+                var typeName = typeof(DotNetPowerExtensions.NonDelegateAttribute).FullName!;
                 var symbol = compilationContext.Compilation.GetTypeByMetadataName(typeName);
                 if (symbol is null) return;
 

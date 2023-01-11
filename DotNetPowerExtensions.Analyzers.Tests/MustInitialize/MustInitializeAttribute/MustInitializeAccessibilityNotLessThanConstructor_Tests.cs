@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
-internal sealed class MustIinitializeAccessibilityNotLessThanConstructor_Tests : MustInitializeAnalyzerVerifierBase<MustIinitializeAccessibilityNotLessThanConstructor>
+internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : AnalyzerVerifierBase<MustIinitializeAccessibilityNotLessThanConstructor>
 {
     public static List<string> AccessTypes = new List<string> { "private", "private protected", "protected", "internal", "internal protected", "public" };
     public static List<string> AccessTypesWithEmpty => AccessTypes.Union(new[] { "" }).ToList();
@@ -450,8 +450,6 @@ internal sealed class MustIinitializeAccessibilityNotLessThanConstructor_Tests :
     {
         // Because it depends on the ctor we don't care on interfaces
         var test = $$"""
-        using DotNetPowerExtensions.MustInitialize;
-
         public interface IDeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] internal string TestProp { get; set; }

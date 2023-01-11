@@ -1,12 +1,11 @@
 ﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
 using DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.CodeFixProviders;
-using DotNetPowerExtensions.Analyzers.Tests.MustInitialize;
 using Microsoft.CodeAnalysis.Testing;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.LocalService;
 
 internal sealed class MustIinitializeRequiredMembersForLocal_Tests
-    : MustInitializeCodeFixVerifierBase<MustIinitializeRequiredMembersForLocalService, MustInitializeRequiredMembersForLocalCodeFixProvider, InvocationExpressionSyntax>
+                    : CodeFixVerifierBase<MustIinitializeRequiredMembersForLocalService, MustInitializeRequiredMembersForLocalCodeFixProvider>
 {
     [Test]
     public async Task Test_HasCorrectMessage([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
@@ -18,7 +17,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get(); }
         """;
 
         await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0201", DiagnosticSeverity.Warning)
@@ -40,7 +39,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get[|(/::/)|]; }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get[|(/::/)|]; }
         """;
 
         var fixCode = $$"""new { TestProp = default(string), TestGeneralName = default(AppDomain), TestField = default(List<(string, int)>) }""";
@@ -67,7 +66,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             {
                 var TestField = "Test";
                 var t = new Type2();
-                _ = new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(new { TestProp = default(string), TestField, new Type1().TestProp1, t?.TestField1 });
+                _ = new LocalService<DeclareType>(null).Get(new { TestProp = default(string), TestField, new Type1().TestProp1, t?.TestField1 });
             }
         }
         """;
@@ -85,7 +84,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             public string TestField;
         }
         
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get(); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -102,7 +101,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [MustInitialize{{suffix}}] public string TestField;
         }
         
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get(); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -118,7 +117,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get([|new {/::/}|]); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new {/::/}|]); }
         """;
 
         var fixCode = $$""" TestProp = default(string), TestField = default(string) """;
@@ -137,7 +136,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(new DeclareType{}); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get(new DeclareType{}); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -154,7 +153,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get(new DeclareType()); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get(new DeclareType()); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -172,7 +171,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             public string TestOther { get; set; }
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get([|new { TestOther = "Testing"/::/ }|]); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new { TestOther = "Testing"/::/ }|]); }
         """;
 
         var fixCode = $$""", TestProp = default(string), TestField = default(string)""";
@@ -190,8 +189,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;            
         }
 
-        class Program { void Main() => 
-                new DotNetPowerExtensions.DependencyManagement.LocalService<DeclareType>(null).Get([|new { TestProp = "Testing"/::/ }|]); }
+        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new { TestProp = "Testing"/::/ }|]); }
         """;
 
         var fixCode = $$""", TestField = default(string)""";
@@ -210,7 +208,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
         }
         public class Subclass : DeclareType {}
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<Subclass>(null).Get[|(/::/)|]; }
+        class Program { void Main() => new LocalService<Subclass>(null).Get[|(/::/)|]; }
         """;
 
         var fixCode = $$"""new { TestProp = default(string), TestField = default(string) }""";
@@ -232,7 +230,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<Subclass>(null).Get(); }
+        class Program { void Main() => new LocalService<Subclass>(null).Get(); }
         """;
 
         await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0201", DiagnosticSeverity.Warning)
@@ -254,7 +252,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<Subclass>(null).Get[|(/::/)|]; }
+        class Program { void Main() => new LocalService<Subclass>(null).Get[|(/::/)|]; }
         """;
 
         var fixCode = $$"""new { TestProp = default(string) }""";
@@ -277,7 +275,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }
 
-        class Program { void Main() => new DotNetPowerExtensions.DependencyManagement.LocalService<Subclass>(null).Get(new { TestProp = ""}); }
+        class Program { void Main() => new LocalService<Subclass>(null).Get(new { TestProp = ""}); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);

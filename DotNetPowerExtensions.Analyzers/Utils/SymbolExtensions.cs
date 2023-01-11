@@ -26,13 +26,13 @@ internal static class SymbolExtensions
         
         return str;
 
-        IEnumerable<string> GetNamespaces(ITypeSymbol type)
+        static IEnumerable<string> GetNamespaces(ITypeSymbol type)
         {
-            if(type.ContainingNamespace is not null) yield return type.ContainingNamespace.ToString();
+            if(type.ContainingNamespace is not null) yield return type.ContainingNamespace!.ToString()!;
 
             if (type is INamedTypeSymbol named && named.IsGenericType)
                 foreach (var t in named.TypeArguments)
-                    foreach (var @namespace in GetNamespaces(t)) yield return @namespace;
+                    foreach (var @namespace in GetNamespaces(t)) yield return @namespace!;
         }
     }
 
@@ -69,8 +69,6 @@ internal static class SymbolExtensions
     public static bool ContainsGeneric<T>(this IEnumerable<T?> symbols, T? other) where T : INamedTypeSymbol
         => other is not null && symbols.Any(s => s?.IsGenericEqual(other) ?? false);
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("MicrosoftCodeAnalysisCorrectness",
-                "RS1024:Symbols should be compared for equality", Justification = "Comparing to null")]
     public static IEnumerable<ITypeSymbol> GetAllBaseTypes(this ITypeSymbol symbol)
     {
         for (var baseType = symbol.BaseType; baseType is not null; baseType = baseType.BaseType)
@@ -91,5 +89,5 @@ internal static class SymbolExtensions
         => symbol.GetAttribute(new[] { attributeSymbol });
 
     public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol? attributeSymbol)
-        => attributeSymbol is null ? false : symbol.HasAttribute(new[] { attributeSymbol });
+        => attributeSymbol is not null && symbol.HasAttribute(new[] { attributeSymbol });
 }
