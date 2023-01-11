@@ -4,22 +4,22 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class MustInitializeRequiredMembersBase : MustInitializeAnalyzerBase
 {
-    private static IEnumerable<Of<IPropertySymbol, IFieldSymbol>> GetMembersWithMustInitialize(IEnumerable<ITypeSymbol> symbols, INamedTypeSymbol[] mustInitializeSymbols)
+    private static IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetMembersWithMustInitialize(IEnumerable<ITypeSymbol> symbols, INamedTypeSymbol[] mustInitializeSymbols)
     {
         Func<AttributeData, bool> hasMustInitialize = a => mustInitializeSymbols.ContainsSymbol(a.AttributeClass);
 
         return symbols.SelectMany(s => s.GetMembers()
                                     .OfType<IPropertySymbol>()
                                     .Where(p => !p.IsReadOnly && p.GetAttributes().Any(hasMustInitialize))
-                                    .Select(p => new Of<IPropertySymbol, IFieldSymbol>(p))
+                                    .Select(p => new Union<IPropertySymbol, IFieldSymbol>(p))
                                 .Concat(
                                     s.GetMembers()
                                         .OfType<IFieldSymbol>()
                                         .Where(p => !p.IsReadOnly && p.GetAttributes().Any(hasMustInitialize))
-                                        .Select(p => new Of<IPropertySymbol, IFieldSymbol>(p))));
+                                        .Select(p => new Union<IPropertySymbol, IFieldSymbol>(p))));
     }
 
-    public static IEnumerable<Of<IPropertySymbol, IFieldSymbol>> GetMembersWithMustInitialize(ITypeSymbol symbol, INamedTypeSymbol[] mustInitializeSymbols)
+    public static IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetMembersWithMustInitialize(ITypeSymbol symbol, INamedTypeSymbol[] mustInitializeSymbols)
     {
         // We don't need the interfaces, since we require to specify it directly on the implementation, and c# 8 default interfaces are not allowed
         var symbols = new[] { symbol }.Concat(symbol.GetAllBaseTypes());

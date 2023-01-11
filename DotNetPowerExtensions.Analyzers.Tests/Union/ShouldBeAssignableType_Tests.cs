@@ -1,8 +1,8 @@
 ﻿
-using DotNetPowerExtensions.Analyzers.Of;
+using DotNetPowerExtensions.Analyzers.Union;
 using NUnit.Framework.Internal;
 
-namespace DotNetPowerExtensions.Analyzers.Tests.Of;
+namespace DotNetPowerExtensions.Analyzers.Tests.Union;
 
 internal class ShouldBeAssignableType_Tests : AnalyzerVerifierBase<ShouldBeAssignableType>
 {
@@ -19,8 +19,8 @@ internal class ShouldBeAssignableType_Tests : AnalyzerVerifierBase<ShouldBeAssig
         { 
             void Main() 
             { 
-                _ = new Of<DeclareType1, DeclareType2>(new DeclareType1()).[|As<DeclareType3>|](); 
-                _ = new Of<DeclareType1, DeclareType2, DeclareType3>(new DeclareType1()).[|As<DeclareType4>|]();            
+                _ = new Union<DeclareType1, DeclareType2>(new DeclareType1()).[|As<DeclareType3>|](); 
+                _ = new Union<DeclareType1, DeclareType2, DeclareType3>(new DeclareType1()).[|As<DeclareType4>|]();            
             }
         }
         
@@ -36,7 +36,7 @@ internal class ShouldBeAssignableType_Tests : AnalyzerVerifierBase<ShouldBeAssig
         public class DeclareType1{}
         public class DeclareType2{} 
 
-        class Program { void Main() => new Of<DeclareType1, DeclareType2>(new DeclareType1()).As<DeclareType1>(); }
+        class Program { void Main() => new Union<DeclareType1, DeclareType2>(new DeclareType1()).As<DeclareType1>(); }
         
         """;
 
@@ -51,7 +51,7 @@ internal class ShouldBeAssignableType_Tests : AnalyzerVerifierBase<ShouldBeAssig
         public class DeclareType1 : IDeclareType {}
         public class DeclareType2 : IDeclareType {}
 
-        class Program { void Main() => new Of<DeclareType1, DeclareType2>(new DeclareType1()).As<IDeclareType>(); }
+        class Program { void Main() => new Union<DeclareType1, DeclareType2>(new DeclareType1()).As<IDeclareType>(); }
         
         """;
 
@@ -65,9 +65,9 @@ internal class ShouldBeAssignableType_Tests : AnalyzerVerifierBase<ShouldBeAssig
         public class DeclareType1 {}
         public class DeclareType2 {}
         public class DeclareType3 {}
-        public class Of<T1, T2> { public T As<T>(){ throw new System.NotImplementedException(); } }
+        public class Union<T1, T2> { public T As<T>(){ throw new System.NotImplementedException(); } }
 
-        class Program { void Main() => new Of<DeclareType1, DeclareType2>().As<DeclareType3>(); }
+        class Program { void Main() => new Union<DeclareType1, DeclareType2>().As<DeclareType3>(); }
         
         """;
 

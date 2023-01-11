@@ -3,10 +3,11 @@
 ## What is the purpose of DotNetPowerExtensions and Analyzer?
 - To add functionality and diagnostics currently not available in .Net
 
-### 1. Of<> Classes
+### 1. Union<> Classes
 #### Motivation
 Sometimes we want to return a one of two possible values from a method, and of course it is not typesafe to return `object`, while returning a Tuple or other solutions might be too cumbersome
-Therefore we created a low ceremony typesafe struct Of<> taking 2 or 3 type arguments
+
+It is therefore useful to have a low ceremony typesafe struct Union<> taking 2 or 3 type arguments
 
 ##### Example Code
     
@@ -16,8 +17,8 @@ Therefore we created a low ceremony typesafe struct Of<> taking 2 or 3 type argu
     public class ReturnType1 : IReturnType { public string Name { get; set; }}
     public class ReturnType2 : IReturnType { public string Name { get; set; }}
 
-    public Of<ReturnType1, RertunType2> TestMethod()
-                => new Of<ReturnType1, RertunType2>(new ReturnType1 { Name = "Test" });
+    public Union<ReturnType1, RertunType2> TestMethod()
+                => new Union<ReturnType1, RertunType2>(new ReturnType1 { Name = "Test" });
 
     var retValue = TestMethod();
     var n1 = retValue.First?.Name ?? retValue.Second!.Name; // n1 == "Test"
@@ -43,6 +44,7 @@ And in your DI setup code, just have the following (Where `services` is an IServ
 
 ### 3.1 LocalService
 Many times we just want an object to be local to a specific function instead of having an object for the entire lifetime of the object.
+
 We can use for that `LocalService<>` which is like a factory class and decorate the service with `Local`.
 
 ##### Example Code    

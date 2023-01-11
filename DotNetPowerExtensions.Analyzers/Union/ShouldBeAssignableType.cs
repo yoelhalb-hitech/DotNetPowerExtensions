@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DotNetPowerExtensions.Analyzers.Of;
+namespace DotNetPowerExtensions.Analyzers.Union;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class ShouldBeAssignableType : DiagnosticAnalyzer
@@ -26,8 +26,8 @@ public class ShouldBeAssignableType : DiagnosticAnalyzer
 
             context.RegisterCompilationStartAction(compilationContext =>
             {
-                var typeName1 = typeof(DotNetPowerExtensions.Of<,>).FullName!;
-                var typeName2 = typeof(DotNetPowerExtensions.Of<,,>).FullName!;
+                var typeName1 = typeof(DotNetPowerExtensions.Union<,>).FullName!;
+                var typeName2 = typeof(DotNetPowerExtensions.Union<,,>).FullName!;
                 var symbol1 = compilationContext.Compilation.GetTypeByMetadataName(typeName1);
                 var symbol2 = compilationContext.Compilation.GetTypeByMetadataName(typeName2);
                 if (symbol1 is null && symbol2 is null) return;
@@ -50,7 +50,7 @@ public class ShouldBeAssignableType : DiagnosticAnalyzer
                 || context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol
                 || methodSymbol.ReceiverType is not INamedTypeSymbol classType
                 || !classType.IsGenericType
-                || methodSymbol.Name != nameof(Of<object, object>.As)
+                || methodSymbol.Name != nameof(Union<object, object>.As)
                 || !methodSymbol.IsGenericMethod) return;
 
             if (!symbols.ContainsGeneric(classType)) return;

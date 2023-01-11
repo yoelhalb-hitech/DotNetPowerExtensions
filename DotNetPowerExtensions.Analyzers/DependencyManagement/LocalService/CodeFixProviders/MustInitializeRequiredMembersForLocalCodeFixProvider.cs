@@ -39,7 +39,7 @@ public class MustInitializeRequiredMembersForLocalCodeFixProvider
         return (declaration, declaration.WithArgumentList(declaration.ArgumentList.WithArguments(newArguments)));
     }
 
-    private AnonymousObjectMemberDeclaratorSyntax GetPropertyAssignment(Of<IPropertySymbol, IFieldSymbol> prop)
+    private AnonymousObjectMemberDeclaratorSyntax GetPropertyAssignment(Union<IPropertySymbol, IFieldSymbol> prop)
     {
         ITypeSymbol type = prop.First?.Type ?? prop.Second!.Type;
 

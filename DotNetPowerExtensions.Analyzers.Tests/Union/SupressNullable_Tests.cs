@@ -1,6 +1,6 @@
-﻿using DotNetPowerExtensions.Analyzers.Of;
+﻿using DotNetPowerExtensions.Analyzers.Union;
 
-namespace DotNetPowerExtensions.Analyzers.Tests.Of;
+namespace DotNetPowerExtensions.Analyzers.Tests.Union;
 
 internal sealed class SupressNullable_Tests : NullableAnalyzerVerifierBase<SuppressNullableAnalyzer>
 {
@@ -11,9 +11,9 @@ internal sealed class SupressNullable_Tests : NullableAnalyzerVerifierBase<Suppr
             public class DeclareType1 {}
             public class DeclareType2 {}
             public class DeclareType3 {}
-            public class Of<T1, T2> { public T? As<T>(){ throw new System.NotImplementedException(); } }
+            public class Union<T1, T2> { public T? As<T>(){ throw new System.NotImplementedException(); } }
 
-            class Program { void Main(){ DeclareType3 d = {|CS8600:new Of<DeclareType1, DeclareType2>().As<DeclareType3>()|}; } }
+            class Program { void Main(){ DeclareType3 d = {|CS8600:new Union<DeclareType1, DeclareType2>().As<DeclareType3>()|}; } }
         
         """;
 
@@ -27,7 +27,7 @@ internal sealed class SupressNullable_Tests : NullableAnalyzerVerifierBase<Suppr
         public class DeclareType1{}
         public class DeclareType2{} 
 
-        class Program { void Main(){ DeclareType1 d =  new DotNetPowerExtensions.Of.Of<DeclareType1, DeclareType2>(new DeclareType1()).As<DeclareType1>(); } }
+        class Program { void Main(){ DeclareType1 d =  new Union<DeclareType1, DeclareType2>(new DeclareType1()).As<DeclareType1>(); } }
         
         """;
 

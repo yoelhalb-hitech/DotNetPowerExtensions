@@ -1,8 +1,6 @@
-﻿using DotNetPowerExtensions;
-using System.Collections.Immutable;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Immutable;
 
-namespace DotNetPowerExtensions.Analyzers.Of;
+namespace DotNetPowerExtensions.Analyzers.Union;
 
 #if !NET45 && !NET46
 
@@ -10,7 +8,7 @@ namespace DotNetPowerExtensions.Analyzers.Of;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class SuppressNullableAnalyzer : DiagnosticSuppressor
 {
-    private static readonly SuppressionDescriptor OfRule = new SuppressionDescriptor(
+    private static readonly SuppressionDescriptor OfRule = new(
         id: "YH10001",
         suppressedDiagnosticId: "CS8600",
         justification: "`AsShouldBeAssignableType` is handling this");
@@ -66,11 +64,11 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
                 || context.GetSemanticModel(invocation.SyntaxTree).GetSymbolInfo(invocation, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol
                 || methodSymbol.ReceiverType is not INamedTypeSymbol classType
                 || !classType.IsGenericType
-                || methodSymbol.Name != nameof(Of<object, object>.As)
+                || methodSymbol.Name != nameof(Union<object, object>.As)
                 || !methodSymbol.IsGenericMethod) return;
 
-            var typeName1 = typeof(DotNetPowerExtensions.Of<,>).FullName!;
-            var typeName2 = typeof(DotNetPowerExtensions.Of<,,>).FullName!;
+            var typeName1 = typeof(DotNetPowerExtensions.Union<,>).FullName!;
+            var typeName2 = typeof(DotNetPowerExtensions.Union<,,>).FullName!;
             var symbol1 = context.Compilation.GetTypeByMetadataName(typeName1);
             var symbol2 = context.Compilation.GetTypeByMetadataName(typeName2);
             if (!new[] { symbol1, symbol2 }.ContainsGeneric(classType)) return;

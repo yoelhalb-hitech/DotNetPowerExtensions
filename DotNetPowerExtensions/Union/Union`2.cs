@@ -3,7 +3,7 @@
 #pragma warning disable CA1716
 namespace DotNetPowerExtensions;
 
-public struct Of<TFirst, TSecond> : IOf
+public struct Union<TFirst, TSecond> : IUnion
     where TFirst : class 
     where TSecond : class
 {
@@ -16,7 +16,7 @@ public struct Of<TFirst, TSecond> : IOf
 
     public override bool Equals(object? obj)
     {
-        return obj is Of<TFirst, TSecond> of && Value.Equals(of.Value);
+        return obj is Union<TFirst, TSecond> of && Value.Equals(of.Value);
     }
 
     public override int GetHashCode()
@@ -24,21 +24,21 @@ public struct Of<TFirst, TSecond> : IOf
         return -1937163414 + Value.GetHashCode();
     }
 
-    public Of(TFirst value) => Value = value;
-    public Of(TSecond value) => Value = value;
+    public Union(TFirst value) => Value = value;
+    public Union(TSecond value) => Value = value;
 
-    public static implicit operator TFirst?(Of<TFirst, TSecond> obj) => obj.First;
-    public static implicit operator TSecond?(Of<TFirst, TSecond> obj) => obj.Second;
+    public static implicit operator TFirst?(Union<TFirst, TSecond> obj) => obj.First;
+    public static implicit operator TSecond?(Union<TFirst, TSecond> obj) => obj.Second;
 
-    public static explicit operator Of<TFirst, TSecond>(TFirst obj) => new Of<TFirst, TSecond>(obj);
-    public static explicit operator Of<TFirst, TSecond>(TSecond obj) => new Of<TFirst, TSecond>(obj);
+    public static explicit operator Union<TFirst, TSecond>(TFirst obj) => new Union<TFirst, TSecond>(obj);
+    public static explicit operator Union<TFirst, TSecond>(TSecond obj) => new Union<TFirst, TSecond>(obj);
 
-    public static bool operator ==(Of<TFirst, TSecond> left, Of<TFirst, TSecond> right)
+    public static bool operator ==(Union<TFirst, TSecond> left, Union<TFirst, TSecond> right)
     {
         return left.Value == right.Value;
     }
 
-    public static bool operator !=(Of<TFirst, TSecond> left, Of<TFirst, TSecond> right)
+    public static bool operator !=(Union<TFirst, TSecond> left, Union<TFirst, TSecond> right)
     {
         return left.Value != right.Value;
     }
