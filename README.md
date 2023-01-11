@@ -29,7 +29,7 @@ Decorate a method with `[NonDelegate]` in order to prevent it from being used as
 This is useful for Analyzers that rely on compile time static analysis (such as the `LocalService.Get()` method, see below).
 
 ### 3. Dependency Attributes
-You can now decorate your DI services with the an attribtue describing the service type, and insert all such classes in the DI at once
+You can now decorate your DI services with the an attribtue describing the service type, and insert all such classes in the DI at once,
 
 ##### Example Code
     
@@ -38,11 +38,35 @@ You can now decorate your DI services with the an attribtue describing the servi
     [Transient] // For a transient service
     public class TestClass{}
     
-And in your DI setup code, just have the following (Where `services` is an IServiceCollection instance):
+And in your DI setup code, just have the following (where `services` is an `IServiceCollection` instance):
 
     services.AddDependencies(); // That's it
 
-### 3.1 LocalService
+#### 3.1 For Base or Interface
+If you want to register for a base or interface then just specify the desired type as the `For` parameter.
+
+##### Example Code
+    
+    public interface ITestClass {}
+
+    // Declaring service
+    // [Singleton(For=typeof(ITestClass))] // Or in C# 11 [Singleton<ITestClass>] // For a Singleton service
+    // [Scoped(For=typeof(ITestClass)] // Or in C# 11 [Scoped<ITestClass>] // For a Scoped service
+    // [Local(For=typeof(ITestClass)] // Or in C# 11 [Local<ITestClass>] // For a Local service, see below
+    [Transient(For=typeof(ITestClass)] // Or in C# 11 [Transient<ITestClass>] // For a transient service
+    public class TestClass : ITestClass {}
+
+    // Using service
+    // [Singleton] // For a Singleton service
+    // [Scoped] // For a Scoped service
+    // [Local] // For a Local service, see below
+    [Transient] // For a transient service
+    public class TestUserClass
+    {        
+        public TestUserClass(ITestClass testClass) {}
+    }
+
+#### 3.2 LocalService
 Many times we just want an object to be local to a specific function instead of having an object for the entire lifetime of the object.
 
 We can use for that `LocalService<>` which is like a factory class and decorate the service with `Local`.
@@ -54,7 +78,10 @@ We can use for that `LocalService<>` which is like a factory class and decorate 
     public class TestClass : IDisposable { public void Dispose(){} }
 
     // Using service
-    [Transient]
+    // [Singleton] // For a Singleton service
+    // [Scoped] // For a Scoped service
+    // [Local] // For a Local service
+    [Transient] // For a transient service
     public class TestUserClass
     {
         private LocalService<TestClass> testClassFactory;
@@ -78,6 +105,7 @@ We can use for that `LocalService<>` which is like a factory class and decorate 
 
 ##### Update for C#11
 As C# 11 introduced the `required` keyword which has even more features than we have currently (but we hope to add and way more) then in general you should the new keyword instead.
+
 However MustInitalize stil has a use even in C#11 in the following situations:
 - When you want to be able to suppress it (as in C#11 it is a compile error not a warning)
 - When you want to be able to use in generic class with the `new()` constraint (which isn't allowed in C#)
@@ -91,13 +119,20 @@ However MustInitalize stil has a use even in C#11 in the following situations:
     }
     var testObj = new TestClass();
 
-Without MustInitialize the following error will be reported on line 3
+Without MustInitialize the following error will be reported on line 3:
 
     warning CS8618: Non-nullable field 'TestProperty' must contain a non-null value when exiting constructor. Consider declaring the field as nullable.
 
-However with MustInitialize it will report the following on line 5
+However with MustInitialize it will report the following on line 5:
 
-    warning MustInitialize: Property 'TestProperty' must be initialized
+    warning DNPE0103: Property 'TestProperty' must be initialized
+
+#### 4.1 DI
+If the class containing the property/field decorated with MustInitialized is a service (i.e. it has one of the `Singleton`/`Scoped`/`Transient` attributes) it will warn that `Local` should be used instead.
+
+And when using `LocalService` to resolve the service the caller has to pass an anonymous object with the property names matching the properties/fields decorated with MustInitialize.
+
+Note that it has to also match the casing of the name, and the value supplied has to match (at compile time) the compile time type of the orignal property/field, otheriwse a warning will be issued.
 
 ##### Example Code for DI service with LocalService
 
@@ -109,7 +144,10 @@ However with MustInitialize it will report the following on line 5
     }
 
     // Using service
-    [Transient]
+    // [Singleton] // For a Singleton service
+    // [Scoped] // For a Scoped service
+    // [Local] // For a Local service
+    [Transient] // For a transient service
     public class TestUserClass
     {
         private LocalService<TestClass> testClassFactory;
