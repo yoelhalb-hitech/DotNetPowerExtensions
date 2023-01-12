@@ -1,16 +1,16 @@
 ﻿using DotNetPowerExtensions;
-using DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
+using DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 using DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.CodeFixProviders;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CodeFixProviders;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MustInitializeRequiredMembersCodeFixProvider)), Shared]
 public class MustInitializeRequiredMembersForLocalCodeFixProvider
-                    : MustInitializeRequiredMembersCodeFixProviderBase<MustIinitializeRequiredMembersForLocalService, InvocationExpressionSyntax>
+                    : MustInitializeRequiredMembersCodeFixProviderBase<MustInitializeRequiredMembersForILocalFactory, InvocationExpressionSyntax>
 {
-    protected override string DiagnosticId => MustIinitializeRequiredMembersForLocalService.DiagnosticId;
+    protected override string DiagnosticId => MustInitializeRequiredMembersForILocalFactory.DiagnosticId;
 
     protected override async Task<(SyntaxNode declToReplace, SyntaxNode newDecl)?> CreateChanges(Document document,
                                                                 InvocationExpressionSyntax declaration, CancellationToken c)
@@ -29,7 +29,7 @@ public class MustInitializeRequiredMembersForLocalCodeFixProvider
 
         if (declaration.ArgumentList.Arguments.FirstOrDefault()?.Expression is AnonymousObjectCreationExpressionSyntax creation)
         {
-            var propsMissing = MustIinitializeRequiredMembersForLocalService.GetNotInitializedNames(creation, innerClass, mustInitializeSymbols).ToArray();
+            var propsMissing = MustInitializeRequiredMembersForILocalFactory.GetNotInitializedNames(creation, innerClass, mustInitializeSymbols).ToArray();
             creation = creation.WithInitializers(creation.Initializers.AddRange(props.Where(p => propsMissing.Contains(p.As<ISymbol>()!.Name)).Select(GetPropertyAssignment)));
         } 
         else

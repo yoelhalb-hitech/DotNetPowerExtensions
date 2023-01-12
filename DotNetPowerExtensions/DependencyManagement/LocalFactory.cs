@@ -2,16 +2,16 @@
 
 namespace DotNetPowerExtensions;
 
-public class LocalService<TClass>
+internal sealed class LocalFactory<TClass> : ILocalFactory<TClass> // Making it internal so we shouldn't have to make analyzers for it as well...
 {
     private readonly IServiceProvider serviceProvider;
 
-    public LocalService(IServiceProvider serviceProvider)
+    public LocalFactory(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
     }
 
-    public TClass? Get()
+    public TClass? Create()
     {
         var obj = (TClass?)serviceProvider.GetService(typeof(TClass));
 
@@ -19,9 +19,9 @@ public class LocalService<TClass>
     }
 
     [NonDelegate]
-    public TClass? Get(object arg)
+    public TClass? Create(object arg)
     {
-        var obj = Get();
+        var obj = Create();
         if (obj is null) return obj;
 
         var bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;

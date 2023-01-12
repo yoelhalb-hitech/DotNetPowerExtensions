@@ -2,10 +2,10 @@
 using DotNetPowerExtensions;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class MustIinitializeRequiredMembersForLocalService : MustInitializeRequiredMembersBase
+public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequiredMembersBase
 {
     public const string DiagnosticId = "DNPE0201";
     protected const string Title = "MustInitializeRequiredMembers";
@@ -19,7 +19,7 @@ public class MustIinitializeRequiredMembersForLocalService : MustInitializeRequi
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        var typeName = typeof(LocalService<>).FullName;
+        var typeName = typeof(ILocalFactory<>).FullName;
         var typedSymbol = compilationContext.Compilation.GetTypeByMetadataName(typeName!);
         if (typedSymbol is null) return;
 
@@ -45,7 +45,7 @@ public class MustIinitializeRequiredMembersForLocalService : MustInitializeRequi
                 || context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol
                 || methodSymbol.ReceiverType is not INamedTypeSymbol classType                
                 || !classType.IsGenericType
-                || methodSymbol.Name != nameof(LocalService<object>.Get)) return;
+                || methodSymbol.Name != nameof(ILocalFactory<object>.Create)) return;
 
             if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
 

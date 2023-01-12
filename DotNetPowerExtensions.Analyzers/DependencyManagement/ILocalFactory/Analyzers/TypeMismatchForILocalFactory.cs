@@ -2,10 +2,10 @@
 using DotNetPowerExtensions;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class TypeMismatchForLocalService : MustInitializeRequiredMembersBase
+public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
 {
     public const string DiagnosticId = "DNPE0203";
     protected const string Title = "TypeMismatchForLocalService";
@@ -19,7 +19,7 @@ public class TypeMismatchForLocalService : MustInitializeRequiredMembersBase
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        var typeName = typeof(LocalService<>).FullName;
+        var typeName = typeof(ILocalFactory<>).FullName;
         var typedSymbol = compilationContext.Compilation.GetTypeByMetadataName(typeName!);
         if (typedSymbol is null) return;
 
@@ -38,7 +38,7 @@ public class TypeMismatchForLocalService : MustInitializeRequiredMembersBase
                 || methodSymbol.ReceiverType is not INamedTypeSymbol classType
                 || !classType.IsGenericType) return;
 
-            if (methodSymbol.Name != nameof(LocalService<object>.Get)) return;
+            if (methodSymbol.Name != nameof(ILocalFactory<object>.Create)) return;
 
             if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
            

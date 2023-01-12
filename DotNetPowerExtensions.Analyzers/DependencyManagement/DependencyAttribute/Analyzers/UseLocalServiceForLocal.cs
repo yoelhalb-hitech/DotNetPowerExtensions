@@ -28,7 +28,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
             {
                 Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
 
-                var localServiceSymbol = metadata(typeof(LocalService<>));
+                var localServiceSymbol = metadata(typeof(ILocalFactory<>));
                 if (localServiceSymbol is null) return;
 
                 var plainAttributeSymbol = metadata(typeof(LocalAttribute));

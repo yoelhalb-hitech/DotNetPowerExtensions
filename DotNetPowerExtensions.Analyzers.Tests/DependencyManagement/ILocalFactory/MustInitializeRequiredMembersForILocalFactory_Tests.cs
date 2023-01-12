@@ -1,11 +1,11 @@
-﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
-using DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.CodeFixProviders;
+﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
+using DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CodeFixProviders;
 using Microsoft.CodeAnalysis.Testing;
 
-namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.LocalService;
+namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.ILocalFactory;
 
-internal sealed class MustIinitializeRequiredMembersForLocal_Tests
-                    : CodeFixVerifierBase<MustIinitializeRequiredMembersForLocalService, MustInitializeRequiredMembersForLocalCodeFixProvider>
+internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
+                    : CodeFixVerifierBase<MustInitializeRequiredMembersForILocalFactory, MustInitializeRequiredMembersForLocalCodeFixProvider>
 {
     [Test]
     public async Task Test_HasCorrectMessage([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
@@ -17,11 +17,11 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
 
-        class Program { void Main() => new LocalService<DeclareType>(null).Get(); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create(); }
         """;
 
         await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0201", DiagnosticSeverity.Warning)
-                                            .WithSpan(8, 114, 8, 116)
+                                            .WithSpan(8, 75, 8, 77)
                                             .WithMessage("Must initialize 'TestProp, TestField'"))
             .ConfigureAwait(false);
     }
@@ -39,7 +39,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => new LocalService<DeclareType>(null).Get[|(/::/)|]; }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create[|(/::/)|]; }
         """;
 
         var fixCode = $$"""new { TestProp = default(string), TestGeneralName = default(AppDomain), TestField = default(List<(string, int)>) }""";
@@ -66,7 +66,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             {
                 var TestField = "Test";
                 var t = new Type2();
-                _ = new LocalService<DeclareType>(null).Get(new { TestProp = default(string), TestField, new Type1().TestProp1, t?.TestField1 });
+                _ = (null as ILocalFactory<DeclareType>).Create(new { TestProp = default(string), TestField, new Type1().TestProp1, t?.TestField1 });
             }
         }
         """;
@@ -84,7 +84,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             public string TestField;
         }
         
-        class Program { void Main() => new LocalService<DeclareType>(null).Get(); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create(); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -101,7 +101,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [MustInitialize{{suffix}}] public string TestField;
         }
         
-        class Program { void Main() => new LocalService<DeclareType>(null).Get(); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create(); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -117,7 +117,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
 
-        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new {/::/}|]); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create([|new {/::/}|]); }
         """;
 
         var fixCode = $$""" TestProp = default(string), TestField = default(string) """;
@@ -136,7 +136,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
 
-        class Program { void Main() => new LocalService<DeclareType>(null).Get(new DeclareType{}); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create(new DeclareType{}); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -153,7 +153,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
 
-        class Program { void Main() => new LocalService<DeclareType>(null).Get(new DeclareType()); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create(new DeclareType()); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -171,7 +171,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             public string TestOther { get; set; }
         }
 
-        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new { TestOther = "Testing"/::/ }|]); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create([|new { TestOther = "Testing"/::/ }|]); }
         """;
 
         var fixCode = $$""", TestProp = default(string), TestField = default(string)""";
@@ -189,7 +189,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;            
         }
 
-        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new { TestProp = "Testing"/::/ }|]); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create([|new { TestProp = "Testing"/::/ }|]); }
         """;
 
         var fixCode = $$""", TestField = default(string)""";
@@ -208,7 +208,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
         }
         public class Subclass : DeclareType {}
 
-        class Program { void Main() => new LocalService<Subclass>(null).Get[|(/::/)|]; }
+        class Program { void Main() => (null as ILocalFactory<Subclass>).Create[|(/::/)|]; }
         """;
 
         var fixCode = $$"""new { TestProp = default(string), TestField = default(string) }""";
@@ -230,11 +230,11 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }
 
-        class Program { void Main() => new LocalService<Subclass>(null).Get(); }
+        class Program { void Main() => (null as ILocalFactory<Subclass>).Create(); }
         """;
 
         await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0201", DiagnosticSeverity.Warning)
-                                            .WithSpan(12, 111, 12, 113)
+                                            .WithSpan(12, 72, 12, 74)
                                             .WithMessage("Must initialize 'TestProp, TestField'"))
             .ConfigureAwait(false);
     }
@@ -252,7 +252,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }
 
-        class Program { void Main() => new LocalService<Subclass>(null).Get[|(/::/)|]; }
+        class Program { void Main() => (null as ILocalFactory<Subclass>).Create[|(/::/)|]; }
         """;
 
         var fixCode = $$"""new { TestProp = default(string) }""";
@@ -275,7 +275,7 @@ internal sealed class MustIinitializeRequiredMembersForLocal_Tests
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }
 
-        class Program { void Main() => new LocalService<Subclass>(null).Get(new { TestProp = ""}); }
+        class Program { void Main() => (null as ILocalFactory<Subclass>).Create(new { TestProp = ""}); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);

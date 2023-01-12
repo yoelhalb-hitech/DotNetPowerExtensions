@@ -26,7 +26,7 @@ It is therefore useful to have a low ceremony typesafe struct Union<> taking 2 o
 
 ### 2. NonDelegate
 Decorate a method with `[NonDelegate]` in order to prevent it from being used as a callback and/or saved in a variable/property/argument.
-This is useful for Analyzers that rely on compile time static analysis (such as the `LocalService.Get()` method, see below).
+This is useful for Analyzers that rely on compile time static analysis (such as the `ILocalFactory.Get()` method, see below).
 
 ### 3. Dependency Attributes
 You can now decorate your DI services with the an attribtue describing the service type, and insert all such classes in the DI at once,
@@ -43,17 +43,17 @@ And in your DI setup code, just have the following (where `services` is an `ISer
     services.AddDependencies(); // That's it
 
 #### 3.1 For Base or Interface
-If you want to register for a base or interface then just specify the desired type as the `For` parameter.
+If you want to register for a base or interface then just specify the desired types as parameters for the ctor (or the generic type in C# 11).
 
 ##### Example Code
     
     public interface ITestClass {}
 
     // Declaring service
-    // [Singleton(For=typeof(ITestClass))] // Or in C# 11 [Singleton<ITestClass>] // For a Singleton service
-    // [Scoped(For=typeof(ITestClass)] // Or in C# 11 [Scoped<ITestClass>] // For a Scoped service
-    // [Local(For=typeof(ITestClass)] // Or in C# 11 [Local<ITestClass>] // For a Local service, see below
-    [Transient(For=typeof(ITestClass)] // Or in C# 11 [Transient<ITestClass>] // For a transient service
+    // [Singleton(typeof(ITestClass))] // Or in C# 11 [Singleton<ITestClass>] // For a Singleton service
+    // [Scoped(typeof(ITestClass))] // Or in C# 11 [Scoped<ITestClass>] // For a Scoped service
+    // [Local(typeof(ITestClass))] // Or in C# 11 [Local<ITestClass>] // For a Local service, see below
+    [Transient(typeof(ITestClass))] // Or in C# 11 [Transient<ITestClass>] // For a transient service
     public class TestClass : ITestClass {}
 
     // Using service
@@ -62,14 +62,41 @@ If you want to register for a base or interface then just specify the desired ty
     // [Local] // For a Local service, see below
     [Transient] // For a transient service
     public class TestUserClass
-    {        
+    {
         public TestUserClass(ITestClass testClass) {}
     }
 
-#### 3.2 LocalService
+#### 3.2 Generic Classes
+You can register a closed generic version for an open generic by using the `Use` property
+
+##### Example Code
+    
+    public interface ITestClass {}
+
+    // Declaring service
+    // [Singleton(typeof(ITestClass), Use=typeof(TestClass<string>))] // Or in C# 11 [Singleton<ITestClass>(Use=typeof(TestClass<string>))] // For a Singleton service
+    // [Scoped(typeof(ITestClass), Use=typeof(TestClass<string>))] // Or in C# 11 [Scoped<ITestClass>(Use=typeof(TestClass<string>)] // For a Scoped service
+    // [Local(typeof(ITestClass), Use=typeof(TestClass<string>))] // Or in C# 11 [Local<ITestClass>(Use=typeof(TestClass<string>)] // For a Local service, see below
+    [Transient(typeof(ITestClass), Use=typeof(TestClass<string>))] // Or in C# 11 [Transient<ITestClass>(Use=typeof(TestClass<string>)] // For a transient service
+    public class TestClass<T> : ITestClass {}
+
+    // Using service
+    // [Singleton] // For a Singleton service
+    // [Scoped] // For a Scoped service
+    // [Local] // For a Local service, see below
+    [Transient] // For a transient service
+    public class TestUserClass
+    {
+        public TestUserClass(ITestClass testClass) 
+        {
+            Assert.Equals(testClass.GetType(), typeof(TestClass<string>));
+        }
+    }
+
+#### 3.3 ILocalFactory
 Many times we just want an object to be local to a specific function instead of having an object for the entire lifetime of the object.
 
-We can use for that `LocalService<>` which is like a factory class and decorate the service with `Local`.
+We can use for that `ILocalFactory<>` which is like a factory class and decorate the service with `Local`.
 
 ##### Example Code    
     
@@ -84,8 +111,8 @@ We can use for that `LocalService<>` which is like a factory class and decorate 
     [Transient] // For a transient service
     public class TestUserClass
     {
-        private LocalService<TestClass> testClassFactory;
-        public TestUserClass(LocalService<TestClass> testClassFactory)
+        private ILocalFactory<TestClass> testClassFactory;
+        public TestUserClass(ILocalFactory<TestClass> testClassFactory)
         {
             this.testClassFactory = testClassFactory;
         }
@@ -101,7 +128,7 @@ We can use for that `LocalService<>` which is like a factory class and decorate 
 
 - Allows you enforce that the given property or field has to be initialized when instantiated.
 - Removes the need to set a value when in a nullable context (in C# 8 and upwards) for such a property or field (NOTE: This only works in projects compatible with .Net Standard 2.0, as otherwise the functionality isn't available in Roslyn)
-- Also adds the ability to have DI services that the caller has to initialize before usage via `LocalService<>`
+- Also adds the ability to have DI services that the caller has to initialize before usage via `ILocalFactory<>`
 
 ##### Update for C#11
 As C# 11 introduced the `required` keyword which has even more features than we have currently (but we hope to add and way more) then in general you should the new keyword instead.
@@ -130,11 +157,11 @@ However with MustInitialize it will report the following on line 5:
 #### 4.1 DI
 If the class containing the property/field decorated with MustInitialized is a service (i.e. it has one of the `Singleton`/`Scoped`/`Transient` attributes) it will warn that `Local` should be used instead.
 
-And when using `LocalService` to resolve the service the caller has to pass an anonymous object with the property names matching the properties/fields decorated with MustInitialize.
+And when using `ILocalFactory` to resolve the service the caller has to pass an anonymous object with the property names matching the properties/fields decorated with MustInitialize.
 
 Note that it has to also match the casing of the name, and the value supplied has to match (at compile time) the compile time type of the orignal property/field, otheriwse a warning will be issued.
 
-##### Example Code for DI service with LocalService
+##### Example Code for DI service with ILocalFactory
 
     // Declaring service
     [Local]
@@ -150,8 +177,8 @@ Note that it has to also match the casing of the name, and the value supplied ha
     [Transient] // For a transient service
     public class TestUserClass
     {
-        private LocalService<TestClass> testClassFactory;
-        public TestUserClass(LocalService<TestClass> testClassFactory)
+        private ILocalFactory<TestClass> testClassFactory;
+        public TestUserClass(ILocalFactory<TestClass> testClassFactory)
         {
             this.testClassFactory = testClassFactory;
         }

@@ -23,13 +23,13 @@ public class MustInitializeShouldBeLocal : MustInitializeRequiredMembersBase
 
         var allAttributeTypes = new[]
         {
-                    typeof(SingletonAttribute),
-                    typeof(SingletonAttribute<>),
-                    typeof(ScopedAttribute),
-                    typeof(ScopedAttribute<>),
-                    typeof(TransientAttribute),
-                    typeof(TransientAttribute<>),
-                };
+            typeof(SingletonAttribute),
+            typeof(SingletonAttribute<>),
+            typeof(ScopedAttribute),
+            typeof(ScopedAttribute<>),
+            typeof(TransientAttribute),
+            typeof(TransientAttribute<>),
+        };
         var symbols = allAttributeTypes.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!);
 
         // TODO... maybe use an IOperation instead...

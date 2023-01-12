@@ -2,10 +2,10 @@
 using DotNetPowerExtensions;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class OnlyAnonymousForRequiredMembersForLocalService : MustInitializeAnalyzerBase
+public class OnlyAnonymousForRequiredMembersForILocalFactory : MustInitializeAnalyzerBase
 {
     public const string DiagnosticId = "DNPE0202";
     protected const string Title = "OnlyAnonymousForRequiredMembers";
@@ -19,7 +19,7 @@ public class OnlyAnonymousForRequiredMembersForLocalService : MustInitializeAnal
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        var typeName = typeof(LocalService<>).FullName;
+        var typeName = typeof(ILocalFactory<>).FullName;
         var typedSymbol = compilationContext.Compilation.GetTypeByMetadataName(typeName!);
         if (typedSymbol is null) return;
 
@@ -37,7 +37,7 @@ public class OnlyAnonymousForRequiredMembersForLocalService : MustInitializeAnal
                 || methodSymbol.ReceiverType is not INamedTypeSymbol classType
                 || !classType.IsGenericType) return;
 
-            if (methodSymbol.Name != nameof(LocalService<object>.Get)) return;
+            if (methodSymbol.Name != nameof(ILocalFactory<object>.Create)) return;
 
             if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
 

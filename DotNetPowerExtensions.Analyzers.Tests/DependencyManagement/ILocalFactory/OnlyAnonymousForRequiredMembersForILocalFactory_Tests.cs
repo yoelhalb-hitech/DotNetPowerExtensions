@@ -1,8 +1,8 @@
-﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
+﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
-namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.LocalService;
+namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.ILocalFactory;
 
-internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : AnalyzerVerifierBase<OnlyAnonymousForRequiredMembersForLocalService>
+internal class OnlyAnonymousForRequiredMembersForILocalFactory_Tests : AnalyzerVerifierBase<OnlyAnonymousForRequiredMembersForILocalFactory>
 {
     [Test]
     public async Task Test_DoesNotWarnWhenNoAttribute()
@@ -17,7 +17,7 @@ internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : AnalyzerVe
             public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => new LocalService<DeclareType>(null).Get(); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create(); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -37,7 +37,7 @@ internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : AnalyzerVe
             [MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => new LocalService<DeclareType>(null).Get(); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create(); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -56,7 +56,7 @@ internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : AnalyzerVe
             [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new DeclareType{}|]); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create([|new DeclareType{}|]); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -75,7 +75,7 @@ internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : AnalyzerVe
             [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new DeclareType()|]); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create([|new DeclareType()|]); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -94,7 +94,7 @@ internal class OnlyAnonymousForRequiredMembersForLocalService_Tests : AnalyzerVe
             [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
         public class Other{}
-        class Program { void Main() => new LocalService<DeclareType>(null).Get([|new Other{}|]); }
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create([|new Other{}|]); }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);

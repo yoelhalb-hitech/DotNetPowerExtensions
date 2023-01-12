@@ -1,9 +1,9 @@
-﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.LocalService.Analyzers;
+﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 using Microsoft.CodeAnalysis.Testing;
 
-namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.LocalService;
+namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.ILocalFactory;
 
-internal class TypeMismatchForLocalService_Tests: AnalyzerVerifierBase<TypeMismatchForLocalService>
+internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMismatchForILocalFactory>
 {
     [Test]
     public async Task Test_HasCorrectMessage([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
@@ -19,7 +19,7 @@ internal class TypeMismatchForLocalService_Tests: AnalyzerVerifierBase<TypeMisma
         }
 
         class Program { void Main() => 
-            new LocalService<DeclareType>(null).Get(new 
+            (null as ILocalFactory<DeclareType>).Create(new 
             {
                 TestProp = 10,
                 TestGeneralName = "",
@@ -53,7 +53,7 @@ internal class TypeMismatchForLocalService_Tests: AnalyzerVerifierBase<TypeMisma
         }
 
         class Program { void Main() => 
-            new LocalService<DeclareType>(null).Get(new 
+            (null as ILocalFactory<DeclareType>).Create(new 
             {
                 TestProp = 10,
                 TestGeneralName = "",
@@ -79,7 +79,7 @@ internal class TypeMismatchForLocalService_Tests: AnalyzerVerifierBase<TypeMisma
         }
 
         class Program { void Main() => 
-            new LocalService<DeclareType>(null).Get(new 
+            (null as ILocalFactory<DeclareType>).Create(new 
             {
                 TestProp = 10,
                 TestGeneralName = "",
@@ -104,7 +104,7 @@ internal class TypeMismatchForLocalService_Tests: AnalyzerVerifierBase<TypeMisma
         }
 
         class Program { void Main() => 
-            new LocalService<DeclareType>(null).Get(new 
+            (null as ILocalFactory<DeclareType>).Create(new 
             {
                 TestProp = [|10|],
                 TestGeneralName = [|""|],
@@ -130,7 +130,7 @@ internal class TypeMismatchForLocalService_Tests: AnalyzerVerifierBase<TypeMisma
         public class Subclass : DeclareType{}
 
         class Program { void Main() => 
-            new LocalService<Subclass>(null).Get(new 
+            (null as ILocalFactory<Subclass>).Create(new 
             {
                 TestProp = [|10|],
                 TestGeneralName = [|""|],
@@ -159,7 +159,7 @@ internal class TypeMismatchForLocalService_Tests: AnalyzerVerifierBase<TypeMisma
         }
 
         class Program { void Main() => 
-            new LocalService<Subclass>(null).Get(new 
+            (null as ILocalFactory<Subclass>).Create(new 
             {
                 TestProp = 10,
                 TestGeneralName = "",

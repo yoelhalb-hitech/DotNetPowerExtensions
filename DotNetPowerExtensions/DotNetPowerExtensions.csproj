@@ -10,6 +10,12 @@
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 	
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>DotNetPowerExtensions.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+	
   <PropertyGroup>
     <PackageId>DotNetPowerExtensions</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
