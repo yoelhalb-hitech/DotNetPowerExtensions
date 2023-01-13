@@ -1,28 +1,43 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET
+# Based on https://acraven.medium.com/a-nuget-package-workflow-using-github-actions-7da8c6557863
+
+name: Publish Nuget
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+    - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    strategy:
+        matrix:
+            package:
+                - DotNetPowerExtensions
+                - DotNetPowerExtensions.Analyzers
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Verify commit exists in origin/main
+      run: |
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+        git branch --remote --contains | grep origin/main
+    - name: Set VERSION variable from tag
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ${{ matrix.package }}/${{ matrix.package }}.csproj --no-restore --configuration Release /p:Version=${VERSION}
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test ${{ matrix.package }}.Tests/${{ matrix.package }}.Tests.csproj --verbosity normal --configuration Release /p:Version=${VERSION} 
+    - name: Pack
+      run: dotnet pack ${{ matrix.package }}/${{ matrix.package }}.csproj --configuration Release /p:Version=${VERSION} --no-build --output .      
+    - name: Push Package to NuGet.org
+      run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
