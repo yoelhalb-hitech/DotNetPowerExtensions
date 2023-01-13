@@ -17,7 +17,7 @@
   </ItemGroup>
 	
   <PropertyGroup>
-    <PackageId>DotNetPowerExtensions</PackageId>
+    <PackageId>SequelPay.DotNetPowerExtensions</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
     <Authors>Yoel</Authors>
     <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>

@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>DotNetPowerExtensions.Analyzers</PackageId>
+    <PackageId>SequelPay.DotNetPowerExtensions.Analyzers</PackageId>
     <PackageVersion>1.0.2</PackageVersion>
     <Authors>Yoel</Authors>
     <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
