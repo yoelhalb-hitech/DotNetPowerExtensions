@@ -21,7 +21,7 @@ sealed class Logger
     }
 
     // The file name needs to based on the process and the thread so not have an error on locking...
-    private static readonly string folderName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), $@"DotNetPowerExtensionsAnalyzer\AnalyzerLogs");
+    private static readonly string folderName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), $@"SequelPay.DotNetPowerExtensions.Analyzer\AnalyzerLogs");
     [ThreadStatic] private static readonly string fileName;
     [ThreadStatic] private static object lockObject;
     

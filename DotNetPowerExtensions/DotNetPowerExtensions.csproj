@@ -20,17 +20,15 @@
     <PackageId>SequelPay.DotNetPowerExtensions</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
     <Authors>Yoel</Authors>
-    <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/yoelhalb-hitech/mustinitialize-analyzer</PackageProjectUrl>
-    <PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>
-    <RepositoryUrl>https://github.com/yoelhalb-hitech/mustinitialize-analyzer</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Extension to DotNet, mostly using attributes</Description>
+    <Description>Extensions to DotNet, mostly using attributes</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
     <PackageTags>TestCodeFix, analyzers, nullable, MustInitialize</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
-    <Company>HiTech</Company>
+	<Company>SequelPay</Company>
     <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
   </PropertyGroup>
 	
