@@ -9,7 +9,7 @@ public class CannotUseBaseImplementationForMustInitializeCodeFixProvider
 {
     protected override string Title => "Implement Required Properties";
 
-    protected override Type AttributeType => typeof(DotNetPowerExtensions.MustInitializeAttribute);
+    protected override Type AttributeType => typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute);
 
     protected override string DiagnosticId => CannotUseBaseImplementationForMustInitialize.DiagnosticId;
 

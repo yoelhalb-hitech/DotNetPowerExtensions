@@ -35,7 +35,7 @@ internal abstract class CodeFixVerifierBase<TAnalyzer, TCodeFix> :
         };
 
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
-                                                typeof(DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
+                                                typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
         test.ExpectedDiagnostics.AddRange(expected);
 
         return test.RunAsync(CancellationToken.None);
@@ -49,7 +49,7 @@ internal abstract class CodeFixVerifierBase<TAnalyzer, TCodeFix> :
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2201:Do not raise reserved exception types")]    
     public static Task VerifyCodeFixAsync(string source, DiagnosticResult[] expected, params string[] fixedSource)
     {
-#if NET6_0_OR_GREATER
+#if NET7_0_OR_GREATER
         ArgumentNullException.ThrowIfNullOrEmpty(source);
         ArgumentNullException.ThrowIfNull(fixedSource);
         ArgumentNullException.ThrowIfNullOrEmpty(fixedSource.FirstOrDefault(), nameof(fixedSource));
@@ -78,7 +78,7 @@ internal abstract class CodeFixVerifierBase<TAnalyzer, TCodeFix> :
         };
 
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
-                                                typeof(DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
+                                                typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
         test.ExpectedDiagnostics.AddRange(expected);
 
         return test.RunAsync(CancellationToken.None);

@@ -17,5 +17,5 @@ public class MustInitializeRequiredWhenImplementingInterface : RequiredWhenImple
     protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
 
 
-    protected override Type AttributeType => typeof(DotNetPowerExtensions.MustInitializeAttribute);
+    protected override Type AttributeType => typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute);
 }

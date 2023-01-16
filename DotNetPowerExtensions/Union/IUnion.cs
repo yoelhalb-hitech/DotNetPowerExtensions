@@ -1,6 +1,6 @@
 ﻿#pragma warning disable CA1716
 
-namespace DotNetPowerExtensions;
+namespace SequelPay.DotNetPowerExtensions;
 
 internal interface IUnion
 {

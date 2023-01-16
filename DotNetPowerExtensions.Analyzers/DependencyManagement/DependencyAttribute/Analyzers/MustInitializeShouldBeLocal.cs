@@ -1,6 +1,6 @@
 ﻿
 using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using DotNetPowerExtensions;
+using SequelPay.DotNetPowerExtensions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;

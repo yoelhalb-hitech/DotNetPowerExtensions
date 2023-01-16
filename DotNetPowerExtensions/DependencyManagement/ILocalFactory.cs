@@ -1,5 +1,5 @@
 ﻿
-namespace DotNetPowerExtensions;
+namespace SequelPay.DotNetPowerExtensions;
 
 public interface ILocalFactory<out TClass>
 {

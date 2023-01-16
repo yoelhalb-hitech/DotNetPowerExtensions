@@ -1,6 +1,6 @@
-﻿
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using SequelPay.DotNetPowerExtensions;
 
 namespace DotNetPowerExtensions.Tests.DependencyInjectionExtensions;
 

@@ -20,7 +20,7 @@ internal static class Utils
             .Setup(m => m.Add(It.IsAny<ServiceDescriptor>()))
             .Callback<ServiceDescriptor>(c => list.Add(c));
 
-        DotNetPowerExtensions.DependencyInjectionExtensions.AddDependencies(mock.Object);
+        SequelPay.DotNetPowerExtensions.DependencyInjectionExtensions.AddDependencies(mock.Object);
 
         return (type, forType, lifetime) => list.Any(GetPredicate(type, forType, lifetime));
     }

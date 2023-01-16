@@ -1,5 +1,5 @@
 ﻿
-namespace DotNetPowerExtensions;
+namespace SequelPay.DotNetPowerExtensions;
 
 #pragma warning disable CA1813 // Avoid unsealed attributes
 

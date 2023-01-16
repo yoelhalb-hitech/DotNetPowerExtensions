@@ -1,5 +1,5 @@
-﻿
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SequelPay.DotNetPowerExtensions;
 using static DotNetPowerExtensions.Tests.DependencyInjectionExtensions.ForSingleOther_Tests;
 using static DotNetPowerExtensions.Tests.DependencyInjectionExtensions.Utils;
 

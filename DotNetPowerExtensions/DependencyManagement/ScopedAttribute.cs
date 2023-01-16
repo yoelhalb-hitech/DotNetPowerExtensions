@@ -1,5 +1,5 @@
 ﻿
-namespace DotNetPowerExtensions;
+namespace SequelPay.DotNetPowerExtensions;
 
 public class ScopedAttribute : DependencyAttribute
 {

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable CA1716
-namespace DotNetPowerExtensions;
+namespace SequelPay.DotNetPowerExtensions;
 
 public struct Union<TFirst, TSecond> : IUnion
     where TFirst : class 

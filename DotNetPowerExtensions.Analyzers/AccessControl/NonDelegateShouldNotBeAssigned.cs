@@ -28,7 +28,7 @@ public class NonDelegateShouldNotBeAssigned : DiagnosticAnalyzer
 
             context.RegisterCompilationStartAction(compilationContext =>
             {
-                var typeName = typeof(DotNetPowerExtensions.NonDelegateAttribute).FullName!;
+                var typeName = typeof(SequelPay.DotNetPowerExtensions.NonDelegateAttribute).FullName!;
                 var symbol = compilationContext.Compilation.GetTypeByMetadataName(typeName);
                 if (symbol is null) return;
 

@@ -1,4 +1,4 @@
-﻿using DotNetPowerExtensions;
+﻿using SequelPay.DotNetPowerExtensions;
 using DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 using DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;

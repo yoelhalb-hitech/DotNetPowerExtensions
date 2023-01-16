@@ -1,4 +1,4 @@
-﻿using DotNetPowerExtensions;
+﻿using SequelPay.DotNetPowerExtensions;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 

@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using SequelPay.DotNetPowerExtensions;
 using System.Threading;
 
 namespace DotNetPowerExtensions.Analyzers.Tests;
@@ -26,7 +27,7 @@ internal abstract class NullableAnalyzerVerifierBase<TAnalyzer> : AnalyzerVerifi
         };       
 
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
-                                                typeof(DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
+                                                typeof(MustInitializeAttribute).Assembly.Location));
         test.ExpectedDiagnostics.AddRange(expected);
 
         return test.RunAsync(CancellationToken.None);

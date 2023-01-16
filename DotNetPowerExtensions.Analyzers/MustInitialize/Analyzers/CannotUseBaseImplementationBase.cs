@@ -1,4 +1,4 @@
-﻿using DotNetPowerExtensions;
+﻿using SequelPay.DotNetPowerExtensions;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 

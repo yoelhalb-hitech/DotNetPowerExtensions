@@ -1,4 +1,5 @@
 ﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using SequelPay.DotNetPowerExtensions;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
@@ -10,7 +11,7 @@ public abstract class MustInitializeRequiredMembersCodeFixProviderBase<TAnalyzer
    
     private Type[] Attributes =
     {
-        typeof(DotNetPowerExtensions.MustInitializeAttribute),
+        typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute),
     };
 
     protected virtual async Task<INamedTypeSymbol[]> GetMustInitializedSymbols(Document document) =>

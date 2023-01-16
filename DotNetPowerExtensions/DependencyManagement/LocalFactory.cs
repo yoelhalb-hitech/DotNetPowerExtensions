@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace DotNetPowerExtensions;
+namespace SequelPay.DotNetPowerExtensions;
 
 internal sealed class LocalFactory<TClass> : ILocalFactory<TClass> // Making it internal so we shouldn't have to make analyzers for it as well...
 {

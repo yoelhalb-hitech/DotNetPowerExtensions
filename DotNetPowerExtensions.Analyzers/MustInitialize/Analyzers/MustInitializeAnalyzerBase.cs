@@ -21,7 +21,7 @@ public abstract class MustInitializeAnalyzerBase : DiagnosticAnalyzer
     public virtual string[] AttributeNames =>
     new[]
     {
-        typeof(DotNetPowerExtensions.MustInitializeAttribute).FullName!,
+        typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).FullName!,
     };
 
     public override void Initialize(AnalysisContext context)

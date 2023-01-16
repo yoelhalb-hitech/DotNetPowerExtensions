@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace DotNetPowerExtensions;
+namespace SequelPay.DotNetPowerExtensions;
 
 public static class DependencyInjectionExtensions
 {

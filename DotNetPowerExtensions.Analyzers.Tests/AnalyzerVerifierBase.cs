@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using SequelPay.DotNetPowerExtensions;
 using System.Threading;
 
 namespace DotNetPowerExtensions.Analyzers.Tests;
@@ -10,7 +11,7 @@ namespace DotNetPowerExtensions.Analyzers.Tests;
 internal abstract class AnalyzerVerifierBase<TAnlayzer> : AnalyzerVerifier<TAnlayzer, CSharpAnalyzerTest<TAnlayzer, NUnitVerifier>, NUnitVerifier>
             where TAnlayzer : DiagnosticAnalyzer, new()
 {
-    const string NamespaceString = $"{nameof(DotNetPowerExtensions)}";
+    const string NamespaceString = $"{nameof(SequelPay)}.{nameof(DotNetPowerExtensions)}";
     public static string[] Suffixes = { "", nameof(Attribute), "()", $"{nameof(Attribute)}()" };
     public static string[] Prefixes = {"", NamespaceString + ".",
                                                                     $"global::{NamespaceString}." };
@@ -25,7 +26,7 @@ internal abstract class AnalyzerVerifierBase<TAnlayzer> : AnalyzerVerifier<TAnla
         };
 
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
-                                                typeof(DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
+                                                typeof(MustInitializeAttribute).Assembly.Location));
         test.ExpectedDiagnostics.AddRange(expected);
 
         return test.RunAsync(CancellationToken.None);

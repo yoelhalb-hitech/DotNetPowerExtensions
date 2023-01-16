@@ -9,7 +9,7 @@ public class MustInitializeRequiredWhenOverridingCodeFixProvider
 {
     protected override string Title => "Add MustInitialize";
 
-    protected override Type AttributeType => typeof(DotNetPowerExtensions.MustInitializeAttribute);
+    protected override Type AttributeType => typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute);
 
     protected override string DiagnosticId => MustInitializeRequiredWhenOverriding.DiagnosticId;
 
