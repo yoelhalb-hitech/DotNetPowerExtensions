@@ -4,8 +4,27 @@ namespace SequelPay.DotNetPowerExtensions;
 
 public static class DependencyInjectionExtensions
 {
+    public static IServiceCollection AddLocal<TService>(this IServiceCollection services) where TService : class
+                    => services.AddLocal(typeof(TService));
+    public static IServiceCollection AddLocal(this IServiceCollection services, Type serviceType)
+                    => services.AddLocal(serviceType, serviceType);
+
+    public static IServiceCollection AddLocal(this IServiceCollection services, Type serviceType, Type implementationType)
+    {
+        if (services is null) throw new ArgumentNullException(nameof(services));
+        if (serviceType is null) throw new ArgumentNullException(nameof(serviceType));
+        if (implementationType is null) throw new ArgumentNullException(nameof(implementationType));
+
+        var composedFor = typeof(ILocalFactory<>).MakeGenericType(serviceType);
+        var composed = typeof(LocalFactory<>).MakeGenericType(implementationType);
+
+        return services.AddTransient(composedFor, composed);
+    }
+
     public static IServiceCollection AddDependencies(this IServiceCollection services)
     {
+        if (services is null) throw new ArgumentNullException(nameof(services));
+
         var types = AppDomain.CurrentDomain.GetAssemblies()
                          .SelectMany(a =>
                          {
@@ -31,13 +50,7 @@ public static class DependencyInjectionExtensions
                 if (attribute.DependencyType == DependencyType.Scoped) services.AddScoped(forType, implementingType);
                 else if (attribute.DependencyType == DependencyType.Transient) services.AddTransient(forType, implementingType);
                 else if (attribute.DependencyType == DependencyType.Singleton) services.AddSingleton(forType, implementingType);
-                else if (attribute.DependencyType == DependencyType.Local)
-                {
-                    var composedFor = typeof(ILocalFactory<>).MakeGenericType(forType);
-                    var composed = typeof(LocalFactory<>).MakeGenericType(implementingType);
-
-                    services.AddTransient(composedFor, composed);
-                }
+                else if (attribute.DependencyType == DependencyType.Local) services.AddLocal(forType, implementingType);
             }         
         }
 
