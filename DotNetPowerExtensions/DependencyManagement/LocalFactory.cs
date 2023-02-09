@@ -28,12 +28,13 @@ internal sealed class LocalFactory<TClass> : ILocalFactory<TClass> // Making it 
 
         var type = obj.GetType(); // Not doing typeof(TClass) in case this is a subclass and it has more Required props it should also be included
 
+        // We will support any property/field not just MustInitialized ones
+        // TODO... Add full blown intellisense for it (property/field, type, and if it's required), plus analyzers if it's the wrong type value, or if the name doesn't exists
         var classProps = type.GetProperties(bindingFlags)
-                            .Where(p => p.SetMethod is not null && Attribute.IsDefined(p, typeof(MustInitializeAttribute), false))
+                            .Where(p => p.SetMethod is not null)
                             .ToDictionary(p => p.Name);
 
         var classFields = type.GetFields(bindingFlags)
-                            .Where(f => Attribute.IsDefined(f, typeof(MustInitializeAttribute), false))
                             .ToDictionary(f => f.Name);
 
         foreach (var prop in arg.GetType().GetProperties(bindingFlags))
