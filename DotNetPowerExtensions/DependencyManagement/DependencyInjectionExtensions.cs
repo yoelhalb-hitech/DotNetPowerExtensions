@@ -18,7 +18,8 @@ public static class DependencyInjectionExtensions
         var composedFor = typeof(ILocalFactory<>).MakeGenericType(serviceType);
         var composed = typeof(LocalFactory<>).MakeGenericType(implementationType);
 
-        return services.AddTransient(composedFor, composed);
+        // We also need to add the serviceType, as the idea is the have the dependencies resolved
+        return services.AddTransient(composedFor, composed).AddTransient(serviceType, implementationType);
     }
 
     public static IServiceCollection AddDependencies(this IServiceCollection services)

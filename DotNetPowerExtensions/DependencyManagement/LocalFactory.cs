@@ -37,6 +37,7 @@ internal sealed class LocalFactory<TClass> : ILocalFactory<TClass> // Making it 
         var classFields = type.GetFields(bindingFlags)
                             .ToDictionary(f => f.Name);
 
+        // TODO... we should add analyzer to ensure that the properties/fields exists on the original type
         foreach (var prop in arg.GetType().GetProperties(bindingFlags))
         {
             if (classProps.TryGetValue(prop.Name, out var propInfo)) propInfo.SetValue(obj, prop.GetValue(arg));
