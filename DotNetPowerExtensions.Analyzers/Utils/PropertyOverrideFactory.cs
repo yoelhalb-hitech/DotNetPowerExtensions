@@ -35,8 +35,8 @@ internal sealed class PropertyOverrideFactory
         if (!string.IsNullOrWhiteSpace(arrowBody))
         {
             StatementSyntax statementBody =
-                original.Kind() == SyntaxKind.GetAccessorDeclaration 
-                    ? SyntaxFactory.ReturnStatement(SyntaxFactory.ParseExpression(arrowBody!)) 
+                original.Kind() == SyntaxKind.GetAccessorDeclaration
+                    ? SyntaxFactory.ReturnStatement(SyntaxFactory.ParseExpression(arrowBody!))
                     : SyntaxFactory.ExpressionStatement(SyntaxFactory.ParseExpression(arrowBody!));
 
             newAccessor = newAccessor.WithBody(SyntaxFactory.Block(statementBody));

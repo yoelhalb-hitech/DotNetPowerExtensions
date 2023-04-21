@@ -11,10 +11,10 @@ internal sealed class MustInitializeRequiredWhenImplementingInterface_Tests
     {
         var test = $$"""
         public interface IDeclareType
-        {            
+        {
             string TestProp { get; set; }
         }
-        public class DeclareType : IDeclareType 
+        public class DeclareType : IDeclareType
         {
             public string TestProp { get; set; }
         }
@@ -29,10 +29,10 @@ internal sealed class MustInitializeRequiredWhenImplementingInterface_Tests
         var test = $$"""
         public class MustInitializeAttribute : System.Attribute {}
         public interface IDeclareType
-        {            
+        {
             [MustInitialize{{suffix}}] string TestProp { get; set; }
         }
-        public class DeclareType : IDeclareType 
+        public class DeclareType : IDeclareType
         {
             public string TestProp { get; set; }
         }
@@ -46,10 +46,10 @@ internal sealed class MustInitializeRequiredWhenImplementingInterface_Tests
     {
         var test = $$"""
         public interface IDeclareType
-        {            
-            [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }            
+        {
+            [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
         }
-        public interface IDeclareTypeSub : IDeclareType 
+        public interface IDeclareTypeSub : IDeclareType
         {
             string TestProp { get; set; }
         }
@@ -67,7 +67,7 @@ internal sealed class MustInitializeRequiredWhenImplementingInterface_Tests
         {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
         }
-        public class DeclareType : IDeclareType 
+        public class DeclareType : IDeclareType
         {
         /::/    [|public string TestProp { get; set; }|]
         }
@@ -102,7 +102,7 @@ internal sealed class MustInitializeRequiredWhenImplementingInterface_Tests
     {
         var test = $$"""
         public interface IDeclareType
-        {            
+        {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
         }
         public interface IDeclareTypeSub : IDeclareType {}
@@ -122,11 +122,11 @@ internal sealed class MustInitializeRequiredWhenImplementingInterface_Tests
     {
         var test = $$"""
         public interface IDeclareType
-        {            
+        {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
         }
         public class DeclareTypeBase {}
-        public class DeclareType : DeclareTypeBase, IDeclareType 
+        public class DeclareType : DeclareTypeBase, IDeclareType
         {
         /::/    [|public string TestProp { get; set; }|]
         }
@@ -166,7 +166,7 @@ internal sealed class MustInitializeRequiredWhenImplementingInterface_Tests
     {
         var test = $$"""
         public interface IDeclareType
-        {            
+        {
             [MustInitialize{{suffix}}] string TestProp { get; set; }
         }
         public class DeclareTypeBase
@@ -197,12 +197,12 @@ internal sealed class MustInitializeRequiredWhenImplementingInterface_Tests
             [{{prefix}}MustInitialize{{suffix}}] string TestPropWithAttributesMultiLine { get; set; }
             string OtherMethod2();
         }
-        public interface IOther 
+        public interface IOther
         {
             string TestOtherProp { get; set; }
         }
         public class TestAttribute: System.Attribute {}
-        public class DeclareType : IDeclareType, IOther 
+        public class DeclareType : IDeclareType, IOther
         {
             public string OtherMethod() => "Test";
             public string TestingOtherProp => "Test";

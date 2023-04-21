@@ -50,7 +50,7 @@ public static class StringExtensions
     [return: NotNullIfNotNull("str")]
     [return: NotNullIfNotNull("str2")]
     public static string? Or(this string? str, string? str2) => str.HasValue() ? str : str2;
-    
+
     public static string? NullIfNoValue(this string? str) => str.HasValue() ? str : null;
     public static string NonNull(this string? str) => str ?? "";
 

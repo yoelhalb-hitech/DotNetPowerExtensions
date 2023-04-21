@@ -41,7 +41,7 @@ public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
             if (methodSymbol.Name != nameof(ILocalFactory<object>.Create)) return;
 
             if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
-           
+
             var innerClass = classType.TypeArguments.FirstOrDefault();
             if (innerClass is null) return;
 

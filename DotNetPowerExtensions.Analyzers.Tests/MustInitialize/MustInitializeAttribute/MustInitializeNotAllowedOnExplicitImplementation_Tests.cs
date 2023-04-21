@@ -12,7 +12,7 @@ internal sealed class MustInitializeNotAllowedOnExplicitImplementation_Tests : A
         {
             string TestProp { get; set; }
         }
-        public class DeclareType : IDeclareType 
+        public class DeclareType : IDeclareType
         {
             string IDeclareType.TestProp { get; set; }
         }
@@ -30,7 +30,7 @@ internal sealed class MustInitializeNotAllowedOnExplicitImplementation_Tests : A
         {
             string TestProp { get; set; }
         }
-        public class DeclareType : IDeclareType 
+        public class DeclareType : IDeclareType
         {
             [MustInitialize{{suffix}}] string IDeclareType.TestProp { get; set; }
         }
@@ -47,7 +47,7 @@ internal sealed class MustInitializeNotAllowedOnExplicitImplementation_Tests : A
         {
             string TestProp { get; set; }
         }
-        public class DeclareType : IDeclareType 
+        public class DeclareType : IDeclareType
         {
             [[|{{prefix}}MustInitialize{{suffix}}|]] string IDeclareType.TestProp { get; set; }
         }
@@ -83,7 +83,7 @@ internal sealed class MustInitializeNotAllowedOnExplicitImplementation_Tests : A
             string TestProp { get; set; }
         }
         public class DeclareTypeBase {}
-        public class DeclareType : DeclareTypeBase, IDeclareType 
+        public class DeclareType : DeclareTypeBase, IDeclareType
         {
             [[|{{prefix}}MustInitialize{{suffix}}|]] string IDeclareType.TestProp { get; set; }
         }
@@ -103,11 +103,11 @@ internal sealed class MustInitializeNotAllowedOnExplicitImplementation_Tests : A
             string TestProp { get; set; }
             string OtherMethod2();
         }
-        public interface IOther 
+        public interface IOther
         {
             string TestOtherProp { get; set; }
         }
-        public class DeclareType : IDeclareType, IOther 
+        public class DeclareType : IDeclareType, IOther
         {
             string IDeclareType.OtherMethod() => "Test";
             public string TestingOtherProp => "Test";

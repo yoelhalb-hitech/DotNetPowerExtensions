@@ -62,7 +62,7 @@ public abstract class CannotUseBaseImplementationCodeFixProviderBase<TAnalyzer>
 #if NETSTANDARD2_0_OR_GREATER
             if (expr is not null) declaration = declaration.AddMembers(expr);
 #else
-            if (expr is not null) declaration = 
+            if (expr is not null) declaration =
                     SyntaxFactory.ClassDeclaration(declaration.AttributeLists, declaration.Modifiers, declaration.Identifier,
                     declaration.TypeParameterList, declaration.BaseList, declaration.ConstraintClauses, declaration.Members.Add(expr));
 #endif

@@ -102,7 +102,7 @@ internal class NonDelegateShouldNotBeAssigned_Tests : AnalyzerVerifierBase<NonDe
     [Test]
     public async Task Test_Works_SavedInVariable([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
-        var testCode = $$"""       
+        var testCode = $$"""
         class A
         {
             [{{prefix}}NonDelegate{{suffix}}] public void Testing() {}
@@ -118,15 +118,15 @@ internal class NonDelegateShouldNotBeAssigned_Tests : AnalyzerVerifierBase<NonDe
     public async Task Test_Works_InnerMethod([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var testCode = $$"""
-        class Program 
-        { 
+        class Program
+        {
             void Main()
-            { 
-                [{{prefix}}NonDelegate{{suffix}}] 
+            {
+                [{{prefix}}NonDelegate{{suffix}}]
                 void Testing() {}
 
-                var t = [|Testing|]; 
-            } 
+                var t = [|Testing|];
+            }
         }
         """;
 
@@ -155,7 +155,7 @@ internal class NonDelegateShouldNotBeAssigned_Tests : AnalyzerVerifierBase<NonDe
         var testCode = $$"""
         class A
         {
-            [{{prefix}}NonDelegate{{suffix}}] public void Testing() {}            
+            [{{prefix}}NonDelegate{{suffix}}] public void Testing() {}
         }
 
         class Program { void Main(){ var a = new System.Action[1]; a[0] = new A().[|Testing|]; } }
@@ -170,7 +170,7 @@ internal class NonDelegateShouldNotBeAssigned_Tests : AnalyzerVerifierBase<NonDe
         var testCode = $$"""
         class A
         {
-            [{{prefix}}NonDelegate{{suffix}}] public void Testing() {}            
+            [{{prefix}}NonDelegate{{suffix}}] public void Testing() {}
         }
 
         class Program { void Main(){ var a = new System.Action[]{ new A().[|Testing|] }; } }
@@ -186,7 +186,7 @@ internal class NonDelegateShouldNotBeAssigned_Tests : AnalyzerVerifierBase<NonDe
         using System.Collections.Generic;
         class A
         {
-            [{{prefix}}NonDelegate{{suffix}}] public void Testing() {}            
+            [{{prefix}}NonDelegate{{suffix}}] public void Testing() {}
         }
 
         class Program { void Main(){ var a = new List<System.Action>(); a.Add(new A().[|Testing|]); } }

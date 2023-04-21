@@ -3,12 +3,12 @@ using SequelPay.DotNetPowerExtensions;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
-public abstract class MustInitializeRequiredMembersCodeFixProviderBase<TAnalyzer, TNode> : MustInitializeCodeFixProviderBase<TAnalyzer, TNode> 
+public abstract class MustInitializeRequiredMembersCodeFixProviderBase<TAnalyzer, TNode> : MustInitializeCodeFixProviderBase<TAnalyzer, TNode>
                                                                                     where TAnalyzer : MustInitializeRequiredMembersBase
                                                                                     where TNode : CSharpSyntaxNode
 {
     protected override string Title => "Initialize Required Properties";
-   
+
     private Type[] Attributes =
     {
         typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute),

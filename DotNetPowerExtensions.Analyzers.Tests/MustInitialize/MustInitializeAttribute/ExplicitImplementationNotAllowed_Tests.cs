@@ -10,9 +10,9 @@ internal sealed class ExplicitImplementationNotAllowed_Tests : AnalyzerVerifierB
         var test = $$"""
         public interface IDeclareType
         {
-            string TestProp { get; set; }          
+            string TestProp { get; set; }
         }
-        public class DeclareType : IDeclareType 
+        public class DeclareType : IDeclareType
         {
             string IDeclareType.TestProp { get; set; }
         }
@@ -30,7 +30,7 @@ internal sealed class ExplicitImplementationNotAllowed_Tests : AnalyzerVerifierB
         {
             [MustInitialize{{suffix}}] string TestProp { get; set; }
         }
-        public class DeclareType : IDeclareType 
+        public class DeclareType : IDeclareType
         {
             string IDeclareType.TestProp { get; set; }
         }
@@ -47,7 +47,7 @@ internal sealed class ExplicitImplementationNotAllowed_Tests : AnalyzerVerifierB
         {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
         }
-        public class DeclareType : IDeclareType 
+        public class DeclareType : IDeclareType
         {
             [|string IDeclareType.TestProp { get; set; }|]
         }
@@ -103,11 +103,11 @@ internal sealed class ExplicitImplementationNotAllowed_Tests : AnalyzerVerifierB
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
             string OtherMethod2();
         }
-        public interface IOther 
+        public interface IOther
         {
             string TestOtherProp { get; set; }
         }
-        public class DeclareType : IDeclareType, IOther 
+        public class DeclareType : IDeclareType, IOther
         {
             string IDeclareType.OtherMethod() => "Test";
             public string TestingOtherProp => "Test";

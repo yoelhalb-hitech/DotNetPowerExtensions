@@ -11,8 +11,8 @@ internal sealed class MustInitializeDefaultInterfaceImplementationNotAllowed_Tes
         var test = $$"""
         public interface IDeclareType
         {
-            string TestProp { get => "";set => _ = "";}            
-        }       
+            string TestProp { get => "";set => _ = "";}
+        }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -26,7 +26,7 @@ internal sealed class MustInitializeDefaultInterfaceImplementationNotAllowed_Tes
         public interface IDeclareType
         {
             [MustInitialize{{suffix}}] string TestProp { get => ""; set => _ = ""; }
-        }        
+        }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -39,7 +39,7 @@ internal sealed class MustInitializeDefaultInterfaceImplementationNotAllowed_Tes
         public interface IDeclareType
         {
             [[|{{prefix}}MustInitialize{{suffix}}|]] string TestProp { get => ""; set => _ = ""; }
-        }        
+        }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -52,7 +52,7 @@ internal sealed class MustInitializeDefaultInterfaceImplementationNotAllowed_Tes
         public interface IDeclareType
         {
             [[|{{prefix}}MustInitialize{{suffix}}|]] string TestProp { get { return ""; } set { _ = "";} }
-        }        
+        }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);

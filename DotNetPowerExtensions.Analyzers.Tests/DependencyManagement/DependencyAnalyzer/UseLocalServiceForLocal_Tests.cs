@@ -19,7 +19,7 @@ internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServ
         public class TransientType
         {
             public TransientType([|LocalType t|]){}
-            public string TestProp { get; set; }            
+            public string TestProp { get; set; }
         }
 
         [{{prefix}}Local{{suffix}}]
@@ -42,7 +42,7 @@ internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServ
         public class TransientType
         {
             public TransientType([|LocalType t|]){}
-            public string TestProp { get; set; }            
+            public string TestProp { get; set; }
         }
 
         [{{prefix}}Local{{suffix}}]
@@ -59,9 +59,9 @@ internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServ
         public class TransientType
         {
             public TransientType(LocalType t){}
-            public string TestProp { get; set; }            
+            public string TestProp { get; set; }
         }
-        
+
         public class LocalType {}
         """;
 
@@ -77,9 +77,9 @@ internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServ
         public class TransientType
         {
             public TransientType(LocalType t){}
-            public string TestProp { get; set; }            
+            public string TestProp { get; set; }
         }
-        
+
         public class LocalAttribute : System.Attribute {}
         [Local{{suffix}}]
         public class LocalType {}

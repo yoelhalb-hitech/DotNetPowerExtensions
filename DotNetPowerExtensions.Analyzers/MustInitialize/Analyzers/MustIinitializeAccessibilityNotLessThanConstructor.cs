@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
@@ -33,7 +32,7 @@ public class MustIinitializeAccessibilityNotLessThanConstructor : MustInitialize
             if (symbol is IPropertySymbol prop && prop.SetMethod is not null)
                 accesibility = prop.SetMethod.DeclaredAccessibility;
 
-            // In general the >= prerforms well 
+            // In general the >= prerforms well
             Func<Accessibility, Accessibility, bool> predicate = (propAccess, outerAccess) => (propAccess, outerAccess) switch
             {
                 (Accessibility.Internal, Accessibility.Protected) => false,
@@ -43,7 +42,7 @@ public class MustIinitializeAccessibilityNotLessThanConstructor : MustInitialize
             // When the containing type (or container of container) is the same as the property
             //              we know that nobody can create the object outside the scope even if the ctor would allow outside
             if (predicate(accesibility, symbol.ContainingType.DeclaredAccessibility)) return;
-            for (var containingType = symbol.ContainingType.ContainingType; 
+            for (var containingType = symbol.ContainingType.ContainingType;
                 containingType?.ContainingType is not null && containingType?.IsEqualTo(containingType.ContainingType) != true;
                 containingType = containingType!.ContainingType)
             {

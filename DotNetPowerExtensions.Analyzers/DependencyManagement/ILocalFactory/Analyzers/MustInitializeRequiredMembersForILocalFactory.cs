@@ -43,7 +43,7 @@ public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequi
             var invocation = context.Node as InvocationExpressionSyntax;
             if (invocation is null
                 || context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol
-                || methodSymbol.ReceiverType is not INamedTypeSymbol classType                
+                || methodSymbol.ReceiverType is not INamedTypeSymbol classType
                 || !classType.IsGenericType
                 || methodSymbol.Name != nameof(ILocalFactory<object>.Create)) return;
 
@@ -57,7 +57,7 @@ public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequi
             IEnumerable <string> props;
             if (argExpression is AnonymousObjectCreationExpressionSyntax creation)
                 props = GetNotInitializedNames(creation, innerClass, mustInitializeSymbols);
-            else 
+            else
                 props = GetMembersWithMustInitialize(innerClass, mustInitializeSymbols).Select(m => m.As<ISymbol>()!.Name).Distinct();
 
             ReportDiagnostics(context, argExpression as CSharpSyntaxNode ?? invocation.ArgumentList, props);

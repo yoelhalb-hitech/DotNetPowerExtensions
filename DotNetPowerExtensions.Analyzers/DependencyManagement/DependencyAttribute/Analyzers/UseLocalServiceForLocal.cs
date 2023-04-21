@@ -66,7 +66,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
         {
             var ctor = context.Node as ConstructorDeclarationSyntax;
 
-            if (ctor is null || !ctor.ParameterList.Parameters.Any() 
+            if (ctor is null || !ctor.ParameterList.Parameters.Any()
                 || context.SemanticModel.GetDeclaredSymbol(ctor, context.CancellationToken) is not IMethodSymbol methodSymbol) return;
 
             // Check if this is a service

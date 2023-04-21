@@ -42,7 +42,7 @@ public class OnlyAnonymousForRequiredMembersForILocalFactory : MustInitializeAna
             if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
 
             var innerClass = classType.TypeArguments.First();
-            
+
             if (invocation.ArgumentList.Arguments.FirstOrDefault()?.Expression is ObjectCreationExpressionSyntax expr)
             {
                 var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(DiagnosticDesc, expr.GetLocation());

@@ -32,7 +32,7 @@ internal sealed class CannotUseBaseImplementation_Tests
         var test = $$"""
         public class MustInitializeAttribute : System.Attribute {}
         public interface IDeclareType
-        {            
+        {
             [MustInitialize{{suffix}}] string TestProp { get; set; }
         }
         public class DeclareTypeBase
@@ -52,7 +52,7 @@ internal sealed class CannotUseBaseImplementation_Tests
     {
         var test = $$"""
         public interface IDeclareType
-        {            
+        {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
             [{{prefix}}MustInitialize{{suffix}}] string TestPropProtected { set; }
         }
@@ -67,7 +67,7 @@ internal sealed class CannotUseBaseImplementation_Tests
         }
         """;
 
-        var codeFix = $$"""       
+        var codeFix = $$"""
             [MustInitialize]
             public new string TestProp { get => base.TestProp; set => base.TestProp = value; }
             [MustInitialize]
@@ -83,7 +83,7 @@ internal sealed class CannotUseBaseImplementation_Tests
     {
         var test = $$"""
         public interface IDeclareType
-        {            
+        {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
         }
         public class DeclareTypeBase
@@ -96,10 +96,10 @@ internal sealed class CannotUseBaseImplementation_Tests
         }
         """;
 
-        var codeFix = $$"""        
+        var codeFix = $$"""
             [MustInitialize]
             public override string TestProp { get => base.TestProp; set => base.TestProp = value; }
-        
+
         """;
 
         await VerifyCodeFixAsync(test, codeFix).ConfigureAwait(false);
@@ -110,7 +110,7 @@ internal sealed class CannotUseBaseImplementation_Tests
     {
         var test = $$"""
         public interface IDeclareType
-        {            
+        {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
         }
         public class DeclareTypeBase
@@ -127,7 +127,7 @@ internal sealed class CannotUseBaseImplementation_Tests
         }
         """;
 
-        var codeFix = $$"""        
+        var codeFix = $$"""
             [MustInitialize]
             public override string TestProp { get => base.TestProp; set => base.TestProp = value; }
 
@@ -141,7 +141,7 @@ internal sealed class CannotUseBaseImplementation_Tests
     {
         var test = $$"""
         public interface IDeclareType
-        {            
+        {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
         }
         public abstract class DeclareTypeBase
@@ -157,7 +157,7 @@ internal sealed class CannotUseBaseImplementation_Tests
         var codeFix = $$"""
             [MustInitialize]
             public override string TestProp { get; set; }
-        
+
         """;
 
         await VerifyCodeFixAsync(test, codeFix).ConfigureAwait(false);
@@ -169,8 +169,8 @@ internal sealed class CannotUseBaseImplementation_Tests
     {
         var test = $$"""
         public interface IDeclareType
-        {            
-            [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }            
+        {
+            [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
         }
         public interface IDeclareType2
         {
@@ -189,7 +189,7 @@ internal sealed class CannotUseBaseImplementation_Tests
     {
         var test = $$"""
         public interface IDeclareType
-        {            
+        {
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
         }
         public interface IDeclareTypeSub : IDeclareType {}
@@ -206,7 +206,7 @@ internal sealed class CannotUseBaseImplementation_Tests
         var fixCode = $$"""
             [MustInitialize]
             public new string TestProp { get => base.TestProp; set => base.TestProp = value; }
-        
+
         """;
 
         await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
@@ -242,7 +242,7 @@ internal sealed class CannotUseBaseImplementation_Tests
         public class [|[|[|DeclareType|]|]|] : DeclareTypeBase, IDeclareType, IOther
         {
             public string OtherMethod() => "Test";
-            public string TestingOtherProp => "Test";            
+            public string TestingOtherProp => "Test";
             public string OtherMethod2() => "Test";
         /::/
         }
@@ -258,7 +258,7 @@ internal sealed class CannotUseBaseImplementation_Tests
             [Test]
             [MustInitialize]
             public override string TestPropWithAttributesMultiLine { get => base.TestPropWithAttributesMultiLine; set => base.TestPropWithAttributesMultiLine = value; }
-        
+
         """;
 
         await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);

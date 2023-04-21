@@ -23,7 +23,7 @@ internal static class SymbolExtensions
         string str = symbol.ToString()!; // This will handle correctly keywords such as string and generics and tuples
 
         GetNamespaces(symbol).Distinct().ToList().ForEach(ns => str = str.Replace(ns + ".", "")); // But it also has namespaces whcih we have to remove
-        
+
         return str;
 
         static IEnumerable<string> GetNamespaces(ITypeSymbol type)
@@ -60,7 +60,7 @@ internal static class SymbolExtensions
 #endif
 
     public static bool IsGenericEqual<T>(this T? symbol, T? other) where T : INamedTypeSymbol
-        => symbol is not null && other?.IsGenericType == symbol!.IsGenericType 
+        => symbol is not null && other?.IsGenericType == symbol!.IsGenericType
             && (!symbol!.IsGenericType ? symbol.IsEqualTo(other) : symbol.ConstructUnboundGenericType().IsEqualTo(other.ConstructUnboundGenericType()));
 
     public static bool ContainsSymbol<T>(this IEnumerable<T> symbols, T? other) where T : ISymbol

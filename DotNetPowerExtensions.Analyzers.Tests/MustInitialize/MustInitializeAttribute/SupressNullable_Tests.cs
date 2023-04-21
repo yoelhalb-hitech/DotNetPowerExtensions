@@ -7,7 +7,7 @@ internal sealed class SupressNullable_Tests : NullableAnalyzerVerifierBase<Suppr
     [Test]
     public async Task Test_Warns_WhenNoMustInitialize()
     {
-        var code = """            
+        var code = """
             public class Test
             {
                 public string {|CS8618:TestStr|} { get; set; }
@@ -86,12 +86,12 @@ internal sealed class SupressNullable_Tests : NullableAnalyzerVerifierBase<Suppr
             [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
             string OtherMethod2();
         }
-        public interface IOther 
+        public interface IOther
         {
             string TestOtherProp { get; set; }
             string TestThirdProp { get; set; }
         }
-        public class DeclareTypeBase : IDeclareType, IOther 
+        public class DeclareTypeBase : IDeclareType, IOther
         {
             string IDeclareType.OtherMethod() => "Test";
             public string TestingOtherProp => "Test";
@@ -103,7 +103,7 @@ internal sealed class SupressNullable_Tests : NullableAnalyzerVerifierBase<Suppr
         }
         public class DeclareTypeSub : DeclareTypeBase
         {
-            [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }            
+            [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
             [{{prefix}}MustInitialize{{suffix}}] public new string TestThirdProp { get; set; }
         }
         """;

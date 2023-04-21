@@ -10,7 +10,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
     [Test]
     public async Task Test_HasCorrectMessage([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
-        var test = $$"""        
+        var test = $$"""
         public class DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
@@ -60,8 +60,8 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
         }
         public class Type1 { public string TestProp1 { get; set; } }
         public class Type2 { public string TestField1 { get; set; } }
-        class Program 
-        { 
+        class Program
+        {
             void Main()
             {
                 var TestField = "Test";
@@ -83,7 +83,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
             public string TestProp { get; set; }
             public string TestField;
         }
-        
+
         class Program { void Main() => (null as ILocalFactory<DeclareType>).Create(); }
         """;
 
@@ -100,7 +100,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
             [MustInitialize{{suffix}}] public string TestProp { get; set; }
             [MustInitialize{{suffix}}] public string TestField;
         }
-        
+
         class Program { void Main() => (null as ILocalFactory<DeclareType>).Create(); }
         """;
 
@@ -127,7 +127,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
 
     [Test]
     public async Task Test_DoesNotWarn_ForClassInitializer([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
-    { 
+    {
         // Because it will be handled by another analzyer
         var test = $$"""
         public class DeclareType
@@ -184,9 +184,9 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
     {
         var test = $$"""
         public class DeclareType
-        {            
+        {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public string TestField;            
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
 
         class Program { void Main() => (null as ILocalFactory<DeclareType>).Create([|new { TestProp = "Testing"/::/ }|]); }
@@ -202,9 +202,9 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
     {
         var test = $$"""
         public class DeclareType
-        {            
+        {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public string TestField;            
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
         public class Subclass : DeclareType {}
 
@@ -225,7 +225,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
             [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
-        public class Subclass : DeclareType 
+        public class Subclass : DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }
@@ -247,7 +247,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
         {
             [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
         }
-        public class Subclass : DeclareType 
+        public class Subclass : DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }
@@ -270,7 +270,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
         {
             [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
         }
-        public class Subclass : DeclareType 
+        public class Subclass : DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }

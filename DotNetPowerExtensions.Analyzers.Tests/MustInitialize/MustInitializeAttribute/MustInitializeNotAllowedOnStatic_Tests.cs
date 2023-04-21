@@ -63,7 +63,7 @@ internal sealed class MustInitializeNotAllowedOnStatic_Tests : AnalyzerVerifierB
     {
         var test = $$"""
         public interface IDeclareType
-        {            
+        {
             [[|{{prefix}}MustInitialize{{suffix}}|]] public static string TestProp { get; set; }
         }
         """;
@@ -93,9 +93,9 @@ internal sealed class MustInitializeNotAllowedOnStatic_Tests : AnalyzerVerifierB
     {
         var test = $$"""
         public interface IDeclareType
-        {          
+        {
             [[|{{prefix}}MustInitialize{{suffix}}|]] public static string TestProp { get; set; }
-        }        
+        }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -110,10 +110,10 @@ internal sealed class MustInitializeNotAllowedOnStatic_Tests : AnalyzerVerifierB
     {
         var test = $$"""
         public class DeclareType
-        {            
+        {
             [[|{{prefix}}MustInitialize{{suffix}}|]] public static string TestProp { get; set; }
             [[|{{prefix}}MustInitialize{{suffix}}|]] public static string TestField;
-        }        
+        }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);

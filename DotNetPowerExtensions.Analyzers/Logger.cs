@@ -24,7 +24,7 @@ sealed class Logger
     private static readonly string folderName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), $@"SequelPay.DotNetPowerExtensions.Analyzer\AnalyzerLogs");
     [ThreadStatic] private static readonly string fileName;
     [ThreadStatic] private static object lockObject;
-    
+
     private static void Log(string str)
     {
         try

@@ -24,7 +24,7 @@ internal sealed class DisallowHidingMustInitialize_Tests : AnalyzerVerifierBase<
     [Test]
     public async Task Test_DoesNotWarn_WhenOtherMustInitialize([ValueSource(nameof(Suffixes))] string suffix)
     {
-        var test = $$"""        
+        var test = $$"""
         public class MustInitializeAttribute : System.Attribute {}
         public class DeclareTypeBase
         {

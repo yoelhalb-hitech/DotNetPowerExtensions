@@ -4,7 +4,7 @@
 namespace SequelPay.DotNetPowerExtensions;
 
 public struct Union<TFirst, TSecond, TThird> : IUnion
-    where TFirst : class 
+    where TFirst : class
     where TSecond : class
     where TThird : class
 {

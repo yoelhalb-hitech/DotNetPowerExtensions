@@ -34,7 +34,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
     private const string mustInitialize = "MustInitialize";
     private static bool ContainsMustInitialize(MemberDeclarationSyntax member, SuppressionAnalysisContext context, string name)
     {
-        // Make sure it is the correct type and not just something with the same name...            
+        // Make sure it is the correct type and not just something with the same name...
         var mustInitializeDecl = context.Compilation
                     .GetTypeByMetadataName(typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).FullName!);
         if (mustInitializeDecl is null) return false;

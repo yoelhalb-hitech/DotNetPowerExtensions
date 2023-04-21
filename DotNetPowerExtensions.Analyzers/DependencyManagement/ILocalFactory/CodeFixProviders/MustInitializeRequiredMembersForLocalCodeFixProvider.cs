@@ -31,7 +31,7 @@ public class MustInitializeRequiredMembersForLocalCodeFixProvider
         {
             var propsMissing = MustInitializeRequiredMembersForILocalFactory.GetNotInitializedNames(creation, innerClass, mustInitializeSymbols).ToArray();
             creation = creation.WithInitializers(creation.Initializers.AddRange(props.Where(p => propsMissing.Contains(p.As<ISymbol>()!.Name)).Select(GetPropertyAssignment)));
-        } 
+        }
         else
             creation = SyntaxFactory.AnonymousObjectCreationExpression(SyntaxFactory.SeparatedList(props.Select(GetPropertyAssignment)));
 
@@ -50,7 +50,7 @@ public class MustInitializeRequiredMembersForLocalCodeFixProvider
         else
         {
             var str = type.ToStringWithoutNamesapce(); // This will handle correctly keywords such as string and generics and tuples
-            
+
             typeSyntax = SyntaxFactory.ParseName(str); // ParseName will handle correctly generic names
         }
 

@@ -20,7 +20,6 @@ internal class MustInitializeShouldBeLocal_Tests : AnalyzerVerifierBase<MustInit
         {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
         }
-  
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -39,7 +38,7 @@ internal class MustInitializeShouldBeLocal_Tests : AnalyzerVerifierBase<MustInit
         {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
         }
-  
+
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -55,7 +54,7 @@ internal class MustInitializeShouldBeLocal_Tests : AnalyzerVerifierBase<MustInit
         {
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
-  
+
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -74,7 +73,7 @@ internal class MustInitializeShouldBeLocal_Tests : AnalyzerVerifierBase<MustInit
         {
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
-  
+
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -89,7 +88,7 @@ internal class MustInitializeShouldBeLocal_Tests : AnalyzerVerifierBase<MustInit
         {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
         }
-  
+
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -105,7 +104,7 @@ internal class MustInitializeShouldBeLocal_Tests : AnalyzerVerifierBase<MustInit
         {
             public string TestProp { get; set; }
         }
-  
+
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -119,7 +118,7 @@ internal class MustInitializeShouldBeLocal_Tests : AnalyzerVerifierBase<MustInit
         {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
         }
-  
+
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -135,7 +134,7 @@ internal class MustInitializeShouldBeLocal_Tests : AnalyzerVerifierBase<MustInit
         {
             [MustInitialize{{suffix}}] public string TestProp { get; set; }
         }
-  
+
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -152,7 +151,7 @@ internal class MustInitializeShouldBeLocal_Tests : AnalyzerVerifierBase<MustInit
         {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
         }
-  
+
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);

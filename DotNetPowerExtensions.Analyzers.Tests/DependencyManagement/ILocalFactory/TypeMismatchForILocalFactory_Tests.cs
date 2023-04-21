@@ -18,12 +18,12 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
             [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => 
-            (null as ILocalFactory<DeclareType>).Create(new 
+        class Program { void Main() =>
+            (null as ILocalFactory<DeclareType>).Create(new
             {
                 TestProp = 10,
                 TestGeneralName = "",
-                TestField = true 
+                TestField = true
             }); }
         """;
 
@@ -52,12 +52,12 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
             public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => 
-            (null as ILocalFactory<DeclareType>).Create(new 
+        class Program { void Main() =>
+            (null as ILocalFactory<DeclareType>).Create(new
             {
                 TestProp = 10,
                 TestGeneralName = "",
-                TestField = true 
+                TestField = true
             }); }
         """;
 
@@ -78,12 +78,12 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
             [MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => 
-            (null as ILocalFactory<DeclareType>).Create(new 
+        class Program { void Main() =>
+            (null as ILocalFactory<DeclareType>).Create(new
             {
                 TestProp = 10,
                 TestGeneralName = "",
-                TestField = true 
+                TestField = true
             }); }
         """;
 
@@ -103,14 +103,14 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
             [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
 
-        class Program { void Main() => 
-            (null as ILocalFactory<DeclareType>).Create(new 
+        class Program { void Main() =>
+            (null as ILocalFactory<DeclareType>).Create(new
             {
                 TestProp = [|10|],
                 TestGeneralName = [|""|],
-                TestField = [|true|] 
+                TestField = [|true|]
             }); }
-        """;        
+        """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
@@ -129,12 +129,12 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
         }
         public class Subclass : DeclareType{}
 
-        class Program { void Main() => 
-            (null as ILocalFactory<Subclass>).Create(new 
+        class Program { void Main() =>
+            (null as ILocalFactory<Subclass>).Create(new
             {
                 TestProp = [|10|],
                 TestGeneralName = [|""|],
-                TestField = [|true|] 
+                TestField = [|true|]
             }); }
         """;
 
@@ -153,17 +153,17 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
             [{{prefix}}MustInitialize{{suffix}}] public AppDomain TestGeneralName { get; set; }
             [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
         }
-        public class Subclass : DeclareType 
+        public class Subclass : DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }
 
-        class Program { void Main() => 
-            (null as ILocalFactory<Subclass>).Create(new 
+        class Program { void Main() =>
+            (null as ILocalFactory<Subclass>).Create(new
             {
                 TestProp = 10,
                 TestGeneralName = "",
-                TestField = true 
+                TestField = true
             }); }
         """;
 

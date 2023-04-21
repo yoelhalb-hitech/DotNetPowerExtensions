@@ -22,7 +22,7 @@ public abstract class RequiredWhenOverridingCodeFixProviderBase<TAnalyzer>
         }
 
         throw new Exception("Base prop not found");
-#pragma warning restore CA2201 // Exception type System.Exception is not sufficiently specific        
+#pragma warning restore CA2201 // Exception type System.Exception is not sufficiently specific
     }
 
     protected override async Task<(SyntaxNode declToReplace, SyntaxNode newDecl)?> CreateChanges(Document document, PropertyDeclarationSyntax declaration, CancellationToken c)

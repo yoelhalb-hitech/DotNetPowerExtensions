@@ -72,7 +72,7 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
         {
             [{{prefix}}MustInitialize{{suffix}}] {{access}} string TestProp { get; set; }
             [{{prefix}}MustInitialize{{suffix}}] {{access}} string TestField;
-        }    
+        }
         """;
 
 
@@ -113,7 +113,7 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
             {{access}} TypeName(){}
             [{{prefix}}MustInitialize{{suffix}}] {{access}} string TestProp { get; set; }
             [{{prefix}}MustInitialize{{suffix}}] {{access}} string TestField;
-        }    
+        }
         """;
 
 
@@ -155,7 +155,7 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
             {{access}} TypeName(){}
             [{{prefix}}MustInitialize{{suffix}}] {{access}} string TestProp { get; set; }
             [{{prefix}}MustInitialize{{suffix}}] {{access}} string TestField;
-        }    
+        }
         """;
 
 
@@ -165,7 +165,7 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
     #endregion
 
 
-    #region Diagnostics    
+    #region Diagnostics
 
     [Test]
     public async Task Test_MustInitialize_Diagnostic_OnLessThenType_InnerClassNoCtor(
@@ -203,7 +203,7 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
         {
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{propAccess}} string TestProp { get; set; }
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{propAccess}} string TestField;
-        }    
+        }
         """;
 
 
@@ -248,7 +248,7 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
             {{classAccess}} TypeName(){}
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{propAccess}} string TestProp { get; set; }
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{propAccess}} string TestField;
-        }    
+        }
         """;
 
 
@@ -295,7 +295,7 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
             {{classAccess}} TypeName(){}
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{propAccess}} string TestProp { get; set; }
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{propAccess}} string TestField;
-        }    
+        }
         """;
 
 
@@ -340,7 +340,7 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
         {
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{classAccess}} string TestProp { get; {{propAccess}} set; }
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{propAccess}} string TestField;
-        }    
+        }
         """;
 
 
@@ -387,7 +387,7 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
             {{classAccess}} TypeName(){}
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{classAccess}} string TestProp { get; {{propAccess}} set; }
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{propAccess}} string TestField;
-        }    
+        }
         """;
 
 
@@ -436,7 +436,7 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
             {{classAccess}} TypeName(){}
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{classAccess}} string TestProp { get; {{propAccess}} set; }
             [[|{{prefix}}MustInitialize{{suffix}}|]] {{propAccess}} string TestField;
-        }    
+        }
         """;
 
 
@@ -465,10 +465,10 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
         // Remember that class default is internal while member default is private
         var test = $$"""
         class DeclareType
-        {            
+        {
             [[|{{prefix}}MustInitialize{{suffix}}|]] string TestProp { get; set; }
-            [[|{{prefix}}MustInitialize{{suffix}}|]] string TestField;  
-        }        
+            [[|{{prefix}}MustInitialize{{suffix}}|]] string TestField;
+        }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);

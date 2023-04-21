@@ -31,10 +31,10 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
             throw;
         }
     }
-    
+
     private static bool ContainsMustInitialize(MemberDeclarationSyntax member, SuppressionAnalysisContext context, string name)
     {
-        // Make sure it is the correct type and not just something with the same name...            
+        // Make sure it is the correct type and not just something with the same name...
         var mustInitializeDecl = context.Compilation
                     .GetTypeByMetadataName(typeof(MustInitializeAttribute).FullName!);
         if (mustInitializeDecl is null) return false;

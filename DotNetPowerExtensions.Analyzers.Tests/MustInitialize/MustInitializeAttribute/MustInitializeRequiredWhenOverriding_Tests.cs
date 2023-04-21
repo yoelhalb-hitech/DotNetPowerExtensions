@@ -70,8 +70,8 @@ internal sealed class MustInitializeRequiredWhenOverriding_Tests
     [Values(true, false)] bool baseAbstract, [Values(true, false)] bool basePropAbstract,
     [Values(true, false)] bool subAbstract)
     {
-        Assume.That(!basePropAbstract || baseAbstract); // Otherwise we have a compile error        
-        Assume.That(!basePropAbstract || subAbstract); // Otherwise we have a compile error        
+        Assume.That(!basePropAbstract || baseAbstract); // Otherwise we have a compile error
+        Assume.That(!basePropAbstract || subAbstract); // Otherwise we have a compile error
 
         var test = $$"""
         public {{(baseAbstract ? "abstract" : "")}} class DeclareTypeBase
@@ -90,7 +90,7 @@ internal sealed class MustInitializeRequiredWhenOverriding_Tests
     public async Task Test_DoesNotWarn_WhenNotOverride([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix,
         [Values(true, false)] bool subAbstract, [Values(true, false)] bool subPropAbstract, [Values(true, false)] bool useNew)
     {
-        Assume.That(!subPropAbstract || subAbstract); // Otherwise we have a compile error        
+        Assume.That(!subPropAbstract || subAbstract); // Otherwise we have a compile error
 
         var test = $$"""
         public class DeclareTypeBase
@@ -121,10 +121,10 @@ internal sealed class MustInitializeRequiredWhenOverriding_Tests
         }
         public interface IOther
         {
-            string TestOtherProp { get; set; }            
+            string TestOtherProp { get; set; }
         }
         public class TestAttribute: System.Attribute {}
-        public class DeclareType : DeclareTypeBase, IOther 
+        public class DeclareType : DeclareTypeBase, IOther
         {
             public new string OtherMethod() => "Test";
             public new string TestingOtherProp => "Test";

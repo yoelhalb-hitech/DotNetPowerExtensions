@@ -7,7 +7,7 @@ internal sealed class MustInitializeNotSupportedOnReadonly_Tests : AnalyzerVerif
     [Test]
     public async Task Test_DoesNotWarn_WhenNoMustInitialize()
     {
-        var test = $$"""        
+        var test = $$"""
         public class TypeName
         {
             public string TestProp { get; }

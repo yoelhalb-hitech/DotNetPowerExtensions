@@ -14,7 +14,7 @@ public abstract class RequiredWhenImplementingInterfaceCodeFixProviderBase<TAnal
         var interfaceProp = interfaces.SelectMany(i => i.GetMembers(name)).First(m => m.HasAttribute(mustInitializeSymbol));
 #pragma warning disable CA2201 // Exception type System.Exception is not sufficiently specific
         return interfaceProp.GetAttribute(mustInitializeSymbol)?.ApplicationSyntaxReference?.GetSyntax() as AttributeSyntax ?? throw new Exception("Interface prop not found");
-#pragma warning restore CA2201 // Exception type System.Exception is not sufficiently specific        
+#pragma warning restore CA2201 // Exception type System.Exception is not sufficiently specific
     }
 
     protected override async Task<(SyntaxNode declToReplace, SyntaxNode newDecl)?> CreateChanges(Document document, PropertyDeclarationSyntax declaration, CancellationToken c)

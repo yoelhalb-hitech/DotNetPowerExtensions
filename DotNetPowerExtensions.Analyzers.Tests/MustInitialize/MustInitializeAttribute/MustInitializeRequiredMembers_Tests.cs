@@ -10,7 +10,7 @@ internal sealed class MustInitializeRequiredMembers_Tests
     [Test]
     public async Task Test_HasCorrectMessage([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
-        var test = $$"""        
+        var test = $$"""
         public class DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
@@ -35,7 +35,7 @@ internal sealed class MustInitializeRequiredMembers_Tests
             public string TestProp { get; set; }
             public string TestField;
         }
-        
+
         class Program { void Main() => new DeclareType{}; }
         """;
 
@@ -46,13 +46,13 @@ internal sealed class MustInitializeRequiredMembers_Tests
     public async Task Test_DoesNotWarn_WhenOtherMustInitialize([ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
-        public class MustInitializeAttribute : System.Attribute {}        
+        public class MustInitializeAttribute : System.Attribute {}
         public class DeclareType
         {
             [MustInitialize{{suffix}}] public string TestProp { get; set; }
             [MustInitialize{{suffix}}] public string TestField;
         }
-        
+
         class Program { void Main() => new DeclareType{}; }
         """;
 
@@ -139,9 +139,9 @@ internal sealed class MustInitializeRequiredMembers_Tests
     {
         var test = $$"""
         public class DeclareType
-        {            
+        {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public string TestField;            
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
 
         class Program { void Main() => [|new DeclareType(){ TestProp = "Testing"/::/ }|]; }
@@ -157,9 +157,9 @@ internal sealed class MustInitializeRequiredMembers_Tests
     {
         var test = $$"""
         public class DeclareType
-        {            
+        {
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public string TestField;            
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
         public class Subclass : DeclareType {}
 
@@ -179,7 +179,7 @@ internal sealed class MustInitializeRequiredMembers_Tests
         {
             [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
         }
-        public class Subclass : DeclareType 
+        public class Subclass : DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }
@@ -202,7 +202,7 @@ internal sealed class MustInitializeRequiredMembers_Tests
         {
             [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
         }
-        public class Subclass : DeclareType 
+        public class Subclass : DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
         }

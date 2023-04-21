@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Testing.Verifiers;
 namespace DotNetPowerExtensions.Analyzers.Tests;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "This is how Microsoft does it")]
-internal abstract class CodeFixVerifierBase<TAnalyzer, TCodeFix> : 
+internal abstract class CodeFixVerifierBase<TAnalyzer, TCodeFix> :
                         CodeFixVerifier<TAnalyzer, TCodeFix, CSharpCodeFixTest<TAnalyzer, TCodeFix, NUnitVerifier>, NUnitVerifier>
             where TAnalyzer : DiagnosticAnalyzer, new()
             where TCodeFix : CodeFixProvider, new()
@@ -46,7 +46,7 @@ internal abstract class CodeFixVerifierBase<TAnalyzer, TCodeFix> :
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison for clarity", Justification = "Not Alphabeth")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1310:Specify StringComparison for correctness", Justification = "Not Alphabeth")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2201:Do not raise reserved exception types")]    
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2201:Do not raise reserved exception types")]
     public static Task VerifyCodeFixAsync(string source, DiagnosticResult[] expected, params string[] fixedSource)
     {
 #if NET7_0_OR_GREATER

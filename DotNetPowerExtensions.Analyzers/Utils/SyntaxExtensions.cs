@@ -65,7 +65,7 @@ internal static class SyntaxExtensions
         if (syntax.NameEquals is not null) return syntax.NameEquals!.Name.Identifier.ValueText;
 
         return GetUnqualifiedNameFromExpression(syntax.Expression);
-        
+
         static string? GetUnqualifiedNameFromExpression(ExpressionSyntax expression) => expression switch
         {
             NameSyntax name => name.GetUnqualifiedName(),

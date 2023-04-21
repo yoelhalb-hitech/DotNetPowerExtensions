@@ -24,7 +24,7 @@ internal abstract class NullableAnalyzerVerifierBase<TAnalyzer> : AnalyzerVerifi
         var test = new NullableCSharpAnalyzerTest<TAnalyzer, NUnitVerifier>
         {
             TestCode = "#nullable enable" + Environment.NewLine + AnalyzerVerifierBase<TAnalyzer>.NamespacePart + source,
-        };       
+        };
 
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
                                                 typeof(MustInitializeAttribute).Assembly.Location));

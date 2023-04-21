@@ -52,7 +52,7 @@ public static class DependencyInjectionExtensions
                 else if (attribute.DependencyType == DependencyType.Transient) services.AddTransient(forType, implementingType);
                 else if (attribute.DependencyType == DependencyType.Singleton) services.AddSingleton(forType, implementingType);
                 else if (attribute.DependencyType == DependencyType.Local) services.AddLocal(forType, implementingType);
-            }         
+            }
         }
 
         return services;
