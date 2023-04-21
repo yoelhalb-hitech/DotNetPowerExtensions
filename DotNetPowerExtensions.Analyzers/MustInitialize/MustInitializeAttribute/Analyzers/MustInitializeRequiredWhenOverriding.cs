@@ -8,7 +8,7 @@ public class MustInitializeRequiredWhenOverriding : RequiredWhenOverridingBase
 {
     public const string DiagnosticId = "DNPE0110";
     protected const string Title = "RequiredWhenOverriding";
-    protected const string Message = "{1} is required when oevrriding a property with {1}";
+    protected const string Message = "Either `MustInitialize` or `Initialized` is required when overriding a property with `MustInitialize` or `Initialized`";
     protected const string Description = Message + ".";
 
     protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;

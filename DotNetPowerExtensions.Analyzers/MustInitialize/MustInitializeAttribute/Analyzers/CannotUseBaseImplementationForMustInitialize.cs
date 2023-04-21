@@ -8,7 +8,7 @@ public class CannotUseBaseImplementationForMustInitialize : CannotUseBaseImpleme
 {
     public const string DiagnosticId = "DNPE0105";
     protected const string Title = "CannotUseBaseImplementation";
-    protected const string Message = "Cannot use base implementation of {0} because it lacks {1}";
+    protected const string Message = "Cannot use base implementation of {0} because it lacks `MustInitialize`";
     protected const string Description = Message + ".";
 
     protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;

@@ -8,7 +8,7 @@ public class MustInitializeRequiredWhenImplementingInterface : RequiredWhenImple
 {
     public const string DiagnosticId = "DNPE0104";
     protected const string Title = "RequiredWhenImplementingInterface";
-    protected const string Message = "{1} is required when the interface property is {1}";
+    protected const string Message = "`MustInitialize` is required when the interface property is `MustInitialize`";
     protected const string Description = Message + ".";
 
     protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
