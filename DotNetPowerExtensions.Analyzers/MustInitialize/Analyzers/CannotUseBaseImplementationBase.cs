@@ -4,6 +4,7 @@ namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class CannotUseBaseImplementationBase : ByAttributeAnalyzerBase
 {
+    protected override bool IncludeInitializedAttribute => true;
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
         => compilationContext.RegisterSymbolAction(c => AnalyzeSymbol(c, mustInitializeSymbols), SymbolKind.NamedType);
 

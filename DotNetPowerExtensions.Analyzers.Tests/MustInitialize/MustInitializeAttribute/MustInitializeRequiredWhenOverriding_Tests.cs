@@ -42,6 +42,28 @@ internal sealed class MustInitializeRequiredWhenOverriding_Tests
     }
 
     [Test]
+    public async Task Test_DoesNotWarn_WhenInitialized([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix,
+        [Values(true, false)] bool baseAbstract, [Values(true, false)] bool basePropAbstract,
+        [Values(true, false)] bool subAbstract, [Values(true, false)] bool subPropAbstract)
+    {
+        Assume.That(!basePropAbstract || baseAbstract); // Otherwise we have a compile error
+        Assume.That(!subPropAbstract || subAbstract); // Otherwise we have a compile error
+
+        var test = $$"""
+        public {{(baseAbstract ? "abstract" : "")}} class DeclareTypeBase
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public {{(basePropAbstract ? "abstract" : "virtual")}} string TestProp { get; set; }
+        }
+        public {{(subAbstract ? "abstract" : "")}} class DeclareTypeSub : DeclareTypeBase
+        {
+            [{{prefix}}Initialized{{suffix}}] public {{(subPropAbstract ? "abstract" : "")}} override string TestProp { get; set; }
+        }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_Works([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix,
         [Values(true, false)] bool baseAbstract, [Values(true, false)] bool basePropAbstract,
         [Values(true, false)] bool subAbstract, [Values(true, false)] bool subPropAbstract)

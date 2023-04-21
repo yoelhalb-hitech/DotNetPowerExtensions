@@ -43,6 +43,27 @@ internal sealed class MustInitializeRequiredMembers_Tests
     }
 
     [Test]
+    public async Task Test_DoesNotWarn_WhenInitialized([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareTypeBase
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            [{{prefix}}Initialized{{suffix}}] public override string TestProp { get; set; }
+            [{{prefix}}Initialized{{suffix}}] public new string TestField;
+        }
+
+        class Program { void Main() => new DeclareType{}; }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_DoesNotWarn_WhenOtherMustInitialize([ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""

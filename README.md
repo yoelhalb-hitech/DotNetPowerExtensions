@@ -136,7 +136,9 @@ As C# 11 introduced the `required` keyword which has even more features than we 
 However MustInitalize stil has a use even in C#11 in the following situations:
 - When you want to be able to suppress it (as in C#11 it is a compile error not a warning)
 - When you want to be able to use in generic class with the `new()` constraint (which isn't allowed in C#)
-- We can initialize in a DI service by using a `LocaService<>` and passing an anonymous object with the required properties
+- When `set`/`init` is less visible than the class but not less than the constructors
+- We can initialize in a DI service by using a `LocalService<>` and passing an anonymous object with the required properties
+- If a subclass overrides the property and intializes it we can use the `Initialized` attribute on it to indicate that the caller is no longer required to initalize it
 
 ##### Example Code
 

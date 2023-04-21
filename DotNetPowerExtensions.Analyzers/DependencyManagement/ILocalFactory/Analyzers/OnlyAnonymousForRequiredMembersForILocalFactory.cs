@@ -12,6 +12,7 @@ public class OnlyAnonymousForRequiredMembersForILocalFactory : MustInitializeAna
     protected const string Message = "Only an anonymous object is allowed for initializing with LocalService";
     protected const string Description = "Only an anonymous object is allowed for initializing with LocalService.";
     protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
+    protected override bool IncludeInitializedAttribute => false;
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
     protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);

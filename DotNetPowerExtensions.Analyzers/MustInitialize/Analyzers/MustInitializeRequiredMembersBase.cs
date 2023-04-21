@@ -1,32 +1,33 @@
+using DotNetPowerExtensions.Analyzers.Utils;
 using SequelPay.DotNetPowerExtensions;
+using System.Linq;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class MustInitializeRequiredMembersBase : MustInitializeAnalyzerBase
 {
-    private static IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetMembersWithMustInitialize(IEnumerable<ITypeSymbol> symbols, INamedTypeSymbol[] mustInitializeSymbols)
-    {
-        Func<AttributeData, bool> hasMustInitialize = a => mustInitializeSymbols.ContainsSymbol(a.AttributeClass);
-
-        return symbols.SelectMany(s => s.GetMembers()
-                                    .OfType<IPropertySymbol>()
-                                    .Where(p => !p.IsReadOnly && p.GetAttributes().Any(hasMustInitialize))
-                                    .Select(p => new Union<IPropertySymbol, IFieldSymbol>(p))
-                                .Concat(
-                                    s.GetMembers()
-                                        .OfType<IFieldSymbol>()
-                                        .Where(p => !p.IsReadOnly && p.GetAttributes().Any(hasMustInitialize))
-                                        .Select(p => new Union<IPropertySymbol, IFieldSymbol>(p))));
-    }
+    protected override bool IncludeInitializedAttribute => false;
 
     public static IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetMembersWithMustInitialize(ITypeSymbol symbol, INamedTypeSymbol[] mustInitializeSymbols)
     {
         // We don't need the interfaces, since we require to specify it directly on the implementation, and c# 8 default interfaces are not allowed
-        var symbols = new[] { symbol }.Concat(symbol.GetAllBaseTypes());
-        var result = GetMembersWithMustInitialize(symbols, mustInitializeSymbols);
+        var bases = symbol.GetAllBaseTypes().ToList();
+        var symbols = new[] { symbol }.Concat(bases);
+        var allMembers = symbols.SelectMany(s => s.GetMembers()
+                                                    .OfType<IPropertySymbol>()
+                                                    .Select(p => new Union<IPropertySymbol, IFieldSymbol>(p))
+                                                    .Concat(
+                                                            s.GetMembers()
+                                                            .OfType<IFieldSymbol>()
+                                                            .Select(p => new Union<IPropertySymbol, IFieldSymbol>(p))));
 
-        var byNames = result.GroupBy(r => r.As<ISymbol>()!.Name);
-        return byNames.Select(n => n.First());
+        var byNames = allMembers.GroupBy(r => r.As<ISymbol>()!.Name);
+
+        // We take the closest base, this way it has been marked with `Initialized` instead we will be fine
+        // Remember that each override must be marked and hiding is not allowed (unless `Initialized`)
+        return byNames
+                .Select(n => n.OrderBy(x => bases.IndexOf(x.As<ISymbol>()!.ContainingType)).First())
+                .Where(n => n.As<ISymbol>()!.HasAttribute(mustInitializeSymbols));
     }
 
 

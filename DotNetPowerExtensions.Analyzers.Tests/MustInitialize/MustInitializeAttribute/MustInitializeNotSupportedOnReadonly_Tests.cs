@@ -85,4 +85,25 @@ internal sealed class MustInitializeNotSupportedOnReadonly_Tests : AnalyzerVerif
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
+
+    [Test]
+    public async Task Test_Initialized_DoesNotAddDiagnostic_OnInitialized([ValueSource(nameof(Prefixes))] string prefix,
+                                                                        [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class TypeNameBase
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; private set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+        public class TypeName : TypeNameBase
+        {
+            [{{prefix}}Initialized{{suffix}}] public string TestProp { get; }
+            [{{prefix}}Initialized{{suffix}}] public new readonly string TestField;
+        }
+
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
 }

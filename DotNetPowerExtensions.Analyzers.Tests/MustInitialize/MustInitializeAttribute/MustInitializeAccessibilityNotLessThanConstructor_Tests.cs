@@ -40,6 +40,22 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
+    [Test]
+    public async Task Test_DoesNotWarn_WhenInitialized([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class MustInitializeAttribute : System.Attribute {}
+        public class DeclareType
+        {
+            public DeclareType(){}
+            [{{prefix}}Initialized{{suffix}}] private string TestProp { get; set; }
+            [{{prefix}}Initialized{{suffix}}] private string TestField;
+        }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
     #region Non Diagnostics
 
     [Test]

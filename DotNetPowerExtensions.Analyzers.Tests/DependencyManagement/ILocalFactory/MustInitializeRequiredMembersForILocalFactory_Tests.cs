@@ -126,6 +126,27 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
     }
 
     [Test]
+    public async Task Test_DoesNotWarnForInitialized([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareTypeBase
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            [{{prefix}}Initialized{{suffix}}] public override string TestProp { get; set; }
+            [{{prefix}}Initialized{{suffix}}] public new string TestField;
+        }
+
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create(new {}); }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_DoesNotWarn_ForClassInitializer([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         // Because it will be handled by another analzyer

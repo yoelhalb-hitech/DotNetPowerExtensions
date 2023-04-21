@@ -31,6 +31,20 @@ internal sealed class SupressNullable_Tests : NullableAnalyzerVerifierBase<Suppr
     }
 
     [Test]
+    public async Task Test_Warns_WhenInitialized([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class Test
+        {
+            [{{prefix}}Initialized{{suffix}}] public string {|CS8618:TestStr|} { get; set; }
+            [{{prefix}}Initialized{{suffix}}] public string {|CS8618:TestField|};
+        }
+        """;
+
+        await NullableVerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_DoesNotWarn_WhenMustInitialize([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""

@@ -11,6 +11,7 @@ public class MustInitializeNotSupportedOnReadonly : MustInitializeAnalyzerBase
     protected const string Description = Message + ".";
 
     protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
+    protected override bool IncludeInitializedAttribute => false; // Initialized could technically be used in a subclass where the base decleration has a private set (should that be possible)
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
     protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(RuleId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);

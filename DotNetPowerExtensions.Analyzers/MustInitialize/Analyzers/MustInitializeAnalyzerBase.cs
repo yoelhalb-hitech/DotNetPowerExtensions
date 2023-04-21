@@ -17,6 +17,7 @@ public abstract class MustInitializeAnalyzerBase : DiagnosticAnalyzer
         => Diagnostic.Create(DiagnosticDesc, symbol.DeclaringSyntaxReferences.First().GetSyntax().GetLocation());
 
     public abstract void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols);
+    protected abstract bool IncludeInitializedAttribute { get; }
 
     public virtual string[] AttributeNames =>
     new[]
@@ -35,6 +36,13 @@ public abstract class MustInitializeAnalyzerBase : DiagnosticAnalyzer
             {
                 var symbols = AttributeNames.Select(n => compilationContext.Compilation.GetTypeByMetadataName(n));
                 if (symbols.Any(s => s is null)) return;
+
+                if(IncludeInitializedAttribute)
+                {
+                    var initializedName = typeof(SequelPay.DotNetPowerExtensions.InitializedAttribute).FullName!;
+                    var symbol = compilationContext.Compilation.GetTypeByMetadataName(initializedName);
+                    if (symbol is not null) symbols = symbols.Union<INamedTypeSymbol?>(new [] { symbol }, SymbolEqualityComparer.Default);
+                }
 
                 Register(compilationContext, symbols.OfType<INamedTypeSymbol>().ToArray());
             });

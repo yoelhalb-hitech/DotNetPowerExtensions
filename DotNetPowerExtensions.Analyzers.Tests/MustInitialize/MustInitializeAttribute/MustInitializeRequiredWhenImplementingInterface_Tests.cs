@@ -58,6 +58,25 @@ internal sealed class MustInitializeRequiredWhenImplementingInterface_Tests
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
+    [Test]
+    public async Task Test_DoesNotWarn_WhenInitialized([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public interface IDeclareType
+        {
+            [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
+        }
+        public class DeclareType : IDeclareType
+        {
+            [{{prefix}}Initialized{{suffix}}] public string TestProp { get; set; }
+        }
+
+        class Program { void Main() => new DeclareType{}; }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
 
     [Test]
     public async Task Test_WorksProperty_WithInterface([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)

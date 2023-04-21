@@ -10,6 +10,7 @@ public class DisallowHidingMustInitialize : MustInitializeAnalyzerBase
     protected const string Message = "Cannot hide a property with MustInitialize";
     protected const string Description = Message + ".";
 
+    protected override bool IncludeInitializedAttribute => false; // If the base is initialized than it will allow hiding it
     protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]

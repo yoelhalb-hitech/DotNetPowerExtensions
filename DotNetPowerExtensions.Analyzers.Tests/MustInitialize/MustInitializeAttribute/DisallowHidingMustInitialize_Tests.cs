@@ -57,6 +57,28 @@ internal sealed class DisallowHidingMustInitialize_Tests : AnalyzerVerifierBase<
     }
 
     [Test]
+    public async Task Test_DoesNotWarnOnInialized([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix,
+                            [Values(true, false)] bool useNew, [Values(true, false)] bool newAbstract)
+    {
+        var test = $$"""
+        public class DeclareTypeBaseBase
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
+        }
+        public class DeclareTypeBase : DeclareTypeBaseBase
+        {
+            [{{prefix}}Initialized{{suffix}}] public override string TestProp { get; set; }
+        }
+        public {{(newAbstract ? "abstract" : "")}} class DeclareTypeSub : DeclareTypeBase
+        {
+            public {{(newAbstract ? "abstract" : "")}} {{(useNew ? "new" : "")}} string TestProp { get; set; }
+        }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_Warns([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix,
              [Values(true, false)] bool baseVirtual, [Values(true, false)] bool useNew, [Values(true, false)] bool newAbstract,
              [Values(true, false)] bool mustInitializeOnNew)

@@ -21,6 +21,25 @@ internal class MustInitializeShouldBeLocal_Tests : AnalyzerVerifierBase<MustInit
             [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
         }
         """;
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_DoesNotWarnForInitialized([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix,
+                                                                                        [ValueSource(nameof(Attributes))] string attribute)
+    {
+        var test = $$"""
+        public class TransientTypeBase
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
+        }
+        [{{prefix}}{{attribute}}{{suffix}}]
+        public class TransientType : TransientTypeBase
+        {
+            [{{prefix}}Initialized{{suffix}}] public override string TestProp { get; set; }
+        }
+
+        """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
