@@ -79,6 +79,28 @@ internal sealed class CannotUseBaseImplementation_Tests
     }
 
     [Test]
+    public async Task Test_DoesNotWarnWhenBaseMustInitialize([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public interface IDeclareType
+        {
+            [{{prefix}}MustInitialize{{suffix}}] string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] string TestPropProtected { set; }
+        }
+        public class DeclareTypeBase
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestPropProtected { protected get; set; }
+        }
+        public class DeclareType : DeclareTypeBase, IDeclareType
+        {
+        }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_Works_WithVirtual([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""

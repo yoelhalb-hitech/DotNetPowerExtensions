@@ -20,6 +20,7 @@ public abstract class CannotUseBaseImplementationBase : ByAttributeAnalyzerBase
                                                     .OfType<IPropertySymbol>()
                                                     // We include abstract in case this class will not implement it only a subclass
                                                     .Where(p => !p.DeclaredAccessibility.HasFlag(Accessibility.Private))
+                                                    .Where(p => !p.HasAttribute(mustInitializeSymbols))
                                                     .Select(p => p.Name))
                                 .ToArray();
 
