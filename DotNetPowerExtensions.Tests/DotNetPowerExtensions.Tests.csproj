@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -16,6 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Moq" Version="4.18.2" />
     <PackageReference Include="Moq.Analyzers" Version="0.0.9">
@@ -37,7 +38,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" />
+	<!-- Main reference -->
+    <ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" ReferenceOutputAssembly="true" />
+  </ItemGroup>
+  <ItemGroup>
+	<!-- Analyzer references -->
+	<ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer">
+		  <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework><!-- For the analyzer -->
+	</ProjectReference>
+	<ProjectReference Include="..\DotNetPowerExtensions.Analyzers\DotNetPowerExtensions.Analyzers.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
   </ItemGroup>
 
 </Project>
