@@ -30,7 +30,7 @@ public class MustInitializeShouldBeLocal : MustInitializeRequiredMembersBase
             typeof(TransientAttribute),
             typeof(TransientAttribute<>),
         };
-        var symbols = allAttributeTypes.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!);
+        var symbols = allAttributeTypes.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
 
         // TODO... maybe use an IOperation instead...
         compilationContext.RegisterSyntaxNodeAction(c => AnalyzeClass(c, mustInitializeSymbols, symbols), SyntaxKind.Attribute);
@@ -41,7 +41,7 @@ public class MustInitializeShouldBeLocal : MustInitializeRequiredMembersBase
         nameof(SingletonAttribute), nameof(ScopedAttribute), nameof(TransientAttribute),
     };
 
-    private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols, IEnumerable<INamedTypeSymbol> attributeSymbols)
+    private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols, INamedTypeSymbol[] attributeSymbols)
     {
         try
         {
@@ -54,9 +54,9 @@ public class MustInitializeShouldBeLocal : MustInitializeRequiredMembersBase
                 || !attributeSymbols.ContainsGeneric(methodSymbol.ContainingType)) return;
 
             var parent = context.Node.Parent;
-            while (parent is not null && !object.ReferenceEquals(parent, parent.Parent) && parent is not ClassDeclarationSyntax) parent = parent.Parent;
+            while (parent is not null && !object.ReferenceEquals(parent, parent.Parent) && parent is not TypeDeclarationSyntax) parent = parent.Parent;
 
-            if(parent is not ClassDeclarationSyntax) return;
+            if(parent is not TypeDeclarationSyntax) return;
 
             if (context.SemanticModel.GetDeclaredSymbol(parent!, context.CancellationToken) is not INamedTypeSymbol classSymbol) return;
 

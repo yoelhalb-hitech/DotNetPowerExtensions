@@ -46,7 +46,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                 };
                 var symbols = allAttributeTypes
                     .Select(t => metadata(t)).Concat(new[] { plainAttributeSymbol, genericAttributeSymbol })
-                    .Where(x => x is not null).Select(x => x!);
+                    .Where(x => x is not null).Select(x => x!).ToArray();
 
                 compilationContext
                     .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, plainAttributeSymbol, genericAttributeSymbol, localServiceSymbol, symbols),
@@ -60,7 +60,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
     }
 
     private void AnalyzeConstructor(SyntaxNodeAnalysisContext context, INamedTypeSymbol? plainAttribute,
-                        INamedTypeSymbol? genericAttribute, INamedTypeSymbol serviceTypeSymbol, IEnumerable<INamedTypeSymbol> attributeSymbols)
+                        INamedTypeSymbol? genericAttribute, INamedTypeSymbol serviceTypeSymbol, INamedTypeSymbol[] attributeSymbols)
     {
         try
         {

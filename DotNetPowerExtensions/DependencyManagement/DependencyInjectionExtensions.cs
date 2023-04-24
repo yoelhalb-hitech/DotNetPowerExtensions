@@ -18,7 +18,7 @@ public static class DependencyInjectionExtensions
         var composedFor = typeof(ILocalFactory<>).MakeGenericType(serviceType);
         var composed = typeof(LocalFactory<>).MakeGenericType(implementationType);
 
-        // We also need to add the serviceType, as the idea is the have the dependencies resolved
+        // We also need to add the serviceType, as the idea is the have the dependencies resolved, however we want the user to only use the LocaFactory but this will be done in an analyzer
         return services.AddTransient(composedFor, composed).AddTransient(serviceType, implementationType);
     }
 

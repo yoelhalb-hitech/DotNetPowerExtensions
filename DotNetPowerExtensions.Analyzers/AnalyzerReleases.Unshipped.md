@@ -21,5 +21,8 @@ DNPE0202 | Language | Warning | OnlyAnonymousForRequiredMembersForLocalService
 DNPE0203 | Language | Warning | TypeMismatchForLocalService
 DNPE0204 | Language | Warning | UseLocalServiceForLocal
 DNPE0205 | Language | Warning | MustInitializeShouldBeLocal
+DNPE0206 | Language | Warning | UseShouldOnlyBeForGeneric
+DNPE0207 | Language | Warning | UseShouldOnlyBeCurrent
+DNPE0208 | Language | Warning | GenericRequiresUse
 DNPE0301 | Language | Warning | NonDelegateShouldNotBeAssigned
 DNPE0401 | Language | Warning | AsShouldBeAssignableType

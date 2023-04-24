@@ -17,6 +17,9 @@ public abstract class DependencyAttribute : Attribute
 
 #pragma warning disable CA1716
     internal virtual Type[] For { get; set; }
+    /// <summary>
+    /// Specify a closed generic type if the decorated class is an open generic
+    /// </summary>
     public virtual Type? Use { get; set; }
 #pragma warning restore CA1716
 }
