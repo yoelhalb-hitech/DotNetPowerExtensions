@@ -25,13 +25,13 @@ internal static class Utils
         return (type, forType, lifetime) => list.Any(GetPredicate(type, forType, lifetime));
     }
 
-    public static bool HasOtherRegistration(Func<Type, Type, ServiceLifetime, bool> predicate, Type type, Type? forType = null, ServiceLifetime? lifetime = null)
+    public static bool HasOtherRegistration(Func<Type, Type, ServiceLifetime, bool> predicate, Type type, Type? forType = null, ServiceLifetime? exceptLifetime = null)
     {
         var result = false;
 
-        if (lifetime is null || lifetime != ServiceLifetime.Transient) result &= predicate(type, forType ?? type, ServiceLifetime.Transient);
-        if (lifetime is null || lifetime != ServiceLifetime.Scoped) result &= predicate(type, forType ?? type, ServiceLifetime.Scoped);
-        if (lifetime is null || lifetime != ServiceLifetime.Singleton) result &= predicate(type, forType ?? type, ServiceLifetime.Singleton);
+        if (exceptLifetime is null || exceptLifetime != ServiceLifetime.Transient) result |= predicate(type, forType ?? type, ServiceLifetime.Transient);
+        if (exceptLifetime is null || exceptLifetime != ServiceLifetime.Scoped) result |= predicate(type, forType ?? type, ServiceLifetime.Scoped);
+        if (exceptLifetime is null || exceptLifetime != ServiceLifetime.Singleton) result |= predicate(type, forType ?? type, ServiceLifetime.Singleton);
 
         return result;
     }

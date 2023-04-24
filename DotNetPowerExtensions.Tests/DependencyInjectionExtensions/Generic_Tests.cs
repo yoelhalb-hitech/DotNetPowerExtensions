@@ -54,13 +54,17 @@ internal sealed class Generic_Tests
         Utils.HasOtherRegistration(predicate, fooFactory, ifooIFactory, ServiceLifetime.Transient).Should().BeFalse();
 
         var fooLocal = typeof(FooLocalGeneric<>);
-        var fooClosed = typeof(FooLocalGeneric<string>);        
+        var fooClosed = typeof(FooLocalGeneric<string>);
+        var forIfoo = typeof(IFoo);
 
         Utils.HasOtherRegistration(predicate, fooLocal).Should().BeFalse();
-        Utils.HasOtherRegistration(predicate, fooClosed).Should().BeFalse();
 
-        var forIfoo = typeof(IFoo);
+        predicate(fooClosed, forIfoo, ServiceLifetime.Transient).Should().BeTrue();
+        Utils.HasOtherRegistration(predicate, fooClosed, fooClosed, ServiceLifetime.Transient).Should().BeFalse();
+        Utils.HasOtherRegistration(predicate, fooLocal, fooClosed).Should().BeFalse();
+
+        Utils.HasOtherRegistration(predicate, fooLocal, fooClosed).Should().BeFalse();
         Utils.HasOtherRegistration(predicate, fooLocal, forIfoo).Should().BeFalse();
-        Utils.HasOtherRegistration(predicate, fooClosed, forIfoo).Should().BeFalse();
+        Utils.HasOtherRegistration(predicate, fooClosed, forIfoo, ServiceLifetime.Transient).Should().BeFalse();
     }
 }

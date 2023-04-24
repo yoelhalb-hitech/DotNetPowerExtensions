@@ -37,7 +37,8 @@ internal sealed class EmptyTypes_Tests
         var predicate = Utils.GetPredicate();
 
         var type = typeof(FooLocal);
-        Utils.HasOtherRegistration(predicate, type).Should().BeFalse();
+        predicate(type, type, ServiceLifetime.Transient).Should().BeTrue();
+        Utils.HasOtherRegistration(predicate, type, type, ServiceLifetime.Transient).Should().BeFalse();
 
         var constructed = typeof(LocalFactory<FooLocal>);
         var constructedFor = typeof(ILocalFactory<FooLocal>);

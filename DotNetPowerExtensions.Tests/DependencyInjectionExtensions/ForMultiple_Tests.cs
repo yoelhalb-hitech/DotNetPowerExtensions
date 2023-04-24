@@ -55,7 +55,10 @@ internal sealed class ForMultiple_Tests
         predicate(type, forType2, ServiceLifetime.Transient).Should().BeTrue();
         predicate(type, forType3, ServiceLifetime.Transient).Should().BeTrue();
 
-        Utils.HasOtherRegistration(predicate, originalType).Should().BeFalse();
+        predicate(originalType, originalType, ServiceLifetime.Transient).Should().BeTrue();
+
+        Utils.HasOtherRegistration(predicate, originalType, originalType, ServiceLifetime.Transient).Should().BeFalse();
+
         Utils.HasOtherRegistration(predicate, originalType, forType1).Should().BeFalse();
         Utils.HasOtherRegistration(predicate, originalType, forType2).Should().BeFalse();
         Utils.HasOtherRegistration(predicate, originalType, forType3).Should().BeFalse();

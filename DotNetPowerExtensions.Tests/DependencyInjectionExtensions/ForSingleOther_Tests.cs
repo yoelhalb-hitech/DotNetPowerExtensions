@@ -57,8 +57,10 @@ internal sealed class ForSingleOther_Tests
     {
         var predicate = Utils.GetPredicate();
 
-        Utils.HasOtherRegistration(predicate, type).Should().BeFalse();
-        Utils.HasOtherRegistration(predicate, type, forType).Should().BeFalse();
+        predicate(type, forType, ServiceLifetime.Transient).Should().BeTrue();
+        Utils.HasOtherRegistration(predicate, type, forType, ServiceLifetime.Transient).Should().BeFalse();
+
+        Utils.HasOtherRegistration(predicate, type, type).Should().BeFalse();
 
 
         var constructed = typeof(LocalFactory<>).MakeGenericType(type);
