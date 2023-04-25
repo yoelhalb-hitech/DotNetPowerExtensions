@@ -24,5 +24,9 @@ DNPE0205 | Language | Warning | MustInitializeShouldBeLocal
 DNPE0206 | Language | Warning | UseShouldOnlyBeForGeneric
 DNPE0207 | Language | Warning | UseShouldOnlyBeCurrent
 DNPE0208 | Language | Warning | GenericRequiresUse
+DNPE0209 | Language | Warning | DependencyShouldNotBeAbstract
+DNPE0210 | Language | Warning | ForTypeMustBeParent
+DNPE0211 | Language | Warning | DependencyRequiredWhenBase
+DNPE0212 | Language | Warning | DependencyTypeDoesNotMatchBase
 DNPE0301 | Language | Warning | NonDelegateShouldNotBeAssigned
 DNPE0401 | Language | Warning | AsShouldBeAssignableType

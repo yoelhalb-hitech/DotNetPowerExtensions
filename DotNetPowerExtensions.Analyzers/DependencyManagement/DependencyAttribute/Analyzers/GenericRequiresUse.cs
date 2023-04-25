@@ -29,21 +29,7 @@ public class GenericRequiresUse : DiagnosticAnalyzer
             {
                 Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
 
-                var allAttributeTypes = new[]
-                {
-                    typeof(LocalAttribute),
-                    typeof(LocalAttribute<>),
-                    typeof(SingletonAttribute),
-                    typeof(SingletonAttribute<>),
-                    typeof(ScopedAttribute),
-                    typeof(ScopedAttribute<>),
-                    typeof(TransientAttribute),
-                    typeof(TransientAttribute<>),
-                    typeof(SequelPay.DotNetPowerExtensions.DependencyAttribute),
-                    typeof(NonDependencyAttribute),
-                    typeof(NonDependencyAttribute<>),
-                };
-                var symbols = allAttributeTypes.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
+                var symbols = DependencyAnalyzerUtils.AllDependencies.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
 
                 compilationContext
                     .RegisterSyntaxNodeAction(c => AnalyzeClass(c, symbols), SyntaxKind.Attribute);
@@ -55,12 +41,6 @@ public class GenericRequiresUse : DiagnosticAnalyzer
         }
     }
 
-    private string[] DependencyAttributeNames =
-    {
-        nameof(SingletonAttribute), nameof(ScopedAttribute), nameof(TransientAttribute),
-        nameof(LocalAttribute), nameof(NonDependencyAttribute), nameof(SequelPay.DotNetPowerExtensions.DependencyAttribute),
-    };
-
     private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] attributeSymbols)
     {
         try
@@ -68,7 +48,7 @@ public class GenericRequiresUse : DiagnosticAnalyzer
             // Since a class decleration can be partial we will only report it on the attribute
             var attr = context.Node as AttributeSyntax;
             var attrName = attr?.Name.GetUnqualifiedName()?.Replace(nameof(Attribute), "");
-            if (attrName is null || !DependencyAttributeNames.Contains(attrName + nameof(Attribute)))
+            if (attrName is null || !DependencyAnalyzerUtils.DependencyAttributeNames.Contains(attrName + nameof(Attribute)))
                 return;
 
             AttributeArgumentSyntax? useExpression = null;

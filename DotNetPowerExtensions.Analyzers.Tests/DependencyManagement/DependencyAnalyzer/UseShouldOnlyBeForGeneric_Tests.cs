@@ -26,7 +26,7 @@ internal class UseShouldOnlyBeForGeneric_Tests : AnalyzerVerifierBase<UseShouldO
 
     [Test]
     public async Task Test_WorksWithParenthesis([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
-                                                            [Values("", nameof(Attribute))] string suffix, [Values("", "<TestType>")] string generics)
+                                                        [Values("", nameof(Attribute))] string suffix, [Values("", "<TestType>")] string generics)
     {
         var test = $$"""
         [{{prefix}}{{attribute}}{{suffix}}{{generics}}([|Use=(typeof(TestType))|])]
@@ -68,12 +68,13 @@ internal class UseShouldOnlyBeForGeneric_Tests : AnalyzerVerifierBase<UseShouldO
 
     [Test]
     public async Task Test_DoesNotWarnWhenGeneric([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
-                                    [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>")] string generics)
+                                    [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>", "<ITestType, ITestType2>")] string generics)
     {
         var test = $$"""
         public interface ITestType {}
+        public interface ITestType2 {}
         [{{prefix}}{{attribute}}{{suffix}}{{generics}}(Use=typeof(TestType<string>))]
-        public class TestType<T> : ITestType
+        public class TestType<T> : ITestType, ITestType2
         {
         }
         """;

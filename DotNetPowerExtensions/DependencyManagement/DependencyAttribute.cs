@@ -1,10 +1,13 @@
 ﻿
+using System.ComponentModel;
+
 namespace SequelPay.DotNetPowerExtensions;
 
 #pragma warning disable CA1813 // Avoid unsealed attributes
 
 // TODO... add analyzer to force subclasses to be services
-[AttributeUsage(AttributeTargets.Class|AttributeTargets.Struct|AttributeTargets.Interface, AllowMultiple = true /* Because of the generic `Use` */, Inherited = false)]
+[EditorBrowsable(EditorBrowsableState.Never)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true /* Because of the generic `Use` */, Inherited = false)]
 public abstract class DependencyAttribute : Attribute
 {
     public DependencyAttribute(DependencyType dependencyType, params Type[] types)

@@ -21,16 +21,7 @@ public class MustInitializeShouldBeLocal : MustInitializeRequiredMembersBase
     {
         Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
 
-        var allAttributeTypes = new[]
-        {
-            typeof(SingletonAttribute),
-            typeof(SingletonAttribute<>),
-            typeof(ScopedAttribute),
-            typeof(ScopedAttribute<>),
-            typeof(TransientAttribute),
-            typeof(TransientAttribute<>),
-        };
-        var symbols = allAttributeTypes.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
+        var symbols = DependencyAnalyzerUtils.NonLocalAttributes.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
 
         // TODO... maybe use an IOperation instead...
         compilationContext.RegisterSyntaxNodeAction(c => AnalyzeClass(c, mustInitializeSymbols, symbols), SyntaxKind.Attribute);
@@ -48,7 +39,7 @@ public class MustInitializeShouldBeLocal : MustInitializeRequiredMembersBase
             // Since a class decleration can be partial we will only report it on the attribute
             var attr = context.Node as AttributeSyntax;
             var attrName = attr?.Name.GetUnqualifiedName()?.Replace(nameof(Attribute), "");
-            if (attrName is null || !DependencyAttributeNames.Contains(attrName + nameof(Attribute))) return;
+            if (attrName is null || !DependencyAnalyzerUtils.NonLocalAttributeNames.Contains(attrName + nameof(Attribute))) return;
 
             if (context.SemanticModel.GetSymbolInfo(attr!, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol
                 || !attributeSymbols.ContainsGeneric(methodSymbol.ContainingType)) return;

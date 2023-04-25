@@ -12,10 +12,10 @@ internal class GenericRequiresUse_Tests : AnalyzerVerifierBase<GenericRequiresUs
 
     [Test]
     public async Task Test_Works([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
-                                                                                                 [ValueSource(nameof(Suffixes))] string suffix)
+                                        [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>", "<ITestType, ITestType2>")] string generics)
     {
         var test = $$"""
-        [[|{{prefix}}{{attribute}}{{suffix}}|]]
+        [[|{{prefix}}{{attribute}}{{suffix}}{{generics}}|]]
         public class TestType<T>
         {
         }
@@ -26,10 +26,10 @@ internal class GenericRequiresUse_Tests : AnalyzerVerifierBase<GenericRequiresUs
 
     [Test]
     public async Task Test_Works_WithNull([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
-                                                                                             [Values("", nameof(Attribute))] string suffix)
+                                     [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>", "<ITestType, ITestType2>")] string generics)
     {
         var test = $$"""
-        [{{prefix}}{{attribute}}{{suffix}}([|Use=null|])]
+        [{{prefix}}{{attribute}}{{suffix}}{{generics}}([|Use=null|])]
         public class TestType<T>
         {
         }

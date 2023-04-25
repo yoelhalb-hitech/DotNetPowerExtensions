@@ -130,6 +130,35 @@ We can use for that `ILocalFactory<>` which is like a factory class and decorate
 - Removes the need to set a value when in a nullable context (in C# 8 and upwards) for such a property or field (NOTE: This only works in projects compatible with .Net Standard 2.0, as otherwise the functionality isn't available in Roslyn)
 - Also adds the ability to have DI services that the caller has to initialize before usage via `ILocalFactory<>`
 
+### 5. Requires subclasses to register
+To require that all subclasses (or interface implmentations) register for the current class/interface we can use one of the `Base` attributes.
+
+##### Example Code
+
+    // Base/interface
+    // [SingletonBase] // For a Singleton service
+    // [ScopedBase] // For a Scoped service
+    // [LocalBase] // For a Local service, see below
+    [TransientBase] // For a transient service
+    public interface ITestClass {}
+
+    // Implementing service
+    // [Singleton(typeof(ITestClass))] // Or in C# 11 [Singleton<ITestClass>] // For a Singleton service
+    // [Scoped(typeof(ITestClass))] // Or in C# 11 [Scoped<ITestClass>] // For a Scoped service
+    // [Local(typeof(ITestClass))] // Or in C# 11 [Local<ITestClass>] // For a Local service, see below
+    [Transient(typeof(ITestClass))] // Or in C# 11 [Transient<ITestClass>] // For a transient service
+    public class TestClass : ITestClass {}
+
+    // Using service
+    // [Singleton] // For a Singleton service
+    // [Scoped] // For a Scoped service
+    // [Local] // For a Local service, see above
+    [Transient] // For a transient service
+    public class TestUserClass
+    {
+        public TestUserClass(ITestClass testClass) {}
+    }
+
 ##### Update for C#11
 As C# 11 introduced the `required` keyword which has even more features than we have currently (but we hope to add and way more) then in general you should the new keyword instead.
 

@@ -31,25 +31,15 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                 var localServiceSymbol = metadata(typeof(ILocalFactory<>));
                 if (localServiceSymbol is null) return;
 
-                var plainAttributeSymbol = metadata(typeof(LocalAttribute));
-                var genericAttributeSymbol = metadata(typeof(LocalAttribute<>));
-                if (plainAttributeSymbol is null && genericAttributeSymbol is null) return;
+                var localSymbols = DependencyAnalyzerUtils.LocalAttributes.Select(t => metadata(t)).ToArray();
+                if (!localSymbols.Any()) return;
 
-                var allAttributeTypes = new[]
-                {
-                    typeof(SingletonAttribute),
-                    typeof(SingletonAttribute<>),
-                    typeof(ScopedAttribute),
-                    typeof(ScopedAttribute<>),
-                    typeof(TransientAttribute),
-                    typeof(TransientAttribute<>),
-                };
-                var symbols = allAttributeTypes
-                    .Select(t => metadata(t)).Concat(new[] { plainAttributeSymbol, genericAttributeSymbol })
+                var symbols = DependencyAnalyzerUtils.NonLocalAttributes
+                    .Select(t => metadata(t)).Concat(localSymbols)
                     .Where(x => x is not null).Select(x => x!).ToArray();
 
                 compilationContext
-                    .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, plainAttributeSymbol, genericAttributeSymbol, localServiceSymbol, symbols),
+                    .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, localSymbols, localServiceSymbol, symbols),
                                                 SyntaxKind.ConstructorDeclaration);
             });
         }
@@ -59,8 +49,8 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
         }
     }
 
-    private void AnalyzeConstructor(SyntaxNodeAnalysisContext context, INamedTypeSymbol? plainAttribute,
-                        INamedTypeSymbol? genericAttribute, INamedTypeSymbol serviceTypeSymbol, INamedTypeSymbol[] attributeSymbols)
+    private void AnalyzeConstructor(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] localSymbols,
+                                                                INamedTypeSymbol serviceTypeSymbol, INamedTypeSymbol[] attributeSymbols)
     {
         try
         {
@@ -74,7 +64,6 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                             .Where(a => a.AttributeClass is not null)
                             .All(a => !attributeSymbols.ContainsGeneric(a.AttributeClass!))) return;
 
-            var unboundAttribute = genericAttribute?.ConstructUnboundGenericType();
             foreach (var parameter in ctor.ParameterList.Parameters)
             {
                 try
@@ -85,7 +74,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                     var symbol = context.SemanticModel.GetSymbolInfo(t).Symbol;
                     if (symbol is null) continue;
 
-                    if (symbol.HasAttribute(plainAttribute) || symbol.HasAttribute(genericAttribute))
+                    if (symbol.HasAttribute(localSymbols))
                     {
                         var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, parameter.GetLocation());
                         context.ReportDiagnostic(diagnostic);

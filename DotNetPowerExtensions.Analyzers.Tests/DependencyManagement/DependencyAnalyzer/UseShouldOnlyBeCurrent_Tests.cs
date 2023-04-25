@@ -12,12 +12,13 @@ internal class UseShouldOnlyBeCurrent_Tests : AnalyzerVerifierBase<UseShouldOnly
 
     [Test]
     public async Task Test_Works([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
-                                                                [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>")] string generics)
+                                            [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>", "<ITestType, ITestType2>")] string generics)
     {
         var test = $$"""
         public interface ITestType {}
+        public interface ITestType2 {}
         [{{prefix}}{{attribute}}{{suffix}}{{generics}}([|Use=typeof(System.Collections.Generic.List<string>)|])]
-        public class TestType<T> : ITestType
+        public class TestType<T> : ITestType, ITestType2
         {
         }
         """;
@@ -27,12 +28,13 @@ internal class UseShouldOnlyBeCurrent_Tests : AnalyzerVerifierBase<UseShouldOnly
 
     [Test]
     public async Task Test_Works_WithParenthesis([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
-                                                            [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>")] string generics)
+                                            [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>", "<ITestType, ITestType2>")] string generics)
     {
         var test = $$"""
         public interface ITestType {}
+        public interface ITestType2 {}
         [{{prefix}}{{attribute}}{{suffix}}{{generics}}([|Use=((typeof(System.Collections.Generic.List<string>)))|])]
-        public class TestType<T> : ITestType
+        public class TestType<T> : ITestType, ITestType2
         {
         }
         """;
