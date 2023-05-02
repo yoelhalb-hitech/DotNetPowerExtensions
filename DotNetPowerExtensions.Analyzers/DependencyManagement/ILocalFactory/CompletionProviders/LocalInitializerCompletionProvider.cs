@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.Completion;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+using Microsoft.CodeAnalysis.Completion;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.CodeAnalysis.Text;
 using SequelPay.DotNetPowerExtensions;
@@ -56,7 +57,7 @@ internal class LocalInitializerCompletionProvider : CompletionProvider
             //Contract.ThrowIfNull(enclosing);
 
             // Find the members that can be initialized. If we have a NamedTypeSymbol, also get the overridden members.
-            IEnumerable<ISymbol> members = semanticModel.LookupSymbols(position, initializedType);
+            var members = semanticModel.LookupSymbols(position, initializedType).ToArray();
 
             Func<ISymbol, bool> isInitializable = member => (bool)provider.GetType()
                                                                     .GetMethod("IsInitializable", BindingFlags.Instance | BindingFlags.NonPublic)
@@ -66,10 +67,15 @@ internal class LocalInitializerCompletionProvider : CompletionProvider
                                                                              .GetMethod("IsLegalFieldOrProperty", BindingFlags.Static | BindingFlags.NonPublic)
                                                                              .Invoke(null, new[] { member });
 
+            var mightRequireSymbols = await MightRequireUtils.GetMightRequireSymbols(document).ConfigureAwait(false);
+            var mightRequireMembers = MightRequireUtils.GetMightRequiredInfos(type, mightRequireSymbols)
+                                                            .Where(m => !members.Any(me => me.Name == m.Name))
+                                                            .ToArray();
+
             members = members.Where(m => isInitializable(m) &&
                                          m.CanBeReferencedByName &&
                                          isLegalFieldOrProperty(m) &&
-                                         !m.IsImplicitlyDeclared);
+                                         !m.IsImplicitlyDeclared).ToArray();
 
             // Filter out those members that have already been typed
             var alreadyTypedMembers = (HashSet<string>)provider.GetType()
@@ -86,6 +92,18 @@ internal class LocalInitializerCompletionProvider : CompletionProvider
                     displayTextSuffix: "",
                     insertionText: null,
                     symbols: ImmutableArray.Create(uninitializedMember),
+                    contextPosition: initializerLocation.SourceSpan.Start,
+                    rules: CompletionItemRules.Create(enterKeyRule: EnterKeyRule.Never)));
+            }
+
+            var uninitialized = mightRequireMembers.Where(m => !alreadyTypedMembers.Contains(m.Name));
+            foreach (var uninitializedMember in uninitialized)
+            {
+                context.AddItem(Reflect.CreateWithSymbolId(
+                    displayText: Reflect.EscapeIdentifier(uninitializedMember.Name),
+                    displayTextSuffix: "",
+                    insertionText: null,
+                    symbols: ImmutableArray<ISymbol>.Empty,
                     contextPosition: initializerLocation.SourceSpan.Start,
                     rules: CompletionItemRules.Create(enterKeyRule: EnterKeyRule.Never)));
             }

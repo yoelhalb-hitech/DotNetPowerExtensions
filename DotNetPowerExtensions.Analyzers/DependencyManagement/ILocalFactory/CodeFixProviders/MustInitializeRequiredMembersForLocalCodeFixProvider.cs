@@ -3,7 +3,6 @@ using DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
 using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
 using DotNetPowerExtensions.Analyzers.MustInitialize;
-using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CodeFixProviders;
 
@@ -19,22 +18,33 @@ public class MustInitializeRequiredMembersForLocalCodeFixProvider
         if ((await document.GetSymbolInfoAsync(declaration, c).ConfigureAwait(false))?.Symbol is not IMethodSymbol methodSymbol
                                                         || methodSymbol.ReceiverType is not INamedTypeSymbol classType) return null;
 
-        var mustInitializeSymbols = await GetMustInitializedSymbols(document).ConfigureAwait(false);
-        if (!mustInitializeSymbols.Any()) return null;
+        var mustInitializeSymbols = await GetMustInitializedSymbols(document, c).ConfigureAwait(false);
+        var mightRequireSymbols = await MightRequireUtils.GetMightRequireSymbols(document).ConfigureAwait(false);
+        if (!mustInitializeSymbols.Any() && !mustInitializeSymbols.Any()) return null;
+
+        var intializedSymbol = await document.GetTypeByMetadataNameAsync(typeof(InitializedAttribute), c).ConfigureAwait(false);
 
         var innerClass = classType.TypeArguments.FirstOrDefault();
         if (innerClass is null) return null;
 
-        var props = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols);
-        if (!props.Any()) return null;
+        var propsGroup = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols, mightRequireSymbols, intializedSymbol)
+                        .GroupBy(p => p.name)
+                        .OrderBy(g => g.Key);
+        if (!propsGroup.Any()) return null;
 
         if (declaration.ArgumentList.Arguments.FirstOrDefault()?.Expression is AnonymousObjectCreationExpressionSyntax creation)
         {
-            var propsMissing = MustInitializeUtils.GetNotInitializedNames(creation, innerClass, mustInitializeSymbols).ToArray();
-            creation = creation.WithInitializers(creation.Initializers.AddRange(props.Where(p => propsMissing.Contains(p.As<ISymbol>()!.Name)).Select(GetPropertyAssignment)));
+            var propsMissing = MustInitializeUtils
+                    .GetNotInitializedNames(creation, innerClass, mustInitializeSymbols, mightRequireSymbols, intializedSymbol)
+                    .ToArray();
+            creation = creation.WithInitializers(
+                    creation.Initializers.AddRange(propsGroup.Where(g => propsMissing.Contains(g.Key)).Select(g => GetPropertyAssignment(g.First()))));
         }
         else
-            creation = SyntaxFactory.AnonymousObjectCreationExpression(SyntaxFactory.SeparatedList(props.Select(GetPropertyAssignment)));
+        {
+            creation = SyntaxFactory.AnonymousObjectCreationExpression(SyntaxFactory.SeparatedList(propsGroup.Select(g => GetPropertyAssignment(g.First()))));
+
+        }
 
         var newArguments = SyntaxFactory.SeparatedList(new[] { SyntaxFactory.Argument(creation) });
         return (declaration, declaration.WithArgumentList(declaration.ArgumentList.WithArguments(newArguments)));

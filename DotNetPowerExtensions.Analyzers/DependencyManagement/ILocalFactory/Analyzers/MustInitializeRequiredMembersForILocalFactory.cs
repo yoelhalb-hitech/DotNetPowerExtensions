@@ -1,5 +1,6 @@
 ﻿using DotNetPowerExtensions.Analyzers.MustInitialize;
 using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
@@ -18,15 +19,23 @@ public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequi
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        var typeName = typeof(ILocalFactory<>).FullName;
-        var typedSymbol = compilationContext.Compilation.GetTypeByMetadataName(typeName!);
-        if (typedSymbol is null) return;
+        Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
+
+        var localSymbol = metadata(typeof(ILocalFactory<>));
+        if (localSymbol is null) return;
+
+        var mightRequireSymbols = MightRequireUtils.Attributes.Select(a => metadata(a)).OfType<INamedTypeSymbol>().ToArray();
+        if (!mightRequireSymbols.Any()) return;
+
+        var intializedSymbol = metadata(typeof(InitializedAttribute));
 
         // TODO... maybe use an IOperation instead...
-        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, mustInitializeSymbols, typedSymbol), SyntaxKind.InvocationExpression);
+        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, mustInitializeSymbols, mightRequireSymbols, localSymbol, intializedSymbol),
+                                                                                                                            SyntaxKind.InvocationExpression);
     }
 
-    private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols, INamedTypeSymbol serviceTypeSymbol)
+    private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols,
+                                                INamedTypeSymbol[] mightRequireSymbols, INamedTypeSymbol serviceTypeSymbol, INamedTypeSymbol? initializedSymbol)
     {
         try
         {
@@ -46,9 +55,9 @@ public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequi
 
             IEnumerable <string> props;
             if (argExpression is AnonymousObjectCreationExpressionSyntax creation)
-                props = MustInitializeUtils.GetNotInitializedNames(creation, innerClass, mustInitializeSymbols);
+                props = MustInitializeUtils.GetNotInitializedNames(creation, innerClass, mustInitializeSymbols, mightRequireSymbols, initializedSymbol);
             else
-                props = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols)
+                props = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols, mightRequireSymbols, initializedSymbol)
                                                     .Select(m => m.name)
                                                     .Distinct();
 

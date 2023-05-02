@@ -50,21 +50,44 @@ internal class MustInitializeUtils
     }
 
     public static IEnumerable<string> GetNotInitializedNames(AnonymousObjectCreationExpressionSyntax typeDecl, ITypeSymbol symbol,
-                                                                                                                INamedTypeSymbol[] mustInitializeSymbols)
+                                        INamedTypeSymbol[] mustInitializeSymbols, INamedTypeSymbol[] mightRequireSymbols, INamedTypeSymbol? initializedSymbol)
     {
-        var props = GetRequiredToInitialize(symbol, mustInitializeSymbols).Select(m => m.name);
+        var props = GetRequiredToInitialize(symbol, mustInitializeSymbols, mightRequireSymbols, initializedSymbol).Select(m => m.name);
 
         var initialized = typeDecl.Initializers.Select(i => i.GetName()).Where(x => x is not null).Select(x => x!);
 
         return props.Except(initialized).Distinct();
     }
 
-    public static IEnumerable<(string name, ITypeSymbol type)> GetRequiredToInitialize(ITypeSymbol symbol, INamedTypeSymbol[] mustInitializeSymbols)
+    public static IEnumerable<(string name, ITypeSymbol type)> GetRequiredToInitialize(ITypeSymbol symbol, INamedTypeSymbol[] mustInitializeSymbols,
+                                                                        INamedTypeSymbol[] mightRequireSymbols, INamedTypeSymbol? initializedSymbol)
     {
         var props = GetClosestMembersWithAttribute(symbol, mustInitializeSymbols);
         foreach (var prop in props)
         {
             yield return (prop.As<ISymbol>()!.Name, prop.First?.Type ?? prop.Second!.Type);
+        }
+
+        var initialized = initializedSymbol is null ? null :
+                                    GetClosestMembersWithAttribute(symbol, new[] { initializedSymbol })
+                                        .ToDictionary(m => m.As<ISymbol>()!.Name, m => m.First?.ContainingType ?? m.Second!.ContainingType);
+
+        var baseTypes = symbol.GetAllBaseTypes().Concat(symbol.AllInterfaces).ToArray();
+        var baseDict = baseTypes.ToDictionary(t => t, t => (ITypeSymbol[]?)null, SymbolEqualityComparer.Default);
+        baseDict.Add(symbol, baseTypes);
+
+        foreach (var info in MightRequireUtils.GetMightRequiredInfos(symbol, mightRequireSymbols))
+        {
+            if(initialized?.TryGetValue(info.Name, out var init) == true)
+            {
+                if (baseDict[init] is null) baseDict[init] = init.GetAllBaseTypes().Concat(init.AllInterfaces).ToArray();
+
+                // We only ignore initialized properties if they are declared in a sub of the MightRequire
+                // Note that if the current type has both initilized and MightRequire we assume that maybe he used to MightRequire because a subclass will override it and require to initilaize it
+                if (baseDict[init]!.ContainsSymbol(info.ContainingSymbol)) continue;
+            }
+
+             yield return (info.Name, info.Type);
         }
     }
 }

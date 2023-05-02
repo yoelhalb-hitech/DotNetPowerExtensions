@@ -147,6 +147,70 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
     }
 
     [Test]
+    public async Task Test_DoesNotWarnForInitializedWhenMightRequiresBase([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        [MightRequire<string>("TestProp")]
+        public class DeclareTypeBase
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            [{{prefix}}Initialized{{suffix}}] public override string TestProp { get; set; }
+            [{{prefix}}Initialized{{suffix}}] public new string TestField;
+        }
+
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create(new {}); }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_WarnsForInitializedWhenMightRequiresSameType([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        [MightRequire<string>("TestProp")]
+        public class DeclareType
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create([|new {}|]); }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_WarnsForMightRequiresWhenInitializedBase([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareTypeBase
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            [{{prefix}}Initialized{{suffix}}] public override string TestProp { get; set; }
+            [{{prefix}}Initialized{{suffix}}] public new string TestField;
+        }
+        [MightRequire<string>("TestProp")]
+        public class DeclareTypeSub : DeclareType
+        {
+        }
+
+        class Program { void Main() => (null as ILocalFactory<DeclareTypeSub>).Create([|new {}|]); }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_DoesNotWarn_ForClassInitializer([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         // Because it will be handled by another analzyer
@@ -238,14 +302,63 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
     }
 
     [Test]
+    public async Task Test_Works_WithMightRequire([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        [{{prefix}}MightRequire<string>("TestProp")]
+        [{{prefix}}MightRequire<string>("TestField")]
+        public class DeclareType
+        {
+        }
+
+        class Program { void Main() => (null as ILocalFactory<DeclareType>).Create[|(/::/)|]; }
+        """;
+
+        var fixCode = $$"""new { TestField = default(string), TestProp = default(string) }""";
+
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_Works_WithMightRequireAndSubclass([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        [{{prefix}}MightRequire<string>("TestPropRequire")]
+        [{{prefix}}MightRequire<string>("TestFieldRequire")]
+        public class DeclareType
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+        [{{prefix}}MightRequire<string>("TestPropSubRequire")]
+        [{{prefix}}MightRequire<string>("TestFieldSubRequire")]
+        public class Subclass : DeclareType
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public string TestSubProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestSubField;
+        }
+
+        class Program { void Main() => (null as ILocalFactory<Subclass>).Create[|(/::/)|]; }
+        """;
+
+        var fixCode = $$"""new { TestField = default(string), TestFieldRequire = default(string), TestFieldSubRequire = default(string), TestProp = default(string), TestPropRequire = default(string), TestPropSubRequire = default(string), TestSubField = default(string), TestSubProp = default(string) }""";
+
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_Subclass_HasCorrectMessage_OnlyOnceForEach([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
+        [{{prefix}}MightRequire<string>("TestProp")]
+        [{{prefix}}MightRequire<string>("TestField")]
         public class DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
             [{{prefix}}MustInitialize{{suffix}}] public string TestField;
         }
+        [{{prefix}}MightRequire<string>("TestProp")]
+        [{{prefix}}MightRequire<string>("TestField")]
         public class Subclass : DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
@@ -255,8 +368,8 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
         """;
 
         await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0201", DiagnosticSeverity.Warning)
-                                            .WithSpan(12, 72, 12, 74)
-                                            .WithMessage("Must initialize 'TestProp, TestField'"))
+                                            .WithSpan(16, 72, 16, 74)
+                                            .WithMessage("Must initialize 'TestField, TestProp'"))
             .ConfigureAwait(false);
     }
 
@@ -264,10 +377,12 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
     public async Task Test_Subclass_Codefix_OnlyFixesOnceForEach([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
+        [{{prefix}}MightRequire<string>("TestProp")]
         public class DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
         }
+        [{{prefix}}MightRequire<string>("TestProp")]
         public class Subclass : DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
@@ -287,10 +402,12 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
     {
 
         var test = $$"""
+        [{{prefix}}MightRequire<string>("TestProp")]
         public class DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
         }
+        [{{prefix}}MightRequire<string>("TestProp")]
         public class Subclass : DeclareType
         {
             [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }

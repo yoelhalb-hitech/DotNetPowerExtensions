@@ -28,5 +28,9 @@ DNPE0209 | Language | Warning | DependencyShouldNotBeAbstract
 DNPE0210 | Language | Warning | ForTypeMustBeParent
 DNPE0211 | Language | Warning | DependencyRequiredWhenBase
 DNPE0212 | Language | Warning | DependencyTypeDoesNotMatchBase
+DNPE0213 | Language | Warning | MightRequireShouldBeLocal
+DNPE0214 | Language | Warning | MightRequireTypeConflict
+DNPE0215 | Language | Warning | MustInitializeShouldAddMightRequire
+DNPE0216 | Language | Warning | MustInitializeConflictsWithMightRequire
 DNPE0301 | Language | Warning | NonDelegateShouldNotBeAssigned
 DNPE0401 | Language | Warning | AsShouldBeAssignableType

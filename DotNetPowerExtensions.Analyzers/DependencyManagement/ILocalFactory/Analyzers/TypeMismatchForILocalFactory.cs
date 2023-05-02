@@ -1,6 +1,6 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using SequelPay.DotNetPowerExtensions;
-using System.Diagnostics.CodeAnalysis;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize;
+using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
@@ -19,15 +19,23 @@ public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        var typeName = typeof(ILocalFactory<>).FullName;
-        var typedSymbol = compilationContext.Compilation.GetTypeByMetadataName(typeName!);
-        if (typedSymbol is null) return;
+        Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
+
+        var localSymbol = metadata(typeof(ILocalFactory<>));
+        if (localSymbol is null) return;
+
+        var mightRequireSymbols = MightRequireUtils.Attributes.Select(a => metadata(a)).OfType<INamedTypeSymbol>().ToArray();
+        if (!mightRequireSymbols.Any()) return;
+
+        var intializedSymbol = metadata(typeof(InitializedAttribute));
 
         // TODO... maybe use an IOperation instead...
-        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, mustInitializeSymbols, typedSymbol), SyntaxKind.InvocationExpression);
+        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, mustInitializeSymbols, mightRequireSymbols, localSymbol, intializedSymbol),
+                                                                                                                SyntaxKind.InvocationExpression);
     }
 
-    private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols, INamedTypeSymbol serviceTypeSymbol)
+    private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols,
+                                            INamedTypeSymbol[] mightRequireSymbols, INamedTypeSymbol serviceTypeSymbol, INamedTypeSymbol? initializedSymbol)
     {
         try
         {
@@ -45,7 +53,8 @@ public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
             var innerClass = classType.TypeArguments.FirstOrDefault();
             if (innerClass is null) return;
 
-            var props = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols).ToDictionary(m => m.name, m => m.type);
+            var props = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols, mightRequireSymbols, initializedSymbol)
+                                                                                                                .ToDictionary(m => m.name, m => m.type);
 
             var declared = creation.Initializers.Where(i => !string.IsNullOrWhiteSpace(i.GetName())).ToDictionary(i => i.GetName()!, i => i.Expression);
 
