@@ -30,12 +30,20 @@
     <PackageTags>TestCodeFix, Roslyn, CodeAnalysis, analyzers</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
 	<Company>SequelPay</Company>
+	<PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
   </PropertyGroup>
 
   <ItemGroup>
 	<!-- CAUTION: we need Microsoft.CodeAnalysis.CSharp and Microsoft.CodeAnalysis.CSharp.Workspaces to be the same as Features -->
 	<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.3.0" PrivateAssets="all" />
+	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+		<PrivateAssets>all</PrivateAssets>
+		<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+	</PackageReference>
   </ItemGroup>
 
   <ItemGroup>
