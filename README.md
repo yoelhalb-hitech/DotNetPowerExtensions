@@ -124,11 +124,26 @@ We can use for that `ILocalFactory<>` which is like a factory class and decorate
         }
     }
 
-### 4. MustInitialize
+#### 3.4 Base Attributes to Force Subclass Implementation
 
-- Allows you enforce that the given property or field has to be initialized when instantiated.
-- Removes the need to set a value when in a nullable context (in C# 8 and upwards) for such a property or field (NOTE: This only works in projects compatible with .Net Standard 2.0, as otherwise the functionality isn't available in Roslyn)
-- Also adds the ability to have DI services that the caller has to initialize before usage via `ILocalFactory<>`
+Sometimes we want all subclasses to be required to register their implementations for the base interface/class.
+In this case we can decorate the base/interface with one of the Base attributes (see example), which will then warn for any subclass that doesn't register.
+
+##### Example Code
+    
+    // Declaring service base/interface, the following interfaces will require the implementors to register for the base/interface
+    // [SingletonBase]
+    // [ScopedBase]
+    // [LocalBase]
+    [TransientBase]
+    public interface ITestClass {}
+
+    // Declaring service
+    // [Singleton(typeof(ITestClass))] // Or in C# 11 [Singleton<ITestClass>] // For a Singleton service
+    // [Scoped(typeof(ITestClass))] // Or in C# 11 [Scoped<ITestClass>] // For a Scoped service
+    // [Local(typeof(ITestClass))] // Or in C# 11 [Local<ITestClass>] // For a Local service, see below
+    [Transient(typeof(ITestClass))] // Or in C# 11 [Transient<ITestClass>] // For a transient service
+    public class TestClass : ITestClass {}
 
 ### 5. Requires subclasses to register
 To require that all subclasses (or interface implmentations) register for the current class/interface we can use one of the `Base` attributes.
@@ -159,6 +174,13 @@ To require that all subclasses (or interface implmentations) register for the cu
         public TestUserClass(ITestClass testClass) {}
     }
 
+### 4. MustInitialize
+
+- Allows you enforce that the given property or field has to be initialized when instantiated.
+- Removes the need to set a value when in a nullable context (in C# 8 and upwards) for such a property or field (NOTE: This only works in projects compatible with .Net Standard 2.0, as otherwise the functionality isn't available in Roslyn)
+- Also adds the ability to have DI services that the caller has to initialize before usage via `ILocalFactory<>`
+- We can also specify on a subclass override `Initialized` to indicate that the property has been initalized already and the caller doesn't have to do it anymore
+
 ##### Update for C#11
 As C# 11 introduced the `required` keyword which has even more features than we have currently (but we hope to add and way more) then in general you should the new keyword instead.
 
@@ -184,6 +206,20 @@ Without MustInitialize the following error will be reported on line 3:
 However with MustInitialize it will report the following on line 5:
 
     warning DNPE0103: Property 'TestProperty' must be initialized
+
+##### Example of the Initialized attribute
+
+    public class TestBaseClass
+    {
+        [MustInitialize] public virtual string TestProperty { get; set; } 
+    }
+    public class TestSubClass : TestBaseClass
+    {
+        [Initialized] public virtual string TestProperty { get; set; } = "Initial value";
+    }
+    var willRequire = new TestBaseClass(); // Will warn that TestProperty has to be intialized
+    var willNotRequire = new TestSubClass(); // Will not warn
+
 
 #### 4.1 DI
 If the class containing the property/field decorated with MustInitialized is a service (i.e. it has one of the `Singleton`/`Scoped`/`Transient` attributes) it will warn that `Local` should be used instead.
@@ -221,6 +257,40 @@ Note that it has to also match the casing of the name, and the value supplied ha
         }
     }
 
+#### 5.2 MightRequire
+
+When we use DI we many times have the service contract (an interface or base class) and then the actual service is provided by an implementation class.
+If the implementation class has (or might have in the future) members decorated with `MustInitialize` then we need a way to notify the consumer of the interface/base to initlaize it.
+For this purpose there is the `MightRequire` attribute that should be used to decorate the base class and then the consumer will have to initalize it.
+
+##### Example Code for DI base implementation pair with ILocalFactory
+
+    // Declaring service
+    [MightRequire("TestProperty", typeof(string))] // Or in C# 11 [MightRequire<string>(nameof(TestClass.TestProperty))]
+    public interface ITestClass
+    {
+    }
+    [Local(typeof(ITestClass))] // Or in C# 11 [Local<ITestClass>]
+    public class TestClass : ITestClass
+    {
+        [MustInitialize] public string TestProperty { get; set; } 
+    }
+
+    public class TestUserClass
+    {
+        private ILocalFactory<ITestClass> testClassFactory;
+        public TestUserClass(ILocalFactory<ITestClass> testClassFactory) // Note we are using ITestClass and not TestClass but we still have to provide the TestProperty
+        {
+            this.testClassFactory = testClassFactory;
+        }
+
+        public void SomeMethod()
+        {
+            var testClass = testClassFactory.Get(new { TestProperty = "SomeString" });
+            // Assert.Equals(testClass.TestProperty, "SomeString"); this will throw a compile error because it is types as ITestClass and not TestClass...
+        }
+    }
+
 ## Componenets of MustInitialize Analyzer
 - A Roslyn analyzer which can be installed as a Nuget package
 - A Visual Studio extension
@@ -244,7 +314,7 @@ See sample image from the Visaul Studio `Tools -> Nuget Package Manager -> Manag
 ## Debugging
 
 ##### To run in Visual Studio
-Just load up the project nad hit start.
+Just load up the project and hit start.
 
 When running the project sometimes the breakpoints are not being hit, you can use the suggestions described in [this issue](https://github.com/dotnet/roslyn-sdk/issues/515):
     - Turn off `Use 64 bit process for code analysis`
