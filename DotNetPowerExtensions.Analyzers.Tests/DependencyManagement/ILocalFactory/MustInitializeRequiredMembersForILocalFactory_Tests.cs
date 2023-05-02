@@ -22,7 +22,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
 
         await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0201", DiagnosticSeverity.Warning)
                                             .WithSpan(8, 75, 8, 77)
-                                            .WithMessage("Must initialize 'TestProp, TestField'"))
+                                            .WithMessage("Must initialize 'TestField, TestProp'"))
             .ConfigureAwait(false);
     }
 
@@ -42,7 +42,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
         class Program { void Main() => (null as ILocalFactory<DeclareType>).Create[|(/::/)|]; }
         """;
 
-        var fixCode = $$"""new { TestProp = default(string), TestGeneralName = default(AppDomain), TestField = default(List<(string, int)>) }""";
+        var fixCode = $$"""new { TestField = default(List<(string, int)>), TestGeneralName = default(AppDomain), TestProp = default(string) }""";
 
         await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
@@ -120,7 +120,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
         class Program { void Main() => (null as ILocalFactory<DeclareType>).Create([|new {/::/}|]); }
         """;
 
-        var fixCode = $$""" TestProp = default(string), TestField = default(string) """;
+        var fixCode = $$""" TestField = default(string), TestProp = default(string) """;
 
         await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
@@ -195,7 +195,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
         class Program { void Main() => (null as ILocalFactory<DeclareType>).Create([|new { TestOther = "Testing"/::/ }|]); }
         """;
 
-        var fixCode = $$""", TestProp = default(string), TestField = default(string)""";
+        var fixCode = $$""", TestField = default(string), TestProp = default(string)""";
 
         await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }
@@ -232,7 +232,7 @@ internal sealed class MustInitializeRequiredMembersForILocalFactory_Tests
         class Program { void Main() => (null as ILocalFactory<Subclass>).Create[|(/::/)|]; }
         """;
 
-        var fixCode = $$"""new { TestProp = default(string), TestField = default(string) }""";
+        var fixCode = $$"""new { TestField = default(string), TestProp = default(string) }""";
 
         await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
     }

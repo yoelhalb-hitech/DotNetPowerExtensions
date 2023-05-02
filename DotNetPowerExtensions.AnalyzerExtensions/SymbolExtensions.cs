@@ -1,7 +1,10 @@
-﻿
-namespace DotNetPowerExtensions.Analyzers.Utils;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-internal static class SymbolExtensions
+namespace SequelPay.DotNetPowerExtensions.RoslynExtensions;
+
+public static class SymbolExtensions
 {
     public static string GetNamespace(this ISymbol symbol)
     {
@@ -12,7 +15,7 @@ internal static class SymbolExtensions
 
         nameSpace = namespaceParent.Name.ToString();
 
-        for (; namespaceParent.ContainingNamespace is not null; namespaceParent = namespaceParent.ContainingNamespace)
+        for (namespaceParent = namespaceParent.ContainingNamespace; namespaceParent?.IsGlobalNamespace == false; namespaceParent = namespaceParent.ContainingNamespace)
             nameSpace = $"{namespaceParent.Name}.{nameSpace}";
 
         return nameSpace;
@@ -36,6 +39,16 @@ internal static class SymbolExtensions
         }
     }
 
+    public static TypeSyntax ToTypeSyntax(this ITypeSymbol type)
+    {
+        if (type.SpecialType != SpecialType.None)
+            return SyntaxFactory.PredefinedType(SyntaxFactory.ParseToken(type.ToString()!)); // We need to do it this way as the Test framwork expects a predefined type in this case
+
+        var str = type.ToStringWithoutNamesapce(); // This will handle correctly keywords such as string and generics and tuples
+
+        return SyntaxFactory.ParseName(str); // ParseName will handle correctly generic names
+    }
+
     // TODO... so far this doesn't work on inner methods...
     public static string GetContainerFullName(this ISymbol symbol)
     {
@@ -46,7 +59,7 @@ internal static class SymbolExtensions
 
         name = classDecl.Name.ToString();
 
-        for (; classDecl.ContainingType is not null; classDecl = classDecl.ContainingType)
+        for (classDecl = classDecl.ContainingType; classDecl is not null; classDecl = classDecl.ContainingType)
             name = $"{classDecl.Name}+{name}";
 
         return symbol.GetNamespace() + "." + name;
@@ -90,4 +103,7 @@ internal static class SymbolExtensions
 
     public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol? attributeSymbol)
         => attributeSymbol is not null && symbol.HasAttribute(new[] { attributeSymbol });
+
+    public static IEnumerable<TSyntax>? GetSyntax<TSyntax>(this ISymbol symbol) where TSyntax : SyntaxNode
+        => symbol.DeclaringSyntaxReferences.Select(r => r.GetSyntax()).OfType<TSyntax>();
 }

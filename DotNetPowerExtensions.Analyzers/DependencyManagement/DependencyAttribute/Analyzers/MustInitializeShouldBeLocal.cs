@@ -1,7 +1,4 @@
-﻿
-using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using SequelPay.DotNetPowerExtensions;
-using System.Diagnostics.CodeAnalysis;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
@@ -10,7 +7,7 @@ public class MustInitializeShouldBeLocal : MustInitializeRequiredMembersBase
 {
     public const string DiagnosticId = "DNPE0205";
     protected const string Title = "UseLocalWhenMustInitialize";
-    protected const string Message = "Use `Local` for a class that contains members with Mustinitialize";
+    protected const string Message = "Use `Local` for a class that contains members with MustInitialize";
     protected const string Description = Message + ".";
     protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
 
@@ -27,27 +24,18 @@ public class MustInitializeShouldBeLocal : MustInitializeRequiredMembersBase
         compilationContext.RegisterSyntaxNodeAction(c => AnalyzeClass(c, mustInitializeSymbols, symbols), SyntaxKind.Attribute);
     }
 
-    private string[] DependencyAttributeNames =
-    {
-        nameof(SingletonAttribute), nameof(ScopedAttribute), nameof(TransientAttribute),
-    };
-
     private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols, INamedTypeSymbol[] attributeSymbols)
     {
         try
         {
             // Since a class decleration can be partial we will only report it on the attribute
-            var attr = context.Node as AttributeSyntax;
-            var attrName = attr?.Name.GetUnqualifiedName()?.Replace(nameof(Attribute), "");
-            if (attrName is null || !DependencyAnalyzerUtils.NonLocalAttributeNames.Contains(attrName + nameof(Attribute))) return;
+            var result = DependencyAnalyzerUtils.GetAttributeInfo(context,
+                                                            DependencyAnalyzerUtils.NonLocalAttributeNames, attributeSymbols);
+            if (result is null) return;
+            var (attr, attrName, methodSymbol) = result.Value;
 
-            if (context.SemanticModel.GetSymbolInfo(attr!, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol
-                || !attributeSymbols.ContainsGeneric(methodSymbol.ContainingType)) return;
-
-            var parent = context.Node.Parent;
-            while (parent is not null && !object.ReferenceEquals(parent, parent.Parent) && parent is not TypeDeclarationSyntax) parent = parent.Parent;
-
-            if(parent is not TypeDeclarationSyntax) return;
+            var parent = context.Node.FirstAncestorOrSelf<TypeDeclarationSyntax>();
+            if (parent is null) return;
 
             if (context.SemanticModel.GetDeclaredSymbol(parent!, context.CancellationToken) is not INamedTypeSymbol classSymbol) return;
 

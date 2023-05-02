@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions", "Do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Tests", "DotNetPowerExtensions.Tests\DotNetPowerExtensions.Tests.csproj", "{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.RoslynExtensions", "DotNetPowerExtensions.AnalyzerExtensions\DotNetPowerExtensions.RoslynExtensions.csproj", "{C484EA56-1056-4E11-9366-26834DE7BAA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.RoslynExtensions.Tests", "DotNetPowerExtensions.RoslynExtensions.Tests\DotNetPowerExtensions.RoslynExtensions.Tests.csproj", "{C96D0043-1E77-4C9E-8068-2F8144A7F2C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C484EA56-1056-4E11-9366-26834DE7BAA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C484EA56-1056-4E11-9366-26834DE7BAA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C484EA56-1056-4E11-9366-26834DE7BAA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C484EA56-1056-4E11-9366-26834DE7BAA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C96D0043-1E77-4C9E-8068-2F8144A7F2C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C96D0043-1E77-4C9E-8068-2F8144A7F2C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C96D0043-1E77-4C9E-8068-2F8144A7F2C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C96D0043-1E77-4C9E-8068-2F8144A7F2C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

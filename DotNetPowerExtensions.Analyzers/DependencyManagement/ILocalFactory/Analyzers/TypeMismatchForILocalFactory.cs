@@ -45,8 +45,7 @@ public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
             var innerClass = classType.TypeArguments.FirstOrDefault();
             if (innerClass is null) return;
 
-            var props = GetMembersWithMustInitialize(innerClass, mustInitializeSymbols)
-                    .ToDictionary(m => m.As<ISymbol>()!.Name, m => m.First?.Type ?? m.Second!.Type);
+            var props = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols).ToDictionary(m => m.name, m => m.type);
 
             var declared = creation.Initializers.Where(i => !string.IsNullOrWhiteSpace(i.GetName())).ToDictionary(i => i.GetName()!, i => i.Expression);
 

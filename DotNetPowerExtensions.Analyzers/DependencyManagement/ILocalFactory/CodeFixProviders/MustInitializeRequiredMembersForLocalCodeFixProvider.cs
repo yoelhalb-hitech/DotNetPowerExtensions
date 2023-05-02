@@ -1,8 +1,9 @@
-﻿using SequelPay.DotNetPowerExtensions;
-using DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
-using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 using DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+using DotNetPowerExtensions.Analyzers.MustInitialize;
+using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CodeFixProviders;
 
@@ -15,7 +16,7 @@ public class MustInitializeRequiredMembersForLocalCodeFixProvider
     protected override async Task<(SyntaxNode declToReplace, SyntaxNode newDecl)?> CreateChanges(Document document,
                                                                 InvocationExpressionSyntax declaration, CancellationToken c)
     {
-        if ((await document.GetSymbolInfo(declaration, c).ConfigureAwait(false))?.Symbol is not IMethodSymbol methodSymbol
+        if ((await document.GetSymbolInfoAsync(declaration, c).ConfigureAwait(false))?.Symbol is not IMethodSymbol methodSymbol
                                                         || methodSymbol.ReceiverType is not INamedTypeSymbol classType) return null;
 
         var mustInitializeSymbols = await GetMustInitializedSymbols(document).ConfigureAwait(false);
@@ -24,12 +25,12 @@ public class MustInitializeRequiredMembersForLocalCodeFixProvider
         var innerClass = classType.TypeArguments.FirstOrDefault();
         if (innerClass is null) return null;
 
-        var props = MustInitializeRequiredMembersBase.GetMembersWithMustInitialize(innerClass, mustInitializeSymbols);
+        var props = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols);
         if (!props.Any()) return null;
 
         if (declaration.ArgumentList.Arguments.FirstOrDefault()?.Expression is AnonymousObjectCreationExpressionSyntax creation)
         {
-            var propsMissing = MustInitializeRequiredMembersForILocalFactory.GetNotInitializedNames(creation, innerClass, mustInitializeSymbols).ToArray();
+            var propsMissing = MustInitializeUtils.GetNotInitializedNames(creation, innerClass, mustInitializeSymbols).ToArray();
             creation = creation.WithInitializers(creation.Initializers.AddRange(props.Where(p => propsMissing.Contains(p.As<ISymbol>()!.Name)).Select(GetPropertyAssignment)));
         }
         else
@@ -39,23 +40,10 @@ public class MustInitializeRequiredMembersForLocalCodeFixProvider
         return (declaration, declaration.WithArgumentList(declaration.ArgumentList.WithArguments(newArguments)));
     }
 
-    private AnonymousObjectMemberDeclaratorSyntax GetPropertyAssignment(Union<IPropertySymbol, IFieldSymbol> prop)
+    private AnonymousObjectMemberDeclaratorSyntax GetPropertyAssignment((string name, ITypeSymbol type) prop)
     {
-        ITypeSymbol type = prop.First?.Type ?? prop.Second!.Type;
+        var defaultExpression = SyntaxFactory.DefaultExpression(prop.type.ToTypeSyntax());
 
-        // For an anonymous we have to specify the type of the property
-        TypeSyntax typeSyntax;
-        if(type.SpecialType != SpecialType.None)
-            typeSyntax = SyntaxFactory.PredefinedType(SyntaxFactory.ParseToken(type.ToString()!)); // We need to do it this way as the Test framwork expects a predefined type in this case
-        else
-        {
-            var str = type.ToStringWithoutNamesapce(); // This will handle correctly keywords such as string and generics and tuples
-
-            typeSyntax = SyntaxFactory.ParseName(str); // ParseName will handle correctly generic names
-        }
-
-        var defaultExpression = SyntaxFactory.DefaultExpression(typeSyntax);
-
-        return SyntaxFactory.AnonymousObjectMemberDeclarator(SyntaxFactory.NameEquals(prop.As<ISymbol>()!.Name), defaultExpression);
+        return SyntaxFactory.AnonymousObjectMemberDeclarator(SyntaxFactory.NameEquals(prop.name), defaultExpression);
     }
 }

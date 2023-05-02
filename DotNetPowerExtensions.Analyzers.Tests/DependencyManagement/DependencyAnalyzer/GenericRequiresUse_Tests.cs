@@ -5,9 +5,8 @@ namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyA
 
 internal class GenericRequiresUse_Tests : AnalyzerVerifierBase<GenericRequiresUse>
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison for clarity", Justification = "Older frameworks don't support it")]
     public static string[] Attributes => new string[] { nameof(SingletonAttribute), nameof(ScopedAttribute), nameof(TransientAttribute), nameof(LocalAttribute) }
-                                                        .Select(n => n.Replace(nameof(Attribute), ""))
+                                                        .Select(n => n.Replace(nameof(Attribute), "", StringComparison.Ordinal))
                                                         .ToArray();
 
     [Test]
@@ -15,8 +14,10 @@ internal class GenericRequiresUse_Tests : AnalyzerVerifierBase<GenericRequiresUs
                                         [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>", "<ITestType, ITestType2>")] string generics)
     {
         var test = $$"""
+        public interface ITestType {}
+        public interface ITestType2 {}
         [[|{{prefix}}{{attribute}}{{suffix}}{{generics}}|]]
-        public class TestType<T>
+        public class TestType<T> : ITestType, ITestType2
         {
         }
         """;
@@ -29,8 +30,10 @@ internal class GenericRequiresUse_Tests : AnalyzerVerifierBase<GenericRequiresUs
                                      [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>", "<ITestType, ITestType2>")] string generics)
     {
         var test = $$"""
+        public interface ITestType {}
+        public interface ITestType2 {}
         [{{prefix}}{{attribute}}{{suffix}}{{generics}}([|Use=null|])]
-        public class TestType<T>
+        public class TestType<T> : ITestType, ITestType2
         {
         }
         """;

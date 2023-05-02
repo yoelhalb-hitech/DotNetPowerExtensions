@@ -1,7 +1,8 @@
-﻿
-namespace DotNetPowerExtensions.Analyzers.Utils;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-internal static class SyntaxExtensions
+namespace SequelPay.DotNetPowerExtensions.RoslynExtensions;
+
+public static class SyntaxExtensions
 {
     // From https://andrewlock.net/creating-a-source-generator-part-5-finding-a-type-declarations-namespace-and-type-hierarchy/#finding-the-namespace-for-a-class-syntax
     public static string GetNamespace(this BaseTypeDeclarationSyntax syntax)
@@ -18,7 +19,7 @@ internal static class SyntaxExtensions
         nameSpace = namespaceParent.Name.ToString();
 
 #if NETSTANDARD2_0_OR_GREATER
-        while ((namespaceParent = namespaceParent!.FirstAncestorOrSelf<BaseNamespaceDeclarationSyntax>()) is not null)
+        while ((namespaceParent = namespaceParent!.Parent?.FirstAncestorOrSelf<BaseNamespaceDeclarationSyntax>()) is not null)
             nameSpace = $"{namespaceParent.Name}.{nameSpace}";
 #else
         while ((namespaceParent = namespaceParent!.FirstAncestorOrSelf<NamespaceDeclarationSyntax>()) is not null)
@@ -41,7 +42,7 @@ internal static class SyntaxExtensions
 
         while (true)
         {
-            var newDecl = classDecl!.FirstAncestorOrSelf<BaseTypeDeclarationSyntax>();
+            var newDecl = classDecl!.Parent?.FirstAncestorOrSelf<BaseTypeDeclarationSyntax>();
             if (newDecl is null) break;
 
             classDecl = newDecl;

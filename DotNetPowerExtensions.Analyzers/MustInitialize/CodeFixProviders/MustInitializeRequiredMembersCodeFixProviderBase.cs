@@ -14,23 +14,18 @@ public abstract class MustInitializeRequiredMembersCodeFixProviderBase<TAnalyzer
         typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute),
     };
 
-    protected virtual async Task<INamedTypeSymbol[]> GetMustInitializedSymbols(Document document) =>
-        (await Task.WhenAll(
-                Attributes.Select(async a => await document.GetTypeByMetadataName(a).ConfigureAwait(false))
-        ).ConfigureAwait(false))
-        .Where(s => s is not null)
-        .OfType<INamedTypeSymbol>()
-        .ToArray();
+    protected virtual async Task<INamedTypeSymbol[]> GetMustInitializedSymbols(Document document, CancellationToken c) =>
+                                            await document.GetTypeSymbolsAsync(Attributes, c).ConfigureAwait(false);
 
     protected virtual async Task<(SyntaxNode, SyntaxNode)?> GetInitializerChanges(Document document, ObjectCreationExpressionSyntax typeDecl, CancellationToken cancellationToken)
     {
-        var symbol = (await document.GetTypeInfo(typeDecl, cancellationToken).ConfigureAwait(false))?.Type;
+        var symbol = (await document.GetTypeInfoAsync(typeDecl, cancellationToken).ConfigureAwait(false))?.Type;
         if (symbol is null) return null;
 
-        var mustInitializeSymbols = await GetMustInitializedSymbols(document).ConfigureAwait(false);
+        var mustInitializeSymbols = await GetMustInitializedSymbols(document, cancellationToken).ConfigureAwait(false);
         if (!mustInitializeSymbols.Any()) return null;
 
-        var props = MustInitializeRequiredMembersBase.GetNotInitializedNames(typeDecl, symbol, mustInitializeSymbols);
+        var props = MustInitializeUtils.GetNotInitializedNames(typeDecl, symbol, mustInitializeSymbols);
 
         var initalizer = typeDecl.Initializer
                         ?? SyntaxFactory.InitializerExpression(SyntaxKind.ObjectInitializerExpression);

@@ -14,7 +14,7 @@ internal abstract class NullableAnalyzerVerifierBase<TAnalyzer> : AnalyzerVerifi
     public static string[] Suffixes = AnalyzerVerifierBase<TAnalyzer>.Suffixes;
     public static string[] Prefixes = AnalyzerVerifierBase<TAnalyzer>.Prefixes;
 
-    [Obsolete("Use NullableVerifyAnalyzerAsync instead")]
+    [Obsolete($"Use {nameof(NullableVerifyAnalyzerAsync)} instead")]
     public static new Task VerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)
     {
         throw new NotSupportedException("Use NullableVerifyAnalyzerAsync instead"); // This way we make sure that it's not easy to confuse

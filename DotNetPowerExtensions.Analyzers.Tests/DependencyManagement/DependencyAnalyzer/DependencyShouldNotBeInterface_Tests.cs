@@ -6,9 +6,8 @@ namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyA
 // Actually the analyzer just checks for abstract while the attribute itself prevents using it on interface
 internal class DependencyShouldNotBeInterface_Tests : AnalyzerVerifierBase<DependencyShouldNotBeAbstract>
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison for clarity", Justification = "Older frameworks don't support it")]
     public static string[] Attributes => new string[] { nameof(SingletonAttribute), nameof(ScopedAttribute), nameof(TransientAttribute), nameof(LocalAttribute) }
-                                                        .Select(n => n.Replace(nameof(Attribute), ""))
+                                                        .Select(n => n.Replace(nameof(Attribute), "", StringComparison.Ordinal))
                                                         .ToArray();
 
     [Test]
@@ -16,8 +15,23 @@ internal class DependencyShouldNotBeInterface_Tests : AnalyzerVerifierBase<Depen
                                                                 [Values("", nameof(Attribute))] string suffix)
     {
         var test = $$"""
-        [{|CS0592:{{prefix}}{{attribute}}{{suffix}}|}]
+        [[|{|CS0592:{{prefix}}{{attribute}}{{suffix}}|}|]]
         public interface ITestType
+        {
+        }
+
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_DoesNotWarnWhenNonInterface([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
+                                                            [Values("", nameof(Attribute))] string suffix)
+    {
+        var test = $$"""
+        [{{prefix}}{{attribute}}{{suffix}}]
+        public class TestType
         {
         }
         """;

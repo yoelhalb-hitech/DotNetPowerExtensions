@@ -1,5 +1,9 @@
-﻿
-namespace DotNetPowerExtensions.Analyzers.Utils;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+
+namespace SequelPay.DotNetPowerExtensions.RoslynExtensions.Utils;
 
 internal sealed class PropertyOverrideFactory
 {
@@ -9,26 +13,29 @@ internal sealed class PropertyOverrideFactory
         var name = baseSyntax.Identifier.Text;
 
         var accessorList = baseSyntax!.AccessorList ?? SyntaxFactory.AccessorList();
-        var accessors = accessorList.Accessors.Select(a => CreateAccessor(a, isAbstract ? null : a.Kind() switch
+        var accessors = accessorList.Accessors
+                            .Where(a => !a.Modifiers.Any(m => m.IsKind(SyntaxKind.PrivateKeyword)))
+                            .Select(a => CreateAccessor(a, isAbstract ? null : a.Kind() switch
         {
             SyntaxKind.GetAccessorDeclaration => "base." + name,
             SyntaxKind.SetAccessorDeclaration => "base." + name + " = value",
             _ => null,
         }));
 
-        return SyntaxFactory.PropertyDeclaration(baseSyntax!.AttributeLists,
+        return PropertyDeclaration(baseSyntax!.AttributeLists,
                 GetModifiers(baseSyntax!.Modifiers, isAbstract),
-                baseSyntax!.Type, null, baseSyntax.Identifier, accessorList.WithAccessors(SyntaxFactory.List(accessors)));
+                baseSyntax!.Type, null, baseSyntax.Identifier, accessorList.WithAccessors(List(accessors)));
     }
 
     private static AccessorDeclarationSyntax CreateAccessor(AccessorDeclarationSyntax original, string? arrowBody)
     {
-        var newAccessor = SyntaxFactory.AccessorDeclaration(original.Kind()).WithModifiers(original.Modifiers);
+        var newAccessor = AccessorDeclaration(original.Kind()).WithModifiers(original.Modifiers);
 
 #if NETSTANDARD2_0_OR_GREATER
         if (!string.IsNullOrWhiteSpace(arrowBody))
         {
-            var exprssionBody = SyntaxFactory.ArrowExpressionClause(SyntaxFactory.ParseExpression(arrowBody!));
+            var exprssionBody = ArrowExpressionClause(ParseExpression(arrowBody!).WithLeadingTrivia(ParseLeadingTrivia(" ")))
+                                                                                            .WithLeadingTrivia(ParseLeadingTrivia(" "));
             newAccessor = newAccessor.WithExpressionBody(exprssionBody);
         }
 #else
@@ -36,19 +43,19 @@ internal sealed class PropertyOverrideFactory
         {
             StatementSyntax statementBody =
                 original.Kind() == SyntaxKind.GetAccessorDeclaration
-                    ? SyntaxFactory.ReturnStatement(SyntaxFactory.ParseExpression(arrowBody!))
-                    : SyntaxFactory.ExpressionStatement(SyntaxFactory.ParseExpression(arrowBody!));
+                    ? ReturnStatement(ParseExpression(arrowBody!))
+                    : ExpressionStatement(ParseExpression(arrowBody!));
 
-            newAccessor = newAccessor.WithBody(SyntaxFactory.Block(statementBody));
+            newAccessor = newAccessor.WithBody(Block(statementBody));
         }
 #endif
 
-        return newAccessor.WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken));
+        return newAccessor.WithSemicolonToken(Token(SyntaxKind.SemicolonToken)).WithTrailingTrivia(ParseTrailingTrivia(" "));
     }
 
     private static SyntaxTokenList GetModifiers(SyntaxTokenList modifiers, bool isAbstract)
     {
-        var overrideKeyword = SyntaxFactory.Token(SyntaxKind.OverrideKeyword);
+        var overrideKeyword = Token(SyntaxKind.OverrideKeyword).WithTrailingTrivia(ParseTrailingTrivia(" "));
 
         if (modifiers.Any(m => m.IsKind(SyntaxKind.VirtualKeyword)))
             modifiers = modifiers.Replace(modifiers.First(m => m.IsKind(SyntaxKind.VirtualKeyword)), overrideKeyword);
@@ -57,7 +64,7 @@ internal sealed class PropertyOverrideFactory
             modifiers = modifiers.Replace(modifiers.First(m => m.IsKind(SyntaxKind.AbstractKeyword)), overrideKeyword);
 
         if (!modifiers.Any(m => m.IsKind(SyntaxKind.OverrideKeyword)))
-            modifiers = modifiers.Add(SyntaxFactory.Token(SyntaxKind.NewKeyword));
+            modifiers = modifiers.Add(Token(SyntaxKind.NewKeyword).WithTrailingTrivia(ParseTrailingTrivia(" ")));
 
         return modifiers;
     }

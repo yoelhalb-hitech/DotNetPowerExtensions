@@ -65,26 +65,16 @@ public class UseShouldOnlyBeForGeneric : DiagnosticAnalyzer
         try
         {
             // Since a class decleration can be partial we will only report it on the attribute
-            var attr = context.Node as AttributeSyntax;
-            var attrName = attr?.Name.GetUnqualifiedName()?.Replace(nameof(Attribute), "");
-            if (attrName is null || !DependencyAttributeNames.Contains(attrName + nameof(Attribute)) || attr!.ArgumentList is null)
-                return;
+            var result = DependencyAnalyzerUtils.GetAttributeInfo(context,
+                                                            DependencyAnalyzerUtils.DependencyAttributeNames, attributeSymbols);
+            if (result is null) return;
+            var (attr, attrName, methodSymbol) = result.Value;
 
-            var useExpression = attr.ArgumentList.Arguments.FirstOrDefault(a => a.NameEquals?.Name is IdentifierNameSyntax name
-                        && name.Identifier.Text == nameof(SequelPay.DotNetPowerExtensions.DependencyAttribute.Use));
-            if (useExpression is null) return;
-
-            var innerExpression = useExpression.Expression;
-            while(innerExpression is ParenthesizedExpressionSyntax paren && paren.Expression is not null) innerExpression = paren.Expression;
+            var (useExpression, innerExpression) = DependencyAnalyzerUtils.GetUse(attr);
             if (innerExpression is not TypeOfExpressionSyntax) return;
 
-            if (context.SemanticModel.GetSymbolInfo(attr!, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol
-                || !attributeSymbols.ContainsGeneric(methodSymbol.ContainingType)) return;
-
-            var parent = context.Node.Parent;
-            while (parent is not null && !object.ReferenceEquals(parent, parent.Parent) && parent is not TypeDeclarationSyntax) parent = parent.Parent;
-
-            if (parent is not TypeDeclarationSyntax) return;
+            var parent = context.Node.FirstAncestorOrSelf<TypeDeclarationSyntax>();
+            if (parent is null) return;
 
             if (context.SemanticModel.GetDeclaredSymbol(parent!, context.CancellationToken) is not INamedTypeSymbol classSymbol) return;
             if (classSymbol.IsGenericType) return;

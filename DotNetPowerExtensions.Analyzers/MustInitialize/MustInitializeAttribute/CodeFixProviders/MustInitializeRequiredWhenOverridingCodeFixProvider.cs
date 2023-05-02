@@ -12,7 +12,4 @@ public class MustInitializeRequiredWhenOverridingCodeFixProvider
     protected override Type AttributeType => typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute);
 
     protected override string DiagnosticId => MustInitializeRequiredWhenOverriding.DiagnosticId;
-
-    protected override AttributeSyntax GetAttribute(IPropertySymbol prop, INamedTypeSymbol mustInitializeSymbol)
-        => SyntaxFactory.Attribute(SyntaxFactory.IdentifierName(AttributeType.Name.Replace(nameof(Attribute), ""))); // No need to go through the base class
 }

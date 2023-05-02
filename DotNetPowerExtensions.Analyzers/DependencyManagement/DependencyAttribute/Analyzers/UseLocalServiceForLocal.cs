@@ -1,7 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions;
-using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
-
+﻿
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -31,12 +28,12 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                 var localServiceSymbol = metadata(typeof(ILocalFactory<>));
                 if (localServiceSymbol is null) return;
 
-                var localSymbols = DependencyAnalyzerUtils.LocalAttributes.Select(t => metadata(t)).ToArray();
+                var localSymbols = DependencyAnalyzerUtils.LocalAttributes.Select(t => metadata(t)).OfType<INamedTypeSymbol>().ToArray();
                 if (!localSymbols.Any()) return;
 
-                var symbols = DependencyAnalyzerUtils.NonLocalAttributes
-                    .Select(t => metadata(t)).Concat(localSymbols)
-                    .Where(x => x is not null).Select(x => x!).ToArray();
+                var symbols = DependencyAnalyzerUtils.NonLocalAttributes.Select(t => metadata(t)).OfType<INamedTypeSymbol>()
+                                            .Concat(localSymbols)
+                                            .ToArray();
 
                 compilationContext
                     .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, localSymbols, localServiceSymbol, symbols),

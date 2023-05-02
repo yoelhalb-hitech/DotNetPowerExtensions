@@ -1,17 +1,9 @@
 ﻿
-using DotNetPowerExtensions.Analyzers.Utils;
-using SequelPay.DotNetPowerExtensions;
-using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Linq.Expressions;
-
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class DependencyRequiredWhenBase : DiagnosticAnalyzer
 {
-
     protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0211";
     protected const string Title = "DependencyRequiredWhenBase";
@@ -67,14 +59,9 @@ public class DependencyRequiredWhenBase : DiagnosticAnalyzer
             if (!bases.Any()) return;
 
             var types = symbol.GetAttributes()
-                .SelectMany(a => a.ConstructorArguments
-                                    .Where(a => !a.IsNull)
-                                    .SelectMany(a => a.Kind == TypedConstantKind.Array ?
-                                            a.Values.Where(a1 => !a1.IsNull).Select(a => a.Value) :
-                                            new[] { a.Value })
-                                    .OfType<ITypeSymbol>()
-                                .Concat(a.AttributeClass!.TypeArguments))
-                .ToArray();
+                                .Where(a => attributeSymbols.ContainsGeneric(a.AttributeClass))
+                                .SelectMany(a => DependencyAnalyzerUtils.GetForTypes(a))
+                                .ToArray();
 
             var basesMissing = bases.Where(b => types.All(t => !t.IsEqualTo(b)));
 

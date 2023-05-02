@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>netstandard2.0</TargetFramework>
+	<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<AnalysisMode>recommended</AnalysisMode>
+	<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<LangVersion>11.0</LangVersion>
+	<IsPackable>true</IsPackable>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>DotNetPowerExtensions.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageId>SequelPay.DotNetPowerExtensions.RoslynExtensions</PackageId>
+    <PackageVersion>1.1.0</PackageVersion>
+    <Authors>Yoel</Authors>
+    <PackageProjectUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</RepositoryUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Description>Extensions to DotNet analyzers</Description>
+    <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
+    <Copyright>Copyright</Copyright>
+    <PackageTags>TestCodeFix, Roslyn, CodeAnalysis, analyzers</PackageTags>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+	<Company>SequelPay</Company>
+    <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+	<!-- CAUTION: we need Microsoft.CodeAnalysis.CSharp and Microsoft.CodeAnalysis.CSharp.Workspaces to be the same as Features -->
+	<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.3.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Utils\" />
+  </ItemGroup>
+
+</Project>

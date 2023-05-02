@@ -7,9 +7,8 @@ namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyA
 
 internal class DependencyRequiredWhenBase_Tests : AnalyzerVerifierBase<DependencyRequiredWhenBase>
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison for clarity", Justification = "Older frameworks don't support it")]
-    public static string[] Attributes => new string[] { nameof(SingletonAttribute), nameof(ScopedAttribute), nameof(TransientAttribute), nameof(LocalAttribute) }
-                                                        .Select(n => n.Replace(nameof(Attribute), ""))
+     public static string[] Attributes => new string[] { nameof(SingletonAttribute), nameof(ScopedAttribute), nameof(TransientAttribute), nameof(LocalAttribute) }
+                                                        .Select(n => n.Replace(nameof(Attribute), "", StringComparison.Ordinal))
                                                         .ToArray();
 
     [Test]
@@ -61,10 +60,10 @@ internal class DependencyRequiredWhenBase_Tests : AnalyzerVerifierBase<Dependenc
     {
         var test = $$"""
         [{{prefix}}{{baseAttribute}}Base{{suffix}}] public {{(isIface ? "interface" : "class")}} ITestType {}
-        [|[{{prefix}}{{attribute}}{{suffix}}(typeof(ITestType))]
+        [{{prefix}}{{attribute}}{{suffix}}(typeof(ITestType))]
         public class TestType : ITestType
         {
-        }|]
+        }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
@@ -74,13 +73,13 @@ internal class DependencyRequiredWhenBase_Tests : AnalyzerVerifierBase<Dependenc
     public async Task Test_DoesNotWarnWhenGeneric([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
                                         [ValueSource(nameof(Attributes))] string baseAttribute, [Values("", nameof(Attribute))] string suffix,
                                         [Values("", "()")] string paren, [Values(true, false)] bool isIface)
-                    {
+    {
         var test = $$"""
         [{{prefix}}{{baseAttribute}}Base{{suffix}}{{paren}}] public {{(isIface ? "interface" : "class")}} ITestType {}
-        [|[{{prefix}}{{attribute}}{{suffix}}<ITestType>{{paren}}]
+        [{{prefix}}{{attribute}}{{suffix}}<ITestType>{{paren}}]
         public class TestType : ITestType
         {
-        }|]
+        }
         """;
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);

@@ -1,6 +1,5 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using SequelPay.DotNetPowerExtensions;
-using System.Diagnostics.CodeAnalysis;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize;
+using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
@@ -27,15 +26,6 @@ public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequi
         compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, mustInitializeSymbols, typedSymbol), SyntaxKind.InvocationExpression);
     }
 
-    public static IEnumerable<string> GetNotInitializedNames(AnonymousObjectCreationExpressionSyntax typeDecl, ITypeSymbol symbol, INamedTypeSymbol[] mustInitializeSymbols)
-    {
-        var props = GetMembersWithMustInitialize(symbol, mustInitializeSymbols).Select(m => m.As<ISymbol>()!.Name);
-
-        var initialized = typeDecl.Initializers.Select(i => i.GetName()).Where(x => x is not null).Select(x => x!);
-
-        return props.Except(initialized).Distinct();
-    }
-
     private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols, INamedTypeSymbol serviceTypeSymbol)
     {
         try
@@ -56,11 +46,13 @@ public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequi
 
             IEnumerable <string> props;
             if (argExpression is AnonymousObjectCreationExpressionSyntax creation)
-                props = GetNotInitializedNames(creation, innerClass, mustInitializeSymbols);
+                props = MustInitializeUtils.GetNotInitializedNames(creation, innerClass, mustInitializeSymbols);
             else
-                props = GetMembersWithMustInitialize(innerClass, mustInitializeSymbols).Select(m => m.As<ISymbol>()!.Name).Distinct();
+                props = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols)
+                                                    .Select(m => m.name)
+                                                    .Distinct();
 
-            ReportDiagnostics(context, argExpression as CSharpSyntaxNode ?? invocation.ArgumentList, props);
+            ReportDiagnostics(context, argExpression as CSharpSyntaxNode ?? invocation.ArgumentList, props.OrderBy(p => p));
         }
         catch (Exception ex)
         {

@@ -8,9 +8,8 @@ namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyA
 
 internal class DependencyTypeDoesNotMatchBase_Tests : AnalyzerVerifierBase<DependencyTypeDoesNotMatchBase>
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison for clarity", Justification = "Older frameworks don't support it")]
     public static string[] Attributes => new string[] { nameof(SingletonAttribute), nameof(ScopedAttribute), nameof(TransientAttribute), nameof(LocalAttribute) }
-                                                        .Select(n => n.Replace(nameof(Attribute), ""))
+                                                        .Select(n => n.Replace(nameof(Attribute), "", StringComparison.Ordinal))
                                                         .ToArray();
 
     [Test]

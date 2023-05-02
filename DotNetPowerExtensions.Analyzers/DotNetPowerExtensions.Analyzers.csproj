@@ -45,6 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.AnalyzerExtensions\DotNetPowerExtensions.RoslynExtensions.csproj"  PrivateAssets="All" />
     <ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" PrivateAssets="All" />
   </ItemGroup>
 
@@ -56,6 +57,7 @@
   <ItemGroup>
     <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
     <None Include="$(OutputPath)\DotNetPowerExtensions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\DotNetPowerExtensions.RoslynExtensions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="..\README.md">
       <Pack>True</Pack>

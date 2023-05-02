@@ -1,10 +1,4 @@
 ﻿
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using SequelPay.DotNetPowerExtensions;
-using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection.Metadata;
-
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -49,18 +43,14 @@ public class DependencyShouldNotBeAbstract : DiagnosticAnalyzer
         try
         {
             // Since a class decleration can be partial we will only report it on the attribute
-            var attr = context.Node as AttributeSyntax;
-            var attrName = attr?.Name.GetUnqualifiedName()?.Replace(nameof(Attribute), "");
-            if (attrName is null || !DependencyAnalyzerUtils.DependencyAttributeNames.Contains(attrName + nameof(Attribute)))
-                return;
+            var result = DependencyAnalyzerUtils.GetAttributeInfo(context,
+                                                            DependencyAnalyzerUtils.DependencyAttributeNames, attributeSymbols);
+            if (result is null) return;
 
-            if (context.SemanticModel.GetSymbolInfo(attr!, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol
-                || !attributeSymbols.ContainsGeneric(methodSymbol.ContainingType)) return;
+            var (attr, attrName, methodSymbol) = result.Value!;
 
-            var parent = context.Node.Parent;
-            while (parent is not null && !object.ReferenceEquals(parent, parent.Parent) && parent is not TypeDeclarationSyntax) parent = parent.Parent;
-
-            if (parent is not ClassDeclarationSyntax) return;
+            var parent = context.Node.FirstAncestorOrSelf<TypeDeclarationSyntax>();
+            if (parent is null) return;
 
             var classSymbol = context.SemanticModel.GetDeclaredSymbol(parent);
             if (classSymbol is null || !classSymbol.IsAbstract) return;

@@ -1,8 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions;
-using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
-
+﻿
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -46,31 +42,16 @@ public class GenericRequiresUse : DiagnosticAnalyzer
         try
         {
             // Since a class decleration can be partial we will only report it on the attribute
-            var attr = context.Node as AttributeSyntax;
-            var attrName = attr?.Name.GetUnqualifiedName()?.Replace(nameof(Attribute), "");
-            if (attrName is null || !DependencyAnalyzerUtils.DependencyAttributeNames.Contains(attrName + nameof(Attribute)))
-                return;
+            var result = DependencyAnalyzerUtils.GetAttributeInfo(context,
+                                                            DependencyAnalyzerUtils.DependencyAttributeNames, attributeSymbols);
+            if (result is null) return;
+            var (attr, attrName, methodSymbol) = result.Value;
 
-            AttributeArgumentSyntax? useExpression = null;
-            if (attr!.ArgumentList is not null)
-            {
-                useExpression = attr.ArgumentList.Arguments.FirstOrDefault(a => a.NameEquals?.Name is IdentifierNameSyntax name
-                                                && name.Identifier.Text == nameof(SequelPay.DotNetPowerExtensions.DependencyAttribute.Use));
-                if (useExpression is not null)
-                {
-                    var innerExpression = useExpression.Expression;
-                    while (innerExpression is ParenthesizedExpressionSyntax paren && paren.Expression is not null) innerExpression = paren.Expression;
-                    if (innerExpression is TypeOfExpressionSyntax) return;
-                }
-            }
+            var (useExpression, innerExpression) = DependencyAnalyzerUtils.GetUse(attr);
+            if (innerExpression is TypeOfExpressionSyntax) return;
 
-            if (context.SemanticModel.GetSymbolInfo(attr!, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol
-                || !attributeSymbols.ContainsGeneric(methodSymbol.ContainingType)) return;
-
-            var parent = context.Node.Parent;
-            while (parent is not null && !object.ReferenceEquals(parent, parent.Parent) && parent is not TypeDeclarationSyntax) parent = parent.Parent;
-
-            if (parent is not TypeDeclarationSyntax) return;
+            var parent = context.Node.FirstAncestorOrSelf<TypeDeclarationSyntax>();
+            if (parent is null) return;
 
             if (context.SemanticModel.GetDeclaredSymbol(parent!, context.CancellationToken) is not INamedTypeSymbol classSymbol) return;
             if (!classSymbol.IsGenericType) return;

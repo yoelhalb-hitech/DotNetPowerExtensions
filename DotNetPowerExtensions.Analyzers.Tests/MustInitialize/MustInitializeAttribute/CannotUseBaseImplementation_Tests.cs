@@ -58,7 +58,7 @@ internal sealed class CannotUseBaseImplementation_Tests
         }
         public class DeclareTypeBase
         {
-            public string TestProp { get; set; }
+            public virtual string TestProp { get; set; }
             public string TestPropProtected { protected get; set; }
         }
         public class [|[|DeclareType|]|] : DeclareTypeBase, IDeclareType
@@ -69,7 +69,7 @@ internal sealed class CannotUseBaseImplementation_Tests
 
         var codeFix = $$"""
             [MustInitialize]
-            public new string TestProp { get => base.TestProp; set => base.TestProp = value; }
+            public override string TestProp { get => base.TestProp; set => base.TestProp = value; }
             [MustInitialize]
             public new string TestPropProtected { protected get => base.TestPropProtected; set => base.TestPropProtected = value; }
 

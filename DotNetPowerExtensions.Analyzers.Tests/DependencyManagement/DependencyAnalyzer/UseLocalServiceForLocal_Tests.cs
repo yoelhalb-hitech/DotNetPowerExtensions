@@ -5,9 +5,8 @@ namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyA
 
 internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServiceForLocal>
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison for clarity", Justification = "Older frameworks don't support it")]
     public static string[] Attributes => new string[] { nameof(SingletonAttribute), nameof(ScopedAttribute), nameof(TransientAttribute) }
-                                                        .Select(n => n.Replace(nameof(Attribute), ""))
+                                                        .Select(n => n.Replace(nameof(Attribute), "", StringComparison.Ordinal))
                                                         .ToArray();
 
     [Test]
@@ -30,12 +29,13 @@ internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServ
     }
 
     [Test]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison for clarity", Justification = "Older frameworks don't support it")]
     public async Task Test_Works_WithGenerics([ValueSource(nameof(Prefixes))] string prefix,
                                                 [ValueSource(nameof(Attributes))] string attribute, [ValueSource(nameof(Suffixes))] string suffix)
     {
 
-        var genericSuffix = suffix.Contains("()") ? suffix.Replace("()", "<TransientType>()") : suffix + "<TransientType>";
+        var genericSuffix = suffix.Contains("()", StringComparison.Ordinal)
+                                    ? suffix.Replace("()", "<TransientType>()", StringComparison.Ordinal)
+                                    : suffix + "<TransientType>";
 
         var test = $$"""
         [{{prefix}}{{attribute}}{{genericSuffix}}]
