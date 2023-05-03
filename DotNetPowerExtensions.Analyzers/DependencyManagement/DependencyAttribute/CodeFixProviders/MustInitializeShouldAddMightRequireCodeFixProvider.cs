@@ -2,6 +2,7 @@
 using DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 using Microsoft.CodeAnalysis.Editing;
 using Microsoft.CodeAnalysis.CodeActions;
+using DotNetPowerExtensions.Analyzers.MustInitialize;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.CodeFixProviders;
 
@@ -58,6 +59,7 @@ public class MustInitializeShouldAddMightRequireCodeFixProvider : CodeFixProvide
             if (string.IsNullOrWhiteSpace(typeName)) return document;
 
             var semanticModel = await document.GetSemanticModelAsync(c).ConfigureAwait(false);
+            if (semanticModel is null) return document;
 
             var symbol = await document.GetDeclaredSymbolAsync<ITypeSymbol>(declaration, c).ConfigureAwait(false);
             if (symbol is null) return document;
@@ -68,10 +70,9 @@ public class MustInitializeShouldAddMightRequireCodeFixProvider : CodeFixProvide
             if (bases.Length > 1) bases = bases.Where(b => b.GetContainerFullName() == diagnostic.Properties["Namespace"]).ToArray();
             if (!bases.Any()) return document;
 
-            var members = MustInitializeShouldAddMightRequire.GetMightRequireCandidates(symbol, bases,
-                                                                    await document.GetTypeSymbolsAsync(MustInitializeAttributes, c).ConfigureAwait(false),
-                                                                    await MightRequireUtils.GetMightRequireSymbols(document).ConfigureAwait(false),
-                                                                    await document.GetTypeByMetadataNameAsync(typeof(InitializedAttribute), c).ConfigureAwait(false));
+            var worker = new MustInitializeWorker(semanticModel);
+
+            var members = MustInitializeShouldAddMightRequire.GetMightRequireCandidates(symbol, bases, worker);
             if (members is null) return document;
 
             var documentEditor = await DocumentEditor.CreateAsync(document, c).ConfigureAwait(false);

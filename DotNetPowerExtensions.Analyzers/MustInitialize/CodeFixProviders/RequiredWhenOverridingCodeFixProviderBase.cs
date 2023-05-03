@@ -8,5 +8,5 @@ public abstract class RequiredWhenOverridingCodeFixProviderBase<TAnalyzer>
                         where TAnalyzer : MustInitializeRequiredWhenOverriding
 {
     protected override Task<(SyntaxNode declToReplace, SyntaxNode newDecl)?> CreateChanges(Document document, PropertyDeclarationSyntax declaration, CancellationToken c)
-        => Task.FromResult<(SyntaxNode, SyntaxNode)?>((declaration, declaration.AddAttributeLists(MustInitializeUtils.GetAttributeSyntax())));
+        => Task.FromResult<(SyntaxNode, SyntaxNode)?>((declaration, declaration.AddAttributeLists(MustInitializeWorker.GetAttributeSyntax())));
 }

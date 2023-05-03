@@ -18,25 +18,20 @@ public class MustInitializeRequiredMembersForLocalCodeFixProvider
         if ((await document.GetSymbolInfoAsync(declaration, c).ConfigureAwait(false))?.Symbol is not IMethodSymbol methodSymbol
                                                         || methodSymbol.ReceiverType is not INamedTypeSymbol classType) return null;
 
-        var mustInitializeSymbols = await GetMustInitializedSymbols(document, c).ConfigureAwait(false);
-        var mightRequireSymbols = await MightRequireUtils.GetMightRequireSymbols(document).ConfigureAwait(false);
-        if (!mustInitializeSymbols.Any() && !mustInitializeSymbols.Any()) return null;
+        var semnaticModel = await document.GetSemanticModelAsync(c).ConfigureAwait(false);
+        if (semnaticModel is null) return null;
 
-        var intializedSymbol = await document.GetTypeByMetadataNameAsync(typeof(InitializedAttribute), c).ConfigureAwait(false);
+        var worker = new MustInitializeWorker(semnaticModel);
 
         var innerClass = classType.TypeArguments.FirstOrDefault();
         if (innerClass is null) return null;
 
-        var propsGroup = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols, mightRequireSymbols, intializedSymbol)
-                        .GroupBy(p => p.name)
-                        .OrderBy(g => g.Key);
+        var propsGroup = worker.GetRequiredToInitialize(innerClass, null).GroupBy(p => p.name).OrderBy(g => g.Key);
         if (!propsGroup.Any()) return null;
 
         if (declaration.ArgumentList.Arguments.FirstOrDefault()?.Expression is AnonymousObjectCreationExpressionSyntax creation)
         {
-            var propsMissing = MustInitializeUtils
-                    .GetNotInitializedNames(creation, innerClass, mustInitializeSymbols, mightRequireSymbols, intializedSymbol)
-                    .ToArray();
+            var propsMissing = worker.GetNotInitializedNames(creation, innerClass).ToArray();
             creation = creation.WithInitializers(
                     creation.Initializers.AddRange(propsGroup.Where(g => propsMissing.Contains(g.Key)).Select(g => GetPropertyAssignment(g.First()))));
         }

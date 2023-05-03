@@ -1,4 +1,6 @@
 using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
 
@@ -30,7 +32,11 @@ public class MustInitializeRequiredMembers : MustInitializeRequiredMembersBase
             var symbol = context.SemanticModel.GetTypeInfo(expr).Type as ITypeSymbol;
             if (symbol is null) return;
 
-            var props = MustInitializeUtils.GetNotInitializedNames(expr, symbol, mustInitializeSymbols);
+            var ctor = (context.SemanticModel.GetOperation(expr) as IObjectCreationOperation)?.Constructor;
+
+            var worker = new MustInitializeWorker(context.Compilation, context.SemanticModel);
+            var props = worker.GetNotInitializedNames(expr, symbol, ctor);
+
             ReportDiagnostics(context, expr, props);
         }
         catch (Exception ex)

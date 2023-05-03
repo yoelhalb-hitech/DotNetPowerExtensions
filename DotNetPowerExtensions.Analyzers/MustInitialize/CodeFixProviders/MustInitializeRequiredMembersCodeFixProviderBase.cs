@@ -1,4 +1,5 @@
 ﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using Microsoft.CodeAnalysis.Operations;
 using SequelPay.DotNetPowerExtensions;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
@@ -22,10 +23,13 @@ public abstract class MustInitializeRequiredMembersCodeFixProviderBase<TAnalyzer
         var symbol = (await document.GetTypeInfoAsync(typeDecl, cancellationToken).ConfigureAwait(false))?.Type;
         if (symbol is null) return null;
 
-        var mustInitializeSymbols = await GetMustInitializedSymbols(document, cancellationToken).ConfigureAwait(false);
-        if (!mustInitializeSymbols.Any()) return null;
+        var semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+        if(semanticModel is null) return null;
 
-        var props = MustInitializeUtils.GetNotInitializedNames(typeDecl, symbol, mustInitializeSymbols);
+        var worker = new MustInitializeWorker(semanticModel);
+
+        var ctor = (semanticModel.GetOperation(typeDecl) as IObjectCreationOperation)?.Constructor;
+        var props = worker.GetNotInitializedNames(typeDecl, symbol, ctor);
 
         var initalizer = typeDecl.Initializer
                         ?? SyntaxFactory.InitializerExpression(SyntaxKind.ObjectInitializerExpression);

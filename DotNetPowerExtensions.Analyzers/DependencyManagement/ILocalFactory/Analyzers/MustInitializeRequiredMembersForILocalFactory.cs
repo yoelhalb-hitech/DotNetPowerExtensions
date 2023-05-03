@@ -19,23 +19,11 @@ public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequi
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
-
-        var localSymbol = metadata(typeof(ILocalFactory<>));
-        if (localSymbol is null) return;
-
-        var mightRequireSymbols = MightRequireUtils.Attributes.Select(a => metadata(a)).OfType<INamedTypeSymbol>().ToArray();
-        if (!mightRequireSymbols.Any()) return;
-
-        var intializedSymbol = metadata(typeof(InitializedAttribute));
-
         // TODO... maybe use an IOperation instead...
-        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, mustInitializeSymbols, mightRequireSymbols, localSymbol, intializedSymbol),
-                                                                                                                            SyntaxKind.InvocationExpression);
+        compilationContext.RegisterSyntaxNodeAction(AnalyzeInvocation, SyntaxKind.InvocationExpression);
     }
 
-    private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols,
-                                                INamedTypeSymbol[] mightRequireSymbols, INamedTypeSymbol serviceTypeSymbol, INamedTypeSymbol? initializedSymbol)
+    private void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
     {
         try
         {
@@ -46,7 +34,9 @@ public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequi
                 || !classType.IsGenericType
                 || methodSymbol.Name != nameof(ILocalFactory<object>.Create)) return;
 
-            if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
+            var worker = new MustInitializeWorker(context.Compilation, context.SemanticModel);
+
+            if (!classType.IsGenericEqual(worker.GetTypeSymbol(typeof(ILocalFactory<>)))) return;
 
             var innerClass = classType.TypeArguments.First();
 
@@ -55,9 +45,9 @@ public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequi
 
             IEnumerable <string> props;
             if (argExpression is AnonymousObjectCreationExpressionSyntax creation)
-                props = MustInitializeUtils.GetNotInitializedNames(creation, innerClass, mustInitializeSymbols, mightRequireSymbols, initializedSymbol);
+                props = worker.GetNotInitializedNames(creation, innerClass);
             else
-                props = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols, mightRequireSymbols, initializedSymbol)
+                props = worker.GetRequiredToInitialize(innerClass, null)
                                                     .Select(m => m.name)
                                                     .Distinct();
 

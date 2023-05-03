@@ -180,6 +180,9 @@ To require that all subclasses (or interface implmentations) register for the cu
 - Removes the need to set a value when in a nullable context (in C# 8 and upwards) for such a property or field (NOTE: This only works in projects compatible with .Net Standard 2.0, as otherwise the functionality isn't available in Roslyn)
 - Also adds the ability to have DI services that the caller has to initialize before usage via `ILocalFactory<>`
 - We can also specify on a subclass override `Initialized` to indicate that the property has been initalized already and the caller doesn't have to do it anymore
+- Note that for structs created via `default` it will not currently enforce (neither does the C#11 compiler do on the `required` keyword)
+- If a ctor initializes some members then the ctor can be decorated with the `Initializes` attribute, or `InitializesAllRequired` if it initializes everything
+    - Note that the analyzers currently don't verify that the members has actually been initialized (or that they even exists), it is as of now the responsibility of the caller
 
 ##### Update for C#11
 As C# 11 introduced the `required` keyword which has even more features than we have currently (but we hope to add and way more) then in general you should the new keyword instead.

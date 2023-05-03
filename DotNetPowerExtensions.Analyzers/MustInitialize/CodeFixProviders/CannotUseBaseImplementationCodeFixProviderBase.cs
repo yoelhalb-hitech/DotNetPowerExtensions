@@ -15,7 +15,7 @@ public abstract class CannotUseBaseImplementationCodeFixProviderBase<TAnalyzer>
         if (baseSyntax is null) return null;
 
         return SyntaxFactoryExtensions.CreatePropertyOverride(baseSyntax)
-                            .AddAttributeLists(MustInitializeUtils.GetAttributeSyntax());
+                            .AddAttributeLists(MustInitializeWorker.GetAttributeSyntax());
     }
 
     protected override async Task<(SyntaxNode, SyntaxNode)?> CreateChanges(Document document, TypeDeclarationSyntax declaration, CancellationToken c)

@@ -18,43 +18,33 @@ public class MustInitializeShouldAddMightRequire : MustInitializeRequiredMembers
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
-
-        // TODO... maybe we only need it on the local (since for most initilize we anyway need local)
-        var symbols = DependencyAnalyzerUtils.AllDependencies.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
-        var mightRequireSymbols = MightRequireUtils.Attributes.Select(a => metadata(a)).OfType<INamedTypeSymbol>().ToArray();
-        var initializedSymbol = metadata(typeof(InitializedAttribute));
-
         // TODO... maybe use an IOperation instead...
-        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeClass(c, mustInitializeSymbols, symbols, mightRequireSymbols, initializedSymbol), SyntaxKind.Attribute);
+        compilationContext.RegisterSyntaxNodeAction(AnalyzeClass, SyntaxKind.Attribute);
     }
 
-    public static Dictionary<ITypeSymbol, List<Union<IPropertySymbol, IFieldSymbol>>>?
-        GetMightRequireCandidates(AttributeSyntax attributeSyntax, ITypeSymbol[] types, SemanticModel semanticModel,
-                    INamedTypeSymbol[] mustInitializeSymbols, INamedTypeSymbol[] mightRequireSymbols, INamedTypeSymbol? initializedSymbol, CancellationToken c)
+    internal static Dictionary<ITypeSymbol, List<Union<IPropertySymbol, IFieldSymbol>>>?GetMightRequireCandidates(AttributeSyntax attributeSyntax,
+                                                    ITypeSymbol[] types, SemanticModel semanticModel, MustInitializeWorker worker, CancellationToken c)
     {
         var typeSyntax = attributeSyntax.FirstAncestorOrSelf<TypeDeclarationSyntax>();
         if (typeSyntax is null) return null;
 
         if (semanticModel.GetDeclaredSymbol(typeSyntax!, c) is not ITypeSymbol typeSymbol) return null;
 
-        return GetMightRequireCandidates(typeSymbol, types, mustInitializeSymbols, mightRequireSymbols, initializedSymbol);
+        return GetMightRequireCandidates(typeSymbol, types, worker);
     }
 
 
-    public static Dictionary<ITypeSymbol, List<Union<IPropertySymbol, IFieldSymbol>>>?
-        GetMightRequireCandidates(ITypeSymbol typeSymbol, ITypeSymbol[] types,
-                                        INamedTypeSymbol[] mustInitializeSymbols, INamedTypeSymbol[] mightRequireSymbols, INamedTypeSymbol? initializedSymbol)
+    internal static Dictionary<ITypeSymbol, List<Union<IPropertySymbol, IFieldSymbol>>>?
+                                                     GetMightRequireCandidates(ITypeSymbol typeSymbol, ITypeSymbol[] types, MustInitializeWorker worker)
     {
         var mustInitializeDict = types.ToDictionary(t => t,
-                                    t => MustInitializeUtils.GetRequiredToInitialize(t, mustInitializeSymbols, mightRequireSymbols, initializedSymbol)
-                                                                                                                .ToDictionary(s => s.name, s => s.type),
+                                    t => worker.GetRequiredToInitialize(t, null).ToDictionary(s => s.name, s => s.type),
                                     SymbolEqualityComparer.Default);
 
         var dict = new Dictionary<ITypeSymbol, List<Union<IPropertySymbol, IFieldSymbol>>>(SymbolEqualityComparer.Default);
         types.ToList().ForEach(t => dict[t] = new List<Union<IPropertySymbol, IFieldSymbol>>());
 
-        foreach (var member in MustInitializeUtils.GetClosestMembersWithAttribute(typeSymbol, mustInitializeSymbols))
+        foreach (var member in worker.GetClosestMembersWithAttribute(typeSymbol, worker.MustInitializeSymbols))
         {
             foreach (var type in types)
             {
@@ -68,19 +58,19 @@ public class MustInitializeShouldAddMightRequire : MustInitializeRequiredMembers
         return dict;
     }
 
-    private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols,
-                                            INamedTypeSymbol[] attributeSymbols, INamedTypeSymbol[] mightRequireSymbols, INamedTypeSymbol? initializedSymbol)
+    private void AnalyzeClass(SyntaxNodeAnalysisContext context)
     {
         try
         {
+            var worker = new MustInitializeWorker(context.Compilation, context.SemanticModel);
             // Since a class decleration can be partial we will only report it on the attribute
             var result = DependencyAnalyzerUtils.GetAttributeWithTypes(context,
-                                                            DependencyAnalyzerUtils.DependencyAttributeNames, attributeSymbols);
+                                                            DependencyAnalyzerUtils.DependencyAttributeNames,
+                                                            worker.GetTypeSymbols(DependencyAnalyzerUtils.AllDependencies));
             if (result is null) return;
             var (attr, attrName, methodSymbol, types) = result.Value;
 
-            var dict = GetMightRequireCandidates(attr, types, context.SemanticModel, mustInitializeSymbols,
-                                                                mightRequireSymbols, initializedSymbol, context.CancellationToken);
+            var dict = GetMightRequireCandidates(attr, types, context.SemanticModel, worker, context.CancellationToken);
             if(dict is null) return;
 
             foreach (var type in dict.Keys.Where(k => dict[k].Any())) // Doing for each type so that the code fix should be able to fix each one separately

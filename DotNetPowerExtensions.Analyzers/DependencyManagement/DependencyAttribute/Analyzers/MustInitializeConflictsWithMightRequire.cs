@@ -18,23 +18,20 @@ public class MustInitializeConflictsWithMightRequire : MustInitializeRequiredMem
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
-
-        var symbols = DependencyAnalyzerUtils.AllDependencies.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
-        var mightRequireSymbols = MightRequireUtils.Attributes.Select(a => metadata(a)).OfType<INamedTypeSymbol>().ToArray();
-
         // TODO... maybe use an IOperation instead...
-        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeClass(c, mustInitializeSymbols, symbols, mightRequireSymbols), SyntaxKind.Attribute);
+        compilationContext.RegisterSyntaxNodeAction(AnalyzeClass, SyntaxKind.Attribute);
     }
 
-    private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols,
-                                                                INamedTypeSymbol[] attributeSymbols, INamedTypeSymbol[] mightRequireSymbols)
+    private void AnalyzeClass(SyntaxNodeAnalysisContext context)
     {
         try
         {
+            var worker = new MustInitializeWorker(context.Compilation, context.SemanticModel);
+
             // Since a class decleration can be partial we will only report it on the attribute
             var result = DependencyAnalyzerUtils.GetAttributeWithTypes(context,
-                                                            DependencyAnalyzerUtils.DependencyAttributeNames, attributeSymbols);
+                                                            DependencyAnalyzerUtils.DependencyAttributeNames,
+                                                            worker.GetTypeSymbols(DependencyAnalyzerUtils.AllDependencies));
             if (result is null) return;
             var (attr, attrName, methodSymbol, types) = result.Value;
 
@@ -43,9 +40,10 @@ public class MustInitializeConflictsWithMightRequire : MustInitializeRequiredMem
 
             if (context.SemanticModel.GetDeclaredSymbol(parent!, context.CancellationToken) is not INamedTypeSymbol classSymbol) return;
 
-            var baseDict = types.ToDictionary(t => t, t => MightRequireUtils.GetMightRequiredInfos(t, mightRequireSymbols), SymbolEqualityComparer.Default);
 
-            foreach (var member in MustInitializeUtils.GetClosestMembersWithAttribute(classSymbol, mustInitializeSymbols))
+            var baseDict = types.ToDictionary(t => t, t => MightRequireUtils.GetMightRequiredInfos(t, worker.MightRequireSymbols), SymbolEqualityComparer.Default);
+
+            foreach (var member in worker.GetClosestMembersWithAttribute(classSymbol, worker.MustInitializeSymbols))
             {
                 foreach (var type in types)
                 {

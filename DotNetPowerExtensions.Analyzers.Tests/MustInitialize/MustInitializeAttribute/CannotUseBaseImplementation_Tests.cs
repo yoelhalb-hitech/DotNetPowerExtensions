@@ -301,9 +301,7 @@ internal sealed class CannotUseBaseImplementation_Tests
 
             [MustInitialize]
             public new string TestProp { get => base.TestProp; set => base.TestProp = value; }
-            [Test]
-            [MustInitialize]
-            public new string TestPropWithAttributesSingleLine { get => base.TestPropWithAttributesSingleLine; set => base.TestPropWithAttributesSingleLine = value; }
+            [Test][MustInitialize] public new string TestPropWithAttributesSingleLine { get => base.TestPropWithAttributesSingleLine; set => base.TestPropWithAttributesSingleLine = value; }
             [Test]
             [MustInitialize]
             public override string TestPropWithAttributesMultiLine { get => base.TestPropWithAttributesMultiLine; set => base.TestPropWithAttributesMultiLine = value; }

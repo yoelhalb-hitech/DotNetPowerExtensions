@@ -43,6 +43,180 @@ internal sealed class MustInitializeRequiredMembers_Tests
     }
 
     [Test]
+    public async Task Test_DoesNotWarn_WhenUsingInitializesAllRequired([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                            [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareType
+        {
+            [{{prefix}}InitializesAllRequired{{suffix}}] public DeclareType(){ TestProp = TestField = ""; }
+            public DeclareType(int i){}
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => new DeclareType{}; }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_Warns_WhenUsingOtherCtor([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                        [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareType
+        {
+            public DeclareType(){}
+            [{{prefix}}InitializesAllRequired{{suffix}}] public DeclareType(int i){ TestProp = TestField = ""; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => [|new DeclareType{/::/}|]; }
+        """;
+
+        var fixCode = $$""" TestProp = default, TestField = default """;
+
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_Warns_OnlyForNonInitialized_WhenUsingInitializes([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                    [Values("", nameof(Attribute))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareType
+        {
+            [{{prefix}}Initializes{{suffix}}("TestProp")] public DeclareType(){}
+            [{{prefix}}Initializes{{suffix}}("TestProp", "TestField")] public DeclareType(int i){ TestProp = TestField = ""; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => [|new DeclareType{/::/}|]; }
+        """;
+
+        var fixCode = $$""" TestField = default """;
+
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_Warns_OnlyForNonInitialized_WhenUsingInitializesWithBase([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                [Values("", nameof(Attribute))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareTypeBase
+        {
+            [{{prefix}}Initializes{{suffix}}(nameof(DeclareTypeBase.TestProp))] public DeclareTypeBase(){}
+            public DeclareTypeBase(int i){ }
+            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp1 { get; set; }
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            public DeclareType() : this(10){}
+            [{{prefix}}Initializes{{suffix}}(nameof(DeclareTypeBase.TestProp1))] public DeclareType(int i){ TestProp = TestField = ""; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => [|new DeclareType{/::/}|]; }
+        """;
+
+        var fixCode = $$""" TestField = default """;
+
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_Warns_OnlyForNonInitialized_WhenBaseHas_InitializesAllRequired([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                            [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareTypeBase
+        {
+            [{{prefix}}InitializesAllRequired{{suffix}}] public DeclareTypeBase(){}
+            public DeclareTypeBase(int i){ }
+            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp1 { get; set; }
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public new string TestProp1 { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => [|new DeclareType{/::/}|]; }
+        """;
+
+        var fixCode = $$""" TestField = default, TestProp1 = default """;
+
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_DoesNotWarn_WhenUsingInitializes_AndCoversAll([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                [Values("", nameof(Attribute))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareType
+        {
+            [{{prefix}}Initializes{{suffix}}("TestProp", "TestField")]  public DeclareType(){}
+            [{{prefix}}Initializes{{suffix}}("TestProp")] public DeclareType(int i){ TestProp = TestField = ""; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => new DeclareType{}; }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_DoesNotWarn_WhenUsingInitializesAllRequiredWithNoInitializer([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                        [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareType
+        {
+            [{{prefix}}InitializesAllRequired{{suffix}}] public DeclareType(){ TestProp = TestField = ""; }
+            public DeclareType(int i){}
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => new DeclareType(); }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_DoesNotWarn_WhenUsingSetsRequiredMembersAttribute([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                        [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        using System.Diagnostics.CodeAnalysis;
+        namespace System.Diagnostics.CodeAnalysis { public class SetsRequiredMembersAttribute : System.Attribute {} }
+        public class DeclareType
+        {
+            [SetsRequiredMembers{{suffix}}] public DeclareType(){ TestProp = TestField = ""; }
+            public DeclareType(int i){}
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => new DeclareType{}; }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_DoesNotWarn_WhenInitialized([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""

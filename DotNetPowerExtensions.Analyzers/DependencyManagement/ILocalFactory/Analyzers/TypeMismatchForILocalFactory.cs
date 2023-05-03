@@ -19,23 +19,11 @@ public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
-
-        var localSymbol = metadata(typeof(ILocalFactory<>));
-        if (localSymbol is null) return;
-
-        var mightRequireSymbols = MightRequireUtils.Attributes.Select(a => metadata(a)).OfType<INamedTypeSymbol>().ToArray();
-        if (!mightRequireSymbols.Any()) return;
-
-        var intializedSymbol = metadata(typeof(InitializedAttribute));
-
         // TODO... maybe use an IOperation instead...
-        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, mustInitializeSymbols, mightRequireSymbols, localSymbol, intializedSymbol),
-                                                                                                                SyntaxKind.InvocationExpression);
+        compilationContext.RegisterSyntaxNodeAction(AnalyzeInvocation, SyntaxKind.InvocationExpression);
     }
 
-    private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols,
-                                            INamedTypeSymbol[] mightRequireSymbols, INamedTypeSymbol serviceTypeSymbol, INamedTypeSymbol? initializedSymbol)
+    private void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
     {
         try
         {
@@ -48,13 +36,15 @@ public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
 
             if (methodSymbol.Name != nameof(ILocalFactory<object>.Create)) return;
 
-            if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
+
+            var worker = new MustInitializeWorker(context.Compilation, context.SemanticModel);
+
+            if (!classType.IsGenericEqual(worker.GetTypeSymbol(typeof(ILocalFactory<>)))) return;
 
             var innerClass = classType.TypeArguments.FirstOrDefault();
             if (innerClass is null) return;
 
-            var props = MustInitializeUtils.GetRequiredToInitialize(innerClass, mustInitializeSymbols, mightRequireSymbols, initializedSymbol)
-                                                                                                                .ToDictionary(m => m.name, m => m.type);
+            var props = worker.GetRequiredToInitialize(innerClass, null).ToDictionary(m => m.name, m => m.type);
 
             var declared = creation.Initializers.Where(i => !string.IsNullOrWhiteSpace(i.GetName())).ToDictionary(i => i.GetName()!, i => i.Expression);
 
