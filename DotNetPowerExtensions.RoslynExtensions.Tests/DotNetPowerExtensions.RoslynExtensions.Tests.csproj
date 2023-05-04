@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DotNetPowerExtensions.AnalyzerExtensions\DotNetPowerExtensions.RoslynExtensions.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.RoslynExtensions\DotNetPowerExtensions.RoslynExtensions.csproj" />
   </ItemGroup>
 
 </Project>

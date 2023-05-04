@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Refle
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Reflection.Tests", "DotNetPowerExtensions.Reflection.Tests\DotNetPowerExtensions.Reflection.Tests.csproj", "{1196CEFB-3760-44B0-90FF-F92778B8037D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.RoslynExtensions", "DotNetPowerExtensions.AnalyzerExtensions\DotNetPowerExtensions.RoslynExtensions.csproj", "{C484EA56-1056-4E11-9366-26834DE7BAA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.RoslynExtensions", "DotNetPowerExtensions.RoslynExtensions\DotNetPowerExtensions.RoslynExtensions.csproj", "{C484EA56-1056-4E11-9366-26834DE7BAA1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.RoslynExtensions.Tests", "DotNetPowerExtensions.RoslynExtensions.Tests\DotNetPowerExtensions.RoslynExtensions.Tests.csproj", "{C96D0043-1E77-4C9E-8068-2F8144A7F2C6}"
 EndProject

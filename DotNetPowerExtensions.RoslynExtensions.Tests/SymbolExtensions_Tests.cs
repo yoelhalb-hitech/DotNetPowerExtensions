@@ -5,7 +5,7 @@ using SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
 namespace DotNetPowerExtensions.RoslynExtensions.Tests;
 
-internal class SymbolExtensions_Tests
+public class SymbolExtensions_Tests
 {
     private static SemanticModel GetSemanticModel(SyntaxTree tree) => CSharpCompilation.Create("Test",
                                 syntaxTrees: new[] { tree }, references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) })

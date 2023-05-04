@@ -7,6 +7,11 @@ namespace DotNetPowerExtensions.Tests.DependencyInjectionExtensions;
 
 internal sealed class ForMultiple_Tests
 {
+    [Transient]
+    [Transient<FooBase>]
+    [Transient<IFoo>]
+    internal sealed class TestMultipleAttributesDoesNotThrow : FooBase, IFoo { }
+
     [Transient<FooTransientForMultiple, FooBase, IFoo>]
     internal sealed class FooTransientForMultiple : FooBase, IFoo { }
 

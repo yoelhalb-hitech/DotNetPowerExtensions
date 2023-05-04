@@ -37,8 +37,8 @@
   <ItemGroup>
 	<!-- CAUTION: we need Microsoft.CodeAnalysis.CSharp and Microsoft.CodeAnalysis.CSharp.Workspaces to be the same as Features -->
 	<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.3.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0">
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -53,7 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DotNetPowerExtensions.AnalyzerExtensions\DotNetPowerExtensions.RoslynExtensions.csproj" PrivateAssets="All" />
+    <ProjectReference Include="..\DotNetPowerExtensions.RoslynExtensions\DotNetPowerExtensions.RoslynExtensions.csproj" PrivateAssets="All" />
     <ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" PrivateAssets="All" />
   </ItemGroup>
 

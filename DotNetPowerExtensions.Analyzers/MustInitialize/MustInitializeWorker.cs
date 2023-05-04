@@ -63,13 +63,16 @@ internal class MustInitializeWorker : WorkerBase
     {
         var chain = new[] { method }.Concat(method.GetConstructorChain(SemanticModel)).ToArray();
 
-        var initializeAll = GetTypeSymbol(typeof(InitializesAllRequiredAttribute))!;
-        var ctorsAll = chain.Where(c => c.HasAttribute(new[] { initializeAll })
-                // Remember if the user doesn't have it in the framework he might implement it on his own so go by name
-                || c.GetAttributes().Any(a => a.AttributeClass?.GetNamespace() == "System.Diagnostics.CodeAnalysis" && a.AttributeClass?.Name == "SetsRequiredMembersAttribute"));
+        var attributes = new[]
+        {
+            GetTypeSymbol(typeof(InitializesAllRequiredAttribute)),
+            Compilation.GetTypeByMetadataName("System.Diagnostics.CodeAnalysis.SetsRequiredMembersAttribute")
+        }.OfType<INamedTypeSymbol>().ToArray();
 
         // Since InitalizesAll is based on the type we can for the type directly and avoid repeating it if there is a "this" chain
-        var typesAll = ctorsAll.Select(c => c.ContainingType).Distinct(SymbolEqualityComparer.Default).OfType<INamedTypeSymbol>().ToArray();
+        var typesAll = chain.Where(c => c.HasAttribute(attributes))
+                            .Select(c => c.ContainingType)
+                            .Distinct(SymbolEqualityComparer.Default).OfType<INamedTypeSymbol>().ToArray();
 
         var membersAll = typesAll.SelectMany(t => GetClosestMembersWithAttribute(t, MustInitializeSymbols));
 

@@ -100,6 +100,20 @@ internal class ForTypeMustBeParent_Tests : AnalyzerVerifierBase<ForTypeMustBePar
     }
 
     [Test]
+    public async Task Test_DoesNotWarnWhenSameType([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
+                                                                                                        [Values("", nameof(Attribute))] string suffix)
+    {
+        var test = $$"""
+        [{{prefix}}{{attribute}}{{suffix}}<TestType>]
+        public class TestType
+        {
+        }
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_DoesNotWarnWhenBaseAndGeneric([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
                                                                 [Values("", nameof(Attribute))] string suffix, [Values("interface", "class")] string baseType)
     {

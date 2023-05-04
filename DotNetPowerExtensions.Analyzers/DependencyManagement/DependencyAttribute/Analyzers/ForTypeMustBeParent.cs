@@ -54,7 +54,7 @@ public class ForTypeMustBeParent : DiagnosticAnalyzer
 
             if (context.SemanticModel.GetDeclaredSymbol(parent!, context.CancellationToken) is not INamedTypeSymbol classSymbol) return;
 
-            var bases = classSymbol.GetAllBaseTypes().Concat(classSymbol.AllInterfaces).ToArray();
+            var bases = new[] { classSymbol }.Concat(classSymbol.GetAllBaseTypes().Concat(classSymbol.AllInterfaces)).ToArray();
 
             foreach (var type in types.Where(t => bases.All(b => !b.IsEqualTo(t))))
             {

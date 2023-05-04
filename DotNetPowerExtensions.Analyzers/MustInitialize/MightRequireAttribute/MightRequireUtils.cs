@@ -25,14 +25,6 @@ internal class MightRequireUtils
         public required ITypeSymbol Type { get; set; }
     }
 
-    public static async Task<INamedTypeSymbol[]> GetMightRequireSymbols(Document document) =>
-                (await Task.WhenAll(
-                        Attributes.Select(async a => await document.GetTypeByMetadataNameAsync(a).ConfigureAwait(false))
-                ).ConfigureAwait(false))
-                .Where(s => s is not null)
-                .OfType<INamedTypeSymbol>()
-                .ToArray();
-
     public static IEnumerable<MightRequiredInfo> GetMightRequiredInfos(ITypeSymbol symbol, INamedTypeSymbol[] mightRequireSymbols)
     {
         var symbols = new[] { symbol }.Concat(symbol.GetAllBaseTypes()).Concat(symbol.AllInterfaces).ToArray();

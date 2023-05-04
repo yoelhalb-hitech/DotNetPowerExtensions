@@ -38,20 +38,30 @@ public static class DependencyInjectionExtensions
 
         foreach (var type in types.Where(t => !t.IsInterface && !t.IsAbstract))
         {
-            var attribute = Attribute.GetCustomAttribute(type, typeof(DependencyAttribute), false) as DependencyAttribute;
-            if (attribute is null || attribute.DependencyType == DependencyType.None) continue;
-
-            var implementingType = type.IsGenericTypeDefinition ? attribute.Use : type;
-            if(implementingType is null) continue; // TODO... Maybe add analyzer for it
-
-            var forTypes = attribute.For.Any() ? attribute.For : new[] { implementingType };
-
-            foreach (var forType in forTypes)
+            foreach (var attribute in Attribute.GetCustomAttributes(type, typeof(DependencyAttribute), false).OfType<DependencyAttribute>())
             {
-                if (attribute.DependencyType == DependencyType.Scoped) services.AddScoped(forType, implementingType);
-                else if (attribute.DependencyType == DependencyType.Transient) services.AddTransient(forType, implementingType);
-                else if (attribute.DependencyType == DependencyType.Singleton) services.AddSingleton(forType, implementingType);
-                else if (attribute.DependencyType == DependencyType.Local) services.AddLocal(forType, implementingType);
+                try
+                {
+                    if (attribute.DependencyType == DependencyType.None) continue;
+
+                    var implementingType = type.IsGenericTypeDefinition ? attribute.Use : type;
+                    if (implementingType is null) continue; // TODO... Maybe add analyzer for it
+
+                    var forTypes = attribute.For.Any() ? attribute.For : new[] { implementingType };
+
+                    foreach (var forType in forTypes)
+                    {
+                        try
+                        {
+                            if (attribute.DependencyType == DependencyType.Scoped) services.AddScoped(forType, implementingType);
+                            else if (attribute.DependencyType == DependencyType.Transient) services.AddTransient(forType, implementingType);
+                            else if (attribute.DependencyType == DependencyType.Singleton) services.AddSingleton(forType, implementingType);
+                            else if (attribute.DependencyType == DependencyType.Local) services.AddLocal(forType, implementingType);
+                        }
+                        catch { }  // TODO...
+                    }
+                }
+                catch { } // TODO...
             }
         }
 

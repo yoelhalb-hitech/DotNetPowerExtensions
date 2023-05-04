@@ -5,7 +5,7 @@ using SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
 namespace DotNetPowerExtensions.RoslynExtensions.Tests;
 
-internal class SyntaxExtensions_Tests
+public class SyntaxExtensions_Tests
 {
     [Test]
     public void Test_GetNamespace()

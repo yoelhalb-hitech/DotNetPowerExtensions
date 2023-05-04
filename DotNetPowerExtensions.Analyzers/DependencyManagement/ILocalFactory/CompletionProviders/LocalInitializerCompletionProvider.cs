@@ -1,4 +1,5 @@
 ﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Completion;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.CodeAnalysis.Text;
@@ -67,7 +68,9 @@ internal class LocalInitializerCompletionProvider : CompletionProvider
                                                                              .GetMethod("IsLegalFieldOrProperty", BindingFlags.Static | BindingFlags.NonPublic)
                                                                              .Invoke(null, new[] { member });
 
-            var mightRequireSymbols = await MightRequireUtils.GetMightRequireSymbols(document).ConfigureAwait(false);
+            var mightRequireSymbols = MightRequireUtils.Attributes.Select(a => semanticModel.Compilation.GetTypeByMetadataName(a.FullName))
+                                                        .Where(s => s is not null).OfType<INamedTypeSymbol>().ToArray();
+
             var mightRequireMembers = MightRequireUtils.GetMightRequiredInfos(type, mightRequireSymbols)
                                                             .Where(m => !members.Any(me => me.Name == m.Name))
                                                             .ToArray();
@@ -149,6 +152,7 @@ internal class LocalInitializerCompletionProvider : CompletionProvider
         {
             private string assemblyName;
             private Assembly? assembly;
+            [SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers", Justification = "Needed to function")]
             public Assembly Assembly => assembly
                 ?? (assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == assemblyName))
                 ?? Assembly.Load(GetFullName(assemblyName));
