@@ -13,7 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>DotNetPowerExtensions.Tests</_Parameter1>
+      <_Parameter1>DotNetPowerExtensions.RoslynExtensions.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
@@ -45,9 +45,4 @@
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 	</PackageReference>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utils\" />
-  </ItemGroup>
-
 </Project>

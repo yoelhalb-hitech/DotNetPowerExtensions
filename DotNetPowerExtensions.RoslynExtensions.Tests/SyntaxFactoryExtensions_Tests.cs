@@ -5,7 +5,7 @@ using SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
 namespace DotNetPowerExtensions.RoslynExtensions.Tests;
 
-internal class SyntaxFactoryExtensions_Tests
+public class SyntaxFactoryExtensions_Tests
 {
     [Test]
     public void Test_ParseAttribute()

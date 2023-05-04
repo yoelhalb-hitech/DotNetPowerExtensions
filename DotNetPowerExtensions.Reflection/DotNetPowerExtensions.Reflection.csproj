@@ -17,8 +17,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="SequelPay.DotNetPowerExtensions" Version="1.0.4" />
-	  <PackageReference Include="SequelPay.DotNetPowerExtensions.Analyzers" Version="1.0.3">
+	  <PackageReference Include="SequelPay.DotNetPowerExtensions" Version="[1.0.1,)" />
+	  <PackageReference Include="SequelPay.DotNetPowerExtensions.Analyzers" Version="[1.0.1,)">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>

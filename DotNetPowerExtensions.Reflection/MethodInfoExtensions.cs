@@ -74,7 +74,7 @@ public static class MethodInfoExtensions
                 && methodInfo.GetParameters().Select(p => p.ParameterType).SequenceEqual(other.GetParameters().Select(p => p.ParameterType))
                 && methodInfo.GetGenericArguments().SequenceEqual(other.GetGenericArguments());
 
-    public static IEnumerable<MethodInfo>? GetInterfaceMethods(this MethodInfo method)
+    public static IEnumerable<MethodInfo> GetInterfaceMethods(this MethodInfo method)
     {
         if (method.ReflectedType!.IsInterface && !method.IsExplicitImplementation()) yield break; // An interface doesn't implement another interface unless explicit
 
