@@ -1,0 +1,35 @@
+﻿How things work in Reflection
+=============================
+
+Class methods/properties/events
+===============================
+- Will show up by name in the class declaring it and in the subclasses
+- Will have the `DeclaringType` the class where it was declared and the `ReflectedType` will always be the current type
+- The `IsVirtual` will determine if it is `virtual`, `IsAbstract` if it is `abstract`, and `IsFinal` if it is `override sealed`
+- Overriden methods/properties/events have no mention of the original decleration (besides `IsFinal` if it is `override sealed`), as if it was declared first at the override
+- For shadowed methods both the original and the shadow will show up in `GetMethods()` as if they are two separate methods (just the DeclareType will show the difference)
+	- For the class where the shadow was declared it is easy to determine which one is the shadow, but for the subclasses you need to know which base class is closer
+- For shadowed properties/events only the current one will be shown
+- In `GetMethod` only non shadowed will show up
+
+Explicit interface methods/properties/events in classes
+=======================================================
+- Methods will have two signs of explicit implementation:
+	1) The name will be in the format of `Original Interface`.`Original name`
+	2) `IsVirtual` `IsFinal` `IsPrivate` will all be `true` something that cannot happen otherwise (because `IsFinal` can only be applied to an `override` which cannot be done if it is `private`)
+- It is possible to deduce the name and interface in 2 ways:
+	1) By parsing the name
+	2) By using the `GetInterfaceMap` to match the method to the original method
+- Explicit method implmentations will show up in subclasses, even if the class reimplmented it, in which case both will show up, we can determine the most specific in 2 ways:
+	1) By checking which one is the most specific, will be easier if the current class reimplmented it, otherwise it will need knowledge of the closer base
+	2) By using `GetInterfaceMap`
+- Explicit property/event implmentations will not show up in subclasses, (unless it is reimpemented in the current class which will show only the new one)
+
+Default interface methods/properties/events
+===========================================
+- Won't show up at all in the class implementing it (unless the class reimplments it explictly)
+- The most specific implmentation will show up in `GetInterfaceMap` for the `original interface` that declares it (but not any overriding interface)
+- Any interface overriding it will have the method in the explicit format (just as by classes)
+- `GetInterfaceMap` for any overriding interface will always show the overriding method/property/event as the original AND the target
+- Any interface not overriding it will not list the method at all (even if the interface shadows it)
+- Shadows will have the normal name as if there were never something else
