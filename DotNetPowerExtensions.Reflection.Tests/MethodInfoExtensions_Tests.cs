@@ -53,6 +53,8 @@ public class MethodInfoExtensions_Tests
 
     abstract class TestClass
     {
+        private void TestPrivate() { }
+        protected virtual void TestProtected() { }
         public abstract int TestAbstract();
         public virtual int TestVirtual() => 0;
         public int TestNonVirtual() => 0;
@@ -77,6 +79,8 @@ public class MethodInfoExtensions_Tests
 
     [Test]
     [TestCase(typeof(TestClass), nameof(TestClass.TestAbstract), ExpectedResult = true)]
+    [TestCase(typeof(TestClass), "TestPrivate", ExpectedResult = false)]
+    [TestCase(typeof(TestClass), "TestProtected", ExpectedResult = true)]
     [TestCase(typeof(TestClass), nameof(TestClass.TestVirtual), ExpectedResult = true)]
     [TestCase(typeof(TestClass), nameof(TestClass.TestNonVirtual), ExpectedResult = false)]
     [TestCase(typeof(TestSub), nameof(TestSub.TestAbstract), ExpectedResult = true)]
@@ -86,11 +90,14 @@ public class MethodInfoExtensions_Tests
     [TestCase(typeof(TestIface), nameof(TestIface.TestInterface), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicInterface), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicVirtualInterface), ExpectedResult = true)]
-    public bool Test_IsOverridable(Type type, string method) => type.GetMethod(method)!.IsOverridable();
+    public bool Test_IsOverridable(Type type, string method) => type.GetMethod(method, BindingFlagsExtensions.AllBindings)!.IsOverridable();
 
     class TestPropClass
     {
         public int TestProp { get; set; }
+    }
+    class TestEmptyPropSub : TestPropClass
+    {
     }
 
     [Test]
@@ -103,9 +110,27 @@ public class MethodInfoExtensions_Tests
         result.Should().BeSameAs(propInfo);
     }
 
+    [Test]
+    public void Test_GetDeclaringProperty_WorksCorrectly_WithReflectedClass()
+    {
+        var propInfo = typeof(TestPropClass).GetProperty(nameof(TestPropClass.TestProp));
+        var result = propInfo!.GetMethod!.GetDeclaringProperty();
+
+        var propSub = typeof(TestEmptyPropSub).GetProperty(nameof(TestPropClass.TestProp));
+        var resultSub = propSub!.GetMethod!.GetDeclaringProperty();
+
+        var result2 = propInfo!.GetMethod!.GetDeclaringProperty();
+
+        resultSub.Should().BeSameAs(result);
+        result2.Should().BeSameAs(result);
+    }
+
     class TestEventClass
     {
         public event EventHandler? TestEvent;
+    }
+    class TestEmptyEventSub : TestEventClass
+    {
     }
 
     [Test]
@@ -116,6 +141,21 @@ public class MethodInfoExtensions_Tests
         var result = eventInfo!.AddMethod!.GetDeclaringEvent();
 
         result.Should().BeSameAs(eventInfo);
+    }
+
+    [Test]
+    public void Test_GetDeclaringEvent_WorksCorrectly_WithReflectedClass()
+    {
+        var eventInfo = typeof(TestEventClass).GetEvent(nameof(TestEventClass.TestEvent));
+        var result = eventInfo!.AddMethod!.GetDeclaringEvent();
+
+        var eventSub = typeof(TestEmptyEventSub).GetEvent(nameof(TestEventClass.TestEvent));
+        var resultSub = eventSub!.AddMethod!.GetDeclaringEvent();
+
+        var result2 = eventInfo!.AddMethod!.GetDeclaringEvent();
+
+        resultSub.Should().BeSameAs(result);
+        result2.Should().BeSameAs(result);
     }
 
     class A

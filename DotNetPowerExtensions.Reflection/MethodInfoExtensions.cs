@@ -16,7 +16,7 @@ public static class MethodInfoExtensions
 
     public static bool IsPublicOrInternal(this MethodInfo methodInfo) => methodInfo.IsPublic || methodInfo.IsInternal();
 
-    public static bool IsOverridable(this MethodInfo methodInfo) => methodInfo.IsVirtual && !methodInfo.IsFinal; //https://learn.microsoft.com/en-us/dotnet/api/system.reflection.methodbase.isfinal#System_Reflection_MethodBase_IsFinal
+    public static bool IsOverridable(this MethodInfo methodInfo) => !methodInfo.IsPrivate && methodInfo.IsVirtual && !methodInfo.IsFinal; //https://learn.microsoft.com/en-us/dotnet/api/system.reflection.methodbase.isfinal#System_Reflection_MethodBase_IsFinal
 
     public static bool IsVoid(this MethodInfo method) => method.ReturnType == typeof(void);
 
@@ -28,7 +28,7 @@ public static class MethodInfoExtensions
         var dict = propertyMethodCache.GetOrAdd(methodInfo.DeclaringType, type =>
                                                             type.GetProperties(BindingFlagsExtensions.AllBindings | BindingFlags.DeclaredOnly) // DeclaredOnly to avoid shadowed
                                                                 .SelectMany(p => p.GetAllMethods().Select(m => new { p, m }))
-                                                                .ToDictionary(x => x.m, x => x.p));
+                                                                .ToDictionary(x => x.m, x => x.p, new MethodEqualityComparer()));
         dict.TryGetValue(methodInfo, out var result);
         return result;
     }
@@ -41,7 +41,7 @@ public static class MethodInfoExtensions
         var dict = eventMethodCache.GetOrAdd(methodInfo.DeclaringType, type =>
                                                             type.GetEvents(BindingFlagsExtensions.AllBindings | BindingFlags.DeclaredOnly) // DeclaredOnly to avoid shadowed
                                                                 .SelectMany(p => p.GetAllMethods().Select(m => new { p, m }))
-                                                                .ToDictionary(x => x.m, x => x.p));
+                                                                .ToDictionary(x => x.m, x => x.p, new MethodEqualityComparer()));
         dict.TryGetValue(methodInfo, out var result);
         return result;
     }
@@ -67,6 +67,13 @@ public static class MethodInfoExtensions
         if(methodInfo.DeclaringType != other.DeclaringType) return false;
 
         return methodInfo.IsSignatureEqual(other);
+    }
+
+    public class MethodEqualityComparer : IEqualityComparer<MethodInfo>
+    {
+        public bool Equals(MethodInfo? x, MethodInfo? y) => x is not null && y is not null && x.IsEqual(y);
+
+        public int GetHashCode(MethodInfo m) => m.Name.GetHashCode() * m.DeclaringType.GetHashCode();
     }
 
     public static bool IsSignatureEqual(this MethodInfo methodInfo, MethodInfo other)

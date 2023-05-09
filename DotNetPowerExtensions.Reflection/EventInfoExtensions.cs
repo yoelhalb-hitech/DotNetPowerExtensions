@@ -12,5 +12,5 @@ public static class EventInfoExtensions
 
     public static bool IsOverridable(this EventInfo eventInfo) => eventInfo.GetAllMethods().First().IsOverridable();
     public static bool IsExplicitImplementation(this EventInfo eventInfo)
-     => eventInfo.Name.Contains('.') && eventInfo.GetAllMethods().Any(m => m.IsExplicitImplementation());
+        => eventInfo.Name.Contains('.') && eventInfo.GetAllMethods().Any(m => m.IsExplicitImplementation());
 }
