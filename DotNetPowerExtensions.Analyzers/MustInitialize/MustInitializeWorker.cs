@@ -37,9 +37,9 @@ internal class MustInitializeWorker : WorkerBase
     public static string ShortName => nameof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Replace(nameof(Attribute), "");
     public static AttributeListSyntax GetAttributeSyntax() => SyntaxFactoryExtensions.ParseAttribute("[" + ShortName + "]");
 
-    public IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetClosestMembersWithAttribute(ITypeSymbol symbol, INamedTypeSymbol[] attributeSymbols)
+    public IEnumerable<IGrouping<string, Union<IPropertySymbol, IFieldSymbol>>> GetMembersGroupedByName(ITypeSymbol symbol)
     {
-        // We don't need the interfaces, since we require to specify it directly on the implementation, and c# 8 default interfaces are not allowed
+                // We don't need the interfaces, since we require to specify it directly on the implementation, and c# 8 default interfaces are not allowed
         var bases = symbol.GetAllBaseTypes().ToList();
         var symbols = new[] { symbol }.Concat(bases);
         var allMembers = symbols.SelectMany(s => s.GetMembers()
@@ -50,11 +50,17 @@ internal class MustInitializeWorker : WorkerBase
                                                             .OfType<IFieldSymbol>()
                                                             .Select(p => new Union<IPropertySymbol, IFieldSymbol>(p))));
 
-        var byNames = allMembers.GroupBy(r => r.As<ISymbol>()!.Name);
+        return allMembers.GroupBy(r => r.As<ISymbol>()!.Name);
+    }
+
+    public IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetClosestMembersWithAttribute(ITypeSymbol symbol, INamedTypeSymbol[] attributeSymbols)
+    {
+        // We don't need the interfaces, since we require to specify it directly on the implementation, and c# 8 default interfaces are not allowed
+        var bases = symbol.GetAllBaseTypes().ToList();
 
         // We take the closest base, this way if it has been marked with `Initialized` instead we will be fine
         // Remember that each override must be marked and hiding is not allowed (unless `Initialized`)
-        return byNames
+        return GetMembersGroupedByName(symbol)
                 .Select(n => n.OrderBy(x => bases.IndexOf(x.As<ISymbol>()!.ContainingType)).First())
                 .Where(n => n.As<ISymbol>()!.HasAttribute(attributeSymbols));
     }
@@ -173,7 +179,7 @@ internal class MustInitializeWorker : WorkerBase
     {
         var props = GetRequiredToInitialize(symbol, null).Select(m => m.name);
 
-        var initialized = typeDecl.Initializers.Select(i => i.GetName()).Where(x => x is not null).Select(x => x!);
+        var initialized = typeDecl.Initializers.Select(i => i.GetName()).OfType<string>();
 
         return props.Except(initialized).Distinct();
     }

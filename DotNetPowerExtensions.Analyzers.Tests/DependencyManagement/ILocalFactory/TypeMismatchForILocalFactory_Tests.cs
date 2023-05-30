@@ -40,7 +40,7 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
     }
 
     [Test]
-    public async Task Test_DoesNotWarnWhenNoAttribute()
+    public async Task Test_WarnsWhenNoAttribute()
     {
         var test = $$"""
         using System;
@@ -55,35 +55,9 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
         class Program { void Main() =>
             (null as ILocalFactory<DeclareType>).Create(new
             {
-                TestProp = 10,
-                TestGeneralName = "",
-                TestField = true
-            }); }
-        """;
-
-        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
-    }
-
-    [Test]
-    public async Task Test_DoesNotWarnWhenOtherMustInitialize([ValueSource(nameof(Suffixes))] string suffix)
-    {
-        var test = $$"""
-        using System;
-        using System.Collections.Generic;
-        public class MustInitializeAttribute : Attribute {}
-        public class DeclareType
-        {
-            [MustInitialize{{suffix}}] public string TestProp { get; set; }
-            [MustInitialize{{suffix}}] public AppDomain TestGeneralName { get; set; }
-            [MustInitialize{{suffix}}] public List<(string, int)> TestField;
-        }
-
-        class Program { void Main() =>
-            (null as ILocalFactory<DeclareType>).Create(new
-            {
-                TestProp = 10,
-                TestGeneralName = "",
-                TestField = true
+                TestProp = [|10|],
+                TestGeneralName = [|""|],
+                TestField = [|true|]
             }); }
         """;
 
