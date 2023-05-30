@@ -52,28 +52,32 @@ public static class SyntaxExtensions
         return classDecl.GetNamespace() + "." + name;
     }
 
-    public static string? GetUnqualifiedName(this NameSyntax nameSyntax) => nameSyntax switch
+    public static string? GetUnqualifiedName(this NameSyntax nameSyntax) => nameSyntax.GetUnqualifiedNameToken()?.ValueText;
+
+    public static SyntaxToken? GetUnqualifiedNameToken(this NameSyntax nameSyntax) => nameSyntax switch
     {
-        IdentifierNameSyntax id => id.Identifier.ValueText,
-        QualifiedNameSyntax q => q.Right.Identifier.ValueText,
-        SimpleNameSyntax name => name.Identifier.ValueText,
-        AliasQualifiedNameSyntax alias => alias.Name.Identifier.ValueText,
+        IdentifierNameSyntax id => id.Identifier,
+        QualifiedNameSyntax q => q.Right.Identifier,
+        SimpleNameSyntax name => name.Identifier,
+        AliasQualifiedNameSyntax alias => alias.Name.Identifier,
         _ => null,
     };
 
-    public static string? GetName(this AnonymousObjectMemberDeclaratorSyntax syntax)
+    public static SyntaxToken? GetNameToken(this AnonymousObjectMemberDeclaratorSyntax syntax)
     {
-        if (syntax.NameEquals is not null) return syntax.NameEquals!.Name.Identifier.ValueText;
+        if (syntax.NameEquals is not null) return syntax.NameEquals!.Name.Identifier;
 
         return GetUnqualifiedNameFromExpression(syntax.Expression);
 
-        static string? GetUnqualifiedNameFromExpression(ExpressionSyntax expression) => expression switch
+        static SyntaxToken? GetUnqualifiedNameFromExpression(ExpressionSyntax expression) => expression switch
         {
-            NameSyntax name => name.GetUnqualifiedName(),
-            MemberAccessExpressionSyntax member => member.Name.Identifier.ValueText,
-            MemberBindingExpressionSyntax binding => binding.Name.Identifier.ValueText,
+            NameSyntax name => name.GetUnqualifiedNameToken(),
+            MemberAccessExpressionSyntax member => member.Name.Identifier,
+            MemberBindingExpressionSyntax binding => binding.Name.Identifier,
             ConditionalAccessExpressionSyntax cond => GetUnqualifiedNameFromExpression(cond.WhenNotNull),
             _ => null
         };
     }
+
+    public static string? GetName(this AnonymousObjectMemberDeclaratorSyntax syntax) => syntax.GetNameToken()?.ValueText;
 }
