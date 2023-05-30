@@ -1,11 +1,42 @@
 ﻿extern alias Workspaces;
 
+using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+using DotNetPowerExtensions.Analyzers.MustInitialize;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CompletionProviders;
 
 internal class FeatureUtils
+{
+    public static ISymbol? BindTokenToDeclaringSymbol(SemanticModel semanticModel, SyntaxToken token, CancellationToken cancellationToken = default)
+    {
+        // We only care if it is a simple identifier name
+        if (token.Kind() is not SyntaxKind.IdentifierToken || token.Parent is not IdentifierNameSyntax identifier) return null;
+
+        return BindIDentifierToDeclaringSymbol(semanticModel, identifier, cancellationToken);
+    }
+
+    public static ISymbol? BindIDentifierToDeclaringSymbol(SemanticModel semanticModel, IdentifierNameSyntax identifier, CancellationToken cancellationToken = default)
+    {
+        // We only care if it is a simple identifier name
+        if (identifier.Parent is not NameEqualsSyntax nameEquals
+            || nameEquals.Parent is not AnonymousObjectMemberDeclaratorSyntax declerator
+            || declerator.Parent is not AnonymousObjectCreationExpressionSyntax creation) return null;
+
+        var type = FeatureUtils.GetInitializedType(semanticModel, creation, cancellationToken);
+        if (type is null) return null;
+
+        var members = type.GetMembers(identifier.Identifier.Text);
+        if (members.OfType<IPropertySymbol>().Any()) return members.First(); // Can only be one
+        if (members.OfType<IFieldSymbol>().Any()) return members.First(); // Can only be one
+
+        var mightRequire = MightRequireUtils.GetMightRequiredInfos(type, new MustInitializeWorker(semanticModel).MightRequireSymbols)
+                                .FirstOrDefault(m => m.Name == identifier.Identifier.Text)?
+                                .Attribute.AttributeConstructor;
+        return mightRequire;
+    }
+
     public static SyntaxToken? GetToken(SemanticModel semanticModel, int position, CancellationToken cancellationToken)
     {
         var tree = semanticModel.SyntaxTree;
