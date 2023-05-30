@@ -5,4 +5,3 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-DNPE0217 | Language | Warning | OriginalNotExisting

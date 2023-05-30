@@ -43,4 +43,12 @@ DNPE0214| Language |  Warning | MightRequireTypeConflict
 DNPE0215| Language |  Warning | MustInitializeShouldAddMightRequire
 DNPE0216| Language |  Warning | MustInitializeConflictsWithMightRequire
 
+## Release 3.0
+
+### New Rules
+Rule ID | Category | Severity | Notes
+--------|----------|----------|--------------------
+DNPE0217| Language |  Warning | OriginalNotExisting
+
+
 
