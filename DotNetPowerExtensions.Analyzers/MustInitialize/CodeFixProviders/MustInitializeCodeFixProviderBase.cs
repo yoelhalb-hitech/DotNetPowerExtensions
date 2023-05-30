@@ -1,7 +1,9 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.Editing;
+﻿extern alias Workspaces;
+
+using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using Workspaces::Microsoft.CodeAnalysis.CodeActions;
 using System.Collections.Immutable;
+using Workspaces::Microsoft.CodeAnalysis.Editing;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 

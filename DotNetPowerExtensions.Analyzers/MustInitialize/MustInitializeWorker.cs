@@ -184,12 +184,12 @@ internal class MustInitializeWorker : WorkerBase
         return props.Except(initialized).Distinct();
     }
 
-    public IEnumerable<(string name, ITypeSymbol type)> GetRequiredToInitialize(ITypeSymbol symbol, IMethodSymbol? ctor)
+    public IEnumerable<(string name, ITypeSymbol type, ISymbol symbol)> GetRequiredToInitialize(ITypeSymbol symbol, IMethodSymbol? ctor)
     {
         var props = GetMustInitialize(symbol, ctor, out var initialized);
         foreach (var prop in props)
         {
-            yield return (prop.As<ISymbol>()!.Name, prop.First?.Type ?? prop.Second!.Type);
+            yield return (prop.As<ISymbol>()!.Name, prop.First?.Type ?? prop.Second!.Type, prop.As<ISymbol>()!);
         }
 
         var initializedByMember = ToNamedDict(GetClosestMembersWithAttribute(symbol, new[] { InitializedSymbol }));
@@ -199,7 +199,8 @@ internal class MustInitializeWorker : WorkerBase
             // Assuming that we can't have members with the same name and different types
             if (initialized.ContainsKey(info.Name) || initializedByMember.ContainsKey(info.Name)) continue;
 
-            yield return (info.Name, info.Type);
+            // We assume that we can't have MightRequire proeprties initialized in a ctor... so we don't have to check for it
+            yield return (info.Name, info.Type, info.Attribute.AttributeConstructor!);
         }
     }
 }

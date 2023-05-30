@@ -3,6 +3,7 @@ using DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
 using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
 using DotNetPowerExtensions.Analyzers.MustInitialize;
+using Microsoft.CodeAnalysis;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CodeFixProviders;
 
@@ -45,7 +46,7 @@ public class MustInitializeRequiredMembersForLocalCodeFixProvider
         return (declaration, declaration.WithArgumentList(declaration.ArgumentList.WithArguments(newArguments)));
     }
 
-    private AnonymousObjectMemberDeclaratorSyntax GetPropertyAssignment((string name, ITypeSymbol type) prop)
+    private AnonymousObjectMemberDeclaratorSyntax GetPropertyAssignment((string name, ITypeSymbol type, ISymbol symbol) prop)
     {
         var defaultExpression = SyntaxFactory.DefaultExpression(prop.type.ToTypeSyntax());
 

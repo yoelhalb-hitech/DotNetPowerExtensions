@@ -15,7 +15,7 @@
 
 <ItemGroup>
 	<!-- CAUTION: we need Microsoft.CodeAnalysis.CSharp and Microsoft.CodeAnalysis.CSharp.Workspaces to be the same as Features -->
-	<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.3.0" PrivateAssets="all" />
+	<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.4.0" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

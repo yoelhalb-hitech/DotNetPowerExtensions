@@ -68,7 +68,7 @@ internal static class DependencyAnalyzerUtils
 
     public static (AttributeSyntax syntax, string name)? GetAttributeSyntaxInfo(AttributeSyntax? attr, string[] names)
     {
-        var attrName = attr?.Name.GetUnqualifiedName()?.Replace(nameof(Attribute), "");
+        var attrName = attr is null ? null : SequelPay.DotNetPowerExtensions.RoslynExtensions.SyntaxExtensions.GetUnqualifiedName(attr.Name)?.Replace(nameof(Attribute), "");
         if (attrName is null || !names.Contains(attrName + nameof(Attribute))) return null;
         return (attr!, attrName);
     }

@@ -1,7 +1,10 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+﻿extern alias Workspaces;
+
+using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
 using DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
-using Microsoft.CodeAnalysis.Editing;
-using Microsoft.CodeAnalysis.CodeActions;
+using Workspaces::Microsoft.CodeAnalysis.Editing;
+
+using Workspaces::Microsoft.CodeAnalysis.CodeActions;
 using DotNetPowerExtensions.Analyzers.MustInitialize;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.CodeFixProviders;
