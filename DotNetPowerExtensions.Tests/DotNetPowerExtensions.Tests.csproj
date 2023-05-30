@@ -39,15 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-	<!-- Main reference -->
     <ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" ReferenceOutputAssembly="true" />
   </ItemGroup>
-  <ItemGroup>
-	<!-- Analyzer references -->
-	<ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer">
-		  <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework><!-- For the analyzer -->
-	</ProjectReference>
-	<ProjectReference Include="..\DotNetPowerExtensions.Analyzers\DotNetPowerExtensions.Analyzers.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
-  </ItemGroup>
-
 </Project>

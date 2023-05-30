@@ -6,7 +6,7 @@ public class EventDetail : MemberDetail<EventInfo>
 {
     internal EventDetail() { }
 
-    [MustInitialize] public override MemberDetailTypes MemberDetailType { get => MemberDetailTypes.Event; internal set => throw new NotSupportedException(); }
+    [Initialized] public override MemberDetailTypes MemberDetailType { get => MemberDetailTypes.Event; internal set => throw new NotSupportedException(); }
     [MustInitialize] public FieldDetail? BackingField { get; internal set; }
     [MustInitialize] public MethodDetail AddMethod { get; internal set; }
     [MustInitialize] public MethodDetail RemoveMethod { get; internal set; }

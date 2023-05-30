@@ -6,7 +6,7 @@ public class PropertyDetail : MemberDetail<PropertyInfo>
 {
 	internal PropertyDetail(){}
 
-    [MustInitialize] public override MemberDetailTypes MemberDetailType { get => MemberDetailTypes.Property; internal set => throw new NotSupportedException(); }
+    [Initialized] public override MemberDetailTypes MemberDetailType { get => MemberDetailTypes.Property; internal set => throw new NotSupportedException(); }
 
     [MustInitialize] public FieldDetail? BackingField { get; internal set; }
     [MustInitialize] public MethodDetail? GetMethod { get; internal set; }

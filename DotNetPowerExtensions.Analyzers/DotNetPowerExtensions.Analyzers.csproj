@@ -45,7 +45,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="IgnoresAccessChecksToGenerator" Version="0.6.0" PrivateAssets="all" />
+	<PackageReference Include="IgnoresAccessChecksToGenerator" Version="[0.6.0,)" PrivateAssets="all" />
 	<!-- CAUTION: we need Microsoft.CodeAnalysis.CSharp and Microsoft.CodeAnalysis.CSharp.Workspaces to be the same as Features -->
 	<!--<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="3.11.0" PrivateAssets="all" />--><!-- For VS 2019 -->
 	<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.4.0" PrivateAssets="all" /><!-- Needs to match the version of VS -->
