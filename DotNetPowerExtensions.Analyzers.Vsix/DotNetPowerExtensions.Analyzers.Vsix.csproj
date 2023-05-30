@@ -10,7 +10,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>DotNetPowerExtensions_Analyzers_SignatureKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>SequelPay.DotNetPowerExtensions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -56,7 +56,7 @@
     <StartArguments>/rootsuffix Roslyn</StartArguments>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="MustInitializeAnalyzer_SignatureKey.snk" />
+    <None Include="SequelPay.DotNetPowerExtensions.snk" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

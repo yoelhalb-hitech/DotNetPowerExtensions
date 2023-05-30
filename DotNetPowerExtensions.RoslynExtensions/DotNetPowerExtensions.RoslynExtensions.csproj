@@ -13,7 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>DotNetPowerExtensions.RoslynExtensions.Tests</_Parameter1>
+      <_Parameter1>DotNetPowerExtensions.RoslynExtensions.Tests, PublicKey=002400000480000094000000060200000024000052534131000400000100010049c1c8a4b34d9a58f1b76473eb42cbea2336c86a66a4cb071b8e3368d3be608e6b558807bcacaf22b98e48c6451da32f477ca23cebf1e460306c884374ba053b0e154183028d9d1152ead270b584484a44e1a0855ad78671b846e22213751737fcadc52adc1731673efa509b49c2f407b18ab4e54dff160530f2a78aded947ae</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
@@ -34,6 +34,8 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\SequelPay.DotNetPowerExtensions.snk</AssemblyOriginatorKeyFile>
     <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
   </PropertyGroup>
 

@@ -9,6 +9,8 @@
 	<Nullable>enable</Nullable>
 	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 	<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+	<SignAssembly>True</SignAssembly>
+	<AssemblyOriginatorKeyFile>..\SequelPay.DotNetPowerExtensions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
