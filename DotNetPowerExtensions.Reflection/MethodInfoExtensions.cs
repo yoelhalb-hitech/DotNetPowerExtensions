@@ -73,7 +73,7 @@ public static class MethodInfoExtensions
     {
         public bool Equals(MethodInfo? x, MethodInfo? y) => x is not null && y is not null && x.IsEqual(y);
 
-        public int GetHashCode(MethodInfo m) => m.Name.GetHashCode() * m.DeclaringType.GetHashCode();
+        public int GetHashCode(MethodInfo obj) => obj.Name.GetHashCode() * (obj.DeclaringType?.GetHashCode() ?? 12345);
     }
 
     public static bool IsSignatureEqual(this MethodInfo methodInfo, MethodInfo other)

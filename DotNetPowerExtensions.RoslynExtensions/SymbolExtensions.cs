@@ -1,6 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Shared.Extensions;
+using System.Security.AccessControl;
 
 namespace SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
@@ -73,14 +75,46 @@ public static class SymbolExtensions
 #endif
 
     public static bool IsGenericEqual<T>(this T? symbol, T? other) where T : INamedTypeSymbol
-        => symbol is not null && other?.IsGenericType == symbol!.IsGenericType
-            && (!symbol!.IsGenericType ? symbol.IsEqualTo(other) : symbol.ConstructUnboundGenericType().IsEqualTo(other.ConstructUnboundGenericType()));
+        => symbol is not null && other is not null && other?.IsGenericType == symbol!.IsGenericType
+                && (!symbol!.IsGenericType ? symbol.IsEqualTo(other) : symbol.ConstructUnboundGenericType().IsEqualTo(other.ConstructUnboundGenericType()));
+
+    public static bool IsGenericEqualOrSubOf<T>(this T symbol, T baseType) where T : INamedTypeSymbol
+    {
+        if (symbol is null) throw new ArgumentNullException(nameof(symbol));
+        if (baseType is null) throw new ArgumentNullException(nameof(baseType));
+
+        // If the symbol is a constructed generic and the base is not a generic then the constructed is considered a child but not the open generic
+        return symbol.IsGenericEqual(baseType) || symbol.InheritsFromOrEquals(baseType, true);
+    }
+
+
+    public static bool IsGenericEqualOrBaseOf<T>(this T? symbol, T? subType) where T : INamedTypeSymbol
+    {
+        if (symbol is null) throw new ArgumentNullException(nameof(symbol));
+        if (subType is null) throw new ArgumentNullException(nameof(subType));
+
+        return subType.IsGenericEqualOrSubOf(symbol);
+    }
+
+
 
     public static bool ContainsSymbol<T>(this IEnumerable<T> symbols, T? other) where T : ISymbol
         => other is not null && symbols.Any(s => s.IsEqualTo(other));
 
+    public static bool ContainsSymbolOrSub<T>(this IEnumerable<T> symbols, T? baseType) where T : ITypeSymbol
+        => baseType is not null && symbols.Any(s => s.InheritsFromOrEquals(baseType));
+
+    public static bool ContainsSymbolOrBase<T>(this IEnumerable<T> symbols, T? subType) where T : ITypeSymbol
+        => subType is not null && symbols.Any(s => subType.InheritsFromOrEquals(s));
+
     public static bool ContainsGeneric<T>(this IEnumerable<T?> symbols, T? other) where T : INamedTypeSymbol
         => other is not null && symbols.Any(s => s?.IsGenericEqual(other) ?? false);
+
+    public static bool ContainsGenericOrSub<T>(this IEnumerable<T?> symbols, T? subType) where T : INamedTypeSymbol
+        => subType is not null && symbols.Any(s => s?.IsGenericEqualOrBaseOf(subType) ?? false); // Remember that when other is base this is sub
+
+    public static bool ContainsGenericOrBase<T>(this IEnumerable<T?> symbols, T? baseType) where T : INamedTypeSymbol
+        => baseType is not null && symbols.Any(s => s?.IsGenericEqualOrSubOf(baseType) ?? false); // Remember that when other is sub this is base
 
     public static IEnumerable<ITypeSymbol> GetAllBaseTypes(this ITypeSymbol symbol)
     {
@@ -93,7 +127,7 @@ public static class SymbolExtensions
     public static AttributeData? GetAttribute(this ISymbol symbol, INamedTypeSymbol[] attributeSymbols)
         => symbol
             .GetAttributes()
-            .FirstOrDefault(a => attributeSymbols.ContainsGeneric(a.AttributeClass?.ConstructedFrom));
+            .FirstOrDefault(a => attributeSymbols.ContainsGenericOrSub(a.AttributeClass?.ConstructedFrom));
 
     public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol[] attributeSymbols)
         => symbol.GetAttribute(attributeSymbols) is not null;
