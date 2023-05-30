@@ -17,13 +17,15 @@ internal class MightRequireUtils
         nameof(SequelPay.DotNetPowerExtensions.MightRequireAttribute).Replace(nameof(Attribute), "")
     };
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class MightRequiredInfo
     {
-        public required ISymbol ContainingSymbol { get; set; }
-        public required AttributeData Attribute { get; set; }
-        public required string Name { get; set; }
-        public required ITypeSymbol Type { get; set; }
+        public ISymbol ContainingSymbol { get; set; }
+        public AttributeData Attribute { get; set; }
+        public string Name { get; set; }
+        public ITypeSymbol Type { get; set; }
     }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public static IEnumerable<MightRequiredInfo> GetMightRequiredInfos(ITypeSymbol symbol, INamedTypeSymbol[] mightRequireSymbols)
     {
