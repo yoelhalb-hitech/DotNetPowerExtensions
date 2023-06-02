@@ -5,7 +5,7 @@ using DotNetPowerExtensions.Analyzers.MustInitialize;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CompletionProviders;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
 internal class FeatureUtils
 {

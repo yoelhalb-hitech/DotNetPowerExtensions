@@ -8,10 +8,9 @@ using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Workspaces::Microsoft.CodeAnalysis.Host.Mef;
 using DotNetPowerExtensions.Analyzers.MustInitialize;
 using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
-using Features::Microsoft.CodeAnalysis.QuickInfo;
-using System.Reflection;
+using Workspaces::Roslyn.Utilities;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CompletionProviders;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
 [ExportCompletionProvider(nameof(LocalInitializerCompletionProvider), LanguageNames.CSharp)]
 public class LocalInitializerCompletionProvider : LSPCompletionProvider
@@ -35,14 +34,14 @@ public class LocalInitializerCompletionProvider : LSPCompletionProvider
     {
         try
         {
-            // Not using the base implmenetation as we still need to include MightRequire and we have to also include members with mustintialize not in the standard intellisense scope...
-            // And on the other hand we don't want to give itnellisense for all properties in scope as it mgiht confuse the user
+            // Not using the base implmentation as we still need to include MightRequire and we have to also include members with mustinitialize not in the standard intellisense scope...
+            // And on the other hand we don't want to give intellisense for all properties in scope as it might confuse the user
 
             var document = context.Document;
             var position = context.Position;
             var cancellationToken = context.CancellationToken;
 
-            var semanticModel = await (Workspaces::Microsoft.CodeAnalysis.Shared.Extensions.DocumentExtensions.ReuseExistingSpeculativeModelAsync(document, position, cancellationToken)).ConfigureAwait(false);
+            var semanticModel = await document.ReuseExistingSpeculativeModelAsync(position, cancellationToken).ConfigureAwait(false);
 
             if (GetInitializedType(document, semanticModel, position, cancellationToken) is not var (type, initializerLocation)) return;
             if (type is not INamedTypeSymbol initializedType) return;
@@ -50,6 +49,7 @@ public class LocalInitializerCompletionProvider : LSPCompletionProvider
             context.IsExclusive = true;
 
             var enclosing = semanticModel.GetEnclosingNamedType(position, cancellationToken);
+            Contract.ThrowIfNull(enclosing);
 
             var worker = new MustInitializeWorker(semanticModel);
             var requiredTo = worker.GetRequiredToInitialize(type, null);
@@ -64,7 +64,7 @@ public class LocalInitializerCompletionProvider : LSPCompletionProvider
                     displayText: uninitializedMember.name.EscapeIdentifier(),
                     displayTextSuffix: "",
                     insertionText: null,
-                    symbols: ImmutableArray.Create<ISymbol>(uninitializedMember.symbol),
+                    symbols: ImmutableArray.Create(uninitializedMember.symbol),
                     contextPosition: initializerLocation.SourceSpan.Start,
                     rules: CompletionItemRules.Create(enterKeyRule: EnterKeyRule.Never)));
             }

@@ -1,13 +1,13 @@
 ﻿extern alias Features;
 extern alias Workspaces;
+
 using Features::Microsoft.CodeAnalysis.QuickInfo;
 using Workspaces::Microsoft.CodeAnalysis.Host;
 using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
 using Workspaces::System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Features::Microsoft.CodeAnalysis.LanguageService;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CompletionProviders;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
 [ExportQuickInfoProvider("LocalInitializer", LanguageNames.CSharp), Shared]
 [ExtensionOrder(Before = QuickInfoProviderNames.Semantic)]
@@ -24,7 +24,7 @@ public class LocalInitializerQuickInfoProvider : CommonSemanticQuickInfoProvider
     public override Task<QuickInfoItem?> GetQuickInfoAsync(QuickInfoContext context)
     {
         if (!context.Document.Project.AnalyzerReferences.Any(a => a.Display == nameof(DotNetPowerExtensions) + "." + nameof(DotNetPowerExtensions.Analyzers)))
-                return Task.FromResult<QuickInfoItem?>(null);
+            return Task.FromResult<QuickInfoItem?>(null);
 
         return base.GetQuickInfoAsync(context);
     }
@@ -67,7 +67,7 @@ public class LocalInitializerQuickInfoProvider : CommonSemanticQuickInfoProvider
             var tokenInfo = new TokenInformation(ImmutableArray.Create(symbol));
             return await CreateContentAsync(services, semanticModel, token, tokenInfo, null, options, cancellationToken).ConfigureAwait(false);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Logger.LogError(ex);
             return null;
