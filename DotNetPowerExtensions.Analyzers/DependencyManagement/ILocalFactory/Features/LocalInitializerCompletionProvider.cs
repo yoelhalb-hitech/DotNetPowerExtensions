@@ -66,6 +66,7 @@ public class LocalInitializerCompletionProvider : LSPCompletionProvider
                     insertionText: null,
                     symbols: ImmutableArray.Create(uninitializedMember.symbol),
                     contextPosition: initializerLocation.SourceSpan.Start,
+                    inlineDescription: "MustInitialize",
                     rules: CompletionItemRules.Create(enterKeyRule: EnterKeyRule.Never)));
             }
         }

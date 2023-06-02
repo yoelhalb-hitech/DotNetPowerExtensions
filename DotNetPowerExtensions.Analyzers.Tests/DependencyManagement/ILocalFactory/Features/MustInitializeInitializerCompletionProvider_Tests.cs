@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.ILocalFactory.Features;
 
-internal class LocalInitializerCompletionProvider_Tests
+internal class MustInitializeInitializerCompletionProvider_Tests
 {
     // TODO... Make tests for completion providers:
     // 1) Empty
@@ -26,18 +26,20 @@ internal class LocalInitializerCompletionProvider_Tests
         {
         	[MustInitialize] public int PublicProp { get; set; }
         	public int PublicField;
+            internal int AProp { get; set; }
         	[MustInitialize] internal int InternalProp { get; set; }
+            [MustInitialize] int XField; // Naming is o make sure that MustInitialize is indeed the first
 
         	public static void Test(ILocalFactory<TestClass> factory)
         	{
-        		var result = factory.Create(new { PublicProp = 5 });
+        		var result = factory.Create(new TestClass{ PublicProp = 5 });
         	}
         }
         ";
 
         var document = FeaturesTestUtils.GetInitializedDocument(code);
 
-        var position = code.LastIndexOf("new { ", StringComparison.Ordinal) + "new { ".Length;
+        var position = code.LastIndexOf("new TestClass{ ", StringComparison.Ordinal) + "new TestClass{ ".Length;
 
         var text = await document.GetTextAsync().ConfigureAwait(false);
         var insertionTrigger = CompletionTrigger.CreateInsertionTrigger(text[position]);
@@ -45,14 +47,18 @@ internal class LocalInitializerCompletionProvider_Tests
         var completionService = CompletionService.GetService(document)!;
         var results = await completionService.GetCompletionsAsync(document, position, insertionTrigger).ConfigureAwait(false);
 
-        Assert.That(results.ItemsList.Count, Is.EqualTo(2));
+        Assert.That(results.ItemsList.Count, Is.EqualTo(4));
 
-        Assert.That(results.ItemsList[0]!.DisplayText, Is.EqualTo("Testing"));
+        Assert.That(results.ItemsList[0]!.DisplayText, Is.EqualTo("InternalProp"));
         Assert.That(results.ItemsList[0]!.InlineDescription, Is.EqualTo("MustInitialize"));
-        Assert.That(results.ItemsList[0]!.Properties["Symbols"], Is.EqualTo("5 (M \".ctor\" (D (N \"DotNetPowerExtensions\" 0 (N \"SequelPay\" 0 (N \"\" 1 (U (S \"DotNetPowerExtensions\" 6) 5) 4) 3) 2) \"MightRequireAttribute\" 1 ! 0 (% 1 (D (N \"System\" 0 (N \"\" 1 (U (S \"System.Private.CoreLib\" 11) 10) 9) 8) \"String\" 0 ! 0 (% 0) 7)) 1) 0 0 (% 1 0) ! (% 1 (# 7)) 0)"));
 
-        Assert.That(results.ItemsList[1]!.DisplayText, Is.EqualTo("InternalProp"));
+        Assert.That(results.ItemsList[1]!.DisplayText, Is.EqualTo("XField"));
         Assert.That(results.ItemsList[1]!.InlineDescription, Is.EqualTo("MustInitialize"));
-        Assert.That(results.ItemsList[1]!.Properties["Symbols"], Is.EqualTo("5 (Q \"InternalProp\" (D (N \"\" 1 (U (S \"MyProject\" 4) 3) 2) \"TestClass\" 0 ! 0 (% 0) 1) 0 (% 0) (% 0) 0)"));
+
+        Assert.That(results.ItemsList[2]!.DisplayText, Is.EqualTo("AProp"));
+        Assert.That(results.ItemsList[2]!.InlineDescription, Is.Empty);
+
+        Assert.That(results.ItemsList[3]!.DisplayText, Is.EqualTo("PublicField"));
+        Assert.That(results.ItemsList[3]!.InlineDescription, Is.Empty);
     }
 }

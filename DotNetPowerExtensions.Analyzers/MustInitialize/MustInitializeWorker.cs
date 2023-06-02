@@ -146,7 +146,7 @@ internal class MustInitializeWorker : WorkerBase
         }
     }
 
-    private IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetMustInitialize(ITypeSymbol symbol, IMethodSymbol? method,
+    public IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetMustInitialize(ITypeSymbol symbol, IMethodSymbol? method,
                         out Dictionary<string, Union<IPropertySymbol, IFieldSymbol>[]> initialized)
     {
         var closest = GetClosestMembersWithAttribute(symbol, MustInitializeSymbols);
