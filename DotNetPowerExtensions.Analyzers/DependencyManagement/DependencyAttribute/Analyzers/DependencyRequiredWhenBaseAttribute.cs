@@ -49,7 +49,7 @@ public class DependencyRequiredWhenBase : DiagnosticAnalyzer
             var decl = context.Node as TypeDeclarationSyntax;
             if (decl is null) return;
 
-            var symbol = context.SemanticModel.GetDeclaredSymbol(decl);
+            var symbol = context.SemanticModel.GetDeclaredSymbol(decl, context.CancellationToken);
             if (symbol is null || (symbol.BaseType is null && !symbol.Interfaces.Any())) return;
 
             var bases = symbol.GetAllBaseTypes()

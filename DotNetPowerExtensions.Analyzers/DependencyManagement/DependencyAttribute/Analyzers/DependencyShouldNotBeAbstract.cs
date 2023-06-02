@@ -52,7 +52,7 @@ public class DependencyShouldNotBeAbstract : DiagnosticAnalyzer
             var parent = context.Node.FirstAncestorOrSelf<TypeDeclarationSyntax>();
             if (parent is null) return;
 
-            var classSymbol = context.SemanticModel.GetDeclaredSymbol(parent);
+            var classSymbol = context.SemanticModel.GetDeclaredSymbol(parent, context.CancellationToken);
             if (classSymbol is null || !classSymbol.IsAbstract) return;
 
             var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, attr!.GetLocation(), attrName);

@@ -39,7 +39,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
                     .GetTypeByMetadataName(typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).FullName!);
         if (mustInitializeDecl is null) return false;
 
-        var propSymbols = context.Compilation.GetSymbolsWithName(name);
+        var propSymbols = context.Compilation.GetSymbolsWithName(name, cancellationToken: context.CancellationToken);
         if (!propSymbols.Any()) return false; // TODO...
 
         var lazy = new Lazy<string>(() => member.GetContainerFullName());
@@ -48,7 +48,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
         //var propSymbol = !propSymbols.Skip(1).Any() ? propSymbols.First() : propSymbols.FirstOrDefault(p => p.GetContainerFullName() == lazy.Value);
         //if (propSymbol is null) return false;
 
-        var propSymbol = context.GetSemanticModel(member.SyntaxTree).GetDeclaredSymbol(member);
+        var propSymbol = context.GetSemanticModel(member.SyntaxTree).GetDeclaredSymbol(member, context.CancellationToken);
 
         return propSymbol?.HasAttribute(mustInitializeDecl) ?? false;
     }

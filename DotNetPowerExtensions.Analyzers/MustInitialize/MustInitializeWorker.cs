@@ -11,10 +11,6 @@ internal class MustInitializeWorker : WorkerBase
     {
     }
 
-    public MustInitializeWorker(Compilation compilation) : base(compilation)
-    {
-    }
-
     public MustInitializeWorker(Compilation compilation, SemanticModel semanticModel) : base(compilation, semanticModel)
     {
     }
@@ -65,9 +61,9 @@ internal class MustInitializeWorker : WorkerBase
                 .Where(n => n.As<ISymbol>()!.HasAttribute(attributeSymbols));
     }
 
-    public IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetInitialized(IMethodSymbol method)
+    public IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetInitialized(IMethodSymbol method, CancellationToken cancellationToken = default)
     {
-        var chain = new[] { method }.Concat(method.GetConstructorChain(SemanticModel)).ToArray();
+        var chain = new[] { method }.Concat(method.GetConstructorChain(SemanticModel, cancellationToken)).ToArray();
 
         var attributes = new[]
         {
@@ -99,18 +95,18 @@ internal class MustInitializeWorker : WorkerBase
         return membersAll.Concat(ctorsSome);
     }
 
-    public Dictionary<string, Union<IPropertySymbol, IFieldSymbol>[]> GetInitialized(ITypeSymbol type)
+    public Dictionary<string, Union<IPropertySymbol, IFieldSymbol>[]> GetInitialized(ITypeSymbol type, CancellationToken cancellationToken = default)
     {
         if (type.TypeKind != TypeKind.Class && type.TypeKind != TypeKind.Struct) return new Dictionary<string, Union<IPropertySymbol, IFieldSymbol>[]>();
 
         var ctors = type.GetConstructors(false);
 
-        var working = ToNamedDict(GetInitialized(ctors.First()));
+        var working = ToNamedDict(GetInitialized(ctors.First(), cancellationToken));
 
         // If no ctor specified then we can only consider ot be intialized if all ctors are intiialiazing it in their chain
         foreach (var ctor in ctors.Skip(1)) //TODO... Maybe we can optimize if a ctor is in the others chain
         {
-            var current = ToNamedDict(GetInitialized(ctor));
+            var current = ToNamedDict(GetInitialized(ctor, cancellationToken));
             var intersectKeys = current.Keys.Intersect(working.Keys).ToArray();
 
             working = working
@@ -126,8 +122,9 @@ internal class MustInitializeWorker : WorkerBase
     private Dictionary<string, Union<IPropertySymbol, IFieldSymbol>[]> ToNamedDict(IEnumerable<Union<IPropertySymbol, IFieldSymbol>> unions)
         => unions.GroupBy(i => i.As<ISymbol>()!.Name).ToDictionary(g => g.Key, g => g.ToArray());
 
-    public Dictionary<string, Union<IPropertySymbol, IFieldSymbol>[]> GetInitialized(ITypeSymbol type, IMethodSymbol? method)
-        => method is null ? GetInitialized(type) : ToNamedDict(GetInitialized(method));
+    public Dictionary<string, Union<IPropertySymbol, IFieldSymbol>[]> GetInitialized(ITypeSymbol type, IMethodSymbol? method,
+                                                                                                            CancellationToken cancellationToken = default)
+        => method is null ? GetInitialized(type, cancellationToken) : ToNamedDict(GetInitialized(method, cancellationToken));
 
     public IEnumerable<Union<IPropertySymbol, IFieldSymbol>> FilteredMustInitialize(IEnumerable<Union<IPropertySymbol, IFieldSymbol>> mustInitializeMemebrs,
                                                                                         Dictionary<string, Union<IPropertySymbol, IFieldSymbol>[]> initialized)
@@ -147,19 +144,20 @@ internal class MustInitializeWorker : WorkerBase
     }
 
     public IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetMustInitialize(ITypeSymbol symbol, IMethodSymbol? method,
-                        out Dictionary<string, Union<IPropertySymbol, IFieldSymbol>[]> initialized)
+                        out Dictionary<string, Union<IPropertySymbol, IFieldSymbol>[]> initialized, CancellationToken cancellationToken = default)
     {
         var closest = GetClosestMembersWithAttribute(symbol, MustInitializeSymbols);
 
-        initialized = GetInitialized(symbol, method);
+        initialized = GetInitialized(symbol, method, cancellationToken);
 
         return FilteredMustInitialize(closest, initialized);
     }
 
     // NOTE: This one is for initializing the class itself so we don't care on MightRequire
-    public IEnumerable<string> GetNotInitializedNames(ObjectCreationExpressionSyntax typeDecl, ITypeSymbol symbol, IMethodSymbol? ctor)
+    public IEnumerable<string> GetNotInitializedNames(ObjectCreationExpressionSyntax typeDecl, ITypeSymbol symbol,
+                                                                                        IMethodSymbol? ctor, CancellationToken cancellationToken = default)
     {
-        var props = GetMustInitialize(symbol, ctor, out _).Select(m => m.As<ISymbol>()!.Name);
+        var props = GetMustInitialize(symbol, ctor, out _, cancellationToken).Select(m => m.As<ISymbol>()!.Name);
 
         if (typeDecl.Initializer is not null)
         {
@@ -175,18 +173,20 @@ internal class MustInitializeWorker : WorkerBase
     }
 
     // NOTE: This one is for initializing for DI which might be typed as the base so we care on MightRequire
-    public IEnumerable<string> GetNotInitializedNames(AnonymousObjectCreationExpressionSyntax typeDecl, ITypeSymbol symbol)
+    public IEnumerable<string> GetNotInitializedNames(AnonymousObjectCreationExpressionSyntax typeDecl, ITypeSymbol symbol,
+                                                                                                        CancellationToken cancellationToken = default)
     {
-        var props = GetRequiredToInitialize(symbol, null).Select(m => m.name);
+        var props = GetRequiredToInitialize(symbol, null, cancellationToken).Select(m => m.name);
 
         var initialized = typeDecl.Initializers.Select(i => i.GetName()).OfType<string>();
 
         return props.Except(initialized).Distinct();
     }
 
-    public IEnumerable<(string name, ITypeSymbol type, ISymbol symbol)> GetRequiredToInitialize(ITypeSymbol symbol, IMethodSymbol? ctor)
+    public IEnumerable<(string name, ITypeSymbol type, ISymbol symbol)> GetRequiredToInitialize(ITypeSymbol symbol,
+                                                                                    IMethodSymbol? ctor, CancellationToken cancellationToken = default)
     {
-        var props = GetMustInitialize(symbol, ctor, out var initialized);
+        var props = GetMustInitialize(symbol, ctor, out var initialized, cancellationToken);
         foreach (var prop in props)
         {
             yield return (prop.As<ISymbol>()!.Name, prop.First?.Type ?? prop.Second!.Type, prop.As<ISymbol>()!);

@@ -51,7 +51,7 @@ public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
             var declared = creation.Initializers.Where(i => !string.IsNullOrWhiteSpace(i.GetName())).ToDictionary(i => i.GetName()!, i => i.Expression);
 
             var nonMatchings = declared.Where(i => i.Key is not null && props.ContainsKey(i.Key)
-                                                            && !context.SemanticModel.GetTypeInfo(i.Value).Type.IsEqualTo(props[i.Key]));
+                                                        && !context.SemanticModel.GetTypeInfo(i.Value, context.CancellationToken).Type.IsEqualTo(props[i.Key]));
 
             foreach (var nonMatching in nonMatchings)
             {

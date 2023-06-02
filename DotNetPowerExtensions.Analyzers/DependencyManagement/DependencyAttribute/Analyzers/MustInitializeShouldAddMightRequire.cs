@@ -30,15 +30,15 @@ public class MustInitializeShouldAddMightRequire : MustInitializeRequiredMembers
 
         if (semanticModel.GetDeclaredSymbol(typeSyntax!, c) is not ITypeSymbol typeSymbol) return null;
 
-        return GetMightRequireCandidates(typeSymbol, types, worker);
+        return GetMightRequireCandidates(typeSymbol, types, worker, c);
     }
 
 
     internal static Dictionary<ITypeSymbol, List<Union<IPropertySymbol, IFieldSymbol>>>?
-                                                     GetMightRequireCandidates(ITypeSymbol typeSymbol, ITypeSymbol[] types, MustInitializeWorker worker)
+                GetMightRequireCandidates(ITypeSymbol typeSymbol, ITypeSymbol[] types, MustInitializeWorker worker, CancellationToken cancellationToken = default)
     {
         var mustInitializeDict = types.ToDictionary(t => t,
-                                    t => worker.GetRequiredToInitialize(t, null).ToDictionary(s => s.name, s => s.type),
+                                    t => worker.GetRequiredToInitialize(t, null, cancellationToken).ToDictionary(s => s.name, s => s.type),
                                     SymbolEqualityComparer.Default);
 
         var dict = new Dictionary<ITypeSymbol, List<Union<IPropertySymbol, IFieldSymbol>>>(SymbolEqualityComparer.Default);

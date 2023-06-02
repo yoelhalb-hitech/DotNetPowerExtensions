@@ -28,7 +28,7 @@ internal class MustInitializeInitializerCompletionProvider : ObjectAndWithInitia
     {
         try
         {
-            // Not using the base implmentation as we want to add the "MustInitialize" description (which should also hopefully push it to the top)
+            // Not using the base implmentation as we want to add the "MustInitialize" description
 
             var document = context.Document;
             var position = context.Position;
@@ -48,7 +48,7 @@ internal class MustInitializeInitializerCompletionProvider : ObjectAndWithInitia
 
             var worker = new MustInitializeWorker(semanticModel);
             var ctor = GetCtor(semanticModel, position, cancellationToken);
-            var requiredTo = worker.GetMustInitialize(initializedType, ctor, out _).Select(m => m.As<ISymbol>()!.Name).ToList();
+            var requiredTo = worker.GetMustInitialize(initializedType, ctor, out _, cancellationToken).Select(m => m.As<ISymbol>()!.Name).ToList();
 
             // Find the members that can be initialized. If we have a NamedTypeSymbol, also get the overridden members.
             IEnumerable<ISymbol> members = semanticModel.LookupSymbols(position, initializedType);

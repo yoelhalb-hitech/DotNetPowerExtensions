@@ -75,13 +75,13 @@ public class MustInitializeShouldAddMightRequireCodeFixProvider : CodeFixProvide
 
             var worker = new MustInitializeWorker(semanticModel);
 
-            var members = MustInitializeShouldAddMightRequire.GetMightRequireCandidates(symbol, bases, worker);
+            var members = MustInitializeShouldAddMightRequire.GetMightRequireCandidates(symbol, bases, worker, c);
             if (members is null) return document;
 
             var documentEditor = await DocumentEditor.CreateAsync(document, c).ConfigureAwait(false);
             foreach (var b in bases) // In case we have 2 with the same name
             {
-                var baseDecl = b.GetSyntax<TypeDeclarationSyntax>().FirstOrDefault();
+                var baseDecl = b.GetSyntax<TypeDeclarationSyntax>(c).FirstOrDefault();
                 if(baseDecl is null) continue;
 
                 documentEditor.ReplaceNode(baseDecl, baseDecl.AddAttributeLists(GetAttributeList(members[b]).ToArray()));

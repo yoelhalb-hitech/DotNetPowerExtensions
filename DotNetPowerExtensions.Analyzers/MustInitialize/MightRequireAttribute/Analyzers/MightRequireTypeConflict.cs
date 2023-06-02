@@ -52,7 +52,7 @@ public class MightRequireTypeConflict : DiagnosticAnalyzer
             if (decl is null) return;
 
             var symbol = context.SemanticModel.GetDeclaredSymbol(decl);
-            if (symbol is null || symbol.GetSyntax<TypeDeclarationSyntax>().First() != decl) return; // For a parital class only do it the first time
+            if (symbol is null || symbol.GetSyntax<TypeDeclarationSyntax>(context.CancellationToken).First() != decl) return; // For a parital class only do it the first time
 
             var attributes = MightRequireUtils.GetMightRequiredInfos(symbol, mightRequireSymbols);
             var attributesGrouped = attributes.GroupBy(a => a.Name);
@@ -65,7 +65,7 @@ public class MightRequireTypeConflict : DiagnosticAnalyzer
             foreach (var attGroup in attributesWithMultiple)
             {
                 var types = string.Join(", ", attGroup.Select(g => (g.ContainingSymbol.IsEqualTo(symbol) ? "" : g.ContainingSymbol.Name + ".") + g.Type?.Name).Distinct());
-                var locations = attGroup.Select(a => a.Attribute.ApplicationSyntaxReference?.GetSyntax().GetLocation()).OfType<Location>();
+                var locations = attGroup.Select(a => a.Attribute.ApplicationSyntaxReference?.GetSyntax(context.CancellationToken).GetLocation()).OfType<Location>();
 
                 foreach (var location in locations)
                 {

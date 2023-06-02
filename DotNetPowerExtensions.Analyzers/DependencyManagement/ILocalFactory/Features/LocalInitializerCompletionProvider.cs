@@ -52,7 +52,7 @@ public class LocalInitializerCompletionProvider : LSPCompletionProvider
             Contract.ThrowIfNull(enclosing);
 
             var worker = new MustInitializeWorker(semanticModel);
-            var requiredTo = worker.GetRequiredToInitialize(type, null);
+            var requiredTo = worker.GetRequiredToInitialize(type, null, context.CancellationToken);
 
             // Filter out those members that have already been typed
             var alreadyTypedMembers = GetInitializedMembers(semanticModel.SyntaxTree, position, cancellationToken);

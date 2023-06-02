@@ -18,7 +18,8 @@ public abstract class MustInitializeRequiredMembersCodeFixProviderBase<TAnalyzer
     protected virtual async Task<INamedTypeSymbol[]> GetMustInitializedSymbols(Document document, CancellationToken c) =>
                                             await document.GetTypeSymbolsAsync(Attributes, c).ConfigureAwait(false);
 
-    protected virtual async Task<(SyntaxNode, SyntaxNode)?> GetInitializerChanges(Document document, ObjectCreationExpressionSyntax typeDecl, CancellationToken cancellationToken)
+    protected virtual async Task<(SyntaxNode, SyntaxNode)?> GetInitializerChanges(Document document, ObjectCreationExpressionSyntax typeDecl,
+                                                                                                                    CancellationToken cancellationToken)
     {
         var symbol = (await document.GetTypeInfoAsync(typeDecl, cancellationToken).ConfigureAwait(false))?.Type;
         if (symbol is null) return null;
@@ -28,8 +29,8 @@ public abstract class MustInitializeRequiredMembersCodeFixProviderBase<TAnalyzer
 
         var worker = new MustInitializeWorker(semanticModel);
 
-        var ctor = (semanticModel.GetOperation(typeDecl) as IObjectCreationOperation)?.Constructor;
-        var props = worker.GetNotInitializedNames(typeDecl, symbol, ctor);
+        var ctor = (semanticModel.GetOperation(typeDecl, cancellationToken) as IObjectCreationOperation)?.Constructor;
+        var props = worker.GetNotInitializedNames(typeDecl, symbol, ctor, cancellationToken);
 
         var initalizer = typeDecl.Initializer
                         ?? SyntaxFactory.InitializerExpression(SyntaxKind.ObjectInitializerExpression);

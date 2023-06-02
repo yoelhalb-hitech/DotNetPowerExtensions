@@ -27,12 +27,12 @@ public class MustInitializeRequiredMembersForLocalCodeFixProvider
         var innerClass = classType.TypeArguments.FirstOrDefault();
         if (innerClass is null) return null;
 
-        var propsGroup = worker.GetRequiredToInitialize(innerClass, null).GroupBy(p => p.name).OrderBy(g => g.Key);
+        var propsGroup = worker.GetRequiredToInitialize(innerClass, null, c).GroupBy(p => p.name).OrderBy(g => g.Key);
         if (!propsGroup.Any()) return null;
 
         if (declaration.ArgumentList.Arguments.FirstOrDefault()?.Expression is AnonymousObjectCreationExpressionSyntax creation)
         {
-            var propsMissing = worker.GetNotInitializedNames(creation, innerClass).ToArray();
+            var propsMissing = worker.GetNotInitializedNames(creation, innerClass, c).ToArray();
             creation = creation.WithInitializers(
                     creation.Initializers.AddRange(propsGroup.Where(g => propsMissing.Contains(g.Key)).Select(g => GetPropertyAssignment(g.First()))));
         }

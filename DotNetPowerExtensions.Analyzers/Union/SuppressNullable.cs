@@ -39,14 +39,8 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
                     .GetTypeByMetadataName(typeof(MustInitializeAttribute).FullName!);
         if (mustInitializeDecl is null) return false;
 
-        var propSymbols = context.Compilation.GetSymbolsWithName(name);
+        var propSymbols = context.Compilation.GetSymbolsWithName(name, cancellationToken: context.CancellationToken);
         if (!propSymbols.Any()) return false; // TODO...
-
-        var lazy = new Lazy<string>(() => member.GetContainerFullName());
-        context.GetSemanticModel(member.SyntaxTree);
-        // We have no way to get the semnatic model in a supressor and Compilation.GetSemnaticModel is not recommended
-        //var propSymbol = !propSymbols.Skip(1).Any() ? propSymbols.First() : propSymbols.FirstOrDefault(p => p.GetContainerFullName() == lazy.Value);
-        //if (propSymbol is null) return false;
 
         var propSymbol = context.GetSemanticModel(member.SyntaxTree).GetDeclaredSymbol(member);
 

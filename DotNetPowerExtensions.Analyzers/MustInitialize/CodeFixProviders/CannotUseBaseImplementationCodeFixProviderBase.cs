@@ -7,11 +7,11 @@ public abstract class CannotUseBaseImplementationCodeFixProviderBase<TAnalyzer>
 {
     protected override string Title => "Implement Required Properties";
 
-    protected virtual PropertyDeclarationSyntax? GetPropertyDeclaration(IPropertySymbol prop, ITypeSymbol[] baseTypes)
+    protected virtual PropertyDeclarationSyntax? GetPropertyDeclaration(IPropertySymbol prop, ITypeSymbol[] baseTypes, CancellationToken token = default)
     {
         var baseProperty = baseTypes.First(t => t.GetMembers(prop.Name).Any()).GetMembers(prop.Name).OfType<IPropertySymbol>().FirstOrDefault();
 
-        var baseSyntax = baseProperty?.GetSyntax<PropertyDeclarationSyntax>().FirstOrDefault();
+        var baseSyntax = baseProperty?.GetSyntax<PropertyDeclarationSyntax>(token).FirstOrDefault();
         if (baseSyntax is null) return null;
 
         return SyntaxFactoryExtensions.CreatePropertyOverride(baseSyntax)
@@ -33,7 +33,7 @@ public abstract class CannotUseBaseImplementationCodeFixProviderBase<TAnalyzer>
         var requiredProperties = CannotUseBaseImplementationBase.GetRequiredProperties(symbol, mustInitializeClassMetadata);
         foreach (var prop in requiredProperties)
         {
-            var expr = GetPropertyDeclaration(prop, baseTypes);
+            var expr = GetPropertyDeclaration(prop, baseTypes, c);
 
             if (expr is not null) declaration = declaration.AddMembers(expr);
         }

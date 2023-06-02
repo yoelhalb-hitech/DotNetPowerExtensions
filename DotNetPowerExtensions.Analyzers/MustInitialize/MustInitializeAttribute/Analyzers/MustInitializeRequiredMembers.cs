@@ -29,13 +29,13 @@ public class MustInitializeRequiredMembers : MustInitializeRequiredMembersBase
             var expr = context.Node as ObjectCreationExpressionSyntax;
             if (expr is null) return;
 
-            var symbol = context.SemanticModel.GetTypeInfo(expr).Type as ITypeSymbol;
+            var symbol = context.SemanticModel.GetTypeInfo(expr, context.CancellationToken).Type as ITypeSymbol;
             if (symbol is null) return;
 
-            var ctor = (context.SemanticModel.GetOperation(expr) as IObjectCreationOperation)?.Constructor;
+            var ctor = (context.SemanticModel.GetOperation(expr, context.CancellationToken) as IObjectCreationOperation)?.Constructor;
 
             var worker = new MustInitializeWorker(context.Compilation, context.SemanticModel);
-            var props = worker.GetNotInitializedNames(expr, symbol, ctor);
+            var props = worker.GetNotInitializedNames(expr, symbol, ctor, context.CancellationToken);
 
             ReportDiagnostics(context, expr, props);
         }

@@ -103,6 +103,12 @@ internal static class DependencyAnalyzerUtils
         return innerExpression;
     }
 
+    /// <summary>
+    /// Get the types passed for the <see cref="SequelPay.DotNetPowerExtensions.DependencyAttribute.Use"/> property
+    /// </summary>
+    /// <param name="attr"></param>
+    /// <returns></returns>
+
     public static (AttributeArgumentSyntax? useExpression, ExpressionSyntax? innerExpression) GetUse(AttributeSyntax attr)
     {
         var useExpression = attr.ArgumentList?.Arguments.FirstOrDefault(a => a.NameEquals?.Name is IdentifierNameSyntax name
@@ -151,6 +157,11 @@ internal static class DependencyAnalyzerUtils
         return (argTypes ?? new ITypeSymbol[] { }).Concat(symbol!.ContainingType.TypeArguments).ToArray();
     }
 
+    /// <summary>
+    /// Get the <see cref="SequelPay.DotNetPowerExtensions.DependencyAttribute.For" /> types (or the generics for C#11 and up)
+    /// </summary>
+    /// <param name="attribute"></param>
+    /// <returns></returns>
     public static ITypeSymbol[] GetForTypes(AttributeData attribute)
         => attribute.ConstructorArguments
                         .Where(a => !a.IsNull)

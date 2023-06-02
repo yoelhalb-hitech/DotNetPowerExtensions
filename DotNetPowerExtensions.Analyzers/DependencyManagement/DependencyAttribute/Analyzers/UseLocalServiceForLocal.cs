@@ -68,7 +68,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                     var t = parameter.Type;
                     if (t is null) continue;
 
-                    var symbol = context.SemanticModel.GetSymbolInfo(t).Symbol;
+                    var symbol = context.SemanticModel.GetSymbolInfo(t, context.CancellationToken).Symbol;
                     if (symbol is null) continue;
 
                     if (symbol.HasAttribute(localSymbols))

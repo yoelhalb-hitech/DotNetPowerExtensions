@@ -40,7 +40,6 @@ public class LocalInitializerQuickInfoProvider : CommonSemanticQuickInfoProvider
             // TODO... do we need to handle linked documents?
 
             return await BuildQuickInfoInternalAsync(services, semanticModel, context.Position, token,
-                    //context.GetType().GetProperty("Options").GetValue(context), // The runtime is getting crazy on the type...
                     context.Options,
                 cancellationToken).ConfigureAwait(false);
         }

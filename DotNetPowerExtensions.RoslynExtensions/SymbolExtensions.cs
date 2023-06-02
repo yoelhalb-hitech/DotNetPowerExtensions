@@ -138,8 +138,8 @@ public static class SymbolExtensions
     public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol? attributeSymbol)
         => attributeSymbol is not null && symbol.HasAttribute(new[] { attributeSymbol });
 
-    public static IEnumerable<TSyntax>? GetSyntax<TSyntax>(this ISymbol symbol) where TSyntax : SyntaxNode
-        => symbol.DeclaringSyntaxReferences.Select(r => r.GetSyntax()).OfType<TSyntax>();
+    public static IEnumerable<TSyntax>? GetSyntax<TSyntax>(this ISymbol symbol, CancellationToken token = default) where TSyntax : SyntaxNode
+        => symbol.DeclaringSyntaxReferences.Select(r => r.GetSyntax(token)).OfType<TSyntax>();
 
     public static IEnumerable<IMethodSymbol> GetConstructors(this ITypeSymbol typeSymbol, bool isStatic)
         => typeSymbol.GetMembers(".ctor").OfType<IMethodSymbol>().Where(m => m.IsStatic == isStatic);
@@ -152,18 +152,20 @@ public static class SymbolExtensions
     /// </summary>
     /// <param name="method">The constructor symbol for which we want to get the chain</param>
     /// <param name="semanticModel">The <see cref="SemanticModel"/> that was used to obtain the constructor symbol</param>
+    /// <param name="cancellationToken">The <see cref="SemanticModel"/> that was used to obtain the constructor symbol</param>
     /// <returns>A list of chained constructors symbols with the constructors closer to the passed constructor being returned first</returns>
     /// <exception cref="ArgumentException">The constructor is a static constructor</exception>
     /// <exception cref="ArgumentException">The symbol provided is not a constructor</exception>
-    public static IEnumerable<IMethodSymbol> GetConstructorChain(this IMethodSymbol method, SemanticModel semanticModel)
+    public static IEnumerable<IMethodSymbol> GetConstructorChain(this IMethodSymbol method, SemanticModel semanticModel,
+                                                                                    CancellationToken cancellationToken = default)
     {
         if(method.IsStatic) throw new ArgumentException("Static constructor is not valid", nameof(method));
         if(method.Name != ".ctor") throw new ArgumentException("Not a constructor", nameof(method));
 
-        var syntax = method.GetSyntax<ConstructorDeclarationSyntax>();
+        var syntax = method.GetSyntax<ConstructorDeclarationSyntax>(cancellationToken);
         var chained = syntax?.FirstOrDefault(s => s.Initializer is not null);
 
-        IMethodSymbol? chainedSymbol = chained is null ? null : semanticModel.GetSymbolInfo(chained!.Initializer!).Symbol as IMethodSymbol;
+        IMethodSymbol? chainedSymbol = chained is null ? null : semanticModel.GetSymbolInfo(chained!.Initializer!, cancellationToken).Symbol as IMethodSymbol;
 
         if(chainedSymbol is null) chainedSymbol = method.ContainingType.BaseType?.SpecialType == SpecialType.System_Object ? null :
                                                                                     method.ContainingType.BaseType?.GetDefaultConstructor();
@@ -171,7 +173,7 @@ public static class SymbolExtensions
         if (chainedSymbol is null) yield break;
 
         yield return chainedSymbol;
-        foreach (var m in chainedSymbol.GetConstructorChain(semanticModel)) yield return m;
+        foreach (var m in chainedSymbol.GetConstructorChain(semanticModel, cancellationToken)) yield return m;
     }
 
     /// <summary>

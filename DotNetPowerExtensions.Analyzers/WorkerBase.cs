@@ -7,10 +7,6 @@ internal class WorkerBase
 	{
     }
 
-    public WorkerBase(Compilation compilation): this(compilation, compilation.GetSemanticModel(compilation.SyntaxTrees.First()))
-    {
-    }
-
     public WorkerBase(Compilation compilation, SemanticModel semanticModel)
     {
         SemanticModel = semanticModel;

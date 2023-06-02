@@ -45,9 +45,9 @@ public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequi
 
             IEnumerable <string> props;
             if (argExpression is AnonymousObjectCreationExpressionSyntax creation)
-                props = worker.GetNotInitializedNames(creation, innerClass);
+                props = worker.GetNotInitializedNames(creation, innerClass, context.CancellationToken);
             else
-                props = worker.GetRequiredToInitialize(innerClass, null)
+                props = worker.GetRequiredToInitialize(innerClass, null, context.CancellationToken)
                                                     .Select(m => m.name)
                                                     .Distinct();
 
