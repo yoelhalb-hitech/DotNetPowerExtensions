@@ -249,7 +249,8 @@ internal class TypeInfoService
             var map = type.GetInterfaceMapForInterface(iface);
             var methodPairs = Enumerable.Range(0, map.TargetMethods.Length)
                 .Where(i => !map.InterfaceMethods[i].IsExplicitImplementation()) // Only the map for the original interface shows the correct implementation
-                .Select(i => (target: map.TargetMethods[i], iface: map.InterfaceMethods[i]));
+                .Select(i => (target: map.TargetMethods[i], iface: map.InterfaceMethods[i]))
+                .Where(i => i.target == i.iface || i.target.IsExplicitImplementation()); // We only look for explicit implemtations but remember that the original interface won't look like one
 
             foreach (var methodPair in methodPairs)
             {
