@@ -350,6 +350,49 @@ public class TypeInfoService_Tests
         method.DeclarationType.Should().Be(DeclarationTypes.ExplicitImplementation);
     }
 
+    interface INonDefaultImplementation
+    {
+        int TestProp { get; set; }
+        event EventHandler? TestEvent;
+        void TestMethod();
+    }
+    class ClassNonExplicitImplementation : IDefaultImplementation
+    {
+        public virtual int TestProp { get; set; }
+        public virtual event EventHandler? TestEvent { add => throw new NotImplementedException(); remove => throw new NotImplementedException(); }
+        public virtual void TestMethod() { }
+    }
+
+    class ClassNonExplicitReimplementation : ClassNonExplicitImplementation, IDefaultImplementation
+    {
+        public override int TestProp { get; set; }
+        public override event EventHandler? TestEvent { add => throw new NotImplementedException(); remove => throw new NotImplementedException(); }
+        public override void TestMethod() { }
+    }
+
+    [Test]
+    [TestCase(typeof(ClassNonExplicitImplementation))]
+    [TestCase(typeof(ClassNonExplicitReimplementation))]
+    public void Test_GetTypeInfo_NonExplicitImplementation(Type type)
+    {
+        var result = new TypeInfoService(type).GetTypeInfo();
+
+        result.MethodDetails.Length.Should().Be(1);
+        result.FieldDetails.Should().BeEmpty();
+        result.PropertyDetails.Length.Should().Be(1);
+        result.EventDetails.Length.Should().Be(1);
+
+        result.ShadowedPropertyDetails.Should().BeEmpty();
+        result.ShadowedEventDetails.Should().BeEmpty();
+        result.ShadowedFieldDetails.Should().BeEmpty();
+        result.ShadowedMethodDetails.Should().BeEmpty();
+
+        result.ExplicitPropertyDetails.Should().BeEmpty();
+        result.ExplicitEventDetails.Should().BeEmpty();
+        result.ExplicitMethodDetails.Should().BeEmpty();
+    }
+
+
     class SingleFieldClass
     {
         public int TestField = 10;
