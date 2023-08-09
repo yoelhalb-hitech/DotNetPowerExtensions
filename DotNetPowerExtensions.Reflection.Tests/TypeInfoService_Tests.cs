@@ -447,4 +447,130 @@ public class TypeInfoService_Tests
         detail.InReflectionForCurrentType.Should().Be(inReflection);
         detail.IsInherited.Should().Be(inherited);
     }
+
+    interface IComplexExample
+    {
+        int Prop10 { get; }
+        int Prop11 { get; }
+        void TestMethod1() { }
+        int TestMethod<T>();
+        int TestMethod13();
+    }
+    class ComplexExample : IComplexExample
+    {
+        public int Field1;
+        private readonly string? Field2;
+        internal List<string>? Field3;
+        public int Prop1 { get; }
+        public int Prop2 { get; }
+        public string Prop3 { get; set; }
+        internal virtual string Prop4 { get; set; }
+
+        int IComplexExample.Prop10 => throw new NotImplementedException();
+
+        int IComplexExample.Prop11 => throw new NotImplementedException();
+
+        public void TestMethod() { }
+        public virtual int TestMethod<T>() => 10;
+        public void TestMethod(int i) { }
+
+        public void TestMethod1() { }
+        public virtual int TestMethod1<T>() => 10;
+        public void TestMethod1(int i) { }
+        public virtual string TestMethod1(int i, string s) => "tt";
+
+        int IComplexExample.TestMethod13() => throw new NotImplementedException();
+        public event EventHandler? e1;
+        public virtual event EventHandler? e2;
+    }
+    [Test]
+    public void Test_GetTypeInfo_ComplexExample()
+    {
+        var result = new TypeInfoService(typeof(ComplexExample)).GetTypeInfo();
+
+        result.PropertyDetails.Length.Should().Be(4);
+        new[] { nameof(ComplexExample.Prop1), nameof(ComplexExample.Prop2), nameof(ComplexExample.Prop3), nameof(ComplexExample.Prop4) }
+            .All(p => result.PropertyDetails.Any(pd => pd.Name == p && typeof(ComplexExample).GetProperty(p, BindingFlagsExtensions.AllBindings) == pd.ReflectionInfo))
+            .Should().BeTrue();
+        result.PropertyDetails.All(pd => pd.DeclarationType == DeclarationTypes.Decleration).Should().BeTrue();
+        result.PropertyDetails.All(pd => !pd.IsInherited).Should().BeTrue();
+
+        result.MethodDetails.Length.Should().Be(7);
+        result.MethodDetails.All(pd => pd.DeclarationType == DeclarationTypes.Decleration).Should().BeTrue();
+        result.MethodDetails.All(pd => !pd.IsInherited).Should().BeTrue();
+        result.MethodDetails.Count(md => md.Name == nameof(ComplexExample.TestMethod) && md.ReflectionInfo.Name == nameof(ComplexExample.TestMethod))
+                                                                                                                .Should().Be(3);
+        result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod) && !md.GenericArguments.Any() && !md.ArgumentTypes.Any()
+                && !md.ReflectionInfo.IsGenericMethod && !md.ReflectionInfo.GetParameters().Any())
+            .Should().BeTrue();
+        result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod) && md.GenericArguments.FirstOrDefault()?.Name == "T" && !md.ArgumentTypes.Any()
+                && md.ReflectionInfo.IsGenericMethodDefinition && !md.ReflectionInfo.GetParameters().Any())
+            .Should().BeTrue();
+        result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod) && !md.GenericArguments.Any() && md.ArgumentTypes.FirstOrDefault() == typeof(int)
+                && !md.ReflectionInfo.IsGenericMethod && md.ReflectionInfo.GetParameters().FirstOrDefault()?.ParameterType == typeof(int))
+            .Should().BeTrue();
+
+        result.MethodDetails.Count(md => md.Name == nameof(ComplexExample.TestMethod1) && md.ReflectionInfo.Name == nameof(ComplexExample.TestMethod1))
+                                                                                                                .Should().Be(4);
+        result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod1) && !md.GenericArguments.Any() && !md.ArgumentTypes.Any()
+                        && !md.ReflectionInfo.IsGenericMethod && !md.ReflectionInfo.GetParameters().Any())
+                .Should().BeTrue();
+        result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod1) && md.GenericArguments.FirstOrDefault()?.Name == "T" && !md.ArgumentTypes.Any()
+                        && md.ReflectionInfo.IsGenericMethod && !md.ReflectionInfo.GetParameters().Any())
+                .Should().BeTrue();
+        result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod1) && !md.GenericArguments.Any() && md.ArgumentTypes.FirstOrDefault() == typeof(int)
+                        && !md.ReflectionInfo.IsGenericMethod && md.ReflectionInfo.GetParameters().FirstOrDefault()?.ParameterType == typeof(int))
+                .Should().BeTrue();
+        result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod1) && !md.GenericArguments.Any()
+            && md.ArgumentTypes.FirstOrDefault() == typeof(int) && md.ArgumentTypes.LastOrDefault() == typeof(string)
+            && !md.ReflectionInfo.IsGenericMethod
+            && md.ReflectionInfo.GetParameters().FirstOrDefault()?.ParameterType == typeof(int)
+                                        && md.ReflectionInfo.GetParameters().LastOrDefault()?.ParameterType == typeof(string))
+                .Should().BeTrue();
+
+        result.FieldDetails.Length.Should().Be(3);
+        result.FieldDetails.All(pd => pd.DeclarationType == DeclarationTypes.Decleration).Should().BeTrue();
+        result.FieldDetails.All(pd => !pd.IsInherited).Should().BeTrue();
+        new[] { nameof(ComplexExample.Field1), "Field2", nameof(ComplexExample.Field3) }
+                .All(p => result.FieldDetails.Any(pd => pd.Name == p && typeof(ComplexExample).GetField(p, BindingFlagsExtensions.AllBindings) == pd.ReflectionInfo))
+                .Should().BeTrue();
+
+        result.EventDetails.Length.Should().Be(2);
+        result.EventDetails.All(pd => pd.DeclarationType == DeclarationTypes.Decleration).Should().BeTrue();
+        result.EventDetails.All(pd => !pd.IsInherited).Should().BeTrue();
+        new[] { nameof(ComplexExample.e1), nameof(ComplexExample.e2) }
+            .All(p => result.EventDetails.Any(pd => pd.Name == p && typeof(ComplexExample).GetEvent(p, BindingFlagsExtensions.AllBindings) == pd.ReflectionInfo))
+            .Should().BeTrue();
+
+        result.ShadowedPropertyDetails.Should().BeEmpty();
+        result.ShadowedMethodDetails.Should().BeEmpty();
+        result.ShadowedEventDetails.Should().BeEmpty();
+        result.ShadowedFieldDetails.Should().BeEmpty();
+
+        result.ExplicitPropertyDetails.Length.Should().Be(2);
+        result.ExplicitPropertyDetails.All(pd => pd.DeclarationType == DeclarationTypes.ExplicitImplementation).Should().BeTrue();
+        result.ExplicitPropertyDetails.All(pd => !pd.IsInherited).Should().BeTrue();
+        result.ExplicitPropertyDetails.All(pd => pd.IsExplicit).Should().BeTrue();
+        result.ExplicitPropertyDetails.All(pd => pd.ExplicitInterface == typeof(IComplexExample)).Should().BeTrue();
+        new[] { nameof(IComplexExample.Prop10), nameof(IComplexExample.Prop10) }
+            .All(p => result.ExplicitPropertyDetails
+                    .Any(pd => pd.Name == p
+                            && typeof(ComplexExample).GetProperty(typeof(IComplexExample).FullName!.Replace("+", ".") +"." + p, BindingFlagsExtensions.AllBindings) == pd.ReflectionInfo))
+            .Should().BeTrue();
+
+        result.ExplicitMethodDetails.Length.Should().Be(1);
+        result.ExplicitMethodDetails.All(pd => pd.DeclarationType == DeclarationTypes.ExplicitImplementation).Should().BeTrue();
+        result.ExplicitMethodDetails.All(pd => !pd.IsInherited).Should().BeTrue();
+        result.ExplicitMethodDetails.All(pd => pd.IsExplicit).Should().BeTrue();
+        result.ExplicitMethodDetails.All(pd => pd.ExplicitInterface == typeof(IComplexExample)).Should().BeTrue();
+        new[] { nameof(IComplexExample.TestMethod13) }
+            .All(p => result.ExplicitMethodDetails
+                    .Any(pd => pd.Name == p
+                            && typeof(ComplexExample).GetMethod(typeof(IComplexExample).FullName!.Replace("+", ".") + "." + p, BindingFlagsExtensions.AllBindings) == pd.ReflectionInfo))
+            .Should().BeTrue();
+
+        result.ExplicitEventDetails.Should().BeEmpty();
+    }
+
+    // TODO... add override and shadow tests
 }

@@ -230,7 +230,7 @@ internal class TypeInfoService
         // Remove shadowed methods (since GetMethods also returns shadowed methods), but since we removed all shadowed by base we can assume that the remianing shadows ahve one declared in the current type
         methodDetails = methodDetails
                 .GroupBy(md => new { md.Name, md.ArgumentTypes, md.GenericArguments })
-                .Select(md => md.Count() == 1 ? methodDetails.First() : md.First(md1 => md1.ReflectionInfo.DeclaringType == type))
+                .Select(md => md.Count() == 1 ? md.First() : md.First(md1 => md1.ReflectionInfo.DeclaringType == type))
                 .ToList();
 
         var explicitMethods = new List<MethodDetail>();
