@@ -31,7 +31,7 @@
 
 	<PropertyGroup>
 		<PackageId>SequelPay.DotNetPowerExtensions.Reflection</PackageId>
-		<PackageVersion>3.0.1</PackageVersion>
+		<PackageVersion>3.0.2</PackageVersion>
 		<Authors>Yoel</Authors>
 		<PackageProjectUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</RepositoryUrl>
