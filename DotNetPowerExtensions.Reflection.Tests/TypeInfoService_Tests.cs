@@ -6,6 +6,12 @@ using static DotNetPowerExtensions.Reflection.Models.DeclarationTypes;
 namespace DotNetPowerExtensions.Reflection.Tests;
 public class TypeInfoService_Tests
 {
+    [Test]
+    public void Test_DoesNotThrowOnArray_BugRepro()
+    {
+        Assert.DoesNotThrow(() => typeof(string[]).GetTypeDetailInfo());
+    }
+
     class SingleProp
     {
         public virtual int Prop { get; set; }

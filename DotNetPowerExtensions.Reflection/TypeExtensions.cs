@@ -80,7 +80,7 @@ public static class TypeExtensions
         if (ifaceType.GetType().FullName != "System.RuntimeType") throw new ArgumentException("MustBeRuntimeType");
         //TypeHandle.VerifyInterfaceIsImplemented(typeHandle);
         if ((bool?)ifaceType.GetType().GetProperty("IsSZArray")?.GetValue(type) == true && ifaceType.IsGenericType)
-                                                                                throw new ArgumentException("SR.Argument_ArrayGetInterfaceMap");
+                                        throw new ArgumentException("Interface maps for generic interfaces on arrays cannot be retrieved."); // "SR.Argument_ArrayGetInterfaceMap"
 
         return interfaceMappings.GetOrAdd(type, new ConcurrentDictionary<Type, InterfaceMapping>())
             .GetOrAdd(ifaceType, ifaceType =>

@@ -246,6 +246,8 @@ internal class TypeInfoService
 
         foreach (var iface in type.GetInterfaces())
         {
+            if (type.IsArray && iface.IsGenericType) continue; // Cannot get interface map for array
+
             var map = type.GetInterfaceMapForInterface(iface);
             var methodPairs = Enumerable.Range(0, map.TargetMethods.Length)
                 .Where(i => !map.InterfaceMethods[i].IsExplicitImplementation()) // Only the map for the original interface shows the correct implementation
