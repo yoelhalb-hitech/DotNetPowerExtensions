@@ -8,9 +8,9 @@ namespace DotNetPowerExtensions.RoslynExtensions.Tests;
 
 public class SymbolExtensions_Tests
 {
-    private static SemanticModel GetSemanticModel(SyntaxTree tree) => CSharpCompilation.Create("Test",
-                                syntaxTrees: new[] { tree }, references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) })
-                            .GetSemanticModel(tree);
+    private static SemanticModel GetSemanticModel(params SyntaxTree[] trees) => CSharpCompilation.Create("Test",
+                                syntaxTrees: trees, references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) })
+                            .GetSemanticModel(trees.Last());
 
     [Test]
     public void Test_IsGenericEqual()
@@ -333,6 +333,51 @@ public class SymbolExtensions_Tests
     }
 
     [Test]
+    public void Test_GetConstructorChain_WithDefaultBase_WhenMultipleSourceFiles()
+    {
+        var source1 = """
+        public class DeclareTypeBaseBase
+        {
+            public DeclareTypeBaseBase(){}
+            public DeclareTypeBaseBase(string s){}
+        }
+        """;
+        var source2 = """
+        public class DeclareTypeBase : DeclareTypeBaseBase
+        {
+            public DeclareTypeBase(){}
+            public DeclareTypeBase(string s){}
+        }
+        """;
+        var source3 = """
+        public class DeclareType: DeclareTypeBase
+        {
+            public DeclareType(string s){}
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source3);
+        var subClass = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First(c => c.Identifier.ValueText == "DeclareType");
+
+        var semanticModel = GetSemanticModel(SyntaxFactory.ParseSyntaxTree(source1), SyntaxFactory.ParseSyntaxTree(source2), tree);
+        var symbol = semanticModel.GetDeclaredSymbol(subClass);
+        var ctor = symbol!.GetConstructors(false).First();
+
+        var result = ctor.GetConstructorChain(semanticModel).ToArray();
+
+        result.Should().NotBeNullOrEmpty();
+        result.Length.Should().Be(2);
+
+        result!.First().Name.Should().Be(".ctor");
+        result.First().Parameters.Should().BeEmpty();
+        result.First().ContainingType.Name.Should().Be("DeclareTypeBase");
+
+        result.Last().Name.Should().Be(".ctor");
+        result.Last().Parameters.Should().BeEmpty();
+        result.Last().ContainingType.Name.Should().Be("DeclareTypeBaseBase");
+    }
+
+    [Test]
     public void Test_GetConstructorChain_WithThisAndBase()
     {
         var source = """
@@ -378,6 +423,111 @@ public class SymbolExtensions_Tests
         result.Last().Parameters.Should().BeEmpty();
         result.Last().ContainingType.Name.Should().Be("DeclareTypeBaseBase");
     }
+
+    [Test]
+    public void Test_GetConstructorChain_WithThisAndBase_WhenMultipleSourceFiles()
+    {
+        var source1 = """
+        public class DeclareTypeBaseBase
+        {
+            public DeclareTypeBaseBase(){}
+            public DeclareTypeBaseBase(string s):this(){}
+        }
+        """;
+        var source2 = """
+        public class DeclareTypeBase : DeclareTypeBaseBase
+        {
+            public DeclareTypeBase():base("testing"){}
+            public DeclareTypeBase(string s):this(){}
+        }
+        """;
+        var source3 = """
+        public class DeclareType: DeclareTypeBase
+        {
+            public DeclareType(string s) : this(10){}
+            public DeclareType(int s) : base("test"){}
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source3);
+        var subClass = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First(c => c.Identifier.ValueText == "DeclareType");
+
+        var semanticModel = GetSemanticModel(SyntaxFactory.ParseSyntaxTree(source1), SyntaxFactory.ParseSyntaxTree(source2), tree);
+        var symbol = semanticModel.GetDeclaredSymbol(subClass);
+        var ctor = symbol!.GetConstructors(false).First(c => c.Parameters.Any(p => p.Type.SpecialType == SpecialType.System_String));
+
+        var result = ctor.GetConstructorChain(semanticModel).ToArray();
+
+        result.Should().NotBeNullOrEmpty();
+        result.Length.Should().Be(5);
+
+        result!.First().Name.Should().Be(".ctor");
+        result.First().Parameters.Should().NotBeEmpty();
+        result.First().Parameters.First().Type.SpecialType.Should().Be(SpecialType.System_Int32);
+        result.First().ContainingType.Name.Should().Be("DeclareType");
+
+        result.Skip(1).First().Name.Should().Be(".ctor");
+        result.Skip(1).First().Parameters.Should().NotBeEmpty();
+        result.Skip(1).First().Parameters.First().Type.SpecialType.Should().Be(SpecialType.System_String);
+        result.Skip(1).First().ContainingType.Name.Should().Be("DeclareTypeBase");
+
+        result.Last().Name.Should().Be(".ctor");
+        result.Last().Parameters.Should().BeEmpty();
+        result.Last().ContainingType.Name.Should().Be("DeclareTypeBaseBase");
+    }
+
+    [Test]
+    public void Test_GetConstructorChain_WithThisAndBase_AndDefaultBase_WhenMultipleSourceFiles()
+    {
+        var source1 = """
+        public class DeclareTypeBaseBase
+        {
+            public DeclareTypeBaseBase(){}
+            public DeclareTypeBaseBase(string s):this(){}
+        }
+        """;
+        var source2 = """
+        public class DeclareTypeBase : DeclareTypeBaseBase
+        {
+            public DeclareTypeBase(){}
+            public DeclareTypeBase(string s):this(){}
+        }
+        """;
+        var source3 = """
+        public class DeclareType: DeclareTypeBase
+        {
+            public DeclareType(string s) : this(10){}
+            public DeclareType(int s) : base("test"){}
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source3);
+        var subClass = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First(c => c.Identifier.ValueText == "DeclareType");
+
+        var semanticModel = GetSemanticModel(SyntaxFactory.ParseSyntaxTree(source1), SyntaxFactory.ParseSyntaxTree(source2), tree);
+        var symbol = semanticModel.GetDeclaredSymbol(subClass);
+        var ctor = symbol!.GetConstructors(false).First(c => c.Parameters.Any(p => p.Type.SpecialType == SpecialType.System_String));
+
+        var result = ctor.GetConstructorChain(semanticModel).ToArray();
+
+        result.Should().NotBeNullOrEmpty();
+        result.Length.Should().Be(4);
+
+        result!.First().Name.Should().Be(".ctor");
+        result.First().Parameters.Should().NotBeEmpty();
+        result.First().Parameters.First().Type.SpecialType.Should().Be(SpecialType.System_Int32);
+        result.First().ContainingType.Name.Should().Be("DeclareType");
+
+        result.Skip(1).First().Name.Should().Be(".ctor");
+        result.Skip(1).First().Parameters.Should().NotBeEmpty();
+        result.Skip(1).First().Parameters.First().Type.SpecialType.Should().Be(SpecialType.System_String);
+        result.Skip(1).First().ContainingType.Name.Should().Be("DeclareTypeBase");
+
+        result.Last().Name.Should().Be(".ctor");
+        result.Last().Parameters.Should().BeEmpty();
+        result.Last().ContainingType.Name.Should().Be("DeclareTypeBaseBase");
+    }
+
 
     [Test]
     public void Test_GetPropertyOverrideChain()

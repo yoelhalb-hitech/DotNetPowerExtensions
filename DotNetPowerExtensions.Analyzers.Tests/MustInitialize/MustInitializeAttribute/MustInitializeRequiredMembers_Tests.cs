@@ -1,6 +1,9 @@
 ﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
 using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
+using Microsoft.CodeAnalysis.CSharp.Testing;
+using Microsoft;
 using Microsoft.CodeAnalysis.Testing;
+using Microsoft.CodeAnalysis.Testing.Verifiers;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
@@ -62,6 +65,164 @@ internal sealed class MustInitializeRequiredMembers_Tests
     }
 
     [Test]
+    public async Task Test_Warns_WhenUsingNonDefaultCtor([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                    [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareType
+        {
+            public DeclareType(){}
+            public DeclareType(int i){}
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => [|new DeclareType(10){/::/}|]; }
+        """;
+
+        var fixCode = $$""" TestProp = default, TestField = default """;
+
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_Warns_WhenUsingCtorCallingAnother_MultipleSourceFiles([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var code1 = $$"""
+        public class DeclareTypeBase
+        {
+            public DeclareTypeBase() : this(10){}
+            public DeclareTypeBase(int i){}
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+        """;
+        var code2 = $$"""
+        public class DeclareType : DeclareTypeBase
+        {
+            public DeclareType() : this(10){}
+            public DeclareType(int i): base(){}
+        }
+        """;
+        var code3 = "class Program { void Main() => [|new DeclareType{}|]; }";
+
+        var test = new CSharpAnalyzerTest<MustInitializeRequiredMembers, NUnitVerifier>
+        {
+            TestState =
+            {
+                Sources = { AnalyzerVerifierBase<MustInitializeRequiredMembers>.NamespacePart + code1, code2, code3 },
+            },
+        };
+        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
+                                                typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
+        await test.RunAsync().ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_Warns_WhenUsingCtorCallingAnother_AndDefaultBase_MultipleSourceFiles([ValueSource(nameof(Prefixes))] string prefix,
+                                                                            [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var code1 = $$"""
+        public class DeclareTypeBase
+        {
+            public DeclareTypeBase() : this(10){}
+            public DeclareTypeBase(int i){}
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+        """;
+        var code2 = $$"""
+        public class DeclareType : DeclareTypeBase
+        {
+            public DeclareType() : this(10){}
+            public DeclareType(int i){} // Calls base implictly
+        }
+        """;
+        var code3 = "class Program { void Main() => [|new DeclareType{}|]; }";
+
+        var test = new CSharpAnalyzerTest<MustInitializeRequiredMembers, NUnitVerifier>
+        {
+            TestState =
+            {
+                Sources = { AnalyzerVerifierBase<MustInitializeRequiredMembers>.NamespacePart + code1, code2, code3 },
+            },
+        };
+        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
+                                                typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
+        await test.RunAsync().ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_DoesNotWarn_WhenUsingInitializesAllRequired_ViaCtorCallingAnother_MultipleSourceFiles([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                        [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var code1 = $$"""
+        public class DeclareTypeBase
+        {
+            public DeclareTypeBase() : this(10){}
+            [{{prefix}}InitializesAllRequired{{suffix}}] public DeclareTypeBase(int i){ TestProp = TestField = ""; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+        """;
+        var code2 = $$"""
+        public class DeclareType : DeclareTypeBase
+        {
+            public DeclareType() : this(10){}
+            public DeclareType(int i): base(){}
+        }
+        """;
+        var code3 = "class Program { void Main() => new DeclareType{}; }";
+
+        var test = new CSharpAnalyzerTest<MustInitializeRequiredMembers, NUnitVerifier>
+        {
+            TestState =
+            {
+                Sources = { AnalyzerVerifierBase<MustInitializeRequiredMembers>.NamespacePart + code1, code2, code3 },
+            },
+        };
+        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
+                                                typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
+        await test.RunAsync().ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_DoesNotWarn_WhenUsingInitializesAllRequired_ViaCtorCallingAnother_AndDefualtBase_MultipleSourceFiles([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                    [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var code1 = $$"""
+        public class DeclareTypeBase
+        {
+            public DeclareTypeBase() : this("test"){}
+            [{{prefix}}InitializesAllRequired{{suffix}}] public DeclareTypeBase(string s){TestProp = TestField = "";}
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+        """;
+        var code2 = $$"""
+        public class DeclareType : DeclareTypeBase
+        {
+            public DeclareType() : this(10){}
+            public DeclareType(int i){} // Calls base implictly
+        }
+        """;
+        var code3 = "class Program { void Main() => new DeclareType{}; }";
+
+        var test = new CSharpAnalyzerTest<MustInitializeRequiredMembers, NUnitVerifier>
+        {
+            TestState =
+            {
+                Sources = { AnalyzerVerifierBase<MustInitializeRequiredMembers>.NamespacePart + code1, code2, code3 },
+            },
+        };
+        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
+                                                typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
+        await test.RunAsync().ConfigureAwait(false);
+    }
+
+
+    [Test]
     public async Task Test_Warns_WhenUsingOtherCtor([ValueSource(nameof(Prefixes))] string prefix,
                                                                                         [ValueSource(nameof(Suffixes))] string suffix)
     {
@@ -75,6 +236,28 @@ internal sealed class MustInitializeRequiredMembers_Tests
         }
 
         class Program { void Main() => [|new DeclareType{/::/}|]; }
+        """;
+
+        var fixCode = $$""" TestProp = default, TestField = default """;
+
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task Test_Warns_WhenUsingSubclassCtor([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                    [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareType
+        {
+            public DeclareType(){}
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        public class SubType : DeclareType{}
+
+        class Program { void Main() => [|new SubType{/::/}|]; }
         """;
 
         var fixCode = $$""" TestProp = default, TestField = default """;

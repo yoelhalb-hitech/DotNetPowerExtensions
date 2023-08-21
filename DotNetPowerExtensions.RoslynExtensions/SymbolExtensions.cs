@@ -165,7 +165,8 @@ public static class SymbolExtensions
         var syntax = method.GetSyntax<ConstructorDeclarationSyntax>(cancellationToken);
         var chained = syntax?.FirstOrDefault(s => s.Initializer is not null);
 
-        IMethodSymbol? chainedSymbol = chained is null ? null : semanticModel.GetSymbolInfo(chained!.Initializer!, cancellationToken).Symbol as IMethodSymbol;
+        var originSemanticModel = chained is null ? null : semanticModel.SyntaxTree == chained.SyntaxTree ? semanticModel : semanticModel.Compilation.GetSemanticModel(chained.SyntaxTree);
+        IMethodSymbol? chainedSymbol = chained is null ? null : originSemanticModel.GetSymbolInfo(chained!.Initializer!, cancellationToken).Symbol as IMethodSymbol;
 
         if(chainedSymbol is null) chainedSymbol = method.ContainingType.BaseType?.SpecialType == SpecialType.System_Object ? null :
                                                                                     method.ContainingType.BaseType?.GetDefaultConstructor();
