@@ -63,6 +63,7 @@
 		<PrivateAssets>all</PrivateAssets>
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 	</PackageReference>
+	<PackageReference Include="Mono.Cecil" Version="[0.10.0,)" />
   </ItemGroup>
 
   <ItemGroup>

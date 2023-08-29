@@ -1,4 +1,5 @@
-﻿using SequelPay.DotNetPowerExtensions;
+﻿using DotNetPowerExtensions.RoslynExtensions;
+using SequelPay.DotNetPowerExtensions;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
@@ -26,7 +27,7 @@ public class UseShouldOnlyBeForGeneric : DiagnosticAnalyzer
 
             context.RegisterCompilationStartAction(compilationContext =>
             {
-                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
+                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
 
                 var allAttributeTypes = new[]
                 {

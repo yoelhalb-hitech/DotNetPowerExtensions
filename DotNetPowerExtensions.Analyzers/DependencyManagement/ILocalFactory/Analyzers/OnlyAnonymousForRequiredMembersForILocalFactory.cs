@@ -1,4 +1,5 @@
 ﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using DotNetPowerExtensions.RoslynExtensions;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
@@ -18,8 +19,7 @@ public class OnlyAnonymousForRequiredMembersForILocalFactory : MustInitializeAna
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        var typeName = typeof(ILocalFactory<>).FullName;
-        var typedSymbol = compilationContext.Compilation.GetTypeByMetadataName(typeName!);
+        var typedSymbol = compilationContext.Compilation.GetTypeSymbol(typeof(ILocalFactory<>));
         if (typedSymbol is null) return;
 
         // TODO... maybe use an IOperation instead...

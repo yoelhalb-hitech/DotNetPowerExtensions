@@ -1,4 +1,5 @@
 ﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using DotNetPowerExtensions.RoslynExtensions;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
@@ -16,7 +17,7 @@ public class MustInitializeShouldBeLocal : MustInitializeRequiredMembersBase
 
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
-        Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
+        Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
 
         var symbols = DependencyAnalyzerUtils.NonLocalAttributes.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
 

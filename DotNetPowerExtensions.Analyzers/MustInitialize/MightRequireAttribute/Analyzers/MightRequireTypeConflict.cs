@@ -1,4 +1,5 @@
-﻿using SequelPay.DotNetPowerExtensions;
+﻿using DotNetPowerExtensions.RoslynExtensions;
+using SequelPay.DotNetPowerExtensions;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
@@ -27,7 +28,7 @@ public class MightRequireTypeConflict : DiagnosticAnalyzer
 
             context.RegisterCompilationStartAction(compilationContext =>
             {
-                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
+                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
 
                 var mightRequireSymbols = MightRequireUtils.Attributes.Select(a => metadata(a)).OfType<INamedTypeSymbol>().ToArray();
                 if (!mightRequireSymbols.Any()) return;

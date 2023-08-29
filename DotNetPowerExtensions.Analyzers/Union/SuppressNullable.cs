@@ -1,4 +1,5 @@
-﻿using SequelPay.DotNetPowerExtensions;
+﻿using DotNetPowerExtensions.RoslynExtensions;
+using SequelPay.DotNetPowerExtensions;
 using System.Collections.Immutable;
 
 namespace DotNetPowerExtensions.Analyzers.Union;
@@ -35,8 +36,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
     private static bool ContainsMustInitialize(MemberDeclarationSyntax member, SuppressionAnalysisContext context, string name)
     {
         // Make sure it is the correct type and not just something with the same name...
-        var mustInitializeDecl = context.Compilation
-                    .GetTypeByMetadataName(typeof(MustInitializeAttribute).FullName!);
+        var mustInitializeDecl = context.Compilation.GetTypeSymbol(typeof(MustInitializeAttribute));
         if (mustInitializeDecl is null) return false;
 
         var propSymbols = context.Compilation.GetSymbolsWithName(name, cancellationToken: context.CancellationToken);
@@ -62,10 +62,8 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
                 || methodSymbol.Name != nameof(Union<object, object>.As)
                 || !methodSymbol.IsGenericMethod) return;
 
-            var typeName1 = typeof(Union<,>).FullName!;
-            var typeName2 = typeof(Union<,,>).FullName!;
-            var symbol1 = context.Compilation.GetTypeByMetadataName(typeName1);
-            var symbol2 = context.Compilation.GetTypeByMetadataName(typeName2);
+            var symbol1 = context.Compilation.GetTypeSymbol(typeof(Union<,>));
+            var symbol2 = context.Compilation.GetTypeSymbol(typeof(Union<,,>));
             if (!new[] { symbol1, symbol2 }.ContainsGeneric(classType)) return;
 
             context.ReportSuppression(Suppression.Create(OfRule, diagnostic));

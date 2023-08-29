@@ -7,3 +7,7 @@ global using System.Threading.Tasks;
 global using Microsoft.CodeAnalysis;
 global using SequelPay.DotNetPowerExtensions;
 global using NUnit.Framework;
+global using FluentAssertions;
+global using Microsoft.CodeAnalysis.CSharp.Syntax;
+global using Microsoft.CodeAnalysis.CSharp;
+global using SequelPay.DotNetPowerExtensions.RoslynExtensions;

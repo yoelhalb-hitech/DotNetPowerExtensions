@@ -52,9 +52,14 @@
 		<PrivateAssets>all</PrivateAssets>
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 	</PackageReference>
+	<PackageReference Include="Mono.Cecil" Version="[0.10.0,)" />
   </ItemGroup>
 
   <ItemGroup>
     <InternalsAssemblyName Include="Microsoft.CodeAnalysis.Workspaces" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" />
   </ItemGroup>
 </Project>

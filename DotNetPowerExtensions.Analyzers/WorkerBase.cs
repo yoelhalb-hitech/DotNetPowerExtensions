@@ -1,4 +1,5 @@
-﻿
+﻿using DotNetPowerExtensions.RoslynExtensions;
+
 namespace DotNetPowerExtensions.Analyzers;
 
 internal class WorkerBase
@@ -16,7 +17,7 @@ internal class WorkerBase
     public virtual SemanticModel SemanticModel { get; }
     public virtual Compilation Compilation { get; }
 
-    public INamedTypeSymbol? GetTypeSymbol(Type type) => Compilation.GetTypeByMetadataName(type.FullName!);
+    public INamedTypeSymbol? GetTypeSymbol(Type type) => Compilation.GetTypeSymbol(type);
 
     public INamedTypeSymbol[] GetTypeSymbols(Type[] types) => types.Select(t => GetTypeSymbol(t)).OfType<INamedTypeSymbol>().ToArray();
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using DotNetPowerExtensions.RoslynExtensions;
+using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute;
@@ -35,8 +36,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
     private static bool ContainsMustInitialize(MemberDeclarationSyntax member, SuppressionAnalysisContext context, string name)
     {
         // Make sure it is the correct type and not just something with the same name...
-        var mustInitializeDecl = context.Compilation
-                    .GetTypeByMetadataName(typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).FullName!);
+        var mustInitializeDecl = context.Compilation.GetTypeSymbol(typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute));
         if (mustInitializeDecl is null) return false;
 
         var propSymbols = context.Compilation.GetSymbolsWithName(name, cancellationToken: context.CancellationToken);

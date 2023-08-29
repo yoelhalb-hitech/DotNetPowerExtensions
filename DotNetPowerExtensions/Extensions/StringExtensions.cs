@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace DotNetPowerExtensions.Extensions;
+namespace SequelPay.DotNetPowerExtensions;
 
 public static class StringExtensions
 {

@@ -1,5 +1,5 @@
-﻿
-using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+using DotNetPowerExtensions.RoslynExtensions;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
@@ -25,7 +25,7 @@ public class MightRequireShouldBeLocal : DiagnosticAnalyzer
 
             context.RegisterCompilationStartAction(compilationContext =>
             {
-                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeByMetadataName(t.FullName!);
+                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
 
                 var symbols = DependencyAnalyzerUtils.NonLocalAttributes.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
                 var mightRequireSymbols = MightRequireUtils.Attributes.Select(a => metadata(a)).OfType<INamedTypeSymbol>().ToArray();

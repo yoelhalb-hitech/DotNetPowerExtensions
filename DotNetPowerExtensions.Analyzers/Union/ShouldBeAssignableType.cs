@@ -1,4 +1,5 @@
-﻿using SequelPay.DotNetPowerExtensions;
+﻿using DotNetPowerExtensions.RoslynExtensions;
+using SequelPay.DotNetPowerExtensions;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
@@ -27,10 +28,8 @@ public class ShouldBeAssignableType : DiagnosticAnalyzer
 
             context.RegisterCompilationStartAction(compilationContext =>
             {
-                var typeName1 = typeof(SequelPay.DotNetPowerExtensions.Union<,>).FullName!;
-                var typeName2 = typeof(SequelPay.DotNetPowerExtensions.Union<,,>).FullName!;
-                var symbol1 = compilationContext.Compilation.GetTypeByMetadataName(typeName1);
-                var symbol2 = compilationContext.Compilation.GetTypeByMetadataName(typeName2);
+                var symbol1 = compilationContext.Compilation.GetTypeSymbol(typeof(SequelPay.DotNetPowerExtensions.Union<,>));
+                var symbol2 = compilationContext.Compilation.GetTypeSymbol(typeof(SequelPay.DotNetPowerExtensions.Union<,,>));
                 if (symbol1 is null && symbol2 is null) return;
 
                 compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, new[] { symbol1, symbol2 }), SyntaxKind.InvocationExpression);

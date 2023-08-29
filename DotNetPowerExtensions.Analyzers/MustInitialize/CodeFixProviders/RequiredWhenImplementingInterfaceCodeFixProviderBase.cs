@@ -21,7 +21,7 @@ public abstract class RequiredWhenImplementingInterfaceCodeFixProviderBase<TAnal
     {
         var symbol = await document.GetDeclaredSymbolAsync<IPropertySymbol>(declaration, c).ConfigureAwait(false);
 
-        var mustInitializeClassMetadata = await document.GetTypeByMetadataNameAsync(AttributeType, c).ConfigureAwait(false);
+        var mustInitializeClassMetadata = await document.GetTypeSymbolAsync(AttributeType, c).ConfigureAwait(false);
         if (symbol is null || mustInitializeClassMetadata is null) return null;
 
         var attributeList = SyntaxFactory.AttributeList()

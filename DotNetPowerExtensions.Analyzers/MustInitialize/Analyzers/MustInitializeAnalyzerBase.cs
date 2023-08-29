@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using DotNetPowerExtensions.RoslynExtensions;
+using System.Collections.Immutable;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
@@ -19,10 +20,10 @@ public abstract class MustInitializeAnalyzerBase : DiagnosticAnalyzer
     public abstract void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols);
     protected abstract bool IncludeInitializedAttribute { get; }
 
-    public virtual string[] AttributeNames =>
+    public virtual Type[] AttributeTypes =>
     new[]
     {
-        typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).FullName!,
+        typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute),
     };
 
     public override void Initialize(AnalysisContext context)
@@ -34,13 +35,12 @@ public abstract class MustInitializeAnalyzerBase : DiagnosticAnalyzer
 
             context.RegisterCompilationStartAction(compilationContext =>
             {
-                var symbols = AttributeNames.Select(n => compilationContext.Compilation.GetTypeByMetadataName(n));
+                var symbols = AttributeTypes.Select(n => compilationContext.Compilation.GetTypeSymbol(n));
                 if (symbols.Any(s => s is null)) return;
 
                 if(IncludeInitializedAttribute)
                 {
-                    var initializedName = typeof(SequelPay.DotNetPowerExtensions.InitializedAttribute).FullName!;
-                    var symbol = compilationContext.Compilation.GetTypeByMetadataName(initializedName);
+                    var symbol = compilationContext.Compilation.GetTypeSymbol(typeof(SequelPay.DotNetPowerExtensions.InitializedAttribute));
                     if (symbol is not null) symbols = symbols.Union<INamedTypeSymbol?>(new [] { symbol }, SymbolEqualityComparer.Default);
                 }
 

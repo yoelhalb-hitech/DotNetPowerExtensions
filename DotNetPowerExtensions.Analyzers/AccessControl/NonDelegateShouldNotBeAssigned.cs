@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using DotNetPowerExtensions.RoslynExtensions;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DotNetPowerExtensions.Analyzers.AccessControl;
@@ -28,8 +29,7 @@ public class NonDelegateShouldNotBeAssigned : DiagnosticAnalyzer
 
             context.RegisterCompilationStartAction(compilationContext =>
             {
-                var typeName = typeof(SequelPay.DotNetPowerExtensions.NonDelegateAttribute).FullName!;
-                var symbol = compilationContext.Compilation.GetTypeByMetadataName(typeName);
+                var symbol = compilationContext.Compilation.GetTypeSymbol(typeof(SequelPay.DotNetPowerExtensions.NonDelegateAttribute));
                 if (symbol is null) return;
 
                 compilationContext.RegisterSyntaxNodeAction(c => AnalyzeIdentifier(c, symbol), SyntaxKind.IdentifierName);
