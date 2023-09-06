@@ -362,23 +362,73 @@ public class TypeInfoService_Tests
         event EventHandler? TestEvent;
         void TestMethod();
     }
-    class ClassNonExplicitImplementation : IDefaultImplementation
+    class ClassNonExplicitImplementation : INonDefaultImplementation
     {
         public virtual int TestProp { get; set; }
         public virtual event EventHandler? TestEvent { add => throw new NotImplementedException(); remove => throw new NotImplementedException(); }
         public virtual void TestMethod() { }
     }
 
-    class ClassNonExplicitReimplementation : ClassNonExplicitImplementation, IDefaultImplementation
+    class ClassNonExplicitReimplementation : ClassNonExplicitImplementation, INonDefaultImplementation
     {
         public override int TestProp { get; set; }
         public override event EventHandler? TestEvent { add => throw new NotImplementedException(); remove => throw new NotImplementedException(); }
         public override void TestMethod() { }
     }
 
+    class ClassExplicitImplementation_OnNonExplicitReimplementation : ClassNonExplicitReimplementation, INonDefaultImplementation
+    {
+        int INonDefaultImplementation.TestProp { get; set; }
+        event EventHandler? INonDefaultImplementation.TestEvent { add => throw new NotImplementedException(); remove => throw new NotImplementedException(); }
+        void INonDefaultImplementation.TestMethod() { }
+    }
+
+    class ClassExplicitImplementation_OnNonExplicitReimplementationSub : ClassExplicitImplementation_OnNonExplicitReimplementation, INonDefaultImplementation
+    {
+    }
+
+    class ClassOverrideNonImplmentation_OnExplicitImplementation : ClassExplicitImplementation_OnNonExplicitReimplementationSub
+    {
+        public override int TestProp { get; set; }
+        public override event EventHandler? TestEvent { add => throw new NotImplementedException(); remove => throw new NotImplementedException(); }
+        public override void TestMethod() { }
+    }
+
+    class ClassOverrideNonImplmentation_OnExplicitImplementation_Sub : ClassOverrideNonImplmentation_OnExplicitImplementation
+    {
+    }
+
+    class Class_Reimplmentation_Nothing_On_OverrideNonImplmentation_OnExplicitImplementation : ClassOverrideNonImplmentation_OnExplicitImplementation, INonDefaultImplementation
+    {
+    }
+
+    class Class_Reimplmentation_Nothing_On_OverrideNonImplmentation_OnExplicitImplementation_Sub : Class_Reimplmentation_Nothing_On_OverrideNonImplmentation_OnExplicitImplementation
+    {
+    }
+
+    class Class_ReimplmentationImplicit_OnExplicitImplementation : Class_Reimplmentation_Nothing_On_OverrideNonImplmentation_OnExplicitImplementation, INonDefaultImplementation
+    {
+        public override int TestProp { get; set; }
+        public override event EventHandler? TestEvent { add => throw new NotImplementedException(); remove => throw new NotImplementedException(); }
+        public override void TestMethod() { }
+    }
+
+    class Class_ReimplmentationImplicit_OnExplicitImplementation_Sub : Class_ReimplmentationImplicit_OnExplicitImplementation
+    { }
+
+    class Class_ReimplmentationNothing_OnReimplmentationImplicit_OnExplicitImplementation : Class_ReimplmentationImplicit_OnExplicitImplementation_Sub, INonDefaultImplementation
+    { }
+
+    class Class_ReimplmentationNothing_OnReimplmentationImplicit_OnExplicitImplementation_Sub : Class_ReimplmentationNothing_OnReimplmentationImplicit_OnExplicitImplementation
+    { }
+
     [Test]
     [TestCase(typeof(ClassNonExplicitImplementation))]
     [TestCase(typeof(ClassNonExplicitReimplementation))]
+    [TestCase(typeof(Class_ReimplmentationImplicit_OnExplicitImplementation))]
+    [TestCase(typeof(Class_ReimplmentationImplicit_OnExplicitImplementation_Sub))]
+    [TestCase(typeof(Class_ReimplmentationNothing_OnReimplmentationImplicit_OnExplicitImplementation))]
+    [TestCase(typeof(Class_ReimplmentationNothing_OnReimplmentationImplicit_OnExplicitImplementation_Sub))]
     public void Test_GetTypeInfo_NonExplicitImplementation(Type type)
     {
         var result = new TypeInfoService(type).GetTypeInfo();
@@ -396,6 +446,30 @@ public class TypeInfoService_Tests
         result.ExplicitPropertyDetails.Should().BeEmpty();
         result.ExplicitEventDetails.Should().BeEmpty();
         result.ExplicitMethodDetails.Should().BeEmpty();
+    }
+
+    [Test]
+    [TestCase(typeof(ClassExplicitImplementation_OnNonExplicitReimplementation))]
+    [TestCase(typeof(ClassExplicitImplementation_OnNonExplicitReimplementationSub))]
+    [TestCase(typeof(Class_Reimplmentation_Nothing_On_OverrideNonImplmentation_OnExplicitImplementation))]
+    [TestCase(typeof(Class_Reimplmentation_Nothing_On_OverrideNonImplmentation_OnExplicitImplementation_Sub))]
+    public void Test_GetTypeInfo_ExplicitReimplementation_OnNonExplicitImplementation(Type type)
+    {
+        var result = new TypeInfoService(type).GetTypeInfo();
+
+        result.MethodDetails.Length.Should().Be(1);
+        result.FieldDetails.Should().BeEmpty();
+        result.PropertyDetails.Length.Should().Be(1);
+        result.EventDetails.Length.Should().Be(1);
+
+        result.ShadowedPropertyDetails.Should().BeEmpty();
+        result.ShadowedEventDetails.Should().BeEmpty();
+        result.ShadowedFieldDetails.Should().BeEmpty();
+        result.ShadowedMethodDetails.Should().BeEmpty();
+
+        result.ExplicitMethodDetails.Length.Should().Be(1);
+        result.ExplicitPropertyDetails.Length.Should().Be(1);
+        result.ExplicitEventDetails.Length.Should().Be(1);
     }
 
 
