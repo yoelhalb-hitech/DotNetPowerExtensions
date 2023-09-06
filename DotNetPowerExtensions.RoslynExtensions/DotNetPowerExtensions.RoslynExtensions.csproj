@@ -36,6 +36,8 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SequelPay.DotNetPowerExtensions.snk</AssemblyOriginatorKeyFile>
+    <RootNamespace>SequelPay.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>SequelPay.$(MSBuildProjectName)</AssemblyName>
     <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
   </PropertyGroup>
 

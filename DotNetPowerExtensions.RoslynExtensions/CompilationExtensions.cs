@@ -1,7 +1,5 @@
 ﻿
-using SequelPay.DotNetPowerExtensions.RoslynExtensions;
-
-namespace DotNetPowerExtensions.RoslynExtensions;
+namespace SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
 public static class CompilationExtensions
 {

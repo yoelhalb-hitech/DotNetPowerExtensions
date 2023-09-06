@@ -1,5 +1,5 @@
 ﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
-using DotNetPowerExtensions.RoslynExtensions;
+using SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 

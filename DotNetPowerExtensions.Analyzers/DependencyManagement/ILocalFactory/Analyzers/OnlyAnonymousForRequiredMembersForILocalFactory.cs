@@ -1,5 +1,5 @@
 ﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using DotNetPowerExtensions.RoslynExtensions;
+using SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 

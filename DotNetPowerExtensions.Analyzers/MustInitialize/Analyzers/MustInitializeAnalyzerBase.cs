@@ -1,4 +1,4 @@
-﻿using DotNetPowerExtensions.RoslynExtensions;
+﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
 using System.Collections.Immutable;
 
 namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;

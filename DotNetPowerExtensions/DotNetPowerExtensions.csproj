@@ -38,6 +38,8 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SequelPay.DotNetPowerExtensions.snk</AssemblyOriginatorKeyFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <AssemblyName>SequelPay.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>SequelPay.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">

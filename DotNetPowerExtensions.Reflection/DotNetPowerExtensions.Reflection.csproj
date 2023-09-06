@@ -22,7 +22,7 @@
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
-	  <PackageReference Include="System.ValueTuple" Version="[4.3.0,)"  Condition="'$(TargetFramework)' == 'net45'" />
+	  <PackageReference Include="System.ValueTuple" Version="[4.3.0,)" Condition="'$(TargetFramework)' == 'net45'" />
 	  <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 		<PrivateAssets>all</PrivateAssets>
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -48,6 +48,8 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\SequelPay.DotNetPowerExtensions.snk</AssemblyOriginatorKeyFile>
+		<RootNamespace>SequelPay.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<AssemblyName>SequelPay.$(MSBuildProjectName)</AssemblyName>
 		<!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
 	</PropertyGroup>
 
