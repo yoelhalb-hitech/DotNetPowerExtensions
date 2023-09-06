@@ -61,16 +61,20 @@ internal class MustInitializeInitializerCompletionRegistrationProvider : CommonC
 
             var rolesToProvider = providerManagerType!.GetField("_rolesToProviders", @private)?.GetValue(providerManager)
                                                             as Dictionary<ImmutableHashSet<string>, ImmutableArray<CompletionProvider>>;
+            if(rolesToProvider is null) return;
 
-            var providers = rolesToProvider?[ImmutableHashSet<string>.Empty];
+            foreach (var entry in rolesToProvider)
+            {
+                var providers = entry.Value;
 
-            var index = providers?.IndexOf(existingProvider);
-            if (index is null || index < 0) return;
+                var index = providers.IndexOf(existingProvider);
+                if (index < 0) continue;
 
-            var innerArray = typeof(ImmutableArray<CompletionProvider>).GetField("array", @private)?.GetValue(providers) as Array;
-            innerArray?.SetValue(newProvider, index.Value);
+                var innerArray = typeof(ImmutableArray<CompletionProvider>).GetField("array", @private)?.GetValue(providers) as Array;
+                innerArray?.SetValue(newProvider, index);
 
-            if (providers?[index.Value] == newProvider) handled = true;
+                if (providers[index] == newProvider) handled = true;
+            }
         }
         catch (Exception ex)
         {
