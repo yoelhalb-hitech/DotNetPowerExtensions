@@ -54,7 +54,7 @@ public static class SymbolExtensions
     public static AttributeData? GetAttribute(this ISymbol symbol, INamedTypeSymbol[] attributeSymbols)
         => symbol
             .GetAttributes()
-            .FirstOrDefault(a => attributeSymbols.ContainsGenericOrSub(a.AttributeClass?.OriginalDefinition));
+            .FirstOrDefault(a => attributeSymbols.ContainsGenericOrSub(a.AttributeClass?.OriginalDefinition, false));
 
     public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol[] attributeSymbols)
         => symbol.GetAttribute(attributeSymbols) is not null;

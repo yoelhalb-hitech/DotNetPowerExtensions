@@ -1,5 +1,4 @@
-﻿using DotNetPowerExtensions.RoslynExtensions;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Shared.Extensions;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
@@ -55,7 +54,7 @@ internal static class CecilExtensions
         var type = methodReference.DeclaringType.ToTypeSymbol(compilation, cancellationToken);
 
         var methods = type?.GetMembers(methodReference.Name).OfType<IMethodSymbol>()
-            .Where(m => m.GetParameters().Length == methodReference.Parameters.Count && m.TypeParameters.Length == methodReference.GenericParameters.Count);
+            .Where(m => m.Parameters.Length == methodReference.Parameters.Count && m.TypeParameters.Length == methodReference.GenericParameters.Count);
 
         var parameterTypes = methodReference.Parameters.Select(p => p.ParameterType).ToArray();
         return methods?.FirstOrDefault(m => parameterTypes.IsEqual(m.Parameters.Select(p => p.Type).ToArray()));

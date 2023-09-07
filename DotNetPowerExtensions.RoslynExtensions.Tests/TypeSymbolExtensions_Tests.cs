@@ -26,7 +26,7 @@ public class TypeSymbolExtensions_Tests
         var props = tree.GetRoot().DescendantNodes().OfType<PropertyDeclarationSyntax>();
         var propTypeSymbols = props.Select(prop => semanticModel.GetDeclaredSymbol(prop)!.Type).OfType<INamedTypeSymbol>();
 
-        var result = propTypeSymbols.First()!.IsGenericEqualOrSubOf(propTypeSymbols.Last()!);
+        var result = propTypeSymbols.First()!.IsGenericEqualOrSubOf(propTypeSymbols.Last()!, true);
 
         result.Should().Be(true);
     }

@@ -4,35 +4,35 @@ namespace SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
 public static class TypeSymbolExtensions
 {
-    public static bool IsGenericEqualOrSubOf<T>(this T symbol, T baseType) where T : ITypeSymbol
+    public static bool IsGenericEqualOrSubOf<T>(this T symbol, T baseType, bool includeInterfaces) where T : ITypeSymbol
     {
         if (symbol is null) throw new ArgumentNullException(nameof(symbol));
         if (baseType is null) throw new ArgumentNullException(nameof(baseType));
 
         // If the symbol is a constructed generic and the base is not a generic then the constructed is considered a child but not the open generic
-        return symbol.IsGenericEqual(baseType) || symbol.InheritsFromOrEquals(baseType, true);
+        return symbol.IsGenericEqual(baseType) || symbol.InheritsFromGeneric(baseType, includeInterfaces);
     }
 
 
-    public static bool IsGenericEqualOrBaseOf<T>(this T? symbol, T? subType) where T : ITypeSymbol
+    public static bool IsGenericEqualOrBaseOf<T>(this T? symbol, T? subType, bool includeInterfaces) where T : ITypeSymbol
     {
         if (symbol is null) throw new ArgumentNullException(nameof(symbol));
         if (subType is null) throw new ArgumentNullException(nameof(subType));
 
-        return subType.IsGenericEqualOrSubOf(symbol);
+        return subType.IsGenericEqualOrSubOf(symbol, includeInterfaces);
     }
 
-    public static bool ContainsSymbolOrSub<T>(this IEnumerable<T> symbols, T? baseType) where T : ITypeSymbol
-    => baseType is not null && symbols.Any(s => s.InheritsFromOrEquals(baseType));
+    public static bool ContainsSymbolOrSub<T>(this IEnumerable<T> symbols, T? baseType, bool includeInterfaces) where T : ITypeSymbol
+        => baseType is not null && symbols.Any(s => s.InheritsFromOrEquals(baseType, includeInterfaces));
 
-    public static bool ContainsSymbolOrBase<T>(this IEnumerable<T> symbols, T? subType) where T : ITypeSymbol
-        => subType is not null && symbols.Any(s => subType.InheritsFromOrEquals(s));
+    public static bool ContainsSymbolOrBase<T>(this IEnumerable<T> symbols, T? subType, bool includeInterfaces) where T : ITypeSymbol
+        => subType is not null && symbols.Any(s => subType.InheritsFromOrEquals(s, includeInterfaces));
 
-    public static bool ContainsGenericOrSub<T>(this IEnumerable<T?> symbols, T? subType) where T : ITypeSymbol
-        => subType is not null && symbols.Any(s => s?.IsGenericEqualOrBaseOf(subType) ?? false); // Remember that when other is base this is sub
+    public static bool ContainsGenericOrSub<T>(this IEnumerable<T?> symbols, T? subType, bool includeInterfaces) where T : ITypeSymbol
+        => subType is not null && symbols.Any(s => s?.IsGenericEqualOrBaseOf(subType, includeInterfaces) ?? false); // Remember that when other is base this is sub
 
-    public static bool ContainsGenericOrBase<T>(this IEnumerable<T?> symbols, T? baseType) where T : ITypeSymbol
-        => baseType is not null && symbols.Any(s => s?.IsGenericEqualOrSubOf(baseType) ?? false); // Remember that when other is sub this is base
+    public static bool ContainsGenericOrBase<T>(this IEnumerable<T?> symbols, T? baseType, bool includeInterfaces) where T : ITypeSymbol
+        => baseType is not null && symbols.Any(s => s?.IsGenericEqualOrSubOf(baseType, includeInterfaces) ?? false); // Remember that when other is sub this is base
 
     public static string ToStringWithoutNamesapce(this ITypeSymbol symbol)
     {
@@ -74,12 +74,28 @@ public static class TypeSymbolExtensions
         return ns + (ns.HasValue() ? "." : "") + name;
     }
 
-    public static IEnumerable<ITypeSymbol> GetAllBaseTypes(this ITypeSymbol symbol)
+    public static bool InheritsFromOrEquals(this ITypeSymbol typeSymbol, ITypeSymbol baseType, bool includeInterfaces)
+        => typeSymbol.IsEqualTo(baseType) || typeSymbol.InheritsFrom(baseType, includeInterfaces);
+
+    public static bool InheritsFrom(this ITypeSymbol typeSymbol, ITypeSymbol baseType, bool includeInterfaces)
+        => typeSymbol.GetAllBaseTypes().Concat(includeInterfaces ? typeSymbol.AllInterfaces : new ITypeSymbol[0]).Any(t => t.IsEqualTo(baseType));
+
+    public static bool InheritsFromGeneric(this ITypeSymbol typeSymbol, ITypeSymbol baseType, bool includeInterfaces)
+        => typeSymbol.GetAllBaseTypes().Concat(includeInterfaces ? typeSymbol.AllInterfaces : new ITypeSymbol[0]).Any(t => t.IsGenericEqual(baseType));
+
+    public static IEnumerable<ITypeSymbol> GetAllBaseTypes(this ITypeSymbol typeSymbol)
     {
-        for (var baseType = symbol.BaseType; baseType is not null; baseType = baseType.BaseType)
+        for (var baseType = typeSymbol.BaseType; baseType is not null; baseType = baseType.BaseType)
             yield return baseType;
 
         yield break;
+    }
+
+    public static IEnumerable<ITypeSymbol> GetAllBaseTypesAndThis(this ITypeSymbol typeSymbol)
+    {
+        yield return typeSymbol;
+
+        foreach (var t in typeSymbol.GetAllBaseTypes()) yield return t;
     }
 
     public static IEnumerable<IMethodSymbol> GetConstructors(this ITypeSymbol typeSymbol, bool isStatic)

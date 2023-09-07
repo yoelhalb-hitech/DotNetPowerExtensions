@@ -151,11 +151,13 @@ public class SymbolExtensions_Tests
                 public void Testing(){}
             }
         """);
+        var semanticModel = GetSemanticModel(tree);
+
         var attr = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First();
-        var attrSymbol = GetSemanticModel(tree).GetDeclaredSymbol(attr);
+        var attrSymbol = semanticModel.GetDeclaredSymbol(attr);
 
         var method = tree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().First();
-        var methodSymbol = GetSemanticModel(tree).GetDeclaredSymbol(method);
+        var methodSymbol = semanticModel.GetDeclaredSymbol(method);
 
         var result = methodSymbol!.HasAttribute(attrSymbol);
 
