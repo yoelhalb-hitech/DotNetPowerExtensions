@@ -19,7 +19,7 @@
 
   <PropertyGroup>
     <PackageId>SequelPay.DotNetPowerExtensions.RoslynExtensions</PackageId>
-    <PackageVersion>3.0.5</PackageVersion>
+    <PackageVersion>4.0.0</PackageVersion>
     <Authors>Yoel</Authors>
     <PackageProjectUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</PackageProjectUrl>
     <RepositoryUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</RepositoryUrl>
