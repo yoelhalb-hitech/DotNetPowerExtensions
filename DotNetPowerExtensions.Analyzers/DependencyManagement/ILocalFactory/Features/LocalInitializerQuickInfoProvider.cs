@@ -6,6 +6,7 @@ using Workspaces::Microsoft.CodeAnalysis.Host;
 using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
 using Workspaces::System.Diagnostics.CodeAnalysis;
 using Features::Microsoft.CodeAnalysis.LanguageService;
+using System.Reflection;
 
 namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
@@ -23,7 +24,8 @@ public class LocalInitializerQuickInfoProvider : CommonSemanticQuickInfoProvider
 
     public override Task<QuickInfoItem?> GetQuickInfoAsync(QuickInfoContext context)
     {
-        if (!context.Document.Project.AnalyzerReferences.Any(a => a.Display == nameof(DotNetPowerExtensions) + "." + nameof(DotNetPowerExtensions.Analyzers)))
+        var assmeblyName = Assembly.GetExecutingAssembly().GetName().Name;
+        if (!context.Document.Project.AnalyzerReferences.Any(a => a.Display == assmeblyName))
             return Task.FromResult<QuickInfoItem?>(null);
 
         return base.GetQuickInfoAsync(context);
