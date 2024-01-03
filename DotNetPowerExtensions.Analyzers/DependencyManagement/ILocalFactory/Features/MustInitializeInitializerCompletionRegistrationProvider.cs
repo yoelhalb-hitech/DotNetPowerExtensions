@@ -14,17 +14,23 @@ internal class MustInitializeInitializerCompletionRegistrationProvider : CommonC
 {
     public override string Language => LanguageNames.CSharp;
 
-    private static bool handled;
+    private static bool handled = false;
+    private static bool processing = false;
+    private static object lockObject = new object();
     public override bool ShouldTriggerCompletion(LanguageServices languageServices, SourceText text, int caretPosition, CompletionTrigger trigger, CompletionOptions options, OptionSet passThroughOptions)
     {
-        return !handled;
+        return !handled && !processing;
     }
 
     public override async Task ProvideCompletionsAsync(CompletionContext context)
     {
         try
         {
-            if (handled) return;
+            lock (lockObject)
+            {
+                if (handled || processing) return;
+                processing = true;
+            }            
 
             var cs = CompletionService.GetService(context.Document);
             if (cs is null) return;
@@ -73,12 +79,25 @@ internal class MustInitializeInitializerCompletionRegistrationProvider : CommonC
                 var innerArray = typeof(ImmutableArray<CompletionProvider>).GetField("array", @private)?.GetValue(providers) as Array;
                 innerArray?.SetValue(newProvider, index);
 
-                if (providers[index] == newProvider) handled = true;
+                if (providers[index] == newProvider)
+                {
+                    lock (lockObject)
+                    {
+                        handled = true;                        
+                    }                    
+                }
             }
         }
         catch (Exception ex)
         {
             Logger.LogError(ex);
+        }
+        finally
+        {
+            lock (lockObject)
+            {
+                processing = false;
+            }
         }
     }
 }
