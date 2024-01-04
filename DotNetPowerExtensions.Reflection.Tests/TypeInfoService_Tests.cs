@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using static DotNetPowerExtensions.Reflection.Models.MemberDetailTypes;
 using static DotNetPowerExtensions.Reflection.Models.DeclarationTypes;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DotNetPowerExtensions.Reflection.Tests;
 public class TypeInfoService_Tests
@@ -535,16 +536,19 @@ public class TypeInfoService_Tests
         void TestMethod1() { }
         int TestMethod<T>();
         int TestMethod13();
+        int TestMethod13(int i);
+        int TestMethod13<T>();
     }
     class ComplexExample : IComplexExample
     {
         public int Field1;
+        [SuppressMessage("Performance", "CA1823:Avoid unused private fields", Justification = "used via Reflection")]
         private readonly string? Field2;
         internal List<string>? Field3;
         public int Prop1 { get; }
         public int Prop2 { get; }
-        public string Prop3 { get; set; }
-        internal virtual string Prop4 { get; set; }
+        public string? Prop3 { get; set; }
+        internal virtual string? Prop4 { get; set; }
 
         int IComplexExample.Prop10 => throw new NotImplementedException();
 
@@ -560,6 +564,8 @@ public class TypeInfoService_Tests
         public virtual string TestMethod1(int i, string s) => "tt";
 
         int IComplexExample.TestMethod13() => throw new NotImplementedException();
+        int IComplexExample.TestMethod13(int i) => throw new NotImplementedException();
+        int IComplexExample.TestMethod13<T>() => throw new NotImplementedException();
         public event EventHandler? e1;
         public virtual event EventHandler? e2;
     }
@@ -583,18 +589,23 @@ public class TypeInfoService_Tests
         result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod) && !md.GenericArguments.Any() && !md.ArgumentTypes.Any()
                 && !md.ReflectionInfo.IsGenericMethod && !md.ReflectionInfo.GetParameters().Any())
             .Should().BeTrue();
+
+#pragma warning disable NullConditionalAssertion // Code Smell, Justification conditional is inside expression
         result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod) && md.GenericArguments.FirstOrDefault()?.Name == "T" && !md.ArgumentTypes.Any()
                 && md.ReflectionInfo.IsGenericMethodDefinition && !md.ReflectionInfo.GetParameters().Any())
             .Should().BeTrue();
         result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod) && !md.GenericArguments.Any() && md.ArgumentTypes.FirstOrDefault() == typeof(int)
                 && !md.ReflectionInfo.IsGenericMethod && md.ReflectionInfo.GetParameters().FirstOrDefault()?.ParameterType == typeof(int))
             .Should().BeTrue();
+#pragma warning restore NullConditionalAssertion // Code Smell
 
         result.MethodDetails.Count(md => md.Name == nameof(ComplexExample.TestMethod1) && md.ReflectionInfo.Name == nameof(ComplexExample.TestMethod1))
                                                                                                                 .Should().Be(4);
         result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod1) && !md.GenericArguments.Any() && !md.ArgumentTypes.Any()
                         && !md.ReflectionInfo.IsGenericMethod && !md.ReflectionInfo.GetParameters().Any())
                 .Should().BeTrue();
+
+#pragma warning disable NullConditionalAssertion // Code Smell, Justification conditional is inside expression
         result.MethodDetails.Any(md => md.Name == nameof(ComplexExample.TestMethod1) && md.GenericArguments.FirstOrDefault()?.Name == "T" && !md.ArgumentTypes.Any()
                         && md.ReflectionInfo.IsGenericMethod && !md.ReflectionInfo.GetParameters().Any())
                 .Should().BeTrue();
@@ -607,6 +618,7 @@ public class TypeInfoService_Tests
             && md.ReflectionInfo.GetParameters().FirstOrDefault()?.ParameterType == typeof(int)
                                         && md.ReflectionInfo.GetParameters().LastOrDefault()?.ParameterType == typeof(string))
                 .Should().BeTrue();
+#pragma warning restore NullConditionalAssertion // Code Smell
 
         result.FieldDetails.Length.Should().Be(3);
         result.FieldDetails.All(pd => pd.DeclarationType == DeclarationTypes.Decleration).Should().BeTrue();
@@ -632,22 +644,50 @@ public class TypeInfoService_Tests
         result.ExplicitPropertyDetails.All(pd => !pd.IsInherited).Should().BeTrue();
         result.ExplicitPropertyDetails.All(pd => pd.IsExplicit).Should().BeTrue();
         result.ExplicitPropertyDetails.All(pd => pd.ExplicitInterface == typeof(IComplexExample)).Should().BeTrue();
+        result.ExplicitPropertyDetails.All(pd => pd.ExplicitInterfaceReflectionInfo is not null).Should().BeTrue();
+        result.ExplicitPropertyDetails.All(pd => pd.ExplicitInterfaceReflectionInfo!.ReflectedType == typeof(IComplexExample)).Should().BeTrue();
         new[] { nameof(IComplexExample.Prop10), nameof(IComplexExample.Prop10) }
             .All(p => result.ExplicitPropertyDetails
                     .Any(pd => pd.Name == p
-                            && typeof(ComplexExample).GetProperty(typeof(IComplexExample).FullName!.Replace("+", ".") +"." + p, BindingFlagsExtensions.AllBindings) == pd.ReflectionInfo))
+                            && typeof(ComplexExample).GetProperty(typeof(IComplexExample).FullName!.Replace("+", ".", StringComparison.Ordinal) +"." + p, BindingFlagsExtensions.AllBindings) == pd.ReflectionInfo))
             .Should().BeTrue();
 
-        result.ExplicitMethodDetails.Length.Should().Be(1);
-        result.ExplicitMethodDetails.All(pd => pd.DeclarationType == DeclarationTypes.ExplicitImplementation).Should().BeTrue();
-        result.ExplicitMethodDetails.All(pd => !pd.IsInherited).Should().BeTrue();
-        result.ExplicitMethodDetails.All(pd => pd.IsExplicit).Should().BeTrue();
-        result.ExplicitMethodDetails.All(pd => pd.ExplicitInterface == typeof(IComplexExample)).Should().BeTrue();
-        new[] { nameof(IComplexExample.TestMethod13) }
-            .All(p => result.ExplicitMethodDetails
-                    .Any(pd => pd.Name == p
-                            && typeof(ComplexExample).GetMethod(typeof(IComplexExample).FullName!.Replace("+", ".") + "." + p, BindingFlagsExtensions.AllBindings) == pd.ReflectionInfo))
+        result.ExplicitMethodDetails.Length.Should().Be(3);
+        result.ExplicitMethodDetails.All(md => md.DeclarationType == DeclarationTypes.ExplicitImplementation).Should().BeTrue();
+        result.ExplicitMethodDetails.All(md => !md.IsInherited).Should().BeTrue();
+        result.ExplicitMethodDetails.All(md => md.IsExplicit).Should().BeTrue();
+        result.ExplicitMethodDetails.All(md => md.ExplicitInterface == typeof(IComplexExample)).Should().BeTrue();
+        result.ExplicitMethodDetails.All(md => md.ExplicitInterfaceReflectionInfo is not null).Should().BeTrue();
+        result.ExplicitMethodDetails.All(md => md.ExplicitInterfaceReflectionInfo!.ReflectedType == typeof(IComplexExample)).Should().BeTrue();
+        
+        result.ExplicitMethodDetails
+            .All(md => typeof(ComplexExample).GetMethods(BindingFlagsExtensions.AllBindings).Contains(md.ReflectionInfo))
+        .Should().BeTrue();
+
+        const string ifaceMethodName = nameof(IComplexExample.TestMethod13);
+
+        result.ExplicitMethodDetails
+            .All(md => md.Name == ifaceMethodName 
+                && md.ReflectionInfo.Name == typeof(IComplexExample).FullName!.Replace("+", ".", StringComparison.Ordinal) + "." + ifaceMethodName
+                && md.ExplicitInterfaceReflectionInfo!.Name == ifaceMethodName)
+        .Should().BeTrue();
+
+        result.ExplicitMethodDetails.Any(md => !md.GenericArguments.Any() && !md.ArgumentTypes.Any()
+                 && !md.ReflectionInfo.IsGenericMethod && !md.ReflectionInfo.GetParameters().Any()
+                 && !md.ExplicitInterfaceReflectionInfo!.IsGenericMethod && !md.ExplicitInterfaceReflectionInfo.GetParameters().Any())
             .Should().BeTrue();
+#pragma warning disable NullConditionalAssertion // Code Smell, Justification conditional is inside expression
+        result.ExplicitMethodDetails.Any(md => 
+                md.GenericArguments.FirstOrDefault()?.Name == "T" && !md.ArgumentTypes.Any()
+                && md.ReflectionInfo.IsGenericMethod && !md.ReflectionInfo.GetParameters().Any()
+                && md.ExplicitInterfaceReflectionInfo!.IsGenericMethod && !md.ExplicitInterfaceReflectionInfo.GetParameters().Any())
+            .Should().BeTrue();
+        result.ExplicitMethodDetails.Any(md => 
+                !md.GenericArguments.Any() && md.ArgumentTypes.FirstOrDefault() == typeof(int)
+                && !md.ReflectionInfo.IsGenericMethod && md.ReflectionInfo.GetParameters().FirstOrDefault()?.ParameterType == typeof(int)
+                && !md.ExplicitInterfaceReflectionInfo!.IsGenericMethod && md.ExplicitInterfaceReflectionInfo.GetParameters().FirstOrDefault()?.ParameterType == typeof(int))
+            .Should().BeTrue();
+#pragma warning restore NullConditionalAssertion // Code Smell
 
         result.ExplicitEventDetails.Should().BeEmpty();
     }

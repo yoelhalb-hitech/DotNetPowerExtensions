@@ -88,6 +88,7 @@ internal class TypeInfoService
             Name = interfaceProp?.Name ?? prop.Name,
             ReflectionInfo = prop,
             ExplicitInterface = interfaceProp?.DeclaringType,
+            ExplicitInterfaceReflectionInfo = interfaceProp,
             IsExplicit = interfaceProp is not null,
             InReflectionForCurrentType = prop.ReflectedType == type,
             IsInherited = prop.DeclaringType != type,
@@ -96,6 +97,7 @@ internal class TypeInfoService
                 Name = backingField.Name,
                 ReflectionInfo = backingField,
                 ExplicitInterface = null,
+                ExplicitInterfaceReflectionInfo = null,
                 IsExplicit = false,
                 MemberDetailType = MemberDetailTypes.PropertyBackingField,
                 IsInherited = backingField.DeclaringType != type,
@@ -139,6 +141,7 @@ internal class TypeInfoService
             Name = interfaceEvent?.Name ?? eventInfo.Name,
             ReflectionInfo = eventInfo,
             ExplicitInterface = interfaceEvent?.DeclaringType,
+            ExplicitInterfaceReflectionInfo = interfaceEvent,
             IsExplicit = interfaceEvent is not null,
             InReflectionForCurrentType = eventInfo.ReflectedType == type,
             IsInherited = eventInfo.DeclaringType != type,
@@ -151,6 +154,7 @@ internal class TypeInfoService
                 Name = backingField.Name,
                 ReflectionInfo = backingField,
                 ExplicitInterface = null,
+                ExplicitInterfaceReflectionInfo = null,
                 IsExplicit = false,
                 MemberDetailType = MemberDetailTypes.EventBackingField,
                 IsInherited = backingField.DeclaringType != type,
@@ -194,6 +198,7 @@ internal class TypeInfoService
             GenericArguments = methodInfo.GetGenericArguments(),
             DeclarationType = decl,
             OverridenMethod = overridenMethod,
+            ExplicitInterfaceReflectionInfo = interfaceMethod,
         };
 
     public TypeDetailInfo GetTypeInfo()
@@ -304,13 +309,14 @@ internal class TypeInfoService
                 Name = f.Name, // Fields don't have explicit implementation...
                 ReflectionInfo = f,
                 ExplicitInterface = null,
+                ExplicitInterfaceReflectionInfo = null,
                 IsExplicit = false,
                 MemberDetailType = MemberDetailTypes.Field,
                 IsInherited = f.DeclaringType != type,
                 InReflectionForCurrentType = true,
                 DeclarationType = shadowed.Any(s => s.Name == f.Name) || baseType?.ShadowedFieldDetails.Any(s => s.ReflectionInfo.Name == f.Name) == true
                                             ? DeclarationTypes.Shadow
-                                            :  DeclarationTypes.Decleration,
+                                            :  DeclarationTypes.Decleration,                
             }).ToArray(),
             MethodDetails = methodDetails.ToArray(),
             // TODO... we cannot just copy the parent shadows as it will have the wrong reflected types
@@ -322,6 +328,7 @@ internal class TypeInfoService
                 Name = f.Name, // Fields don't have explicit implementation...
                 ReflectionInfo = f,
                 ExplicitInterface = null,
+                ExplicitInterfaceReflectionInfo = null,
                 IsExplicit = false,
                 MemberDetailType = MemberDetailTypes.Field,
                 IsInherited = f.DeclaringType != type,

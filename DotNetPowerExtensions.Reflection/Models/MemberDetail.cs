@@ -14,4 +14,5 @@ public class MemberDetail<T> where T : MemberInfo
     [MustInitialize] public bool InReflectionForCurrentType { get; internal set; }
     [MustInitialize] public bool IsExplicit { get; internal set; }
     [MustInitialize] public Type? ExplicitInterface { get; internal set; }
+    [MustInitialize] public T? ExplicitInterfaceReflectionInfo { get; internal set; }
 }
