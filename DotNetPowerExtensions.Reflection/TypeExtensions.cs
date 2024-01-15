@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace DotNetPowerExtensions.Reflection;
+namespace SequelPay.DotNetPowerExtensions.Reflection;
 
 public static class TypeExtensions
 {

@@ -1,8 +1,7 @@
-using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 using Microsoft.CodeAnalysis.Operations;
-using Microsoft.CodeAnalysis;
 
-namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustInitializeRequiredMembers : MustInitializeRequiredMembersBase

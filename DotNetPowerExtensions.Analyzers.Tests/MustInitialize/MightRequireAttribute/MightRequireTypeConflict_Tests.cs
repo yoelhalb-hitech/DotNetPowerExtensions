@@ -1,7 +1,5 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute.Analyzers;
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute.Analyzers;
 using Microsoft.CodeAnalysis.Testing;
-using SequelPay.DotNetPowerExtensions;
-using System;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MightRequireAttribute;
 

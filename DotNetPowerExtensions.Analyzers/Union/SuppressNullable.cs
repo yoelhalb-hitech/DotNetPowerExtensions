@@ -2,7 +2,7 @@
 using SequelPay.DotNetPowerExtensions;
 using System.Collections.Immutable;
 
-namespace DotNetPowerExtensions.Analyzers.Union;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.Union;
 
 #if !NET45 && !NET46
 

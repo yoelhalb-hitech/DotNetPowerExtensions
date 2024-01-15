@@ -2,7 +2,7 @@
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DotNetPowerExtensions.Analyzers.AccessControl;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.AccessControl;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class NonDelegateShouldNotBeAssigned : DiagnosticAnalyzer

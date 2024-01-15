@@ -1,8 +1,7 @@
-﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.CodeFixProviders;
-using DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.CodeFixProviders;
+using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 using Microsoft.CodeAnalysis.Testing;
 using SequelPay.DotNetPowerExtensions;
-using System;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement;
 

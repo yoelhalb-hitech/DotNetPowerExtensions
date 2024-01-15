@@ -1,10 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using System.Linq;
-using System.Reflection;
-using DotNetPowerExtensions.Reflection;
-using DotNetPowerExtensions.Reflection.Models;
+using SequelPay.DotNetPowerExtensions.Reflection.Models;
 
-namespace DotNetPowerExtensions.Reflection;
+namespace SequelPay.DotNetPowerExtensions.Reflection;
 
 internal class TypeInfoService
 {

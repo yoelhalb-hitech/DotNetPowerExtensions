@@ -1,5 +1,5 @@
 ﻿
-namespace DotNetPowerExtensions.Reflection;
+namespace SequelPay.DotNetPowerExtensions.Reflection;
 
 internal class TypeToCSharpString : TypeToStringBase
 {

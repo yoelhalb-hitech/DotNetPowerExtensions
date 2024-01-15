@@ -3,7 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace DotNetPowerExtensions.Analyzers;
+namespace SequelPay.DotNetPowerExtensions.Analyzers;
 
 #pragma warning disable RS1035 // Do not use APIs banned for analyzers
 sealed class Logger

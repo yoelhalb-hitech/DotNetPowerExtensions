@@ -1,11 +1,11 @@
 ﻿extern alias Workspaces;
 
-using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
-using DotNetPowerExtensions.Analyzers.MustInitialize;
+using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
 internal class FeatureUtils
 {

@@ -1,4 +1,4 @@
-﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.ILocalFactory;
 

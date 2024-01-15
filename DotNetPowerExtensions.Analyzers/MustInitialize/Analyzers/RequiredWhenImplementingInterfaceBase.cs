@@ -1,5 +1,5 @@
 ﻿
-namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class RequiredWhenImplementingInterfaceBase : ByAttributeAnalyzerBase
 {

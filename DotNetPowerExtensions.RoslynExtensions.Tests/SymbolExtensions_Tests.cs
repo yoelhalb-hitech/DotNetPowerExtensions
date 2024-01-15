@@ -1,5 +1,5 @@
 ﻿
-namespace DotNetPowerExtensions.RoslynExtensions.Tests;
+namespace SequelPay.DotNetPowerExtensions.RoslynExtensions.Tests;
 
 public class SymbolExtensions_Tests
 {

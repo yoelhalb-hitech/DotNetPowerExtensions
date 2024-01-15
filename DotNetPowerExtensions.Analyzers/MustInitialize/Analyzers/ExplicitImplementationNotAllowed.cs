@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class ExplicitImplementationNotAllowed : MustInitializeAnalyzerBase

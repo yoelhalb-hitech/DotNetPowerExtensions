@@ -1,6 +1,6 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
-namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class CannotUseBaseImplementationCodeFixProviderBase<TAnalyzer>
             : ByAttributeCodeFixProviderBase<TAnalyzer, TypeDeclarationSyntax> where TAnalyzer : CannotUseBaseImplementationBase

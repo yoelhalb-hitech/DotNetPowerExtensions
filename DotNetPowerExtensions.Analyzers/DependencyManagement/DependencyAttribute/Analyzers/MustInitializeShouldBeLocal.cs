@@ -1,7 +1,6 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using SequelPay.DotNetPowerExtensions.RoslynExtensions;
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustInitializeShouldBeLocal : MustInitializeRequiredMembersBase

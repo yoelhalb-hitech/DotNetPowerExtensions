@@ -1,7 +1,7 @@
-﻿using DotNetPowerExtensions.Reflection.Models;
+﻿using SequelPay.DotNetPowerExtensions.Reflection.Models;
 using System.ComponentModel.DataAnnotations;
-using static DotNetPowerExtensions.Reflection.Models.MemberDetailTypes;
-using static DotNetPowerExtensions.Reflection.Models.DeclarationTypes;
+using static SequelPay.DotNetPowerExtensions.Reflection.Models.MemberDetailTypes;
+using static SequelPay.DotNetPowerExtensions.Reflection.Models.DeclarationTypes;
 using System.Diagnostics.CodeAnalysis;
 using SequelPay.DotNetPowerExtensions;
 using System.Diagnostics;

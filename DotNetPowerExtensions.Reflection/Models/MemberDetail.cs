@@ -1,6 +1,6 @@
 ﻿using SequelPay.DotNetPowerExtensions;
 
-namespace DotNetPowerExtensions.Reflection.Models;
+namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
 
 public class MemberDetail<T> where T : MemberInfo
 {

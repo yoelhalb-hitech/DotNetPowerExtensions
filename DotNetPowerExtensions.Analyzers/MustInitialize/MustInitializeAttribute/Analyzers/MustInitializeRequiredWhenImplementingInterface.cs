@@ -1,7 +1,6 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using System.Diagnostics.CodeAnalysis;
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
-namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustInitializeRequiredWhenImplementingInterface : RequiredWhenImplementingInterfaceBase

@@ -7,7 +7,7 @@ using System.Reflection;
 using Workspaces::Microsoft.CodeAnalysis.Host;
 using Workspaces::Microsoft.CodeAnalysis.Options;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
 [ExportCompletionProvider(nameof(MustInitializeInitializerCompletionRegistrationProvider), LanguageNames.CSharp)]
 internal class MustInitializeInitializerCompletionRegistrationProvider : CommonCompletionProvider

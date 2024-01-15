@@ -1,7 +1,7 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
-using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
+using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
 
-namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MustInitializeRequiredWhenImplementingInterfaceCodeFixProvider)), Shared]
 public class MustInitializeRequiredWhenImplementingInterfaceCodeFixProvider

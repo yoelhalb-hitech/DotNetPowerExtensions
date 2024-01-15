@@ -1,8 +1,7 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize;
-using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
+using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequiredMembersBase

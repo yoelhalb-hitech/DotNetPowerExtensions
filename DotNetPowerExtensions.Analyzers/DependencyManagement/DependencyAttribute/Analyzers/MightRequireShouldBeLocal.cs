@@ -1,7 +1,7 @@
-﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
 using SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MightRequireShouldBeLocal : DiagnosticAnalyzer

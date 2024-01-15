@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace DotNetPowerExtensions.Reflection;
+namespace SequelPay.DotNetPowerExtensions.Reflection;
 
 public static class EventInfoExtensions
 {

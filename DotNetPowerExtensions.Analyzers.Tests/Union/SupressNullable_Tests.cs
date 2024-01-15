@@ -1,4 +1,4 @@
-﻿using DotNetPowerExtensions.Analyzers.Union;
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.Union;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.Union;
 

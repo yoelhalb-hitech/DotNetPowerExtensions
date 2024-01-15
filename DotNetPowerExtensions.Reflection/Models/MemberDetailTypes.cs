@@ -1,4 +1,4 @@
-﻿namespace DotNetPowerExtensions.Reflection.Models;
+﻿namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
 
 public enum MemberDetailTypes
 {

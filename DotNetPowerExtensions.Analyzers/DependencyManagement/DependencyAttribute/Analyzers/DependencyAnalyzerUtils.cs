@@ -1,5 +1,5 @@
 ﻿
-namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 internal static class DependencyAnalyzerUtils
 {
