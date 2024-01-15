@@ -1,0 +1,936 @@
+﻿{
+  Type: List<string>,
+  PropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: int,
+        Name: get_Capacity,
+        ReflectionInfo: List<string>.get_Capacity(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          int
+        ],
+        ReturnType: Void,
+        Name: set_Capacity,
+        ReflectionInfo: List<string>.set_Capacity(int value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Capacity,
+      ReflectionInfo: List<string>.Capacity,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: int,
+        Name: get_Count,
+        ReflectionInfo: List<string>.get_Count(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Count,
+      ReflectionInfo: List<string>.Count,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ArgumentTypes: [
+          int
+        ],
+        ReturnType: string,
+        Name: get_Item,
+        ReflectionInfo: List<string>.get_Item(int index),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          int,
+          string
+        ],
+        ReturnType: Void,
+        Name: set_Item,
+        ReflectionInfo: List<string>.set_Item(int index, string value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Item,
+      ReflectionInfo: List<string>.Item,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  MethodDetails: [
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      Name: IsCompatibleObject,
+      ReflectionInfo: List<string>.IsCompatibleObject(object value),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: Void,
+      Name: Add,
+      ReflectionInfo: List<string>.Add(string item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: Void,
+      Name: AddWithResize,
+      ReflectionInfo: List<string>.AddWithResize(string item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        IEnumerable<string>
+      ],
+      ReturnType: Void,
+      Name: AddRange,
+      ReflectionInfo: List<string>.AddRange(IEnumerable<string> collection),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: ReadOnlyCollection<string>,
+      Name: AsReadOnly,
+      ReflectionInfo: List<string>.AsReadOnly(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        int,
+        string,
+        IComparer<string>
+      ],
+      ReturnType: int,
+      Name: BinarySearch,
+      ReflectionInfo: List<string>.BinarySearch(int index, int count, string item, IComparer<string> comparer),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: int,
+      Name: BinarySearch,
+      ReflectionInfo: List<string>.BinarySearch(string item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        IComparer<string>
+      ],
+      ReturnType: int,
+      Name: BinarySearch,
+      ReflectionInfo: List<string>.BinarySearch(string item, IComparer<string> comparer),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Void,
+      Name: Clear,
+      ReflectionInfo: List<string>.Clear(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: bool,
+      Name: Contains,
+      ReflectionInfo: List<string>.Contains(string item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Converter<string, TOutput>
+      ],
+      ReturnType: List<TOutput>,
+      GenericArguments: [
+        TOutput
+      ],
+      Name: ConvertAll,
+      ReflectionInfo: List<string>.ConvertAll(Converter<string, TOutput> converter),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string[]
+      ],
+      ReturnType: Void,
+      Name: CopyTo,
+      ReflectionInfo: List<string>.CopyTo(string[] array),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        string[],
+        int,
+        int
+      ],
+      ReturnType: Void,
+      Name: CopyTo,
+      ReflectionInfo: List<string>.CopyTo(int index, string[] array, int arrayIndex, int count),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string[],
+        int
+      ],
+      ReturnType: Void,
+      Name: CopyTo,
+      ReflectionInfo: List<string>.CopyTo(string[] array, int arrayIndex),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: int,
+      Name: EnsureCapacity,
+      ReflectionInfo: List<string>.EnsureCapacity(int capacity),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: Void,
+      Name: Grow,
+      ReflectionInfo: List<string>.Grow(int capacity),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Predicate<string>
+      ],
+      ReturnType: bool,
+      Name: Exists,
+      ReflectionInfo: List<string>.Exists(Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Predicate<string>
+      ],
+      ReturnType: string,
+      Name: Find,
+      ReflectionInfo: List<string>.Find(Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Predicate<string>
+      ],
+      ReturnType: List<string>,
+      Name: FindAll,
+      ReflectionInfo: List<string>.FindAll(Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Predicate<string>
+      ],
+      ReturnType: int,
+      Name: FindIndex,
+      ReflectionInfo: List<string>.FindIndex(Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        Predicate<string>
+      ],
+      ReturnType: int,
+      Name: FindIndex,
+      ReflectionInfo: List<string>.FindIndex(int startIndex, Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        int,
+        Predicate<string>
+      ],
+      ReturnType: int,
+      Name: FindIndex,
+      ReflectionInfo: List<string>.FindIndex(int startIndex, int count, Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Predicate<string>
+      ],
+      ReturnType: string,
+      Name: FindLast,
+      ReflectionInfo: List<string>.FindLast(Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Predicate<string>
+      ],
+      ReturnType: int,
+      Name: FindLastIndex,
+      ReflectionInfo: List<string>.FindLastIndex(Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        Predicate<string>
+      ],
+      ReturnType: int,
+      Name: FindLastIndex,
+      ReflectionInfo: List<string>.FindLastIndex(int startIndex, Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        int,
+        Predicate<string>
+      ],
+      ReturnType: int,
+      Name: FindLastIndex,
+      ReflectionInfo: List<string>.FindLastIndex(int startIndex, int count, Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Action<string>
+      ],
+      ReturnType: Void,
+      Name: ForEach,
+      ReflectionInfo: List<string>.ForEach(Action<string> action),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: List<string>.Enumerator,
+      Name: GetEnumerator,
+      ReflectionInfo: List<string>.GetEnumerator(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        int
+      ],
+      ReturnType: List<string>,
+      Name: GetRange,
+      ReflectionInfo: List<string>.GetRange(int index, int count),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: int,
+      Name: IndexOf,
+      ReflectionInfo: List<string>.IndexOf(string item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        int
+      ],
+      ReturnType: int,
+      Name: IndexOf,
+      ReflectionInfo: List<string>.IndexOf(string item, int index),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        int,
+        int
+      ],
+      ReturnType: int,
+      Name: IndexOf,
+      ReflectionInfo: List<string>.IndexOf(string item, int index, int count),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        string
+      ],
+      ReturnType: Void,
+      Name: Insert,
+      ReflectionInfo: List<string>.Insert(int index, string item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        IEnumerable<string>
+      ],
+      ReturnType: Void,
+      Name: InsertRange,
+      ReflectionInfo: List<string>.InsertRange(int index, IEnumerable<string> collection),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: int,
+      Name: LastIndexOf,
+      ReflectionInfo: List<string>.LastIndexOf(string item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        int
+      ],
+      ReturnType: int,
+      Name: LastIndexOf,
+      ReflectionInfo: List<string>.LastIndexOf(string item, int index),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        int,
+        int
+      ],
+      ReturnType: int,
+      Name: LastIndexOf,
+      ReflectionInfo: List<string>.LastIndexOf(string item, int index, int count),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: bool,
+      Name: Remove,
+      ReflectionInfo: List<string>.Remove(string item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Predicate<string>
+      ],
+      ReturnType: int,
+      Name: RemoveAll,
+      ReflectionInfo: List<string>.RemoveAll(Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: Void,
+      Name: RemoveAt,
+      ReflectionInfo: List<string>.RemoveAt(int index),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        int
+      ],
+      ReturnType: Void,
+      Name: RemoveRange,
+      ReflectionInfo: List<string>.RemoveRange(int index, int count),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Void,
+      Name: Reverse,
+      ReflectionInfo: List<string>.Reverse(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        int
+      ],
+      ReturnType: Void,
+      Name: Reverse,
+      ReflectionInfo: List<string>.Reverse(int index, int count),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Void,
+      Name: Sort,
+      ReflectionInfo: List<string>.Sort(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        IComparer<string>
+      ],
+      ReturnType: Void,
+      Name: Sort,
+      ReflectionInfo: List<string>.Sort(IComparer<string> comparer),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        int,
+        IComparer<string>
+      ],
+      ReturnType: Void,
+      Name: Sort,
+      ReflectionInfo: List<string>.Sort(int index, int count, IComparer<string> comparer),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Comparison<string>
+      ],
+      ReturnType: Void,
+      Name: Sort,
+      ReflectionInfo: List<string>.Sort(Comparison<string> comparison),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: string[],
+      Name: ToArray,
+      ReflectionInfo: List<string>.ToArray(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Void,
+      Name: TrimExcess,
+      ReflectionInfo: List<string>.TrimExcess(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Predicate<string>
+      ],
+      ReturnType: bool,
+      Name: TrueForAll,
+      ReflectionInfo: List<string>.TrueForAll(Predicate<string> match),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  FieldDetails: [
+    {
+      Name: _items,
+      ReflectionInfo: List<string>._items,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: _size,
+      ReflectionInfo: List<string>._size,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: _version,
+      ReflectionInfo: List<string>._version,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: s_emptyArray,
+      ReflectionInfo: List<string>.s_emptyArray,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  ExplicitPropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsReadOnly,
+        ReflectionInfo: List<string>.System.Collections.Generic.ICollection<T>.get_IsReadOnly(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: ICollection<string>,
+        ExplicitInterfaceReflectionInfo: ICollection<string>.get_IsReadOnly()
+      },
+      Name: IsReadOnly,
+      ReflectionInfo: List<string>.System.Collections.Generic.ICollection<T>.IsReadOnly,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection<string>,
+      ExplicitInterfaceReflectionInfo: ICollection<string>.IsReadOnly
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ArgumentTypes: [
+          int
+        ],
+        ReturnType: object,
+        Name: get_Item,
+        ReflectionInfo: List<string>.System.Collections.IList.get_Item(int index),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IList,
+        ExplicitInterfaceReflectionInfo: IList.get_Item(int index)
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          int,
+          object
+        ],
+        ReturnType: Void,
+        Name: set_Item,
+        ReflectionInfo: List<string>.System.Collections.IList.set_Item(int index, object value),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IList,
+        ExplicitInterfaceReflectionInfo: IList.set_Item(int index, object value)
+      },
+      Name: Item,
+      ReflectionInfo: List<string>.System.Collections.IList.Item,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.Item
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsReadOnly,
+        ReflectionInfo: List<string>.System.Collections.IList.get_IsReadOnly(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IList,
+        ExplicitInterfaceReflectionInfo: IList.get_IsReadOnly()
+      },
+      Name: IsReadOnly,
+      ReflectionInfo: List<string>.System.Collections.IList.IsReadOnly,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.IsReadOnly
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsFixedSize,
+        ReflectionInfo: List<string>.System.Collections.IList.get_IsFixedSize(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IList,
+        ExplicitInterfaceReflectionInfo: IList.get_IsFixedSize()
+      },
+      Name: IsFixedSize,
+      ReflectionInfo: List<string>.System.Collections.IList.IsFixedSize,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.IsFixedSize
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: object,
+        Name: get_SyncRoot,
+        ReflectionInfo: List<string>.System.Collections.ICollection.get_SyncRoot(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: ICollection,
+        ExplicitInterfaceReflectionInfo: ICollection.get_SyncRoot()
+      },
+      Name: SyncRoot,
+      ReflectionInfo: List<string>.System.Collections.ICollection.SyncRoot,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection,
+      ExplicitInterfaceReflectionInfo: ICollection.SyncRoot
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsSynchronized,
+        ReflectionInfo: List<string>.System.Collections.ICollection.get_IsSynchronized(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: ICollection,
+        ExplicitInterfaceReflectionInfo: ICollection.get_IsSynchronized()
+      },
+      Name: IsSynchronized,
+      ReflectionInfo: List<string>.System.Collections.ICollection.IsSynchronized,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection,
+      ExplicitInterfaceReflectionInfo: ICollection.IsSynchronized
+    }
+  ],
+  ExplicitMethodDetails: [
+    {
+      ReturnType: IEnumerator<string>,
+      Name: GetEnumerator,
+      ReflectionInfo: List<string>.System.Collections.Generic.IEnumerable<T>.GetEnumerator(),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IEnumerable<string>,
+      ExplicitInterfaceReflectionInfo: IEnumerable<string>.GetEnumerator()
+    },
+    {
+      ReturnType: IEnumerator,
+      Name: GetEnumerator,
+      ReflectionInfo: List<string>.System.Collections.IEnumerable.GetEnumerator(),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IEnumerable,
+      ExplicitInterfaceReflectionInfo: IEnumerable.GetEnumerator()
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: int,
+      Name: Add,
+      ReflectionInfo: List<string>.System.Collections.IList.Add(object item),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.Add(object value)
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      Name: Contains,
+      ReflectionInfo: List<string>.System.Collections.IList.Contains(object item),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.Contains(object value)
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: int,
+      Name: IndexOf,
+      ReflectionInfo: List<string>.System.Collections.IList.IndexOf(object item),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.IndexOf(object value)
+    },
+    {
+      ArgumentTypes: [
+        int,
+        object
+      ],
+      ReturnType: Void,
+      Name: Insert,
+      ReflectionInfo: List<string>.System.Collections.IList.Insert(int index, object item),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.Insert(int index, object value)
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: Void,
+      Name: Remove,
+      ReflectionInfo: List<string>.System.Collections.IList.Remove(object item),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.Remove(object value)
+    },
+    {
+      ArgumentTypes: [
+        Array,
+        int
+      ],
+      ReturnType: Void,
+      Name: CopyTo,
+      ReflectionInfo: List<string>.System.Collections.ICollection.CopyTo(Array array, int arrayIndex),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection,
+      ExplicitInterfaceReflectionInfo: ICollection.CopyTo(Array array, int index)
+    }
+  ]
+}

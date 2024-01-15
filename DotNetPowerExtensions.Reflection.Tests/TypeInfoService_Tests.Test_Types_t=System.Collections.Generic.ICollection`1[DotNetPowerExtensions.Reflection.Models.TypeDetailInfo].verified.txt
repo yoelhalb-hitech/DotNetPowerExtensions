@@ -1,0 +1,92 @@
+﻿{
+  Type: ICollection<TypeDetailInfo>,
+  PropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: int,
+        Name: get_Count,
+        ReflectionInfo: ICollection<TypeDetailInfo>.get_Count(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Count,
+      ReflectionInfo: ICollection<TypeDetailInfo>.Count,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsReadOnly,
+        ReflectionInfo: ICollection<TypeDetailInfo>.get_IsReadOnly(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsReadOnly,
+      ReflectionInfo: ICollection<TypeDetailInfo>.IsReadOnly,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  MethodDetails: [
+    {
+      ArgumentTypes: [
+        TypeDetailInfo
+      ],
+      ReturnType: Void,
+      Name: Add,
+      ReflectionInfo: ICollection<TypeDetailInfo>.Add(TypeDetailInfo item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Void,
+      Name: Clear,
+      ReflectionInfo: ICollection<TypeDetailInfo>.Clear(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        TypeDetailInfo
+      ],
+      ReturnType: bool,
+      Name: Contains,
+      ReflectionInfo: ICollection<TypeDetailInfo>.Contains(TypeDetailInfo item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        TypeDetailInfo[],
+        int
+      ],
+      ReturnType: Void,
+      Name: CopyTo,
+      ReflectionInfo: ICollection<TypeDetailInfo>.CopyTo(TypeDetailInfo[] array, int arrayIndex),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        TypeDetailInfo
+      ],
+      ReturnType: bool,
+      Name: Remove,
+      ReflectionInfo: ICollection<TypeDetailInfo>.Remove(TypeDetailInfo item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ]
+}

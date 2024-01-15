@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using static DotNetPowerExtensions.Reflection.Models.MemberDetailTypes;
 using static DotNetPowerExtensions.Reflection.Models.DeclarationTypes;
 using System.Diagnostics.CodeAnalysis;
+using SequelPay.DotNetPowerExtensions;
+using System.Diagnostics;
+using System.Collections.Specialized;
 
 namespace DotNetPowerExtensions.Reflection.Tests;
 public class TypeInfoService_Tests
@@ -691,6 +694,24 @@ public class TypeInfoService_Tests
 
         result.ExplicitEventDetails.Should().BeEmpty();
     }
+
+    [Test]
+    [TestCase(typeof(object))]
+    [TestCase(typeof(List<string>))]
+    [TestCase(typeof(string[]))]
+    [TestCase(typeof(List<string>[]))]
+    [TestCase(typeof(Dictionary<int, List<string>>))]
+    [TestCase(typeof(Dictionary<int[], List<string>[]>[]))]
+    [TestCase(typeof(Type))]
+    [TestCase(typeof(TypeDetailInfo))]
+    [TestCase(typeof(ICollection<TypeDetailInfo>))]
+    [TestCase(typeof(ICollection<>))]
+    [TestCase(typeof(Dictionary<,>))]
+    [TestCase(typeof(Union<,>))]
+    [TestCase(typeof(Union<,,>))]
+    [TestCase(typeof(Union<List<string>, Process,IQueryable<MustInitializeAttribute>>))]
+    public Task Test_Types(Type t)
+        => Verify(t.GetTypeDetailInfo());
 
     // TODO... add override and shadow tests
 }

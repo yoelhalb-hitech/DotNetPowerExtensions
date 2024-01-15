@@ -1,0 +1,92 @@
+﻿{
+  Type: ICollection<T>,
+  PropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: int,
+        Name: get_Count,
+        ReflectionInfo: ICollection<T>.get_Count(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Count,
+      ReflectionInfo: ICollection<T>.Count,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsReadOnly,
+        ReflectionInfo: ICollection<T>.get_IsReadOnly(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsReadOnly,
+      ReflectionInfo: ICollection<T>.IsReadOnly,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  MethodDetails: [
+    {
+      ArgumentTypes: [
+        T
+      ],
+      ReturnType: Void,
+      Name: Add,
+      ReflectionInfo: ICollection<T>.Add(T item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Void,
+      Name: Clear,
+      ReflectionInfo: ICollection<T>.Clear(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        T
+      ],
+      ReturnType: bool,
+      Name: Contains,
+      ReflectionInfo: ICollection<T>.Contains(T item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        T[],
+        int
+      ],
+      ReturnType: Void,
+      Name: CopyTo,
+      ReflectionInfo: ICollection<T>.CopyTo(T[] array, int arrayIndex),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        T
+      ],
+      ReturnType: bool,
+      Name: Remove,
+      ReflectionInfo: ICollection<T>.Remove(T item),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ]
+}

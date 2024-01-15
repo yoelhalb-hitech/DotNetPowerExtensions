@@ -1,0 +1,814 @@
+﻿{
+  Type: Dictionary<int[], List<string>[]>[],
+  PropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: int,
+        Name: get_Length,
+        ReflectionInfo: Array.get_Length(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Length,
+      ReflectionInfo: Array.Length,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: nuint,
+        Name: get_NativeLength,
+        ReflectionInfo: Array.get_NativeLength(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: NativeLength,
+      ReflectionInfo: Array.NativeLength,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: long,
+        Name: get_LongLength,
+        ReflectionInfo: Array.get_LongLength(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: LongLength,
+      ReflectionInfo: Array.LongLength,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: int,
+        Name: get_Rank,
+        ReflectionInfo: Array.get_Rank(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Rank,
+      ReflectionInfo: Array.Rank,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: object,
+        Name: get_SyncRoot,
+        ReflectionInfo: Array.get_SyncRoot(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: SyncRoot,
+      ReflectionInfo: Array.SyncRoot,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsReadOnly,
+        ReflectionInfo: Array.get_IsReadOnly(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsReadOnly,
+      ReflectionInfo: Array.IsReadOnly,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsFixedSize,
+        ReflectionInfo: Array.get_IsFixedSize(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsFixedSize,
+      ReflectionInfo: Array.IsFixedSize,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsSynchronized,
+        ReflectionInfo: Array.get_IsSynchronized(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsSynchronized,
+      ReflectionInfo: Array.IsSynchronized,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  MethodDetails: [
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: Dictionary<int[], List<string>[]>,
+      Name: Get,
+      ReflectionInfo: Dictionary<int[], List<string>[]>[].Get(int ),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        Dictionary<int[], List<string>[]>
+      ],
+      ReturnType: Void,
+      Name: Set,
+      ReflectionInfo: Dictionary<int[], List<string>[]>[].Set(int , Dictionary<int[], List<string>[]> ),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: Dictionary`2&,
+      Name: Address,
+      ReflectionInfo: Dictionary<int[], List<string>[]>[].Address(int ),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        nint
+      ],
+      ReturnType: object,
+      Name: InternalGetValue,
+      ReflectionInfo: Array.InternalGetValue(nint flattenedIndex),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: int,
+      Name: GetLength,
+      ReflectionInfo: Array.GetLength(int dimension),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: int,
+      Name: GetUpperBound,
+      ReflectionInfo: Array.GetUpperBound(int dimension),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: int,
+      Name: GetLowerBound,
+      ReflectionInfo: Array.GetLowerBound(int dimension),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: CorElementType,
+      Name: GetCorElementTypeOfElementType,
+      ReflectionInfo: Array.GetCorElementTypeOfElementType(),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Void,
+      Name: Initialize,
+      ReflectionInfo: Array.Initialize(),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int[]
+      ],
+      ReturnType: object,
+      Name: GetValue,
+      ReflectionInfo: Array.GetValue(int[] indices),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: object,
+      Name: GetValue,
+      ReflectionInfo: Array.GetValue(int index),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        int
+      ],
+      ReturnType: object,
+      Name: GetValue,
+      ReflectionInfo: Array.GetValue(int index1, int index2),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        int,
+        int
+      ],
+      ReturnType: object,
+      Name: GetValue,
+      ReflectionInfo: Array.GetValue(int index1, int index2, int index3),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object,
+        int
+      ],
+      ReturnType: Void,
+      Name: SetValue,
+      ReflectionInfo: Array.SetValue(object value, int index),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object,
+        int,
+        int
+      ],
+      ReturnType: Void,
+      Name: SetValue,
+      ReflectionInfo: Array.SetValue(object value, int index1, int index2),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object,
+        int,
+        int,
+        int
+      ],
+      ReturnType: Void,
+      Name: SetValue,
+      ReflectionInfo: Array.SetValue(object value, int index1, int index2, int index3),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object,
+        int[]
+      ],
+      ReturnType: Void,
+      Name: SetValue,
+      ReflectionInfo: Array.SetValue(object value, int[] indices),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        long
+      ],
+      ReturnType: object,
+      Name: GetValue,
+      ReflectionInfo: Array.GetValue(long index),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        long,
+        long
+      ],
+      ReturnType: object,
+      Name: GetValue,
+      ReflectionInfo: Array.GetValue(long index1, long index2),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        long,
+        long,
+        long
+      ],
+      ReturnType: object,
+      Name: GetValue,
+      ReflectionInfo: Array.GetValue(long index1, long index2, long index3),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        long[]
+      ],
+      ReturnType: object,
+      Name: GetValue,
+      ReflectionInfo: Array.GetValue(long[] indices),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object,
+        long
+      ],
+      ReturnType: Void,
+      Name: SetValue,
+      ReflectionInfo: Array.SetValue(object value, long index),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object,
+        long,
+        long
+      ],
+      ReturnType: Void,
+      Name: SetValue,
+      ReflectionInfo: Array.SetValue(object value, long index1, long index2),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object,
+        long,
+        long,
+        long
+      ],
+      ReturnType: Void,
+      Name: SetValue,
+      ReflectionInfo: Array.SetValue(object value, long index1, long index2, long index3),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object,
+        long[]
+      ],
+      ReturnType: Void,
+      Name: SetValue,
+      ReflectionInfo: Array.SetValue(object value, long[] indices),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: long,
+      Name: GetLongLength,
+      ReflectionInfo: Array.GetLongLength(int dimension),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: object,
+      Name: Clone,
+      ReflectionInfo: Array.Clone(),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Array,
+        int
+      ],
+      ReturnType: Void,
+      Name: CopyTo,
+      ReflectionInfo: Array.CopyTo(Array array, int index),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Array,
+        long
+      ],
+      ReturnType: Void,
+      Name: CopyTo,
+      ReflectionInfo: Array.CopyTo(Array array, long index),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: IEnumerator,
+      Name: GetEnumerator,
+      ReflectionInfo: Array.GetEnumerator(),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  BasePrivateMethodDetails: [
+    {
+      ArgumentTypes: [
+        RuntimeType,
+        int,
+        Int32*,
+        Int32*
+      ],
+      ReturnType: Array,
+      Name: InternalCreate,
+      ReflectionInfo: Array.InternalCreate(RuntimeType elementType, int rank, Int32* pLengths, Int32* pLowerBounds),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Array,
+        int,
+        Array,
+        int,
+        int,
+        bool
+      ],
+      ReturnType: Void,
+      Name: Copy,
+      ReflectionInfo: Array.Copy(Array sourceArray, int sourceIndex, Array destinationArray, int destinationIndex, int length, bool reliable),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Array,
+        Array
+      ],
+      ReturnType: bool,
+      Name: IsSimpleCopy,
+      ReflectionInfo: Array.IsSimpleCopy(Array sourceArray, Array destinationArray),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Array,
+        int,
+        Array,
+        int,
+        int
+      ],
+      ReturnType: Void,
+      Name: CopySlow,
+      ReflectionInfo: Array.CopySlow(Array sourceArray, int sourceIndex, Array destinationArray, int destinationIndex, int length),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: nint,
+      Name: GetFlattenedIndex,
+      ReflectionInfo: Array.GetFlattenedIndex(int rawIndex),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        ReadOnlySpan<int>
+      ],
+      ReturnType: nint,
+      Name: GetFlattenedIndex,
+      ReflectionInfo: Array.GetFlattenedIndex(ReadOnlySpan<int> indices),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object,
+        nint
+      ],
+      ReturnType: Void,
+      Name: InternalSetValue,
+      ReflectionInfo: Array.InternalSetValue(object value, nint flattenedIndex),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      Name: IsValueOfElementType,
+      ReflectionInfo: Array.IsValueOfElementType(object value),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        int
+      ],
+      ReturnType: int,
+      Name: GetMedian,
+      ReflectionInfo: Array.GetMedian(int low, int hi),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Array,
+        int,
+        int
+      ],
+      ReturnType: Span<T>,
+      GenericArguments: [
+        T
+      ],
+      Name: UnsafeArrayAsSpan,
+      ReflectionInfo: Array.UnsafeArrayAsSpan(Array array, int adjustedIndex, int length),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  ExplicitPropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ArgumentTypes: [
+          int
+        ],
+        ReturnType: object,
+        Name: get_Item,
+        ReflectionInfo: Array.System.Collections.IList.get_Item(int index),
+        IsInherited: true,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: false,
+        IsExplicit: true,
+        ExplicitInterface: IList,
+        ExplicitInterfaceReflectionInfo: IList.get_Item(int index)
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          int,
+          object
+        ],
+        ReturnType: Void,
+        Name: set_Item,
+        ReflectionInfo: Array.System.Collections.IList.set_Item(int index, object value),
+        IsInherited: true,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: false,
+        IsExplicit: true,
+        ExplicitInterface: IList,
+        ExplicitInterfaceReflectionInfo: IList.set_Item(int index, object value)
+      },
+      Name: Item,
+      ReflectionInfo: Array.System.Collections.IList.Item,
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: false,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.Item
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: int,
+        Name: get_Count,
+        ReflectionInfo: Array.System.Collections.ICollection.get_Count(),
+        IsInherited: true,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: false,
+        IsExplicit: true,
+        ExplicitInterface: ICollection,
+        ExplicitInterfaceReflectionInfo: ICollection.get_Count()
+      },
+      Name: Count,
+      ReflectionInfo: Array.System.Collections.ICollection.Count,
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: false,
+      IsExplicit: true,
+      ExplicitInterface: ICollection,
+      ExplicitInterfaceReflectionInfo: ICollection.Count
+    }
+  ],
+  ExplicitMethodDetails: [
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: int,
+      Name: Add,
+      ReflectionInfo: Array.System.Collections.IList.Add(object value),
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.Add(object value)
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      Name: Contains,
+      ReflectionInfo: Array.System.Collections.IList.Contains(object value),
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.Contains(object value)
+    },
+    {
+      ReturnType: Void,
+      Name: Clear,
+      ReflectionInfo: Array.System.Collections.IList.Clear(),
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.Clear()
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: int,
+      Name: IndexOf,
+      ReflectionInfo: Array.System.Collections.IList.IndexOf(object value),
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.IndexOf(object value)
+    },
+    {
+      ArgumentTypes: [
+        int,
+        object
+      ],
+      ReturnType: Void,
+      Name: Insert,
+      ReflectionInfo: Array.System.Collections.IList.Insert(int index, object value),
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.Insert(int index, object value)
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: Void,
+      Name: Remove,
+      ReflectionInfo: Array.System.Collections.IList.Remove(object value),
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.Remove(object value)
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: Void,
+      Name: RemoveAt,
+      ReflectionInfo: Array.System.Collections.IList.RemoveAt(int index),
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IList,
+      ExplicitInterfaceReflectionInfo: IList.RemoveAt(int index)
+    },
+    {
+      ArgumentTypes: [
+        object,
+        IComparer
+      ],
+      ReturnType: int,
+      Name: CompareTo,
+      ReflectionInfo: Array.System.Collections.IStructuralComparable.CompareTo(object other, IComparer comparer),
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IStructuralComparable,
+      ExplicitInterfaceReflectionInfo: IStructuralComparable.CompareTo(object other, IComparer comparer)
+    },
+    {
+      ArgumentTypes: [
+        object,
+        IEqualityComparer
+      ],
+      ReturnType: bool,
+      Name: Equals,
+      ReflectionInfo: Array.System.Collections.IStructuralEquatable.Equals(object other, IEqualityComparer comparer),
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IStructuralEquatable,
+      ExplicitInterfaceReflectionInfo: IStructuralEquatable.Equals(object other, IEqualityComparer comparer)
+    },
+    {
+      ArgumentTypes: [
+        IEqualityComparer
+      ],
+      ReturnType: int,
+      Name: GetHashCode,
+      ReflectionInfo: Array.System.Collections.IStructuralEquatable.GetHashCode(IEqualityComparer comparer),
+      IsInherited: true,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IStructuralEquatable,
+      ExplicitInterfaceReflectionInfo: IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
+    }
+  ]
+}

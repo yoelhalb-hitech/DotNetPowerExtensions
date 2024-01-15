@@ -1,0 +1,2871 @@
+﻿{
+  Type: Type,
+  PropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsInterface,
+        ReflectionInfo: Type.get_IsInterface(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsInterface,
+      ReflectionInfo: Type.IsInterface,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: MemberTypes,
+        OverridenMethod: {
+          ReturnType: MemberTypes,
+          Name: get_MemberType,
+          ReflectionInfo: MemberInfo.get_MemberType(),
+          IsInherited: false,
+          InReflectionForCurrentType: true,
+          IsExplicit: false
+        },
+        Name: get_MemberType,
+        ReflectionInfo: Type.get_MemberType(),
+        IsInherited: false,
+        DeclarationType: Override,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      OverridenProperty: {
+        MemberDetailType: Property,
+        GetMethod: {
+          ReturnType: MemberTypes,
+          Name: get_MemberType,
+          ReflectionInfo: MemberInfo.get_MemberType(),
+          IsInherited: false,
+          InReflectionForCurrentType: true,
+          IsExplicit: false
+        },
+        Name: MemberType,
+        ReflectionInfo: MemberInfo.MemberType,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: MemberType,
+      ReflectionInfo: Type.MemberType,
+      IsInherited: false,
+      DeclarationType: Override,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: string,
+        Name: get_Namespace,
+        ReflectionInfo: Type.get_Namespace(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Namespace,
+      ReflectionInfo: Type.Namespace,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: string,
+        Name: get_AssemblyQualifiedName,
+        ReflectionInfo: Type.get_AssemblyQualifiedName(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: AssemblyQualifiedName,
+      ReflectionInfo: Type.AssemblyQualifiedName,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: string,
+        Name: get_FullName,
+        ReflectionInfo: Type.get_FullName(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: FullName,
+      ReflectionInfo: Type.FullName,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Assembly,
+        Name: get_Assembly,
+        ReflectionInfo: Type.get_Assembly(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Assembly,
+      ReflectionInfo: Type.Assembly,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Module,
+        Name: get_Module,
+        ReflectionInfo: Type.get_Module(),
+        IsInherited: false,
+        DeclarationType: Shadow,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Module,
+      ReflectionInfo: Type.Module,
+      IsInherited: false,
+      DeclarationType: Shadow,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsNested,
+        ReflectionInfo: Type.get_IsNested(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsNested,
+      ReflectionInfo: Type.IsNested,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Type,
+        OverridenMethod: {
+          ReturnType: Type,
+          Name: get_DeclaringType,
+          ReflectionInfo: MemberInfo.get_DeclaringType(),
+          IsInherited: false,
+          InReflectionForCurrentType: true,
+          IsExplicit: false
+        },
+        Name: get_DeclaringType,
+        ReflectionInfo: Type.get_DeclaringType(),
+        IsInherited: false,
+        DeclarationType: Override,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      OverridenProperty: {
+        MemberDetailType: Property,
+        GetMethod: {
+          ReturnType: Type,
+          Name: get_DeclaringType,
+          ReflectionInfo: MemberInfo.get_DeclaringType(),
+          IsInherited: false,
+          InReflectionForCurrentType: true,
+          IsExplicit: false
+        },
+        Name: DeclaringType,
+        ReflectionInfo: MemberInfo.DeclaringType,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: DeclaringType,
+      ReflectionInfo: Type.DeclaringType,
+      IsInherited: false,
+      DeclarationType: Override,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: MethodBase,
+        Name: get_DeclaringMethod,
+        ReflectionInfo: Type.get_DeclaringMethod(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: DeclaringMethod,
+      ReflectionInfo: Type.DeclaringMethod,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Type,
+        OverridenMethod: {
+          ReturnType: Type,
+          Name: get_ReflectedType,
+          ReflectionInfo: MemberInfo.get_ReflectedType(),
+          IsInherited: false,
+          InReflectionForCurrentType: true,
+          IsExplicit: false
+        },
+        Name: get_ReflectedType,
+        ReflectionInfo: Type.get_ReflectedType(),
+        IsInherited: false,
+        DeclarationType: Override,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      OverridenProperty: {
+        MemberDetailType: Property,
+        GetMethod: {
+          ReturnType: Type,
+          Name: get_ReflectedType,
+          ReflectionInfo: MemberInfo.get_ReflectedType(),
+          IsInherited: false,
+          InReflectionForCurrentType: true,
+          IsExplicit: false
+        },
+        Name: ReflectedType,
+        ReflectionInfo: MemberInfo.ReflectedType,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: ReflectedType,
+      ReflectionInfo: Type.ReflectedType,
+      IsInherited: false,
+      DeclarationType: Override,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Type,
+        Name: get_UnderlyingSystemType,
+        ReflectionInfo: Type.get_UnderlyingSystemType(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: UnderlyingSystemType,
+      ReflectionInfo: Type.UnderlyingSystemType,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsTypeDefinition,
+        ReflectionInfo: Type.get_IsTypeDefinition(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsTypeDefinition,
+      ReflectionInfo: Type.IsTypeDefinition,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsArray,
+        ReflectionInfo: Type.get_IsArray(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsArray,
+      ReflectionInfo: Type.IsArray,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsByRef,
+        ReflectionInfo: Type.get_IsByRef(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsByRef,
+      ReflectionInfo: Type.IsByRef,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsPointer,
+        ReflectionInfo: Type.get_IsPointer(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsPointer,
+      ReflectionInfo: Type.IsPointer,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsConstructedGenericType,
+        ReflectionInfo: Type.get_IsConstructedGenericType(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsConstructedGenericType,
+      ReflectionInfo: Type.IsConstructedGenericType,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsGenericParameter,
+        ReflectionInfo: Type.get_IsGenericParameter(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsGenericParameter,
+      ReflectionInfo: Type.IsGenericParameter,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsGenericTypeParameter,
+        ReflectionInfo: Type.get_IsGenericTypeParameter(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsGenericTypeParameter,
+      ReflectionInfo: Type.IsGenericTypeParameter,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsGenericMethodParameter,
+        ReflectionInfo: Type.get_IsGenericMethodParameter(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsGenericMethodParameter,
+      ReflectionInfo: Type.IsGenericMethodParameter,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsGenericType,
+        ReflectionInfo: Type.get_IsGenericType(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsGenericType,
+      ReflectionInfo: Type.IsGenericType,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsGenericTypeDefinition,
+        ReflectionInfo: Type.get_IsGenericTypeDefinition(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsGenericTypeDefinition,
+      ReflectionInfo: Type.IsGenericTypeDefinition,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsSZArray,
+        ReflectionInfo: Type.get_IsSZArray(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsSZArray,
+      ReflectionInfo: Type.IsSZArray,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsVariableBoundArray,
+        ReflectionInfo: Type.get_IsVariableBoundArray(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsVariableBoundArray,
+      ReflectionInfo: Type.IsVariableBoundArray,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsByRefLike,
+        ReflectionInfo: Type.get_IsByRefLike(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsByRefLike,
+      ReflectionInfo: Type.IsByRefLike,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_HasElementType,
+        ReflectionInfo: Type.get_HasElementType(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: HasElementType,
+      ReflectionInfo: Type.HasElementType,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Type[],
+        Name: get_GenericTypeArguments,
+        ReflectionInfo: Type.get_GenericTypeArguments(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: GenericTypeArguments,
+      ReflectionInfo: Type.GenericTypeArguments,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: int,
+        Name: get_GenericParameterPosition,
+        ReflectionInfo: Type.get_GenericParameterPosition(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: GenericParameterPosition,
+      ReflectionInfo: Type.GenericParameterPosition,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: GenericParameterAttributes,
+        Name: get_GenericParameterAttributes,
+        ReflectionInfo: Type.get_GenericParameterAttributes(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: GenericParameterAttributes,
+      ReflectionInfo: Type.GenericParameterAttributes,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: TypeAttributes,
+        Name: get_Attributes,
+        ReflectionInfo: Type.get_Attributes(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Attributes,
+      ReflectionInfo: Type.Attributes,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsAbstract,
+        ReflectionInfo: Type.get_IsAbstract(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsAbstract,
+      ReflectionInfo: Type.IsAbstract,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsImport,
+        ReflectionInfo: Type.get_IsImport(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsImport,
+      ReflectionInfo: Type.IsImport,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsSealed,
+        ReflectionInfo: Type.get_IsSealed(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsSealed,
+      ReflectionInfo: Type.IsSealed,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsSpecialName,
+        ReflectionInfo: Type.get_IsSpecialName(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsSpecialName,
+      ReflectionInfo: Type.IsSpecialName,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsClass,
+        ReflectionInfo: Type.get_IsClass(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsClass,
+      ReflectionInfo: Type.IsClass,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsNestedAssembly,
+        ReflectionInfo: Type.get_IsNestedAssembly(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsNestedAssembly,
+      ReflectionInfo: Type.IsNestedAssembly,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsNestedFamANDAssem,
+        ReflectionInfo: Type.get_IsNestedFamANDAssem(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsNestedFamANDAssem,
+      ReflectionInfo: Type.IsNestedFamANDAssem,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsNestedFamily,
+        ReflectionInfo: Type.get_IsNestedFamily(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsNestedFamily,
+      ReflectionInfo: Type.IsNestedFamily,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsNestedFamORAssem,
+        ReflectionInfo: Type.get_IsNestedFamORAssem(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsNestedFamORAssem,
+      ReflectionInfo: Type.IsNestedFamORAssem,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsNestedPrivate,
+        ReflectionInfo: Type.get_IsNestedPrivate(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsNestedPrivate,
+      ReflectionInfo: Type.IsNestedPrivate,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsNestedPublic,
+        ReflectionInfo: Type.get_IsNestedPublic(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsNestedPublic,
+      ReflectionInfo: Type.IsNestedPublic,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsNotPublic,
+        ReflectionInfo: Type.get_IsNotPublic(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsNotPublic,
+      ReflectionInfo: Type.IsNotPublic,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsPublic,
+        ReflectionInfo: Type.get_IsPublic(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsPublic,
+      ReflectionInfo: Type.IsPublic,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsAutoLayout,
+        ReflectionInfo: Type.get_IsAutoLayout(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsAutoLayout,
+      ReflectionInfo: Type.IsAutoLayout,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsExplicitLayout,
+        ReflectionInfo: Type.get_IsExplicitLayout(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsExplicitLayout,
+      ReflectionInfo: Type.IsExplicitLayout,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsLayoutSequential,
+        ReflectionInfo: Type.get_IsLayoutSequential(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsLayoutSequential,
+      ReflectionInfo: Type.IsLayoutSequential,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsAnsiClass,
+        ReflectionInfo: Type.get_IsAnsiClass(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsAnsiClass,
+      ReflectionInfo: Type.IsAnsiClass,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsAutoClass,
+        ReflectionInfo: Type.get_IsAutoClass(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsAutoClass,
+      ReflectionInfo: Type.IsAutoClass,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsUnicodeClass,
+        ReflectionInfo: Type.get_IsUnicodeClass(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsUnicodeClass,
+      ReflectionInfo: Type.IsUnicodeClass,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsCOMObject,
+        ReflectionInfo: Type.get_IsCOMObject(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsCOMObject,
+      ReflectionInfo: Type.IsCOMObject,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsContextful,
+        ReflectionInfo: Type.get_IsContextful(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsContextful,
+      ReflectionInfo: Type.IsContextful,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsEnum,
+        ReflectionInfo: Type.get_IsEnum(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsEnum,
+      ReflectionInfo: Type.IsEnum,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsMarshalByRef,
+        ReflectionInfo: Type.get_IsMarshalByRef(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsMarshalByRef,
+      ReflectionInfo: Type.IsMarshalByRef,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsPrimitive,
+        ReflectionInfo: Type.get_IsPrimitive(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsPrimitive,
+      ReflectionInfo: Type.IsPrimitive,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsValueType,
+        ReflectionInfo: Type.get_IsValueType(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsValueType,
+      ReflectionInfo: Type.IsValueType,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsSignatureType,
+        ReflectionInfo: Type.get_IsSignatureType(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsSignatureType,
+      ReflectionInfo: Type.IsSignatureType,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsSecurityCritical,
+        ReflectionInfo: Type.get_IsSecurityCritical(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsSecurityCritical,
+      ReflectionInfo: Type.IsSecurityCritical,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsSecuritySafeCritical,
+        ReflectionInfo: Type.get_IsSecuritySafeCritical(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsSecuritySafeCritical,
+      ReflectionInfo: Type.IsSecuritySafeCritical,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsSecurityTransparent,
+        ReflectionInfo: Type.get_IsSecurityTransparent(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsSecurityTransparent,
+      ReflectionInfo: Type.IsSecurityTransparent,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: StructLayoutAttribute,
+        Name: get_StructLayoutAttribute,
+        ReflectionInfo: Type.get_StructLayoutAttribute(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: StructLayoutAttribute,
+      ReflectionInfo: Type.StructLayoutAttribute,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: ConstructorInfo,
+        Name: get_TypeInitializer,
+        ReflectionInfo: Type.get_TypeInitializer(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: TypeInitializer,
+      ReflectionInfo: Type.TypeInitializer,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: RuntimeTypeHandle,
+        Name: get_TypeHandle,
+        ReflectionInfo: Type.get_TypeHandle(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: TypeHandle,
+      ReflectionInfo: Type.TypeHandle,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Guid,
+        Name: get_GUID,
+        ReflectionInfo: Type.get_GUID(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: GUID,
+      ReflectionInfo: Type.GUID,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Type,
+        Name: get_BaseType,
+        ReflectionInfo: Type.get_BaseType(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: BaseType,
+      ReflectionInfo: Type.BaseType,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Binder,
+        Name: get_DefaultBinder,
+        ReflectionInfo: Type.get_DefaultBinder(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: DefaultBinder,
+      ReflectionInfo: Type.DefaultBinder,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsSerializable,
+        ReflectionInfo: Type.get_IsSerializable(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsSerializable,
+      ReflectionInfo: Type.IsSerializable,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_ContainsGenericParameters,
+        ReflectionInfo: Type.get_ContainsGenericParameters(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: ContainsGenericParameters,
+      ReflectionInfo: Type.ContainsGenericParameters,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsVisible,
+        ReflectionInfo: Type.get_IsVisible(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsVisible,
+      ReflectionInfo: Type.IsVisible,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: string,
+        Name: get_Name,
+        ReflectionInfo: MemberInfo.get_Name(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Name,
+      ReflectionInfo: MemberInfo.Name,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: IEnumerable<CustomAttributeData>,
+        Name: get_CustomAttributes,
+        ReflectionInfo: MemberInfo.get_CustomAttributes(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: CustomAttributes,
+      ReflectionInfo: MemberInfo.CustomAttributes,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsCollectible,
+        ReflectionInfo: MemberInfo.get_IsCollectible(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: IsCollectible,
+      ReflectionInfo: MemberInfo.IsCollectible,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: int,
+        Name: get_MetadataToken,
+        ReflectionInfo: MemberInfo.get_MetadataToken(),
+        IsInherited: true,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: MetadataToken,
+      ReflectionInfo: MemberInfo.MetadataToken,
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  MethodDetails: [
+    {
+      ArgumentTypes: [
+        string,
+        bool,
+        bool
+      ],
+      ReturnType: Type,
+      Name: GetType,
+      ReflectionInfo: Type.GetType(string typeName, bool throwOnError, bool ignoreCase),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        bool
+      ],
+      ReturnType: Type,
+      Name: GetType,
+      ReflectionInfo: Type.GetType(string typeName, bool throwOnError),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: Type,
+      Name: GetType,
+      ReflectionInfo: Type.GetType(string typeName),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        Func<AssemblyName, Assembly>,
+        Func<Assembly, string, bool, Type>
+      ],
+      ReturnType: Type,
+      Name: GetType,
+      ReflectionInfo: Type.GetType(string typeName, Func<AssemblyName, Assembly> assemblyResolver, Func<Assembly, string, bool, Type> typeResolver),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        Func<AssemblyName, Assembly>,
+        Func<Assembly, string, bool, Type>,
+        bool
+      ],
+      ReturnType: Type,
+      Name: GetType,
+      ReflectionInfo: Type.GetType(string typeName, Func<AssemblyName, Assembly> assemblyResolver, Func<Assembly, string, bool, Type> typeResolver, bool throwOnError),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        Func<AssemblyName, Assembly>,
+        Func<Assembly, string, bool, Type>,
+        bool,
+        bool
+      ],
+      ReturnType: Type,
+      Name: GetType,
+      ReflectionInfo: Type.GetType(string typeName, Func<AssemblyName, Assembly> assemblyResolver, Func<Assembly, string, bool, Type> typeResolver, bool throwOnError, bool ignoreCase),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        nint
+      ],
+      ReturnType: RuntimeType,
+      Name: GetTypeFromHandleUnsafe,
+      ReflectionInfo: Type.GetTypeFromHandleUnsafe(nint handle),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        RuntimeTypeHandle
+      ],
+      ReturnType: Type,
+      Name: GetTypeFromHandle,
+      ReflectionInfo: Type.GetTypeFromHandle(RuntimeTypeHandle handle),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type,
+      Name: GetType,
+      ReflectionInfo: Type.GetType(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: bool,
+      Name: IsArrayImpl,
+      ReflectionInfo: Type.IsArrayImpl(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: bool,
+      Name: IsByRefImpl,
+      ReflectionInfo: Type.IsByRefImpl(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: bool,
+      Name: IsPointerImpl,
+      ReflectionInfo: Type.IsPointerImpl(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: bool,
+      Name: HasElementTypeImpl,
+      ReflectionInfo: Type.HasElementTypeImpl(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type,
+      Name: GetElementType,
+      ReflectionInfo: Type.GetElementType(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: int,
+      Name: GetArrayRank,
+      ReflectionInfo: Type.GetArrayRank(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type,
+      Name: GetGenericTypeDefinition,
+      ReflectionInfo: Type.GetGenericTypeDefinition(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type[],
+      Name: GetGenericArguments,
+      ReflectionInfo: Type.GetGenericArguments(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type[],
+      Name: GetGenericParameterConstraints,
+      ReflectionInfo: Type.GetGenericParameterConstraints(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: TypeAttributes,
+      Name: GetAttributeFlagsImpl,
+      ReflectionInfo: Type.GetAttributeFlagsImpl(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: bool,
+      Name: IsCOMObjectImpl,
+      ReflectionInfo: Type.IsCOMObjectImpl(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: bool,
+      Name: IsContextfulImpl,
+      ReflectionInfo: Type.IsContextfulImpl(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: bool,
+      Name: IsMarshalByRefImpl,
+      ReflectionInfo: Type.IsMarshalByRefImpl(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: bool,
+      Name: IsPrimitiveImpl,
+      ReflectionInfo: Type.IsPrimitiveImpl(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: bool,
+      Name: IsValueTypeImpl,
+      ReflectionInfo: Type.IsValueTypeImpl(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type
+      ],
+      ReturnType: bool,
+      Name: IsAssignableTo,
+      ReflectionInfo: Type.IsAssignableTo(Type targetType),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type[]
+      ],
+      ReturnType: ConstructorInfo,
+      Name: GetConstructor,
+      ReflectionInfo: Type.GetConstructor(Type[] types),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        BindingFlags,
+        Type[]
+      ],
+      ReturnType: ConstructorInfo,
+      Name: GetConstructor,
+      ReflectionInfo: Type.GetConstructor(BindingFlags bindingAttr, Type[] types),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        BindingFlags,
+        Binder,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: ConstructorInfo,
+      Name: GetConstructor,
+      ReflectionInfo: Type.GetConstructor(BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        BindingFlags,
+        Binder,
+        CallingConventions,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: ConstructorInfo,
+      Name: GetConstructor,
+      ReflectionInfo: Type.GetConstructor(BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        BindingFlags,
+        Binder,
+        CallingConventions,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: ConstructorInfo,
+      Name: GetConstructorImpl,
+      ReflectionInfo: Type.GetConstructorImpl(BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: ConstructorInfo[],
+      Name: GetConstructors,
+      ReflectionInfo: Type.GetConstructors(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        BindingFlags
+      ],
+      ReturnType: ConstructorInfo[],
+      Name: GetConstructors,
+      ReflectionInfo: Type.GetConstructors(BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: EventInfo,
+      Name: GetEvent,
+      ReflectionInfo: Type.GetEvent(string name),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags
+      ],
+      ReturnType: EventInfo,
+      Name: GetEvent,
+      ReflectionInfo: Type.GetEvent(string name, BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: EventInfo[],
+      Name: GetEvents,
+      ReflectionInfo: Type.GetEvents(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        BindingFlags
+      ],
+      ReturnType: EventInfo[],
+      Name: GetEvents,
+      ReflectionInfo: Type.GetEvents(BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: FieldInfo,
+      Name: GetField,
+      ReflectionInfo: Type.GetField(string name),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags
+      ],
+      ReturnType: FieldInfo,
+      Name: GetField,
+      ReflectionInfo: Type.GetField(string name, BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: FieldInfo[],
+      Name: GetFields,
+      ReflectionInfo: Type.GetFields(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        BindingFlags
+      ],
+      ReturnType: FieldInfo[],
+      Name: GetFields,
+      ReflectionInfo: Type.GetFields(BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: MemberInfo[],
+      Name: GetMember,
+      ReflectionInfo: Type.GetMember(string name),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags
+      ],
+      ReturnType: MemberInfo[],
+      Name: GetMember,
+      ReflectionInfo: Type.GetMember(string name, BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        MemberTypes,
+        BindingFlags
+      ],
+      ReturnType: MemberInfo[],
+      Name: GetMember,
+      ReflectionInfo: Type.GetMember(string name, MemberTypes type, BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: MemberInfo[],
+      Name: GetMembers,
+      ReflectionInfo: Type.GetMembers(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        MemberInfo
+      ],
+      ReturnType: MemberInfo,
+      Name: GetMemberWithSameMetadataDefinitionAs,
+      ReflectionInfo: Type.GetMemberWithSameMetadataDefinitionAs(MemberInfo member),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        MemberInfo
+      ],
+      ReturnType: ArgumentException,
+      Name: CreateGetMemberWithSameMetadataDefinitionAsNotFoundException,
+      ReflectionInfo: Type.CreateGetMemberWithSameMetadataDefinitionAsNotFoundException(MemberInfo member),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        BindingFlags
+      ],
+      ReturnType: MemberInfo[],
+      Name: GetMembers,
+      ReflectionInfo: Type.GetMembers(BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethod,
+      ReflectionInfo: Type.GetMethod(string name),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethod,
+      ReflectionInfo: Type.GetMethod(string name, BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags,
+        Type[]
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethod,
+      ReflectionInfo: Type.GetMethod(string name, BindingFlags bindingAttr, Type[] types),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        Type[]
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethod,
+      ReflectionInfo: Type.GetMethod(string name, Type[] types),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethod,
+      ReflectionInfo: Type.GetMethod(string name, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags,
+        Binder,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethod,
+      ReflectionInfo: Type.GetMethod(string name, BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags,
+        Binder,
+        CallingConventions,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethod,
+      ReflectionInfo: Type.GetMethod(string name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags,
+        Binder,
+        CallingConventions,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethodImpl,
+      ReflectionInfo: Type.GetMethodImpl(string name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        int,
+        Type[]
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethod,
+      ReflectionInfo: Type.GetMethod(string name, int genericParameterCount, Type[] types),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        int,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethod,
+      ReflectionInfo: Type.GetMethod(string name, int genericParameterCount, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        int,
+        BindingFlags,
+        Binder,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethod,
+      ReflectionInfo: Type.GetMethod(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        int,
+        BindingFlags,
+        Binder,
+        CallingConventions,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethod,
+      ReflectionInfo: Type.GetMethod(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        int,
+        BindingFlags,
+        Binder,
+        CallingConventions,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: MethodInfo,
+      Name: GetMethodImpl,
+      ReflectionInfo: Type.GetMethodImpl(string name, int genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: MethodInfo[],
+      Name: GetMethods,
+      ReflectionInfo: Type.GetMethods(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        BindingFlags
+      ],
+      ReturnType: MethodInfo[],
+      Name: GetMethods,
+      ReflectionInfo: Type.GetMethods(BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: Type,
+      Name: GetNestedType,
+      ReflectionInfo: Type.GetNestedType(string name),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags
+      ],
+      ReturnType: Type,
+      Name: GetNestedType,
+      ReflectionInfo: Type.GetNestedType(string name, BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type[],
+      Name: GetNestedTypes,
+      ReflectionInfo: Type.GetNestedTypes(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        BindingFlags
+      ],
+      ReturnType: Type[],
+      Name: GetNestedTypes,
+      ReflectionInfo: Type.GetNestedTypes(BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: PropertyInfo,
+      Name: GetProperty,
+      ReflectionInfo: Type.GetProperty(string name),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags
+      ],
+      ReturnType: PropertyInfo,
+      Name: GetProperty,
+      ReflectionInfo: Type.GetProperty(string name, BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        Type
+      ],
+      ReturnType: PropertyInfo,
+      Name: GetProperty,
+      ReflectionInfo: Type.GetProperty(string name, Type returnType),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        Type[]
+      ],
+      ReturnType: PropertyInfo,
+      Name: GetProperty,
+      ReflectionInfo: Type.GetProperty(string name, Type[] types),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        Type,
+        Type[]
+      ],
+      ReturnType: PropertyInfo,
+      Name: GetProperty,
+      ReflectionInfo: Type.GetProperty(string name, Type returnType, Type[] types),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        Type,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: PropertyInfo,
+      Name: GetProperty,
+      ReflectionInfo: Type.GetProperty(string name, Type returnType, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags,
+        Binder,
+        Type,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: PropertyInfo,
+      Name: GetProperty,
+      ReflectionInfo: Type.GetProperty(string name, BindingFlags bindingAttr, Binder binder, Type returnType, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags,
+        Binder,
+        Type,
+        Type[],
+        ParameterModifier[]
+      ],
+      ReturnType: PropertyInfo,
+      Name: GetPropertyImpl,
+      ReflectionInfo: Type.GetPropertyImpl(string name, BindingFlags bindingAttr, Binder binder, Type returnType, Type[] types, ParameterModifier[] modifiers),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: PropertyInfo[],
+      Name: GetProperties,
+      ReflectionInfo: Type.GetProperties(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        BindingFlags
+      ],
+      ReturnType: PropertyInfo[],
+      Name: GetProperties,
+      ReflectionInfo: Type.GetProperties(BindingFlags bindingAttr),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: MemberInfo[],
+      Name: GetDefaultMembers,
+      ReflectionInfo: Type.GetDefaultMembers(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: RuntimeTypeHandle,
+      Name: GetTypeHandle,
+      ReflectionInfo: Type.GetTypeHandle(object o),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object[]
+      ],
+      ReturnType: Type[],
+      Name: GetTypeArray,
+      ReflectionInfo: Type.GetTypeArray(object[] args),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type
+      ],
+      ReturnType: TypeCode,
+      Name: GetTypeCode,
+      ReflectionInfo: Type.GetTypeCode(Type type),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: TypeCode,
+      Name: GetTypeCodeImpl,
+      ReflectionInfo: Type.GetTypeCodeImpl(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Guid
+      ],
+      ReturnType: Type,
+      Name: GetTypeFromCLSID,
+      ReflectionInfo: Type.GetTypeFromCLSID(Guid clsid),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Guid,
+        bool
+      ],
+      ReturnType: Type,
+      Name: GetTypeFromCLSID,
+      ReflectionInfo: Type.GetTypeFromCLSID(Guid clsid, bool throwOnError),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Guid,
+        string
+      ],
+      ReturnType: Type,
+      Name: GetTypeFromCLSID,
+      ReflectionInfo: Type.GetTypeFromCLSID(Guid clsid, string server),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Guid,
+        string,
+        bool
+      ],
+      ReturnType: Type,
+      Name: GetTypeFromCLSID,
+      ReflectionInfo: Type.GetTypeFromCLSID(Guid clsid, string server, bool throwOnError),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: Type,
+      Name: GetTypeFromProgID,
+      ReflectionInfo: Type.GetTypeFromProgID(string progID),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        bool
+      ],
+      ReturnType: Type,
+      Name: GetTypeFromProgID,
+      ReflectionInfo: Type.GetTypeFromProgID(string progID, bool throwOnError),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        string
+      ],
+      ReturnType: Type,
+      Name: GetTypeFromProgID,
+      ReflectionInfo: Type.GetTypeFromProgID(string progID, string server),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        string,
+        bool
+      ],
+      ReturnType: Type,
+      Name: GetTypeFromProgID,
+      ReflectionInfo: Type.GetTypeFromProgID(string progID, string server, bool throwOnError),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags,
+        Binder,
+        object,
+        object[]
+      ],
+      ReturnType: object,
+      Name: InvokeMember,
+      ReflectionInfo: Type.InvokeMember(string name, BindingFlags invokeAttr, Binder binder, object target, object[] args),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags,
+        Binder,
+        object,
+        object[],
+        CultureInfo
+      ],
+      ReturnType: object,
+      Name: InvokeMember,
+      ReflectionInfo: Type.InvokeMember(string name, BindingFlags invokeAttr, Binder binder, object target, object[] args, CultureInfo culture),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        BindingFlags,
+        Binder,
+        object,
+        object[],
+        ParameterModifier[],
+        CultureInfo,
+        string[]
+      ],
+      ReturnType: object,
+      Name: InvokeMember,
+      ReflectionInfo: Type.InvokeMember(string name, BindingFlags invokeAttr, Binder binder, object target, object[] args, ParameterModifier[] modifiers, CultureInfo culture, string[] namedParameters),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string
+      ],
+      ReturnType: Type,
+      Name: GetInterface,
+      ReflectionInfo: Type.GetInterface(string name),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        bool
+      ],
+      ReturnType: Type,
+      Name: GetInterface,
+      ReflectionInfo: Type.GetInterface(string name, bool ignoreCase),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type[],
+      Name: GetInterfaces,
+      ReflectionInfo: Type.GetInterfaces(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type
+      ],
+      ReturnType: InterfaceMapping,
+      Name: GetInterfaceMap,
+      ReflectionInfo: Type.GetInterfaceMap(Type interfaceType),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      Name: IsInstanceOfType,
+      ReflectionInfo: Type.IsInstanceOfType(object o),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type
+      ],
+      ReturnType: bool,
+      Name: IsEquivalentTo,
+      ReflectionInfo: Type.IsEquivalentTo(Type other),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type,
+      Name: GetEnumUnderlyingType,
+      ReflectionInfo: Type.GetEnumUnderlyingType(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Array,
+      Name: GetEnumValues,
+      ReflectionInfo: Type.GetEnumValues(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Array,
+      Name: GetEnumValuesAsUnderlyingType,
+      ReflectionInfo: Type.GetEnumValuesAsUnderlyingType(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type,
+      Name: MakeArrayType,
+      ReflectionInfo: Type.MakeArrayType(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: Type,
+      Name: MakeArrayType,
+      ReflectionInfo: Type.MakeArrayType(int rank),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type,
+      Name: MakeByRefType,
+      ReflectionInfo: Type.MakeByRefType(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type[]
+      ],
+      ReturnType: Type,
+      Name: MakeGenericType,
+      ReflectionInfo: Type.MakeGenericType(Type[] typeArguments),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type,
+      Name: MakePointerType,
+      ReflectionInfo: Type.MakePointerType(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type,
+        Type[]
+      ],
+      ReturnType: Type,
+      Name: MakeGenericSignatureType,
+      ReflectionInfo: Type.MakeGenericSignatureType(Type genericTypeDefinition, Type[] typeArguments),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: Type,
+      Name: MakeGenericMethodParameter,
+      ReflectionInfo: Type.MakeGenericMethodParameter(int position),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: string,
+      Name: FormatTypeName,
+      ReflectionInfo: Type.FormatTypeName(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: string,
+      Name: ToString,
+      ReflectionInfo: Type.ToString(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      OverridenMethod: {
+        ArgumentTypes: [
+          object
+        ],
+        ReturnType: bool,
+        Name: Equals,
+        ReflectionInfo: MemberInfo.Equals(object obj),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Equals,
+      ReflectionInfo: Type.Equals(object o),
+      IsInherited: false,
+      DeclarationType: Override,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: int,
+      OverridenMethod: {
+        ReturnType: int,
+        Name: GetHashCode,
+        ReflectionInfo: MemberInfo.GetHashCode(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: GetHashCode,
+      ReflectionInfo: Type.GetHashCode(),
+      IsInherited: false,
+      DeclarationType: Override,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type
+      ],
+      ReturnType: bool,
+      Name: Equals,
+      ReflectionInfo: Type.Equals(Type o),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type,
+        Type
+      ],
+      ReturnType: bool,
+      Name: op_Equality,
+      ReflectionInfo: Type.op_Equality(Type left, Type right),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type,
+        Type
+      ],
+      ReturnType: bool,
+      Name: op_Inequality,
+      ReflectionInfo: Type.op_Inequality(Type left, Type right),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        string,
+        bool,
+        bool
+      ],
+      ReturnType: Type,
+      Name: ReflectionOnlyGetType,
+      ReflectionInfo: Type.ReflectionOnlyGetType(string typeName, bool throwIfNotFound, bool ignoreCase),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      Name: IsEnumDefined,
+      ReflectionInfo: Type.IsEnumDefined(object value),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: string,
+      Name: GetEnumName,
+      ReflectionInfo: Type.GetEnumName(object value),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: string[],
+      Name: GetEnumNames,
+      ReflectionInfo: Type.GetEnumNames(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Array,
+      Name: GetEnumRawConstantValues,
+      ReflectionInfo: Type.GetEnumRawConstantValues(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        String[]&,
+        Array&
+      ],
+      ReturnType: Void,
+      Name: GetEnumData,
+      ReflectionInfo: Type.GetEnumData(String[]& enumNames, Array& enumValues),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Array,
+        object
+      ],
+      ReturnType: int,
+      Name: BinarySearch,
+      ReflectionInfo: Type.BinarySearch(Array array, object value),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type
+      ],
+      ReturnType: bool,
+      Name: IsIntegerType,
+      ReflectionInfo: Type.IsIntegerType(Type t),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Type,
+      Name: GetRootElementType,
+      ReflectionInfo: Type.GetRootElementType(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        TypeFilter,
+        object
+      ],
+      ReturnType: Type[],
+      Name: FindInterfaces,
+      ReflectionInfo: Type.FindInterfaces(TypeFilter filter, object filterCriteria),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        MemberTypes,
+        BindingFlags,
+        MemberFilter,
+        object
+      ],
+      ReturnType: MemberInfo[],
+      Name: FindMembers,
+      ReflectionInfo: Type.FindMembers(MemberTypes memberType, BindingFlags bindingAttr, MemberFilter filter, object filterCriteria),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type
+      ],
+      ReturnType: bool,
+      Name: IsSubclassOf,
+      ReflectionInfo: Type.IsSubclassOf(Type c),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type
+      ],
+      ReturnType: bool,
+      Name: IsAssignableFrom,
+      ReflectionInfo: Type.IsAssignableFrom(Type c),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type
+      ],
+      ReturnType: bool,
+      Name: ImplementInterface,
+      ReflectionInfo: Type.ImplementInterface(Type ifaceType),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        MemberInfo,
+        object
+      ],
+      ReturnType: bool,
+      Name: FilterAttributeImpl,
+      ReflectionInfo: Type.FilterAttributeImpl(MemberInfo m, object filterCriteria),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        MemberInfo,
+        object,
+        StringComparison
+      ],
+      ReturnType: bool,
+      Name: FilterNameImpl,
+      ReflectionInfo: Type.FilterNameImpl(MemberInfo m, object filterCriteria, StringComparison comparison),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      Name: CacheEquals,
+      ReflectionInfo: MemberInfo.CacheEquals(object o),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        MemberInfo
+      ],
+      ReturnType: bool,
+      GenericArguments: [
+        TOther
+      ],
+      Name: HasSameMetadataDefinitionAsCore,
+      ReflectionInfo: MemberInfo.HasSameMetadataDefinitionAsCore(MemberInfo other),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        MemberInfo
+      ],
+      ReturnType: bool,
+      Name: HasSameMetadataDefinitionAs,
+      ReflectionInfo: MemberInfo.HasSameMetadataDefinitionAs(MemberInfo other),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type,
+        bool
+      ],
+      ReturnType: bool,
+      Name: IsDefined,
+      ReflectionInfo: MemberInfo.IsDefined(Type attributeType, bool inherit),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        bool
+      ],
+      ReturnType: object[],
+      Name: GetCustomAttributes,
+      ReflectionInfo: MemberInfo.GetCustomAttributes(bool inherit),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Type,
+        bool
+      ],
+      ReturnType: object[],
+      Name: GetCustomAttributes,
+      ReflectionInfo: MemberInfo.GetCustomAttributes(Type attributeType, bool inherit),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: IList<CustomAttributeData>,
+      Name: GetCustomAttributesData,
+      ReflectionInfo: MemberInfo.GetCustomAttributesData(),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  FieldDetails: [
+    {
+      Name: s_defaultBinder,
+      ReflectionInfo: Type.s_defaultBinder,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: Delimiter,
+      ReflectionInfo: Type.Delimiter,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: EmptyTypes,
+      ReflectionInfo: Type.EmptyTypes,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: Missing,
+      ReflectionInfo: Type.Missing,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: FilterAttribute,
+      ReflectionInfo: Type.FilterAttribute,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: FilterName,
+      ReflectionInfo: Type.FilterName,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: FilterNameIgnoreCase,
+      ReflectionInfo: Type.FilterNameIgnoreCase,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  ShadowedPropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Module,
+        Name: get_Module,
+        ReflectionInfo: MemberInfo.get_Module(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Module,
+      ReflectionInfo: MemberInfo.Module,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ]
+}

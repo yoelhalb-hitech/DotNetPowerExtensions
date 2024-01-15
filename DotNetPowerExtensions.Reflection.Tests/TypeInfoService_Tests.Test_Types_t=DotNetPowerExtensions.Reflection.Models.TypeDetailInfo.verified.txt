@@ -1,0 +1,565 @@
+﻿{
+  Type: TypeDetailInfo,
+  PropertyDetails: [
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <Type>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<Type>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: Type,
+        Name: get_Type,
+        ReflectionInfo: TypeDetailInfo.get_Type(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          Type
+        ],
+        ReturnType: Void,
+        Name: set_Type,
+        ReflectionInfo: TypeDetailInfo.set_Type(Type value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Type,
+      ReflectionInfo: TypeDetailInfo.Type,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <PropertyDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<PropertyDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: PropertyDetail[],
+        Name: get_PropertyDetails,
+        ReflectionInfo: TypeDetailInfo.get_PropertyDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          PropertyDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_PropertyDetails,
+        ReflectionInfo: TypeDetailInfo.set_PropertyDetails(PropertyDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: PropertyDetails,
+      ReflectionInfo: TypeDetailInfo.PropertyDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <MethodDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<MethodDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: MethodDetail[],
+        Name: get_MethodDetails,
+        ReflectionInfo: TypeDetailInfo.get_MethodDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          MethodDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_MethodDetails,
+        ReflectionInfo: TypeDetailInfo.set_MethodDetails(MethodDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: MethodDetails,
+      ReflectionInfo: TypeDetailInfo.MethodDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <EventDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<EventDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: EventDetail[],
+        Name: get_EventDetails,
+        ReflectionInfo: TypeDetailInfo.get_EventDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          EventDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_EventDetails,
+        ReflectionInfo: TypeDetailInfo.set_EventDetails(EventDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: EventDetails,
+      ReflectionInfo: TypeDetailInfo.EventDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <FieldDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<FieldDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: FieldDetail[],
+        Name: get_FieldDetails,
+        ReflectionInfo: TypeDetailInfo.get_FieldDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          FieldDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_FieldDetails,
+        ReflectionInfo: TypeDetailInfo.set_FieldDetails(FieldDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: FieldDetails,
+      ReflectionInfo: TypeDetailInfo.FieldDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <ShadowedPropertyDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<ShadowedPropertyDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: PropertyDetail[],
+        Name: get_ShadowedPropertyDetails,
+        ReflectionInfo: TypeDetailInfo.get_ShadowedPropertyDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          PropertyDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_ShadowedPropertyDetails,
+        ReflectionInfo: TypeDetailInfo.set_ShadowedPropertyDetails(PropertyDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: ShadowedPropertyDetails,
+      ReflectionInfo: TypeDetailInfo.ShadowedPropertyDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <ShadowedMethodDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<ShadowedMethodDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: MethodDetail[],
+        Name: get_ShadowedMethodDetails,
+        ReflectionInfo: TypeDetailInfo.get_ShadowedMethodDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          MethodDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_ShadowedMethodDetails,
+        ReflectionInfo: TypeDetailInfo.set_ShadowedMethodDetails(MethodDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: ShadowedMethodDetails,
+      ReflectionInfo: TypeDetailInfo.ShadowedMethodDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <ShadowedEventDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<ShadowedEventDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: EventDetail[],
+        Name: get_ShadowedEventDetails,
+        ReflectionInfo: TypeDetailInfo.get_ShadowedEventDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          EventDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_ShadowedEventDetails,
+        ReflectionInfo: TypeDetailInfo.set_ShadowedEventDetails(EventDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: ShadowedEventDetails,
+      ReflectionInfo: TypeDetailInfo.ShadowedEventDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <ShadowedFieldDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<ShadowedFieldDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: FieldDetail[],
+        Name: get_ShadowedFieldDetails,
+        ReflectionInfo: TypeDetailInfo.get_ShadowedFieldDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          FieldDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_ShadowedFieldDetails,
+        ReflectionInfo: TypeDetailInfo.set_ShadowedFieldDetails(FieldDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: ShadowedFieldDetails,
+      ReflectionInfo: TypeDetailInfo.ShadowedFieldDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <BasePrivatePropertyDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<BasePrivatePropertyDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: PropertyDetail[],
+        Name: get_BasePrivatePropertyDetails,
+        ReflectionInfo: TypeDetailInfo.get_BasePrivatePropertyDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          PropertyDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_BasePrivatePropertyDetails,
+        ReflectionInfo: TypeDetailInfo.set_BasePrivatePropertyDetails(PropertyDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: BasePrivatePropertyDetails,
+      ReflectionInfo: TypeDetailInfo.BasePrivatePropertyDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <BasePrivateMethodDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<BasePrivateMethodDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: MethodDetail[],
+        Name: get_BasePrivateMethodDetails,
+        ReflectionInfo: TypeDetailInfo.get_BasePrivateMethodDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          MethodDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_BasePrivateMethodDetails,
+        ReflectionInfo: TypeDetailInfo.set_BasePrivateMethodDetails(MethodDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: BasePrivateMethodDetails,
+      ReflectionInfo: TypeDetailInfo.BasePrivateMethodDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <BasePrivateEventDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<BasePrivateEventDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: EventDetail[],
+        Name: get_BasePrivateEventDetails,
+        ReflectionInfo: TypeDetailInfo.get_BasePrivateEventDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          EventDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_BasePrivateEventDetails,
+        ReflectionInfo: TypeDetailInfo.set_BasePrivateEventDetails(EventDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: BasePrivateEventDetails,
+      ReflectionInfo: TypeDetailInfo.BasePrivateEventDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <BasePrivateFieldDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<BasePrivateFieldDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: FieldDetail[],
+        Name: get_BasePrivateFieldDetails,
+        ReflectionInfo: TypeDetailInfo.get_BasePrivateFieldDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          FieldDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_BasePrivateFieldDetails,
+        ReflectionInfo: TypeDetailInfo.set_BasePrivateFieldDetails(FieldDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: BasePrivateFieldDetails,
+      ReflectionInfo: TypeDetailInfo.BasePrivateFieldDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <ExplicitPropertyDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<ExplicitPropertyDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: PropertyDetail[],
+        Name: get_ExplicitPropertyDetails,
+        ReflectionInfo: TypeDetailInfo.get_ExplicitPropertyDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          PropertyDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_ExplicitPropertyDetails,
+        ReflectionInfo: TypeDetailInfo.set_ExplicitPropertyDetails(PropertyDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: ExplicitPropertyDetails,
+      ReflectionInfo: TypeDetailInfo.ExplicitPropertyDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <ExplicitMethodDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<ExplicitMethodDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: MethodDetail[],
+        Name: get_ExplicitMethodDetails,
+        ReflectionInfo: TypeDetailInfo.get_ExplicitMethodDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          MethodDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_ExplicitMethodDetails,
+        ReflectionInfo: TypeDetailInfo.set_ExplicitMethodDetails(MethodDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: ExplicitMethodDetails,
+      ReflectionInfo: TypeDetailInfo.ExplicitMethodDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <ExplicitEventDetails>k__BackingField,
+        ReflectionInfo: TypeDetailInfo.<ExplicitEventDetails>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: EventDetail[],
+        Name: get_ExplicitEventDetails,
+        ReflectionInfo: TypeDetailInfo.get_ExplicitEventDetails(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          EventDetail[]
+        ],
+        ReturnType: Void,
+        Name: set_ExplicitEventDetails,
+        ReflectionInfo: TypeDetailInfo.set_ExplicitEventDetails(EventDetail[] value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: ExplicitEventDetails,
+      ReflectionInfo: TypeDetailInfo.ExplicitEventDetails,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ]
+}

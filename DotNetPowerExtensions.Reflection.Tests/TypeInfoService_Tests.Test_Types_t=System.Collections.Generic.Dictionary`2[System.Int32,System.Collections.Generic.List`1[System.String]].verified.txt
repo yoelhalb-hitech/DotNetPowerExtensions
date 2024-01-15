@@ -1,0 +1,880 @@
+﻿{
+  Type: Dictionary<int, List<string>>,
+  PropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: IEqualityComparer<int>,
+        Name: get_Comparer,
+        ReflectionInfo: Dictionary<int, List<string>>.get_Comparer(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Comparer,
+      ReflectionInfo: Dictionary<int, List<string>>.Comparer,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: int,
+        Name: get_Count,
+        ReflectionInfo: Dictionary<int, List<string>>.get_Count(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Count,
+      ReflectionInfo: Dictionary<int, List<string>>.Count,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Dictionary<int, List<string>>.KeyCollection,
+        Name: get_Keys,
+        ReflectionInfo: Dictionary<int, List<string>>.get_Keys(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Keys,
+      ReflectionInfo: Dictionary<int, List<string>>.Keys,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Dictionary<int, List<string>>.ValueCollection,
+        Name: get_Values,
+        ReflectionInfo: Dictionary<int, List<string>>.get_Values(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Values,
+      ReflectionInfo: Dictionary<int, List<string>>.Values,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ArgumentTypes: [
+          int
+        ],
+        ReturnType: List<string>,
+        Name: get_Item,
+        ReflectionInfo: Dictionary<int, List<string>>.get_Item(int key),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          int,
+          List<string>
+        ],
+        ReturnType: Void,
+        Name: set_Item,
+        ReflectionInfo: Dictionary<int, List<string>>.set_Item(int key, List<string> value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Item,
+      ReflectionInfo: Dictionary<int, List<string>>.Item,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  MethodDetails: [
+    {
+      ArgumentTypes: [
+        IEnumerable<KeyValuePair<int, List<string>>>
+      ],
+      ReturnType: Void,
+      Name: AddRange,
+      ReflectionInfo: Dictionary<int, List<string>>.AddRange(IEnumerable<KeyValuePair<int, List<string>>> collection),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        List<string>
+      ],
+      ReturnType: Void,
+      Name: Add,
+      ReflectionInfo: Dictionary<int, List<string>>.Add(int key, List<string> value),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Void,
+      Name: Clear,
+      ReflectionInfo: Dictionary<int, List<string>>.Clear(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: bool,
+      Name: ContainsKey,
+      ReflectionInfo: Dictionary<int, List<string>>.ContainsKey(int key),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        List<string>
+      ],
+      ReturnType: bool,
+      Name: ContainsValue,
+      ReflectionInfo: Dictionary<int, List<string>>.ContainsValue(List<string> value),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        KeyValuePair<int, List<string>>[],
+        int
+      ],
+      ReturnType: Void,
+      Name: CopyTo,
+      ReflectionInfo: Dictionary<int, List<string>>.CopyTo(KeyValuePair<int, List<string>>[] array, int index),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Dictionary<int, List<string>>.Enumerator,
+      Name: GetEnumerator,
+      ReflectionInfo: Dictionary<int, List<string>>.GetEnumerator(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        SerializationInfo,
+        StreamingContext
+      ],
+      ReturnType: Void,
+      Name: GetObjectData,
+      ReflectionInfo: Dictionary<int, List<string>>.GetObjectData(SerializationInfo info, StreamingContext context),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: List`1&,
+      Name: FindValue,
+      ReflectionInfo: Dictionary<int, List<string>>.FindValue(int key),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: int,
+      Name: Initialize,
+      ReflectionInfo: Dictionary<int, List<string>>.Initialize(int capacity),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        List<string>,
+        InsertionBehavior
+      ],
+      ReturnType: bool,
+      Name: TryInsert,
+      ReflectionInfo: Dictionary<int, List<string>>.TryInsert(int key, List<string> value, InsertionBehavior behavior),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: Void,
+      Name: OnDeserialization,
+      ReflectionInfo: Dictionary<int, List<string>>.OnDeserialization(object sender),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Void,
+      Name: Resize,
+      ReflectionInfo: Dictionary<int, List<string>>.Resize(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        bool
+      ],
+      ReturnType: Void,
+      Name: Resize,
+      ReflectionInfo: Dictionary<int, List<string>>.Resize(int newSize, bool forceNewHashCodes),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: bool,
+      Name: Remove,
+      ReflectionInfo: Dictionary<int, List<string>>.Remove(int key),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        List`1&
+      ],
+      ReturnType: bool,
+      Name: Remove,
+      ReflectionInfo: Dictionary<int, List<string>>.Remove(int key, List`1& value),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        List`1&
+      ],
+      ReturnType: bool,
+      Name: TryGetValue,
+      ReflectionInfo: Dictionary<int, List<string>>.TryGetValue(int key, List`1& value),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int,
+        List<string>
+      ],
+      ReturnType: bool,
+      Name: TryAdd,
+      ReflectionInfo: Dictionary<int, List<string>>.TryAdd(int key, List<string> value),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: int,
+      Name: EnsureCapacity,
+      ReflectionInfo: Dictionary<int, List<string>>.EnsureCapacity(int capacity),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: Void,
+      Name: TrimExcess,
+      ReflectionInfo: Dictionary<int, List<string>>.TrimExcess(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        int
+      ],
+      ReturnType: Void,
+      Name: TrimExcess,
+      ReflectionInfo: Dictionary<int, List<string>>.TrimExcess(int capacity),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Dictionary<int, List<string>>.Entry[],
+        int
+      ],
+      ReturnType: Void,
+      Name: CopyEntries,
+      ReflectionInfo: Dictionary<int, List<string>>.CopyEntries(Dictionary<int, List<string>>.Entry[] entries, int count),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      Name: IsCompatibleKey,
+      ReflectionInfo: Dictionary<int, List<string>>.IsCompatibleKey(object key),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        uint
+      ],
+      ReturnType: Int32&,
+      Name: GetBucket,
+      ReflectionInfo: Dictionary<int, List<string>>.GetBucket(uint hashCode),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  FieldDetails: [
+    {
+      Name: _buckets,
+      ReflectionInfo: Dictionary<int, List<string>>._buckets,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: _entries,
+      ReflectionInfo: Dictionary<int, List<string>>._entries,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: _fastModMultiplier,
+      ReflectionInfo: Dictionary<int, List<string>>._fastModMultiplier,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: _count,
+      ReflectionInfo: Dictionary<int, List<string>>._count,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: _freeList,
+      ReflectionInfo: Dictionary<int, List<string>>._freeList,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: _freeCount,
+      ReflectionInfo: Dictionary<int, List<string>>._freeCount,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: _version,
+      ReflectionInfo: Dictionary<int, List<string>>._version,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: _comparer,
+      ReflectionInfo: Dictionary<int, List<string>>._comparer,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: _keys,
+      ReflectionInfo: Dictionary<int, List<string>>._keys,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      Name: _values,
+      ReflectionInfo: Dictionary<int, List<string>>._values,
+      MemberDetailType: Field,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  ExplicitPropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: ICollection<int>,
+        Name: get_Keys,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.IDictionary<TKey,TValue>.get_Keys(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IDictionary<int, List<string>>,
+        ExplicitInterfaceReflectionInfo: IDictionary<int, List<string>>.get_Keys()
+      },
+      Name: Keys,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.IDictionary<TKey,TValue>.Keys,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IDictionary<int, List<string>>,
+      ExplicitInterfaceReflectionInfo: IDictionary<int, List<string>>.Keys
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: ICollection<List<string>>,
+        Name: get_Values,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.IDictionary<TKey,TValue>.get_Values(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IDictionary<int, List<string>>,
+        ExplicitInterfaceReflectionInfo: IDictionary<int, List<string>>.get_Values()
+      },
+      Name: Values,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.IDictionary<TKey,TValue>.Values,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IDictionary<int, List<string>>,
+      ExplicitInterfaceReflectionInfo: IDictionary<int, List<string>>.Values
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsReadOnly,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<TKey,TValue>>.get_IsReadOnly(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: ICollection<KeyValuePair<int, List<string>>>,
+        ExplicitInterfaceReflectionInfo: ICollection<KeyValuePair<int, List<string>>>.get_IsReadOnly()
+      },
+      Name: IsReadOnly,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<TKey,TValue>>.IsReadOnly,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection<KeyValuePair<int, List<string>>>,
+      ExplicitInterfaceReflectionInfo: ICollection<KeyValuePair<int, List<string>>>.IsReadOnly
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ArgumentTypes: [
+          object
+        ],
+        ReturnType: object,
+        Name: get_Item,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.get_Item(object key),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IDictionary,
+        ExplicitInterfaceReflectionInfo: IDictionary.get_Item(object key)
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          object,
+          object
+        ],
+        ReturnType: Void,
+        Name: set_Item,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.set_Item(object key, object value),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IDictionary,
+        ExplicitInterfaceReflectionInfo: IDictionary.set_Item(object key, object value)
+      },
+      Name: Item,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.Item,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IDictionary,
+      ExplicitInterfaceReflectionInfo: IDictionary.Item
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: ICollection,
+        Name: get_Keys,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.get_Keys(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IDictionary,
+        ExplicitInterfaceReflectionInfo: IDictionary.get_Keys()
+      },
+      Name: Keys,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.Keys,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IDictionary,
+      ExplicitInterfaceReflectionInfo: IDictionary.Keys
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: ICollection,
+        Name: get_Values,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.get_Values(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IDictionary,
+        ExplicitInterfaceReflectionInfo: IDictionary.get_Values()
+      },
+      Name: Values,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.Values,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IDictionary,
+      ExplicitInterfaceReflectionInfo: IDictionary.Values
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsReadOnly,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.get_IsReadOnly(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IDictionary,
+        ExplicitInterfaceReflectionInfo: IDictionary.get_IsReadOnly()
+      },
+      Name: IsReadOnly,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.IsReadOnly,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IDictionary,
+      ExplicitInterfaceReflectionInfo: IDictionary.IsReadOnly
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsFixedSize,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.get_IsFixedSize(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IDictionary,
+        ExplicitInterfaceReflectionInfo: IDictionary.get_IsFixedSize()
+      },
+      Name: IsFixedSize,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.IsFixedSize,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IDictionary,
+      ExplicitInterfaceReflectionInfo: IDictionary.IsFixedSize
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: object,
+        Name: get_SyncRoot,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.ICollection.get_SyncRoot(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: ICollection,
+        ExplicitInterfaceReflectionInfo: ICollection.get_SyncRoot()
+      },
+      Name: SyncRoot,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.ICollection.SyncRoot,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection,
+      ExplicitInterfaceReflectionInfo: ICollection.SyncRoot
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: bool,
+        Name: get_IsSynchronized,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.ICollection.get_IsSynchronized(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: ICollection,
+        ExplicitInterfaceReflectionInfo: ICollection.get_IsSynchronized()
+      },
+      Name: IsSynchronized,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.ICollection.IsSynchronized,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection,
+      ExplicitInterfaceReflectionInfo: ICollection.IsSynchronized
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: IEnumerable<int>,
+        Name: get_Keys,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.IReadOnlyDictionary<TKey,TValue>.get_Keys(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IReadOnlyDictionary<int, List<string>>,
+        ExplicitInterfaceReflectionInfo: IReadOnlyDictionary<int, List<string>>.get_Keys()
+      },
+      Name: Keys,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.IReadOnlyDictionary<TKey,TValue>.Keys,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IReadOnlyDictionary<int, List<string>>,
+      ExplicitInterfaceReflectionInfo: IReadOnlyDictionary<int, List<string>>.Keys
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: IEnumerable<List<string>>,
+        Name: get_Values,
+        ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.IReadOnlyDictionary<TKey,TValue>.get_Values(),
+        IsInherited: false,
+        DeclarationType: ExplicitImplementation,
+        InReflectionForCurrentType: true,
+        IsExplicit: true,
+        ExplicitInterface: IReadOnlyDictionary<int, List<string>>,
+        ExplicitInterfaceReflectionInfo: IReadOnlyDictionary<int, List<string>>.get_Values()
+      },
+      Name: Values,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.IReadOnlyDictionary<TKey,TValue>.Values,
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IReadOnlyDictionary<int, List<string>>,
+      ExplicitInterfaceReflectionInfo: IReadOnlyDictionary<int, List<string>>.Values
+    }
+  ],
+  ExplicitMethodDetails: [
+    {
+      ArgumentTypes: [
+        KeyValuePair<int, List<string>>
+      ],
+      ReturnType: Void,
+      Name: Add,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<TKey,TValue>>.Add(KeyValuePair<int, List<string>> keyValuePair),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection<KeyValuePair<int, List<string>>>,
+      ExplicitInterfaceReflectionInfo: ICollection<KeyValuePair<int, List<string>>>.Add(KeyValuePair<int, List<string>> item)
+    },
+    {
+      ArgumentTypes: [
+        KeyValuePair<int, List<string>>
+      ],
+      ReturnType: bool,
+      Name: Contains,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<TKey,TValue>>.Contains(KeyValuePair<int, List<string>> keyValuePair),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection<KeyValuePair<int, List<string>>>,
+      ExplicitInterfaceReflectionInfo: ICollection<KeyValuePair<int, List<string>>>.Contains(KeyValuePair<int, List<string>> item)
+    },
+    {
+      ArgumentTypes: [
+        KeyValuePair<int, List<string>>[],
+        int
+      ],
+      ReturnType: Void,
+      Name: CopyTo,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<TKey,TValue>>.CopyTo(KeyValuePair<int, List<string>>[] array, int index),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection<KeyValuePair<int, List<string>>>,
+      ExplicitInterfaceReflectionInfo: ICollection<KeyValuePair<int, List<string>>>.CopyTo(KeyValuePair<int, List<string>>[] array, int arrayIndex)
+    },
+    {
+      ArgumentTypes: [
+        KeyValuePair<int, List<string>>
+      ],
+      ReturnType: bool,
+      Name: Remove,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<TKey,TValue>>.Remove(KeyValuePair<int, List<string>> keyValuePair),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection<KeyValuePair<int, List<string>>>,
+      ExplicitInterfaceReflectionInfo: ICollection<KeyValuePair<int, List<string>>>.Remove(KeyValuePair<int, List<string>> item)
+    },
+    {
+      ReturnType: IEnumerator<KeyValuePair<int, List<string>>>,
+      Name: GetEnumerator,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey,TValue>>.GetEnumerator(),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IEnumerable<KeyValuePair<int, List<string>>>,
+      ExplicitInterfaceReflectionInfo: IEnumerable<KeyValuePair<int, List<string>>>.GetEnumerator()
+    },
+    {
+      ReturnType: IEnumerator,
+      Name: GetEnumerator,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IEnumerable.GetEnumerator(),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IEnumerable,
+      ExplicitInterfaceReflectionInfo: IEnumerable.GetEnumerator()
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      Name: Contains,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.Contains(object key),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IDictionary,
+      ExplicitInterfaceReflectionInfo: IDictionary.Contains(object key)
+    },
+    {
+      ArgumentTypes: [
+        object,
+        object
+      ],
+      ReturnType: Void,
+      Name: Add,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.Add(object key, object value),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IDictionary,
+      ExplicitInterfaceReflectionInfo: IDictionary.Add(object key, object value)
+    },
+    {
+      ReturnType: IDictionaryEnumerator,
+      Name: GetEnumerator,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.GetEnumerator(),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IDictionary,
+      ExplicitInterfaceReflectionInfo: IDictionary.GetEnumerator()
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: Void,
+      Name: Remove,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.IDictionary.Remove(object key),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: IDictionary,
+      ExplicitInterfaceReflectionInfo: IDictionary.Remove(object key)
+    },
+    {
+      ArgumentTypes: [
+        Array,
+        int
+      ],
+      ReturnType: Void,
+      Name: CopyTo,
+      ReflectionInfo: Dictionary<int, List<string>>.System.Collections.ICollection.CopyTo(Array array, int index),
+      IsInherited: false,
+      DeclarationType: ExplicitImplementation,
+      InReflectionForCurrentType: true,
+      IsExplicit: true,
+      ExplicitInterface: ICollection,
+      ExplicitInterfaceReflectionInfo: ICollection.CopyTo(Array array, int index)
+    }
+  ]
+}

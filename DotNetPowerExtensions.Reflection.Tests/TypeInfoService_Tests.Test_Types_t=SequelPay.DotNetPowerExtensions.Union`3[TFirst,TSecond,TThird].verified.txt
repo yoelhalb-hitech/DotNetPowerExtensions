@@ -1,0 +1,285 @@
+﻿{
+  Type: Union<TFirst, TSecond, TThird>,
+  PropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: TFirst,
+        Name: get_First,
+        ReflectionInfo: Union<TFirst, TSecond, TThird>.get_First(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          TFirst
+        ],
+        ReturnType: Void,
+        Name: set_First,
+        ReflectionInfo: Union<TFirst, TSecond, TThird>.set_First(TFirst value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: First,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.First,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: TSecond,
+        Name: get_Second,
+        ReflectionInfo: Union<TFirst, TSecond, TThird>.get_Second(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          TSecond
+        ],
+        ReturnType: Void,
+        Name: set_Second,
+        ReflectionInfo: Union<TFirst, TSecond, TThird>.set_Second(TSecond value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Second,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.Second,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: TThird,
+        Name: get_Third,
+        ReflectionInfo: Union<TFirst, TSecond, TThird>.get_Third(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          TThird
+        ],
+        ReturnType: Void,
+        Name: set_Third,
+        ReflectionInfo: Union<TFirst, TSecond, TThird>.set_Third(TThird value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Third,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.Third,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <Value>k__BackingField,
+        ReflectionInfo: Union<TFirst, TSecond, TThird>.<Value>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: object,
+        Name: get_Value,
+        ReflectionInfo: Union<TFirst, TSecond, TThird>.get_Value(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          object
+        ],
+        ReturnType: Void,
+        Name: set_Value,
+        ReflectionInfo: Union<TFirst, TSecond, TThird>.set_Value(object value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Value,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.Value,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  MethodDetails: [
+    {
+      ReturnType: T,
+      GenericArguments: [
+        T
+      ],
+      Name: As,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.As(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      OverridenMethod: {
+        ArgumentTypes: [
+          object
+        ],
+        ReturnType: bool,
+        Name: Equals,
+        ReflectionInfo: ValueType.Equals(object obj),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Equals,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.Equals(object obj),
+      IsInherited: false,
+      DeclarationType: Override,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: int,
+      OverridenMethod: {
+        ReturnType: int,
+        Name: GetHashCode,
+        ReflectionInfo: ValueType.GetHashCode(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: GetHashCode,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.GetHashCode(),
+      IsInherited: false,
+      DeclarationType: Override,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Union<TFirst, TSecond, TThird>
+      ],
+      ReturnType: TFirst,
+      Name: op_Implicit,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.op_Implicit(Union<TFirst, TSecond, TThird> obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Union<TFirst, TSecond, TThird>
+      ],
+      ReturnType: TSecond,
+      Name: op_Implicit,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.op_Implicit(Union<TFirst, TSecond, TThird> obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Union<TFirst, TSecond, TThird>
+      ],
+      ReturnType: TThird,
+      Name: op_Implicit,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.op_Implicit(Union<TFirst, TSecond, TThird> obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        TFirst
+      ],
+      ReturnType: Union<TFirst, TSecond, TThird>,
+      Name: op_Implicit,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.op_Implicit(TFirst obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        TSecond
+      ],
+      ReturnType: Union<TFirst, TSecond, TThird>,
+      Name: op_Implicit,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.op_Implicit(TSecond obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        TThird
+      ],
+      ReturnType: Union<TFirst, TSecond, TThird>,
+      Name: op_Implicit,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.op_Implicit(TThird obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Union<TFirst, TSecond, TThird>,
+        Union<TFirst, TSecond, TThird>
+      ],
+      ReturnType: bool,
+      Name: op_Equality,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.op_Equality(Union<TFirst, TSecond, TThird> left, Union<TFirst, TSecond, TThird> right),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Union<TFirst, TSecond, TThird>,
+        Union<TFirst, TSecond, TThird>
+      ],
+      ReturnType: bool,
+      Name: op_Inequality,
+      ReflectionInfo: Union<TFirst, TSecond, TThird>.op_Inequality(Union<TFirst, TSecond, TThird> left, Union<TFirst, TSecond, TThird> right),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: string,
+      Name: ToString,
+      ReflectionInfo: ValueType.ToString(),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  BasePrivateMethodDetails: [
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      Name: CanCompareBits,
+      ReflectionInfo: ValueType.CanCompareBits(object obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ]
+}

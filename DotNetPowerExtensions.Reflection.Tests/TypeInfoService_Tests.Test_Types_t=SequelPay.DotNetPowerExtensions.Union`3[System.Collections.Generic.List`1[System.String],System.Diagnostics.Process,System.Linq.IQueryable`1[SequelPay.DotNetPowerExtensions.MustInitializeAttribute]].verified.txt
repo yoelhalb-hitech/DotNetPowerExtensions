@@ -1,0 +1,285 @@
+﻿{
+  Type: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>,
+  PropertyDetails: [
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: List<string>,
+        Name: get_First,
+        ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.get_First(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          List<string>
+        ],
+        ReturnType: Void,
+        Name: set_First,
+        ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.set_First(List<string> value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: First,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.First,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: Process,
+        Name: get_Second,
+        ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.get_Second(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          Process
+        ],
+        ReturnType: Void,
+        Name: set_Second,
+        ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.set_Second(Process value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Second,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.Second,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      GetMethod: {
+        ReturnType: IQueryable<MustInitializeAttribute>,
+        Name: get_Third,
+        ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.get_Third(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          IQueryable<MustInitializeAttribute>
+        ],
+        ReturnType: Void,
+        Name: set_Third,
+        ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.set_Third(IQueryable<MustInitializeAttribute> value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Third,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.Third,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      MemberDetailType: Property,
+      BackingField: {
+        Name: <Value>k__BackingField,
+        ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.<Value>k__BackingField,
+        MemberDetailType: PropertyBackingField,
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      GetMethod: {
+        ReturnType: object,
+        Name: get_Value,
+        ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.get_Value(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      SetMethod: {
+        ArgumentTypes: [
+          object
+        ],
+        ReturnType: Void,
+        Name: set_Value,
+        ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.set_Value(object value),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Value,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.Value,
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  MethodDetails: [
+    {
+      ReturnType: T,
+      GenericArguments: [
+        T
+      ],
+      Name: As,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.As(),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      OverridenMethod: {
+        ArgumentTypes: [
+          object
+        ],
+        ReturnType: bool,
+        Name: Equals,
+        ReflectionInfo: ValueType.Equals(object obj),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: Equals,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.Equals(object obj),
+      IsInherited: false,
+      DeclarationType: Override,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: int,
+      OverridenMethod: {
+        ReturnType: int,
+        Name: GetHashCode,
+        ReflectionInfo: ValueType.GetHashCode(),
+        IsInherited: false,
+        InReflectionForCurrentType: true,
+        IsExplicit: false
+      },
+      Name: GetHashCode,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.GetHashCode(),
+      IsInherited: false,
+      DeclarationType: Override,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Union<List<string>, Process, IQueryable<MustInitializeAttribute>>
+      ],
+      ReturnType: List<string>,
+      Name: op_Implicit,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.op_Implicit(Union<List<string>, Process, IQueryable<MustInitializeAttribute>> obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Union<List<string>, Process, IQueryable<MustInitializeAttribute>>
+      ],
+      ReturnType: Process,
+      Name: op_Implicit,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.op_Implicit(Union<List<string>, Process, IQueryable<MustInitializeAttribute>> obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Union<List<string>, Process, IQueryable<MustInitializeAttribute>>
+      ],
+      ReturnType: IQueryable<MustInitializeAttribute>,
+      Name: op_Implicit,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.op_Implicit(Union<List<string>, Process, IQueryable<MustInitializeAttribute>> obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        List<string>
+      ],
+      ReturnType: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>,
+      Name: op_Implicit,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.op_Implicit(List<string> obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Process
+      ],
+      ReturnType: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>,
+      Name: op_Implicit,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.op_Implicit(Process obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        IQueryable<MustInitializeAttribute>
+      ],
+      ReturnType: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>,
+      Name: op_Implicit,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.op_Implicit(IQueryable<MustInitializeAttribute> obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Union<List<string>, Process, IQueryable<MustInitializeAttribute>>,
+        Union<List<string>, Process, IQueryable<MustInitializeAttribute>>
+      ],
+      ReturnType: bool,
+      Name: op_Equality,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.op_Equality(Union<List<string>, Process, IQueryable<MustInitializeAttribute>> left, Union<List<string>, Process, IQueryable<MustInitializeAttribute>> right),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ArgumentTypes: [
+        Union<List<string>, Process, IQueryable<MustInitializeAttribute>>,
+        Union<List<string>, Process, IQueryable<MustInitializeAttribute>>
+      ],
+      ReturnType: bool,
+      Name: op_Inequality,
+      ReflectionInfo: Union<List<string>, Process, IQueryable<MustInitializeAttribute>>.op_Inequality(Union<List<string>, Process, IQueryable<MustInitializeAttribute>> left, Union<List<string>, Process, IQueryable<MustInitializeAttribute>> right),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    },
+    {
+      ReturnType: string,
+      Name: ToString,
+      ReflectionInfo: ValueType.ToString(),
+      IsInherited: true,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ],
+  BasePrivateMethodDetails: [
+    {
+      ArgumentTypes: [
+        object
+      ],
+      ReturnType: bool,
+      Name: CanCompareBits,
+      ReflectionInfo: ValueType.CanCompareBits(object obj),
+      IsInherited: false,
+      InReflectionForCurrentType: true,
+      IsExplicit: false
+    }
+  ]
+}
