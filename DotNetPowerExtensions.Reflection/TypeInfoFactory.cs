@@ -199,6 +199,28 @@ internal class TypeInfoFactory
         return GetActualMethodDetail(methodInfo, decl, overridenMethod, interfaceMethod);
     }
 
+    private IEnumerable<PropertyInfo> GetPropsToUse(IEnumerable<PropertyInfo> props)
+    {
+        // While only methods typically show the methods, there is an excpetion if the shadowed property type is a subclass of the base property type
+        // But we can figure this by checking for property type assignable to the others
+        var groupedProps = props.GroupBy(p => p.Name);
+
+        foreach ( var propGroup in groupedProps )
+        {
+            if (propGroup.HasOnlyOne()) yield return propGroup.First();
+
+            var usable = propGroup.ToArray();
+            while (!usable.HasOnlyOne())
+            {
+                // We need the type that can be assigned to all others as it is the sub class then...
+                var firstType = usable.First().PropertyType;
+                usable = usable.Where(u => u.PropertyType == firstType || !u.PropertyType.IsAssignableFrom(firstType)).ToArray();
+            }
+
+            yield return usable.First();
+        }
+    }
+
     private MethodDetail GetActualMethodDetail(MethodInfo methodInfo, DeclarationTypes decl, MethodDetail? overridenMethod, MethodInfo? interfaceMethod = null)
         => new MethodDetail
         {
@@ -248,6 +270,10 @@ internal class TypeInfoFactory
         var propDetails = new List<PropertyDetail>();
         var eventDetails = new List<EventDetail>();
 
+        var propsToUse = props.Except(defaultImplementProps);
+        if (!type.IsInterface && type.BaseType is not null) propsToUse = GetPropsToUse(propsToUse);
+
+        foreach (var prop in propsToUse) propDetails.Add(GetPropertyDetail(prop)); // GetPropertyDetail has side effects so not using Linq
         foreach (var prop in props.Except(defaultImplementProps)) propDetails.Add(GetPropertyDetail(prop)); // GetPropertyDetail has side effects so not using Linq
         foreach(var evt in events.Except(defaultImplementEvents)) eventDetails.Add(GetEventDetail(evt)); // GetPropertyDetail has side effects so not using Linq
 

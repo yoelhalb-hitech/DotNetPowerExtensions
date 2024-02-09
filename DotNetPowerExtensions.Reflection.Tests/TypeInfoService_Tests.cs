@@ -692,6 +692,82 @@ public class TypeInfoService_Tests
         result.ExplicitEventDetails.Should().BeEmpty();
     }
 
+    class BaseType
+    {
+        public BaseType? Prop { get; set; }
+    }
+    class SubType : BaseType
+    {
+        public new SubType? Prop { get; set; }
+    }
+    class SubTypeSub : SubType { }
+    class SubSubType : SubTypeSub
+    {
+        public new SubSubType? Prop { get; set; }
+    }
+    class SubSubTypeSub : SubSubType { }
+
+    [Test]
+    public void Test_HandlesCorrectly_Shadow_WhenDifferentType_BugRepro()
+    {
+        var typeInfo = typeof(SubType).GetTypeDetailInfo();
+
+        var props = typeInfo.PropertyDetails;
+        props.Should().NotBeNull();
+        props.Length.Should().Be(1);
+
+        props.First().PropertyType.Should().Be(typeof(SubType));
+        props.First().DeclarationType.Should().Be(Shadow);
+
+        var shadowed = typeInfo.ShadowedPropertyDetails;
+        shadowed.Should().NotBeNull();
+        shadowed.Length.Should().Be(1);
+
+        shadowed.First().PropertyType.Should().Be(typeof(BaseType));
+        shadowed.First().DeclarationType.Should().Be(Decleration);
+
+        typeInfo = typeof(SubTypeSub).GetTypeDetailInfo();
+
+        props = typeInfo.PropertyDetails;
+        props.Should().NotBeNull();
+        props.Length.Should().Be(1);
+
+        props.First().PropertyType.Should().Be(typeof(SubType));
+        props.First().DeclarationType.Should().Be(Shadow);
+
+        shadowed = typeInfo.ShadowedPropertyDetails;
+        shadowed.Should().NotBeNull();
+        shadowed.Length.Should().Be(1);
+
+        shadowed.First().PropertyType.Should().Be(typeof(BaseType));
+        shadowed.First().DeclarationType.Should().Be(Decleration);
+
+        typeInfo = typeof(SubSubType).GetTypeDetailInfo();
+
+        props = typeInfo.PropertyDetails;
+        props.Should().NotBeNull();
+        props.Length.Should().Be(1);
+
+        props.First().PropertyType.Should().Be(typeof(SubSubType));
+        props.First().DeclarationType.Should().Be(Shadow);
+
+        shadowed = typeInfo.ShadowedPropertyDetails;
+        shadowed.Should().NotBeNull();
+        shadowed.Length.Should().Be(2);
+
+        typeInfo = typeof(SubSubTypeSub).GetTypeDetailInfo();
+
+        props = typeInfo.PropertyDetails;
+        props.Should().NotBeNull();
+        props.Length.Should().Be(1);
+
+        props.First().PropertyType.Should().Be(typeof(SubSubType));
+        props.First().DeclarationType.Should().Be(Shadow);
+
+        shadowed = typeInfo.ShadowedPropertyDetails;
+        shadowed.Should().NotBeNull();
+        shadowed.Length.Should().Be(2);
+    }
 
     //[Test]
     //[TestCase(typeof(object))]
