@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netstandard2.1;net45;net47;net7.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net452;net47;net7.0</TargetFrameworks>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisMode>Recommended</AnalysisMode>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<LangVersion>11.0</LangVersion>
+		<LangVersion>12.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
@@ -17,7 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="SequelPay.DotNetPowerExtensions" Version="[2.0.0,)" />
+	  <!--<PackageReference Include="SequelPay.DotNetPowerExtensions" Version="[2.0.0,)" />-->
 	  <PackageReference Include="SequelPay.DotNetPowerExtensions.Analyzers" Version="[2.0.0,)">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,6 +27,11 @@
 		<PrivateAssets>all</PrivateAssets>
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\DotNetPowerExtensions.Reflection.Core\DotNetPowerExtensions.Reflection.Core.csproj" />
+	  <ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup>

@@ -19,7 +19,7 @@ public static class TypeExtensions
         static T? GetDefault<T>() => default(T);
     }
 
-    public static Models.TypeDetailInfo GetTypeDetailInfo(this Type t) => new TypeInfoService(t).GetTypeInfo();
+    public static Models.TypeDetailInfo GetTypeDetailInfo(this Type t) => TypeInfoService.GetTypeInfo(t);
 
     public static bool IsNullAllowed(this Type t) => t.GetDefault() is null;  // If type.GetDefault() is null then null is allowed, otherwise it's not...
 
@@ -79,7 +79,7 @@ public static class TypeExtensions
         if (ifaceType is null) throw new ArgumentNullException(nameof(ifaceType));
         if (ifaceType.GetType().FullName != "System.RuntimeType") throw new ArgumentException("MustBeRuntimeType");
         //TypeHandle.VerifyInterfaceIsImplemented(typeHandle);
-        if ((bool?)ifaceType.GetType().GetProperty("IsSZArray")?.GetValue(type) == true && ifaceType.IsGenericType)
+        if ((bool?)type.GetType().GetProperty("IsSZArray")?.GetValue(type) == true && ifaceType.IsGenericType)
                                         throw new ArgumentException("Interface maps for generic interfaces on arrays cannot be retrieved."); // "SR.Argument_ArrayGetInterfaceMap"
 
         return interfaceMappings.GetOrAdd(type, new ConcurrentDictionary<Type, InterfaceMapping>())

@@ -1,12 +1,15 @@
 ﻿using SequelPay.DotNetPowerExtensions;
+using SequelPay.DotNetPowerExtensions.Reflection.Core.Models;
 
 namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
 
-public class PropertyDetail : MemberDetail<PropertyInfo>
+public class PropertyDetail : MemberDetail<PropertyInfo, PropertyDetail, IPropertyDetail>, IPropertyDetail
 {
 	internal PropertyDetail(){}
 
     [Initialized] public override MemberDetailTypes MemberDetailType { get => MemberDetailTypes.Property; internal set => throw new NotSupportedException(); }
+
+    public Type PropertyType => ReflectionInfo.PropertyType;
 
     [MustInitialize] public FieldDetail? BackingField { get; internal set; }
     [MustInitialize] public MethodDetail? GetMethod { get; internal set; }
@@ -17,4 +20,12 @@ public class PropertyDetail : MemberDetail<PropertyInfo>
     /// CAUTION: This might not work correctly for default interface implementations
     /// </summary>
     [MustInitialize] public PropertyDetail? OverridenProperty { get; internal set; }
+
+    ITypeDetailInfo IPropertyDetail.PropertyType => PropertyType.GetTypeDetailInfo();
+    IFieldDetail? IPropertyDetail.BackingField => BackingField;
+    IMethodDetail? IPropertyDetail.GetMethod => GetMethod;
+    IMethodDetail? IPropertyDetail.SetMethod => SetMethod;
+    IMethodDetail? IPropertyDetail.BasePrivateGetMethod => BasePrivateGetMethod;
+    IMethodDetail? IPropertyDetail.BasePrivateSetMethod => BasePrivateSetMethod;
+    IPropertyDetail? IPropertyDetail.OverridenProperty => OverridenProperty;    
 }
