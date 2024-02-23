@@ -69,10 +69,12 @@ public class MethodInfoExtensions_Tests
 
     interface TestIface
     {
-        abstract int TestInterfaceAbstract();
         int TestInterface();
+#if NETCOREAPP
+        abstract int TestInterfaceAbstract();
         public int TestPublicInterface();
         public virtual int TestPublicVirtualInterface() => 0;
+#endif
     }
 
     [Test]
@@ -84,10 +86,12 @@ public class MethodInfoExtensions_Tests
     [TestCase(typeof(TestSub), nameof(TestSub.TestAbstract), ExpectedResult = true)]
     [TestCase(typeof(TestSub), nameof(TestSub.TestVirtual), ExpectedResult = false)]
     [TestCase(typeof(TestSub), nameof(TestSub.TestNonVirtual), ExpectedResult = true)]
-    [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceAbstract), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestInterface), ExpectedResult = true)]
+#if NETCOREAPP
+    [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceAbstract), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicInterface), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicVirtualInterface), ExpectedResult = true)]
+#endif
     public bool Test_IsOverridable(Type type, string method) => type.GetMethod(method, BindingFlagsExtensions.AllBindings)!.IsOverridable();
 
     class TestPropClass
@@ -277,16 +281,21 @@ public class MethodInfoExtensions_Tests
     public Type[] Test_GetInterfaceMethod(Type t)
         => t!.GetMethod(nameof(GetInterfaceMethod_IFace.Test))!.GetInterfaceMethods()!.Select(m => m.DeclaringType!).ToArray();
 
+#if NETCOREAPP
     interface GetInterfaceMethod_DefaultInterfaceImplementation : GetInterfaceMethod_IFace
     {
         void GetInterfaceMethod_IFace.Test() { }
     }
+#endif
     class GetInterfaceMethod_ExplicitImplementation : GetInterfaceMethod_IFace
     {
         void GetInterfaceMethod_IFace.Test() { }
     }
+
     [Test]
+#if NETCOREAPP
     [TestCase(typeof(GetInterfaceMethod_DefaultInterfaceImplementation), ExpectedResult = new Type[] { typeof(GetInterfaceMethod_IFace) })]
+#endif
     [TestCase(typeof(GetInterfaceMethod_ExplicitImplementation), ExpectedResult = new Type[] { typeof(GetInterfaceMethod_IFace) })]
     public Type[] Test_GetInterfaceMethod_WorksWithExplicitImplementation(Type t)
         => t!.GetInterfaceMapForInterface(typeof(GetInterfaceMethod_IFace)).TargetMethods.First().GetInterfaceMethods()!.Select(m => m.DeclaringType!).ToArray();

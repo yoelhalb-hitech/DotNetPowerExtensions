@@ -59,10 +59,12 @@ public class PropertyInfoExtensions_Tests
 
     interface TestIface
     {
-        abstract int TestInterfaceAbstractProp { get; set; }
         int TestInterfaceProp { get; set; }
+#if NETCOREAPP
+        abstract int TestInterfaceAbstractProp { get; set; }
         public int TestPublicInterfaceProp { get; set; }
         public virtual int TestPublicVirtualInterfaceProp { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+#endif
     }
 
 
@@ -73,10 +75,12 @@ public class PropertyInfoExtensions_Tests
     [TestCase(typeof(TestSub), nameof(TestSub.TestAbstract), ExpectedResult = false)]
     [TestCase(typeof(TestSub), nameof(TestSub.TestVirtual), ExpectedResult = false)]
     [TestCase(typeof(TestSub), nameof(TestSub.TestNonVirtual), ExpectedResult = false)]
-    [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceAbstractProp), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceProp), ExpectedResult = true)]
+#if NETCOREAPP
+    [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceAbstractProp), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicInterfaceProp), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicVirtualInterfaceProp), ExpectedResult = false)]
+#endif
     public bool Test_IsAbstract(Type type, string prop) => type.GetProperty(prop)!.IsAbstract();
 
     [Test]
@@ -86,9 +90,11 @@ public class PropertyInfoExtensions_Tests
     [TestCase(typeof(TestSub), nameof(TestSub.TestAbstract), ExpectedResult = true)]
     [TestCase(typeof(TestSub), nameof(TestSub.TestVirtual), ExpectedResult = false)]
     [TestCase(typeof(TestSub), nameof(TestSub.TestNonVirtual), ExpectedResult = true)]
-    [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceAbstractProp), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceProp), ExpectedResult = true)]
+#if NETCOREAPP
+    [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceAbstractProp), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicInterfaceProp), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicVirtualInterfaceProp), ExpectedResult = true)]
+#endif
     public bool Test_IsOverridable(Type type, string prop) => type.GetProperty(prop)!.IsOverridable();
 }

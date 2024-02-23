@@ -13,3 +13,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Needed for testing")]
 [assembly: SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "Needed for testing")]
 [assembly: SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "Needed for testing")]
+[assembly: SuppressMessage("Globalization", "CA1307:Specify StringComparison for clarity", Justification = ".Net Framework doesn't support it")]

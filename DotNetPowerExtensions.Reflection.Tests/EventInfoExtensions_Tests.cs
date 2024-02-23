@@ -32,10 +32,12 @@ public class EventInfoExtensions_Tests
 
     interface TestIface
     {
-        abstract event EventHandler? TestInterfaceAbstract;
         event EventHandler? TestInterface;
+#if NETCOREAPP
+        abstract event EventHandler? TestInterfaceAbstract;
         public event EventHandler? TestPublicInterface;
         public virtual event EventHandler? TestPublicVirtualInterface { add => throw new NotImplementedException(); remove => throw new NotImplementedException(); }
+#endif
     }
 
 
@@ -46,10 +48,12 @@ public class EventInfoExtensions_Tests
     [TestCase(typeof(TestSub), nameof(TestSub.TestAbstract), ExpectedResult = false)]
     [TestCase(typeof(TestSub), nameof(TestSub.TestVirtual), ExpectedResult = false)]
     [TestCase(typeof(TestSub), nameof(TestSub.TestNonVirtual), ExpectedResult = false)]
-    [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceAbstract), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestInterface), ExpectedResult = true)]
+#if NETCOREAPP
+    [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceAbstract), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicInterface), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicVirtualInterface), ExpectedResult = false)]
+#endif
     public bool Test_IsAbstract(Type type, string e) => type.GetEvent(e)!.IsAbstract();
 
     [Test]
@@ -59,9 +63,11 @@ public class EventInfoExtensions_Tests
     [TestCase(typeof(TestSub), nameof(TestSub.TestAbstract), ExpectedResult = true)]
     [TestCase(typeof(TestSub), nameof(TestSub.TestVirtual), ExpectedResult = false)]
     [TestCase(typeof(TestSub), nameof(TestSub.TestNonVirtual), ExpectedResult = true)]
-    [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceAbstract), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestInterface), ExpectedResult = true)]
+#if NETCOREAPP
+    [TestCase(typeof(TestIface), nameof(TestIface.TestInterfaceAbstract), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicInterface), ExpectedResult = true)]
     [TestCase(typeof(TestIface), nameof(TestIface.TestPublicVirtualInterface), ExpectedResult = true)]
+#endif
     public bool Test_IsOverridable(Type type, string e) => type.GetEvent(e)!.IsOverridable();
 }

@@ -41,7 +41,7 @@ public class PropertyInfoExtensions_Tests1
     }
     class DerivedFromHasBothPublic : HasBothPublic { }
 
-
+#if NETCOREAPP
     interface IExplicit
     {
         public virtual int TestProp { get => throw new NotImplementedException(); private set => throw new NotImplementedException(); }
@@ -58,6 +58,7 @@ public class PropertyInfoExtensions_Tests1
     {
         int IExplicit.TestProp { get => 20; }
     }
+#endif
 
     [Test]
     [TestCase(typeof(BaseWithPrivate), ExpectedResult = typeof(BaseWithPrivate))]
@@ -73,7 +74,9 @@ public class PropertyInfoExtensions_Tests1
     [TestCase(typeof(DerivedFromSubNewWithPrivate), ExpectedResult = typeof(SubNewWithPrivate))]
     [TestCase(typeof(HasBothPublic), ExpectedResult = typeof(HasBothPublic))]
     [TestCase(typeof(DerivedFromHasBothPublic), ExpectedResult = typeof(DerivedFromHasBothPublic))]
+#if NETCOREAPP
     [TestCase(typeof(IExplicit), ExpectedResult = typeof(IExplicit))]
+#endif
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Test method")]
     public Type? Test_GetWritablePropertyInfo(Type type)
     {
@@ -84,6 +87,7 @@ public class PropertyInfoExtensions_Tests1
         return result?.ReflectedType;
     }
 
+#if NETCOREAPP
     [Test]
     [TestCase(typeof(IExplicitSub), ExpectedResult = typeof(IExplicit))]
     [TestCase(typeof(HasExplicit), ExpectedResult = typeof(IExplicit))]
@@ -97,6 +101,7 @@ public class PropertyInfoExtensions_Tests1
 
         return result?.ReflectedType;
     }
+#endif
 
     [Test]
     [TestCase(typeof(BaseWithPrivate), ExpectedResult = true)]
@@ -113,7 +118,9 @@ public class PropertyInfoExtensions_Tests1
     [TestCase(typeof(DerivedFromSubNewWithPrivate), ExpectedResult = true)]
     [TestCase(typeof(HasBothPublic), ExpectedResult = true)]
     [TestCase(typeof(DerivedFromHasBothPublic), ExpectedResult = true)]
+#if NETCOREAPP
     [TestCase(typeof(IExplicit), ExpectedResult = true)]
+#endif
     public bool Test_HasGetAndSet_WhenIncludeBasePrivate(Type type)
         => type.GetProperty(nameof(BaseWithPrivate.TestProp), BindingFlagsExtensions.AllBindings)!.HasGetAndSet(true);
 
@@ -132,10 +139,13 @@ public class PropertyInfoExtensions_Tests1
     [TestCase(typeof(DerivedFromSubNewWithPrivate), ExpectedResult = false)]
     [TestCase(typeof(HasBothPublic), ExpectedResult = true)]
     [TestCase(typeof(DerivedFromHasBothPublic), ExpectedResult = true)]
+#if NETCOREAPP
     [TestCase(typeof(IExplicit), ExpectedResult = true)]
+#endif
     public bool Test_HasGetAndSet_WhenNotIncludeBasePrivate(Type type)
         => type.GetProperty(nameof(BaseWithPrivate.TestProp), BindingFlagsExtensions.AllBindings)!.HasGetAndSet(false);
 
+#if NETCOREAPP
     [Test]
     [TestCase(typeof(IExplicitSub), true, ExpectedResult = true)]
     [TestCase(typeof(IExplicitSub), false, ExpectedResult = false)]
@@ -147,6 +157,7 @@ public class PropertyInfoExtensions_Tests1
           => type.GetProperties(BindingFlagsExtensions.AllBindings)
                 .First(p => p.Name.EndsWith(nameof(BaseWithPrivate.TestProp), StringComparison.Ordinal))
                 .HasGetAndSet(includeBasePrivate);
+#endif
 
     [Test]
     [TestCase(typeof(BaseWithPrivate), ExpectedResult = false)]
@@ -163,10 +174,12 @@ public class PropertyInfoExtensions_Tests1
     [TestCase(typeof(DerivedFromSubNewWithPrivate), ExpectedResult = false)]
     [TestCase(typeof(HasBothPublic), ExpectedResult = false)]
     [TestCase(typeof(DerivedFromHasBothPublic), ExpectedResult = false)]
+#if NETCOREAPP
     [TestCase(typeof(IExplicit), ExpectedResult = false)]
     [TestCase(typeof(IExplicitSub), ExpectedResult = true)]
     [TestCase(typeof(HasExplicit), ExpectedResult = true)]
     [TestCase(typeof(HasExplicitSub), ExpectedResult = true)]
+#endif
     public bool Test_IsExplicitImplementation(Type type)
         => type.GetProperties(BindingFlagsExtensions.AllBindings) // Remember that an explicit implementation has a more complicated name
             .First(p => p.Name.EndsWith(nameof(BaseWithPrivate.TestProp), StringComparison.Ordinal))!

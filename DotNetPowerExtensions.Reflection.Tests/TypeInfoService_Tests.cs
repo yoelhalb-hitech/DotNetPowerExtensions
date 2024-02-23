@@ -264,6 +264,8 @@ public class TypeInfoService_Tests
         method.DeclarationType.Should().Be(DeclarationTypes.ExplicitImplementation);
     }
 
+#if NETCOREAPP
+
     interface IDefaultImplementation
     {
         public int TestProp { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -356,7 +358,7 @@ public class TypeInfoService_Tests
         method.ExplicitInterface.Should().Be(typeof(IDefaultImplementation));
         method.DeclarationType.Should().Be(DeclarationTypes.ExplicitImplementation);
     }
-
+#endif
     interface INonDefaultImplementation
     {
         int TestProp { get; set; }
@@ -533,7 +535,9 @@ public class TypeInfoService_Tests
     {
         int Prop10 { get; }
         int Prop11 { get; }
+#if NETCOREAPP
         void TestMethod1() { }
+#endif
         int TestMethod<T>();
         int TestMethod13();
         int TestMethod13(int i);
@@ -649,7 +653,7 @@ public class TypeInfoService_Tests
         new[] { nameof(IComplexExample.Prop10), nameof(IComplexExample.Prop10) }
             .All(p => result.ExplicitPropertyDetails
                     .Any(pd => pd.Name == p
-                            && typeof(ComplexExample).GetProperty(typeof(IComplexExample).FullName!.Replace("+", ".", StringComparison.Ordinal) + "." + p, BindingFlagsExtensions.AllBindings) == pd.ReflectionInfo))
+                            && typeof(ComplexExample).GetProperty(typeof(IComplexExample).FullName!.Replace("+", ".") + "." + p, BindingFlagsExtensions.AllBindings) == pd.ReflectionInfo))
             .Should().BeTrue();
 
         result.ExplicitMethodDetails.Length.Should().Be(3);
@@ -668,7 +672,7 @@ public class TypeInfoService_Tests
 
         result.ExplicitMethodDetails
             .All(md => md.Name == ifaceMethodName
-                && md.ReflectionInfo.Name == typeof(IComplexExample).FullName!.Replace("+", ".", StringComparison.Ordinal) + "." + ifaceMethodName
+                && md.ReflectionInfo.Name == typeof(IComplexExample).FullName!.Replace("+", ".") + "." + ifaceMethodName
                 && md.ExplicitInterfaceReflectionInfo!.Name == ifaceMethodName)
         .Should().BeTrue();
 
