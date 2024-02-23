@@ -123,4 +123,10 @@ public class TypeExtensions_Tests
     public void Test_InvokeMethod_ThrowsOnNullArgs()
         => Assert.Throws<ArgumentNullException>(() => typeof(TestClass).InvokeMethod(nameof(TestClass.TestMethod), null, new object?[] { null }));
 #pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+
+    interface TestIface { }
+
+    [Test]
+    public void Test_GetInterfaceMethod_WorksWithItself()
+        => typeof(TestIface).GetInterfaceMapForInterface(typeof(TestIface)).TargetMethods.Should().BeEmpty();
 }

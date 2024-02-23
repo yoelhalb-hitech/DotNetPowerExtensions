@@ -74,29 +74,36 @@ public static class TypeExtensions
     private static ConcurrentDictionary<Type, ConcurrentDictionary<Type, InterfaceMapping>> interfaceMappings = new ConcurrentDictionary<Type, ConcurrentDictionary<Type, InterfaceMapping>>();
     public static InterfaceMapping GetInterfaceMapForInterface(this Type type, Type ifaceType)
     {
+        if (!type.IsInterface) return type.GetInterfaceMap(ifaceType);
+
         if (type.IsGenericParameter) throw new InvalidOperationException("Arg_GenericParameter");
         if (type is null) throw new ArgumentNullException(nameof(type));
         if (ifaceType is null) throw new ArgumentNullException(nameof(ifaceType));
         if (ifaceType.GetType().FullName != "System.RuntimeType") throw new ArgumentException("MustBeRuntimeType");
-        //TypeHandle.VerifyInterfaceIsImplemented(typeHandle);
+
+        // SZArrays implement the methods on IList`1, IEnumerable`1, and ICollection`1 with
+        //      SZArrayHelper and some runtime magic. We don't have accurate interface maps for them.
         if ((bool?)type.GetType().GetProperty("IsSZArray")?.GetValue(type) == true && ifaceType.IsGenericType)
                                         throw new ArgumentException("Interface maps for generic interfaces on arrays cannot be retrieved."); // "SR.Argument_ArrayGetInterfaceMap"
 
         return interfaceMappings.GetOrAdd(type, new ConcurrentDictionary<Type, InterfaceMapping>())
             .GetOrAdd(ifaceType, ifaceType =>
             {
-                int numVirtualsAndStaticVirtuals = (int)typeof(RuntimeTypeHandle).InvokeMethod("GetNumVirtualsAndStaticVirtuals", null, new[] { ifaceType })!;
-
                 var interfaceMethods = new List<MethodInfo>();
                 var targetMethods = new List<MethodInfo>();
 
-                for (int i = 0; i < numVirtualsAndStaticVirtuals; i++)
+                if (type.GetType().Assembly.GetName().Name != "mscorlib") // .Net Framework doesn't support Default Interface Methods, and also not `GetNumVirtualsAndStaticVirtuals`
                 {
-                    var result = GetMap(i);
-                    if (result is null) continue;
+                    int numVirtualsAndStaticVirtuals = (int)typeof(RuntimeTypeHandle).InvokeMethod("GetNumVirtualsAndStaticVirtuals", null, new[] { ifaceType })!;
 
-                    interfaceMethods.Add(result.Item1);
-                    targetMethods.Add(result.Item2);
+                    for (int i = 0; i < numVirtualsAndStaticVirtuals; i++)
+                    {
+                        var result = GetMap(i);
+                        if (result is null) continue;
+
+                        interfaceMethods.Add(result.Item1);
+                        targetMethods.Add(result.Item2);
+                    }
                 }
 
                 return new InterfaceMapping
