@@ -97,7 +97,7 @@ public static class TypeSymbolExtensions
 
         foreach (var t in typeSymbol.GetAllBaseTypes()) yield return t;
     }
-
+    //We need to make sure it works with the new implicit primary ctors
     public static IEnumerable<IMethodSymbol> GetConstructors(this ITypeSymbol typeSymbol, bool isStatic)
         => typeSymbol.GetMembers(".ctor").OfType<IMethodSymbol>().Where(m => m.IsStatic == isStatic);
 
