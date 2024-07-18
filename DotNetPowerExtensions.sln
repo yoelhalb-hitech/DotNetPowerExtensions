@@ -26,6 +26,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp2", "..\..\Users\Desk\Downloads\vs-intellisense-demo-master\vs-intellisense-demo-master\ConsoleApp2\ConsoleApp2.csproj", "{8C33AF83-FB05-47BE-830C-BF25A1C20467}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGraphViewer", "DataGraphViewer\DataGraphViewer.csproj", "{6962D48D-8986-4BDE-9EBB-62AF55B94CD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +72,14 @@ Global
 		{C96D0043-1E77-4C9E-8068-2F8144A7F2C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C96D0043-1E77-4C9E-8068-2F8144A7F2C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C96D0043-1E77-4C9E-8068-2F8144A7F2C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C33AF83-FB05-47BE-830C-BF25A1C20467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C33AF83-FB05-47BE-830C-BF25A1C20467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C33AF83-FB05-47BE-830C-BF25A1C20467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C33AF83-FB05-47BE-830C-BF25A1C20467}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6962D48D-8986-4BDE-9EBB-62AF55B94CD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6962D48D-8986-4BDE-9EBB-62AF55B94CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6962D48D-8986-4BDE-9EBB-62AF55B94CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6962D48D-8986-4BDE-9EBB-62AF55B94CD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

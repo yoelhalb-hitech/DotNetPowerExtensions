@@ -13,7 +13,8 @@ sealed class Logger
 #if DEBUG && LOGTOFILE
         if (!Directory.Exists(folderName)) Directory.CreateDirectory(folderName);
 
-        // https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2019
+
+            // https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2019
 #if NET7_0_OR_GREATER
         fileName ??= Path.Combine(folderName, @$"Log_{Environment.ProcessId}_{Environment.CurrentManagedThreadId}.txt");
 #else
@@ -25,7 +26,6 @@ sealed class Logger
 
 #if DEBUG && LOGTOFILE
     // The file name needs to based on the process and the thread so not have an error on locking...
-
     private static readonly string folderName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), $@"SequelPay.DotNetPowerExtensions.Analyzer\AnalyzerLogs");
     [ThreadStatic] private static readonly string fileName;
 #endif
@@ -66,4 +66,5 @@ public static void LogInfo(string info)
     { }
 #endif
 }
+
 #pragma warning restore RS1035 // Do not use APIs banned for analyzers

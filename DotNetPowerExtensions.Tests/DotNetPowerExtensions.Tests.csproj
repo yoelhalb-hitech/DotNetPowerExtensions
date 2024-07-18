@@ -36,9 +36,32 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <!--<PackageReference Include="SequelPay.DotNetPowerExtensions.Analyzers" Version="2.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>-->
+    <!--<PackageReference Include="SequelPay.DotNetPowerExtensions.Analyzers" Version="2.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>-->
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" ReferenceOutputAssembly="true" />
   </ItemGroup>
+
+  <!--<ItemGroup>
+	 --><!--Analyzer references--><!--
+	<ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer">
+		  <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework> --><!--For the analyzer--><!--
+	</ProjectReference>
+	<ProjectReference Include="..\DotNetPowerExtensions.RoslynExtensions\DotNetPowerExtensions.RoslynExtensions.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer">
+		  <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework> --><!--For the analyzer--><!--
+	</ProjectReference>
+	<ProjectReference Include="..\DotNetPowerExtensions.Reflection\DotNetPowerExtensions.Reflection.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer">
+		  <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework> --><!--For the analyzer--><!--
+	</ProjectReference>
+	<ProjectReference Include="..\DotNetPowerExtensions.Analyzers\DotNetPowerExtensions.Analyzers.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+  </ItemGroup>-->
+
 </Project>

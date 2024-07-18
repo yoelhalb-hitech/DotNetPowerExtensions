@@ -11,6 +11,7 @@
 	<IsPackable>true</IsPackable>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<Nullable>enable</Nullable>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies><!-- Needed to be able to package Microsoft.CodeAnalysis.Workspaces.dll -->
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,7 +49,9 @@
 	<PackageReference Include="IgnoresAccessChecksToGenerator" Version="[0.6.0,)" PrivateAssets="all" />
 	<!-- CAUTION: we need Microsoft.CodeAnalysis.CSharp and Microsoft.CodeAnalysis.CSharp.Workspaces to be the same as Features -->
 	<!--<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="3.11.0" PrivateAssets="all" />--><!-- For VS 2019 -->
-	<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.4.0" PrivateAssets="all" /><!-- Needs to match the version of VS -->
+	<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.4.0">
+
+	</PackageReference><!-- Needs to match the version of VS -->
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -88,6 +91,7 @@
     <None Include="$(OutputPath)\DotNetPowerExtensions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\DotNetPowerExtensions.RoslynExtensions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\Microsoft.CodeAnalysis.Workspaces.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" /> <!-- For whatever reason it doesn't work without -->
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
