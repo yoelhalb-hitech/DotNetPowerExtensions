@@ -63,14 +63,6 @@ General extension methods for `MemberInfo` and subclasses
 You can get a `TypeDetailInfo` instance for a `Type` via the `GetTypeDetailInfo()` extension method
 
 `TypeDetailInfo` encapsulates all information on a type in an organized manner, including:
-- Info about the type, such as:
-	- `Name`: The actual readable name (unlike the framework which for `file class` mangles the name, or for generic)
-	- `FileName`: For `file class`
-	- `Namespace`: If it has one
-	- `Generic info`: Such as Generic parmaeters, the original geneirc definition if there is one
-	- `BaseType`: The immediate base type if there is one
-	- `Interfaces`: All implemented interfaces
-- All Constructors
 - All non shadowed properties/methods/events/fields (unlike the framework whcih deosn't distinguish between shadwoed and non shadowed methods)
 - All shadowed properties/methods/events/fields (unlike the frameowrk which returns only methods)
 - All base private properties/methods/events/fields
@@ -78,10 +70,9 @@ You can get a `TypeDetailInfo` instance for a `Type` via the `GetTypeDetailInfo(
 
 For each member we show the following
    - `Name`: The actual readable name (unlike the framework which for explicit interfaces shows a mangled name)
-   - `ReflectionInfo`: The framwork `MemberInfo`/`FieldInfo`/`PropertyInfo`/`EventInfo`/`MethodInfo`/`ConsttructorInfo` for the member
+   - `ReflectionInfo`: The framwork `MemberInfo`/`FieldInfo`/`PropertyInfo`/`EventInfo`/`MethodInfo` for the member
    - `IsExplicit`: If this is an explicit interface implementation
    - `ExplicitInterface`: Contains a reference to the implmented interface `Type` object if it is an explicit implementation, null otheriwse
-   - `ExplicitDetail`: A `FieldDetail`/`PropertyDetail`/`EventDetail`/`MethodDetail` for the original explicit member (if this is an explicit implmenetation)
    - `InReflectionForCurrentType`: If you can find it via refelection on the `Type` object for the current subclass
    - `IsInherited`: If the member was declared in the base class and not overriden in the current class
    - `DeclarationType`: Returns whether this an original decleration, an override, a shadow, or an override of a shadow

@@ -1,8 +1,11 @@
-﻿using SequelPay.DotNetPowerExtensions.Reflection.Core.Models;
-using SequelPay.DotNetPowerExtensions.Reflection.Models;
+﻿using SequelPay.DotNetPowerExtensions.Reflection.Models;
+using System.ComponentModel.DataAnnotations;
+using static SequelPay.DotNetPowerExtensions.Reflection.Models.MemberDetailTypes;
+using static SequelPay.DotNetPowerExtensions.Reflection.Models.DeclarationTypes;
 using System.Diagnostics.CodeAnalysis;
-using static SequelPay.DotNetPowerExtensions.Reflection.Core.Models.DeclarationTypes;
-using static SequelPay.DotNetPowerExtensions.Reflection.Core.Models.MemberDetailTypes;
+using SequelPay.DotNetPowerExtensions;
+using System.Diagnostics;
+using System.Collections.Specialized;
 
 namespace DotNetPowerExtensions.Reflection.Tests;
 public class TypeInfoService_Tests
@@ -291,7 +294,7 @@ public class TypeInfoService_Tests
     {
     }
     [Test]
-    [TestCase(typeof(IDefaultImplementation))]
+    [TestCase(typeof(IDefaultImplementation) )]
     [TestCase(typeof(ClassDefaultImplementation))]
     public void Test_GetTypeInfo_DefaultInterfaceImplementation(Type type)
     {
@@ -502,7 +505,7 @@ public class TypeInfoService_Tests
 
         result.FieldDetails.Should().NotBeEmpty();
         result.ShadowedFieldDetails.Length.Should().Be(hasShadow ? 1 : 0);
-        if (hasShadow) result.ShadowedFieldDetails.First().ReflectionInfo.DeclaringType.Should().Be(typeof(SingleFieldClass));
+        if(hasShadow) result.ShadowedFieldDetails.First().ReflectionInfo.DeclaringType.Should().Be(typeof(SingleFieldClass));
 
         var field = result.FieldDetails.First();
         field.Name.Should().Be(nameof(SingleFieldClass.TestField));
@@ -773,79 +776,5 @@ public class TypeInfoService_Tests
         shadowed.Length.Should().Be(2);
     }
 
-    //[Test]
-    //[TestCase(typeof(object))]
-    //[TestCase(typeof(List<string>))]
-    //[TestCase(typeof(string[]))]
-    //[TestCase(typeof(List<string>[]))]
-    //[TestCase(typeof(Dictionary<int, List<string>>))]
-    //[TestCase(typeof(Dictionary<int[], List<string>[]>[]))]
-    //[TestCase(typeof(Type))]
-    //[TestCase(typeof(TypeDetailInfo))]
-    //[TestCase(typeof(ICollection<TypeDetailInfo>))]
-    //[TestCase(typeof(ICollection<>))]
-    //[TestCase(typeof(Dictionary<,>))]
-    //[TestCase(typeof(Union<,>))]
-    //[TestCase(typeof(Union<,,>))]
-    //[TestCase(typeof(Union<List<string>, Process, IQueryable<MustInitializeAttribute>>))]
-    //public Task Test_Types(Type t)
-    //{
-    //    var settings = new VerifySettings();
-    //    settings.AddExtraSettings(s => s.ContractResolver = new WritablePropertiesOnlyResolver());
-    //    //settings.AddExtraSettings(s => s.DefaultValueHandling = DefaultValueHandling.Include);
-    //    //static Task<CompareResult> CompareImages(
-    //    //    Stream received,
-    //    //    Stream verified,
-    //    //    IReadOnlyDictionary<string, object> context)
-    //    //{
-    //    //    // Fake comparison
-    //    //    if (received.Length == verified.Length)
-    //    //    {
-    //    //        return Task.FromResult(CompareResult.Equal);
-    //    //    }
-
-    //    //    var result = CompareResult.NotEqual();
-    //    //    return Task.FromResult(result);
-    //    //};
-    //    //settings.UseStreamComparer(CompareImages);
-    //    //settings.IgnoreMembers<TypeDetailInfo>(_ => _.ConstructorDetails, _=> _.PropertyDetails.);
-    //    return Verify(t.GetTypeDetailInfo(), settings);
-
-    //        //_ => _.ExplicitDetail,
-    //        //_ => _.IsGeneric,
-    //        //_ => _.IsGenericDefinition,
-    //        //_ => _.GenericDefinition)   ;
-    //}
-
-    //// From https://stackoverflow.com/a/34112601/640195
-    //class WritablePropertiesOnlyResolver : DefaultContractResolver
-    //{
-    //    protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
-    //    {
-    //        var property = base.CreateProperty(member, memberSerialization);
-    //        property.ShouldSerialize = _ => ShouldSerialize(member);
-    //        return property;
-    //    }
-
-    //    internal static bool ShouldSerialize(MemberInfo memberInfo)
-    //    {
-    //        var propertyInfo = memberInfo as PropertyInfo;
-    //        if (propertyInfo == null)
-    //        {
-    //            return false;
-    //        }
-    //        if (new[] { typeof(TypeDetailInfo), typeof(ITypeDetailInfo), typeof(TypeDetailInfo[]), typeof(ITypeDetailInfo[]) }.Contains(propertyInfo.PropertyType)) return false;
-    //        return true;
-    //        //if (propertyInfo.SetMethod != null)
-    //        //{
-    //        //    return true;
-    //        //}
-
-
-
-    //        //var getMethod = propertyInfo.GetMethod;
-    //        //return Attribute.GetCustomAttribute(getMethod, typeof(CompilerGeneratedAttribute)) != null;
-    //    }
-    //}
     // TODO... add override and shadow tests
 }
