@@ -1,9 +1,11 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
+﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+using DotNetPowerExtensions.Analyzers.MustInitialize;
+using Microsoft.CodeAnalysis;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CodeFixProviders;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CodeFixProviders;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MustInitializeRequiredMembersCodeFixProvider)), Shared]
 public class MustInitializeRequiredMembersForLocalCodeFixProvider

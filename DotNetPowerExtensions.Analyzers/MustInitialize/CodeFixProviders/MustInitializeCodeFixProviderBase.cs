@@ -1,10 +1,11 @@
 ﻿extern alias Workspaces;
 
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 using Workspaces::Microsoft.CodeAnalysis.CodeActions;
+using System.Collections.Immutable;
 using Workspaces::Microsoft.CodeAnalysis.Editing;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class MustInitializeCodeFixProviderBase<TAnalyzer, TNode> : CodeFixProvider
                                             where TAnalyzer : MustInitializeAnalyzerBase

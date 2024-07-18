@@ -8,7 +8,7 @@ using System.Reflection;
 using Workspaces::Microsoft.CodeAnalysis.Host;
 using Workspaces::Microsoft.CodeAnalysis.Options;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
 [ExportCompletionProvider(nameof(QuickInfoRegistrationProvider), LanguageNames.CSharp)]
 internal class QuickInfoRegistrationProvider : CommonCompletionProvider

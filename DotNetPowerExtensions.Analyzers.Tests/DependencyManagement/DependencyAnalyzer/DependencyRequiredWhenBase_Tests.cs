@@ -1,4 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 using Microsoft.CodeAnalysis.Testing;
 using Newtonsoft.Json.Linq;
 using SequelPay.DotNetPowerExtensions;

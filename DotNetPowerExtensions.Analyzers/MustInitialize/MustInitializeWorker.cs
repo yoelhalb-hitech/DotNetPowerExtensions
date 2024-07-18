@@ -1,6 +1,9 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+using SequelPay.DotNetPowerExtensions;
+using SequelPay.DotNetPowerExtensions.RoslynExtensions;
+using System.Linq;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize;
 
 internal class MustInitializeWorker : WorkerBase
 {

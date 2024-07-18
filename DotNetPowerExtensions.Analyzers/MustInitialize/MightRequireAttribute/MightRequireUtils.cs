@@ -1,6 +1,6 @@
 ﻿using SequelPay.DotNetPowerExtensions;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
 
 internal class MightRequireUtils
 {

@@ -1,4 +1,5 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.Union;
+﻿
+using DotNetPowerExtensions.Analyzers.Union;
 using NUnit.Framework.Internal;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.Union;

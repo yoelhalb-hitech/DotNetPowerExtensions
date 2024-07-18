@@ -1,4 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 

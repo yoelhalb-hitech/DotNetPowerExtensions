@@ -1,6 +1,6 @@
 ﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers;
+namespace DotNetPowerExtensions.Analyzers;
 
 internal class WorkerBase
 {

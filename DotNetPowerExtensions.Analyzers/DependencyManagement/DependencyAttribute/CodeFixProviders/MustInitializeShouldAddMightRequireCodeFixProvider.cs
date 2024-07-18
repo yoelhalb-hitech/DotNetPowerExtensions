@@ -1,12 +1,13 @@
 ﻿extern alias Workspaces;
 
-using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+using DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 using Workspaces::Microsoft.CodeAnalysis.Editing;
 
 using Workspaces::Microsoft.CodeAnalysis.CodeActions;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
+using DotNetPowerExtensions.Analyzers.MustInitialize;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.CodeFixProviders;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.CodeFixProviders;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MustInitializeShouldAddMightRequireCodeFixProvider)), Shared]
 public class MustInitializeShouldAddMightRequireCodeFixProvider : CodeFixProvider

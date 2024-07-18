@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers {
+namespace DotNetPowerExtensions.Analyzers {
     using System;
     
     

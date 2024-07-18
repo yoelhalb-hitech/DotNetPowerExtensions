@@ -1,6 +1,7 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 using Microsoft.CodeAnalysis.Testing;
 using SequelPay.DotNetPowerExtensions;
+using System.Security.AccessControl;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyAnalyzer;
 

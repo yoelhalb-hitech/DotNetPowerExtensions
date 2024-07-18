@@ -1,6 +1,7 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class RequiredWhenOverridingCodeFixProviderBase<TAnalyzer>
     : ByAttributeCodeFixProviderBase<TAnalyzer, PropertyDeclarationSyntax>

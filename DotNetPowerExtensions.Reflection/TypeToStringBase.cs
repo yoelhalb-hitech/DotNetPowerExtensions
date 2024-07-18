@@ -1,10 +1,9 @@
 ﻿using System.Collections.Concurrent;
 
-namespace SequelPay.DotNetPowerExtensions.Reflection;
+namespace DotNetPowerExtensions.Reflection;
 
 internal abstract class TypeToStringBase
 {
-    // TODO... how to handle correctly `file` classes without name collision?
     protected static bool IsGenericType(Type type) => type.IsGenericType
         //Non generic class in a generic class has `IsGenericType` true and the same generic arguments as the parent
         && (!type.IsNested || type.DeclaringType!.GetGenericArguments().Length != type.GetGenericArguments().Length);

@@ -1,6 +1,7 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using System.Diagnostics.CodeAnalysis;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustInitializeRequiredWhenOverriding : RequiredWhenOverridingBase

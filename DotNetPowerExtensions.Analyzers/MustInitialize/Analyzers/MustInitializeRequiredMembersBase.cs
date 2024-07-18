@@ -1,5 +1,5 @@
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class MustInitializeRequiredMembersBase : MustInitializeAnalyzerBase
 {

@@ -1,6 +1,6 @@
 ﻿using SequelPay.DotNetPowerExtensions;
 
-namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
+namespace DotNetPowerExtensions.Reflection.Models;
 
 public class MethodDetail : MemberDetail<MethodInfo>
 {

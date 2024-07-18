@@ -1,6 +1,7 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
 using Microsoft.CodeAnalysis.CSharp.Testing;
+using Microsoft;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 

@@ -2,7 +2,7 @@
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute;
 
 #if !NET45 && !NET46
 

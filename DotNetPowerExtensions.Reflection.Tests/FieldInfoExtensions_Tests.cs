@@ -1,5 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Reflection;
-
+﻿using DotNetPowerExtensions.Reflection;
 namespace DotNetPowerExtensions.Reflection.Tests;
 
 public class FieldInfoExtensions_Tests

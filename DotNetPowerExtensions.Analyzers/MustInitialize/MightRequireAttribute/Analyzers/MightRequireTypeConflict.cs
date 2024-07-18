@@ -3,7 +3,7 @@ using SequelPay.DotNetPowerExtensions;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute.Analyzers;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MightRequireTypeConflict : DiagnosticAnalyzer

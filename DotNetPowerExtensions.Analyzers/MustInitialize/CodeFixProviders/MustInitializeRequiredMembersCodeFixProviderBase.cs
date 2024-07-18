@@ -1,7 +1,8 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 using Microsoft.CodeAnalysis.Operations;
+using SequelPay.DotNetPowerExtensions;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class MustInitializeRequiredMembersCodeFixProviderBase<TAnalyzer, TNode> : MustInitializeCodeFixProviderBase<TAnalyzer, TNode>
                                                                                     where TAnalyzer : MustInitializeRequiredMembersBase

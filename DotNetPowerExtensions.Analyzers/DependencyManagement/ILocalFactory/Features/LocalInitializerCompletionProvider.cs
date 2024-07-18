@@ -6,11 +6,11 @@ using Features::Microsoft.CodeAnalysis.Completion.Providers;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Workspaces::Microsoft.CodeAnalysis.Host.Mef;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
+using DotNetPowerExtensions.Analyzers.MustInitialize;
 using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
 using Workspaces::Roslyn.Utilities;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
 [ExportCompletionProvider(nameof(LocalInitializerCompletionProvider), LanguageNames.CSharp)]
 public class LocalInitializerCompletionProvider : LSPCompletionProvider

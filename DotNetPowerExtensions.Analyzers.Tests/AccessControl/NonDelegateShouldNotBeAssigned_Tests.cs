@@ -1,4 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.AccessControl;
+﻿using DotNetPowerExtensions.Analyzers.AccessControl;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.AccessControl;
 

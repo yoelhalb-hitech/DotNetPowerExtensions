@@ -1,4 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
+﻿using DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Host.Mef;

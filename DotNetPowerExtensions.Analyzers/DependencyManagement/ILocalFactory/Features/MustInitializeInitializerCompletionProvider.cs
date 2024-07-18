@@ -1,7 +1,7 @@
 ﻿extern alias Features;
 extern alias Workspaces;
 
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
+using DotNetPowerExtensions.Analyzers.MustInitialize;
 using Features::Microsoft.CodeAnalysis.Completion;
 using Features::Microsoft.CodeAnalysis.Completion.Providers;
 using Microsoft.CodeAnalysis.CSharp.Completion.Providers;
@@ -13,7 +13,7 @@ using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
 using System.Diagnostics;
 using Features::Microsoft.CodeAnalysis;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
 [ExportCompletionProvider(nameof(MustInitializeInitializerCompletionProvider), LanguageNames.CSharp)]
 internal class MustInitializeInitializerCompletionProvider : ObjectAndWithInitializerCompletionProvider

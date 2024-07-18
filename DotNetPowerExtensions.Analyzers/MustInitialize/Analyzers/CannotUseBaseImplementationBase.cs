@@ -1,6 +1,6 @@
 ﻿using SequelPay.DotNetPowerExtensions;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class CannotUseBaseImplementationBase : ByAttributeAnalyzerBase
 {

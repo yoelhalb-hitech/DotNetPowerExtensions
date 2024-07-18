@@ -1,4 +1,6 @@
-﻿using SequelPay.DotNetPowerExtensions.Reflection;
+﻿using DotNetPowerExtensions.Reflection;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace DotNetPowerExtensions.Reflection.Tests;
 

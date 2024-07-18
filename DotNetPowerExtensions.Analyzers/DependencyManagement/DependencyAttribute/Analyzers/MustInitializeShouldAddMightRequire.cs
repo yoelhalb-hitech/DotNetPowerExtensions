@@ -1,8 +1,8 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
+﻿using DotNetPowerExtensions.Analyzers.MustInitialize;
+using DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+using DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MustInitializeShouldAddMightRequire : MustInitializeRequiredMembersBase

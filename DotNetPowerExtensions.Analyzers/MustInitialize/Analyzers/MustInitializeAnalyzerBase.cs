@@ -1,7 +1,7 @@
 ﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
 using System.Collections.Immutable;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+namespace DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 
 public abstract class MustInitializeAnalyzerBase : DiagnosticAnalyzer
 {

@@ -8,7 +8,7 @@ using Workspaces::System.Diagnostics.CodeAnalysis;
 using Features::Microsoft.CodeAnalysis.LanguageService;
 using System.Reflection;
 
-namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
+namespace DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
 [ExportQuickInfoProvider("LocalInitializer", LanguageNames.CSharp), Shared]
 [ExtensionOrder(Before = QuickInfoProviderNames.Semantic)]

@@ -1,6 +1,6 @@
 ﻿
-namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
+namespace DotNetPowerExtensions.Reflection.Models;
 
-public class FieldDetail : MemberDetail<FieldInfo>
+public class FieldDetail: MemberDetail<FieldInfo>
 {
 }
