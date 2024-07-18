@@ -175,6 +175,11 @@ internal class MemberPathMatcher_Tests
     [TestCase(typeof(Inner), $".{nameof(Inner.Method2)}`2(T2)", ExpectedResult = $".{nameof(Inner.Method2)}`2(T2)")]
     [TestCase(typeof(Inner), $".{nameof(Inner.Method2)}`3(T2)", ExpectedResult = $".{nameof(Inner.Method2)}`3")]
 
+    //TODO...
+    //Test on multiple steps and long paths, possibly including multiple generics and multiple invocations and explicit in the middle
+    //Test on args
+    //We need to handle the generic concretee args and return It and test it
+    //Test when mutiple explicit interfaces have the same name but not the same method name as well as the same method name
     public string Test_ParsePath_Full_ToMinimal(Type type, string fullPath)
     {
         var td = type.GetTypeDetailInfo() as ITypeDetailInfo;

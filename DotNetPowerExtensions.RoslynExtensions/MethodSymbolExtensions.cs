@@ -47,7 +47,7 @@ public static class MethodSymbolExtensions
             foreach (var m in baseMethod.GetConstructorChain(semanticModel, cancellationToken)) yield return m;
             yield break;
         }
-
+        We need to handle the new implicit primary ctors
         var syntax = method.GetSyntax<ConstructorDeclarationSyntax>(cancellationToken);
         if(!syntax.Any())
         {
