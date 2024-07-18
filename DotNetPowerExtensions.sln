@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions", "Do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Tests", "DotNetPowerExtensions.Tests\DotNetPowerExtensions.Tests.csproj", "{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Reflection.Core", "DotNetPowerExtensions.Reflection.Core\DotNetPowerExtensions.Reflection.Core.csproj", "{5621592A-9C5C-4E94-913F-5C9A85E75208}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Reflection", "DotNetPowerExtensions.Reflection\DotNetPowerExtensions.Reflection.csproj", "{265E9A08-BCA9-432E-AFF6-054C16092A65}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Reflection.Tests", "DotNetPowerExtensions.Reflection.Tests\DotNetPowerExtensions.Reflection.Tests.csproj", "{1196CEFB-3760-44B0-90FF-F92778B8037D}"
@@ -54,10 +52,6 @@ Global
 		{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5621592A-9C5C-4E94-913F-5C9A85E75208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5621592A-9C5C-4E94-913F-5C9A85E75208}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5621592A-9C5C-4E94-913F-5C9A85E75208}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5621592A-9C5C-4E94-913F-5C9A85E75208}.Release|Any CPU.Build.0 = Release|Any CPU
 		{265E9A08-BCA9-432E-AFF6-054C16092A65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{265E9A08-BCA9-432E-AFF6-054C16092A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{265E9A08-BCA9-432E-AFF6-054C16092A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
