@@ -723,14 +723,14 @@ public class TypeInfoService_Tests
         props.Should().NotBeNull();
         props.Length.Should().Be(1);
 
-        props.First().PropertyType.Should().Be(typeof(SubType));
+        props.First().ReflectionInfo.PropertyType.Should().Be(typeof(SubType));
         props.First().DeclarationType.Should().Be(Shadow);
 
         var shadowed = typeInfo.ShadowedPropertyDetails;
         shadowed.Should().NotBeNull();
         shadowed.Length.Should().Be(1);
 
-        shadowed.First().PropertyType.Should().Be(typeof(BaseType));
+        shadowed.First().ReflectionInfo.PropertyType.Should().Be(typeof(BaseType));
         shadowed.First().DeclarationType.Should().Be(Decleration);
 
         typeInfo = typeof(SubTypeSub).GetTypeDetailInfo();
@@ -739,14 +739,14 @@ public class TypeInfoService_Tests
         props.Should().NotBeNull();
         props.Length.Should().Be(1);
 
-        props.First().PropertyType.Should().Be(typeof(SubType));
+        props.First().ReflectionInfo.PropertyType.Should().Be(typeof(SubType));
         props.First().DeclarationType.Should().Be(Shadow);
 
         shadowed = typeInfo.ShadowedPropertyDetails;
         shadowed.Should().NotBeNull();
         shadowed.Length.Should().Be(1);
 
-        shadowed.First().PropertyType.Should().Be(typeof(BaseType));
+        shadowed.First().ReflectionInfo.PropertyType.Should().Be(typeof(BaseType));
         shadowed.First().DeclarationType.Should().Be(Decleration);
 
         typeInfo = typeof(SubSubType).GetTypeDetailInfo();
@@ -755,7 +755,7 @@ public class TypeInfoService_Tests
         props.Should().NotBeNull();
         props.Length.Should().Be(1);
 
-        props.First().PropertyType.Should().Be(typeof(SubSubType));
+        props.First().ReflectionInfo.PropertyType.Should().Be(typeof(SubSubType));
         props.First().DeclarationType.Should().Be(Shadow);
 
         shadowed = typeInfo.ShadowedPropertyDetails;
@@ -768,7 +768,7 @@ public class TypeInfoService_Tests
         props.Should().NotBeNull();
         props.Length.Should().Be(1);
 
-        props.First().PropertyType.Should().Be(typeof(SubSubType));
+        props.First().ReflectionInfo.PropertyType.Should().Be(typeof(SubSubType));
         props.First().DeclarationType.Should().Be(Shadow);
 
         shadowed = typeInfo.ShadowedPropertyDetails;
