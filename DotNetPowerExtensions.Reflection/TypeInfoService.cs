@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using DotNetPowerExtensions.Reflection;
 using DotNetPowerExtensions.Reflection.Models;
+using static DotNetPowerExtensions.Reflection.MethodInfoExtensions;
 
 namespace DotNetPowerExtensions.Reflection;
 
@@ -250,7 +251,7 @@ internal class TypeInfoService
         if (!type.IsInterface && baseType is not null) propsToUse = GetPropsToUse(propsToUse);
 
         foreach (var prop in propsToUse) propDetails.Add(GetPropertyDetail(prop)); // GetPropertyDetail has side effects so not using Linq
-        foreach(var evt in events.Except(defaultImplementEvents)) eventDetails.Add(GetEventDetail(evt)); // GetPropertyDetail has side effects so not using Linq
+        foreach (var evt in events.Except(defaultImplementEvents)) eventDetails.Add(GetEventDetail(evt)); // GetPropertyDetail has side effects so not using Linq
 
         var methodDetails = new List<MethodDetail>();
         // CAUTION: The following should only be done after the earlier have materilized as they have side effects for the handledMethods
@@ -266,7 +267,7 @@ internal class TypeInfoService
         }
         // Remove shadowed methods (since GetMethods also returns shadowed methods), but since we removed all shadowed by base we can assume that the remianing shadows ahve one declared in the current type
         methodDetails = methodDetails
-                .GroupBy(md => new { md.Name, md.ArgumentTypes, md.GenericArguments })
+                .GroupBy(md => md.ReflectionInfo, new MethodSignatureEqualityComparer())
                 .Select(md => md.Count() == 1 ? md.First() : md.First(md1 => md1.ReflectionInfo.DeclaringType == type))
                 .ToList();
 
@@ -348,7 +349,7 @@ internal class TypeInfoService
                 InReflectionForCurrentType = true,
                 DeclarationType = shadowed.Any(s => s.Name == f.Name) || baseType?.ShadowedFieldDetails.Any(s => s.ReflectionInfo.Name == f.Name) == true
                                             ? DeclarationTypes.Shadow
-                                            :  DeclarationTypes.Decleration,                
+                                            :  DeclarationTypes.Decleration,
             }).ToArray(),
             MethodDetails = methodDetails.ToArray(),
             // TODO... we cannot just copy the parent shadows as it will have the wrong reflected types
