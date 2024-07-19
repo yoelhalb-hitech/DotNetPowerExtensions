@@ -208,7 +208,11 @@ internal class TypeInfoFactory
 
         foreach ( var propGroup in groupedProps )
         {
-            if (propGroup.HasOnlyOne()) yield return propGroup.First();
+            if (propGroup.HasOnlyOne())
+            {
+                yield return propGroup.First();
+                continue;
+            }
 
             var usable = propGroup.ToArray();
             while (!usable.HasOnlyOne())
@@ -272,10 +276,9 @@ internal class TypeInfoFactory
         var eventDetails = new List<EventDetail>();
 
         var propsToUse = props.Except(defaultImplementProps);
-        if (!type.IsInterface && type.BaseType is not null) propsToUse = GetPropsToUse(propsToUse);
+        if (!type.IsInterface && baseType is not null) propsToUse = GetPropsToUse(propsToUse);
 
         foreach (var prop in propsToUse) propDetails.Add(GetPropertyDetail(prop)); // GetPropertyDetail has side effects so not using Linq
-        foreach (var prop in props.Except(defaultImplementProps)) propDetails.Add(GetPropertyDetail(prop)); // GetPropertyDetail has side effects so not using Linq
         foreach(var evt in events.Except(defaultImplementEvents)) eventDetails.Add(GetEventDetail(evt)); // GetPropertyDetail has side effects so not using Linq
 
         var methodDetails = new List<MethodDetail>();
