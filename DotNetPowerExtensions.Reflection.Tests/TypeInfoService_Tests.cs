@@ -88,22 +88,42 @@ public class TypeInfoService_Tests
     {
         public virtual void TestMethod() { }
     }
+    class SingleGenericMethod
+    {
+        public virtual void TestMethod<T>(T t) { }
+    }
     class SingleMethodInherited : SingleMethod { }
+    class SingleGenericMethodInherited : SingleGenericMethod { }
     class SingleMethodOverriden : SingleMethodInherited
     {
         public override void TestMethod() { }
     }
+    class SingleGenericMethodOverriden : SingleGenericMethodInherited
+    {
+        public override void TestMethod<T>(T t) { }
+    }
     class SingleMethodOverridenInherited : SingleMethodOverriden { }
+    class SingleGenericMethodOverridenInherited : SingleGenericMethodOverriden { }
     class SingleMethodShadowed : SingleMethodOverridenInherited
     {
         public new virtual void TestMethod() { }
     }
+    class SingleGenericMethodShadowed : SingleGenericMethodOverridenInherited
+    {
+        public new virtual void TestMethod<T>(T t) { }
+    }
     class SingleMethodShadowedInherited : SingleMethodShadowed { }
+    class SingleGenericMethodShadowedInherited : SingleGenericMethodShadowed { }
     class SingleMethodShadowedOverriden : SingleMethodShadowedInherited
     {
         public override void TestMethod() { }
     }
+    class SingleGenericMethodShadowedOverriden : SingleGenericMethodShadowedInherited
+    {
+        public override void TestMethod<T>(T t) { }
+    }
     class SingleMethodShadowedOverridenInherited : SingleMethodShadowedOverriden { }
+    class SingleGenericMethodShadowedOverridenInherited : SingleGenericMethodShadowedOverriden { }
 
     [Test]
     [TestCase(typeof(SingleMethod), Decleration, false, false, false)]
@@ -114,6 +134,14 @@ public class TypeInfoService_Tests
     [TestCase(typeof(SingleMethodShadowedInherited), Shadow, true, true, false)]
     [TestCase(typeof(SingleMethodShadowedOverriden), ShadowOverride, false, true, true)]
     [TestCase(typeof(SingleMethodShadowedOverridenInherited), ShadowOverride, true, true, true)]
+    [TestCase(typeof(SingleGenericMethod), Decleration, false, false, false)]
+    [TestCase(typeof(SingleGenericMethodInherited), Decleration, true, false, false)]
+    [TestCase(typeof(SingleGenericMethodOverriden), Override, false, false, true)]
+    [TestCase(typeof(SingleGenericMethodOverridenInherited), Override, true, false, true)]
+    [TestCase(typeof(SingleGenericMethodShadowed), Shadow, false, true, false)]
+    [TestCase(typeof(SingleGenericMethodShadowedInherited), Shadow, true, true, false)]
+    [TestCase(typeof(SingleGenericMethodShadowedOverriden), ShadowOverride, false, true, true)]
+    [TestCase(typeof(SingleGenericMethodShadowedOverridenInherited), ShadowOverride, true, true, true)]
 
     public void Test_GetTypeInfo_SingleClassMethod(Type type, DeclarationTypes decl, bool inherited, bool isShadow, bool overriden)
     {
@@ -124,7 +152,9 @@ public class TypeInfoService_Tests
         result.EventDetails.Should().BeEmpty();
         result.MethodDetails.Length.Should().Be(1);
 
-        var methodInfo = type.GetMethod(nameof(SingleMethod.TestMethod))!;
+        var isGenericMethod = result.MethodDetails.First().GenericArguments.Any();
+        var methodInfo = type.GetMethods().First(m => m.Name.StartsWith(nameof(SingleMethod.TestMethod))
+                                && (m.DeclaringType == type || m.DeclaringType == type.BaseType));
         var methodDetails = result.MethodDetails.First();
 
         Validate(methodDetails, methodInfo, decl, inherited, true);
@@ -141,7 +171,8 @@ public class TypeInfoService_Tests
         if (isShadow)
         {
             var shadow = result.ShadowedMethodDetails.First();
-            Validate(shadow, typeof(SingleMethodOverridenInherited).GetMethod(nameof(SingleMethod.TestMethod))!, Override, true, true);
+            var typeToCompare = !isGenericMethod ? typeof(SingleMethodOverridenInherited) : typeof(SingleGenericMethodOverridenInherited);
+            Validate(shadow, typeToCompare.GetMethods().First(m => m.Name.StartsWith(nameof(SingleMethod.TestMethod))), Override, true, true);
             shadow.Name.Should().Be(nameof(SingleMethod.TestMethod));
         }
 
@@ -263,7 +294,6 @@ public class TypeInfoService_Tests
         method.ExplicitInterface.Should().Be(typeof(IExplicitImplementation));
         method.DeclarationType.Should().Be(DeclarationTypes.ExplicitImplementation);
     }
-
 #if NETCOREAPP
 
     interface IDefaultImplementation

@@ -2,6 +2,7 @@
 using SequelPay.DotNetPowerExtensions.Reflection.Core.Models;
 using SequelPay.DotNetPowerExtensions.Reflection;
 using SequelPay.DotNetPowerExtensions.Reflection.Models;
+using static SequelPay.DotNetPowerExtensions.Reflection.MethodInfoExtensions;
 
 namespace SequelPay.DotNetPowerExtensions.Reflection;
 
@@ -291,7 +292,7 @@ internal class TypeInfoFactory
         }
         // Remove shadowed methods (since GetMethods also returns shadowed methods), but since we removed all shadowed by base we can assume that the remianing shadows ahve one declared in the current type
         methodDetails = methodDetails
-                .GroupBy(md => new { md.Name, md.ArgumentTypes, GenericArguments = md.ReflectionInfo.GetGenericArguments() })
+                .GroupBy(md => md.ReflectionInfo, new MethodSignatureEqualityComparer())
                 .Select(md => md.Count() == 1 ? md.First() : md.First(md1 => md1.ReflectionInfo.DeclaringType == type))
                 .ToList();
 

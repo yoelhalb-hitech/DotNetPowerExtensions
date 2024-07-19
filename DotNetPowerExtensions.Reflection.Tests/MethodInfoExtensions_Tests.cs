@@ -1,4 +1,5 @@
 ﻿using SequelPay.DotNetPowerExtensions.Reflection;
+using static SequelPay.DotNetPowerExtensions.Reflection.MethodInfoExtensions;
 
 namespace DotNetPowerExtensions.Reflection.Tests;
 
@@ -160,73 +161,245 @@ public class MethodInfoExtensions_Tests
         result2.Should().BeSameAs(result);
     }
 
-    class A
+    class BaseClass
     {
         public virtual void Test() { }
         public virtual void Test<T>() { }
         public virtual void Test<T, T1>() { }
         public virtual void Test(int i) { }
         public virtual void Test<T>(int i) { }
+        public virtual void Test<T>(T t) { }
         public virtual void Test<T, T1>(int i) { }
+        public virtual void Test<T, T1>(T t) { }
+        public virtual void Test<T, T1>(T1 t1) { }
+        public virtual void Test<T, T1>(int i, string s) { }
+        public virtual void Test<T, T1>(string s, int i) { }
+        public virtual void Test<T, T1>(T t, T1 t1) { }
+        public virtual void Test<T, T1>(T1 t1, T t) { }
     }
 
-    class B : A { } // Don't add here anything or the tests will fail
-    class C : A { }
+    class Inherited1 : BaseClass { } // Don't add here anything or the tests will fail
+    class Inherited2 : BaseClass { }
+
+    class Overriden : BaseClass
+    {
+        public override void Test() { }
+        public override void Test<T>() { }
+        public override void Test<T, T1>() { }
+        public override void Test(int i) { }
+        public override void Test<T>(int i) { }
+        public override void Test<T>(T t) { }
+        public override void Test<T, T1>(int i) { }
+        public override void Test<T, T1>(T t) { }
+        public override void Test<T, T1>(T1 t1) { }
+        public override void Test<T, T1>(int i, string s) { }
+        public override void Test<T, T1>(string s, int i) { }
+        public override void Test<T, T1>(T t, T1 t1) { }
+        public override void Test<T, T1>(T1 t1, T t) { }
+    }
+
+    class Shadowed : BaseClass
+    {
+        public new virtual void Test() { }
+        public new virtual void Test<T>() { }
+        public new virtual void Test<T, T1>() { }
+        public new virtual void Test(int i) { }
+        public new virtual void Test<T>(int i) { }
+        public new virtual void Test<T>(T t) { }
+        public new virtual void Test<T, T1>(int i) { }
+        public new virtual void Test<T, T1>(T t) { }
+        public new virtual void Test<T, T1>(T1 t1) { }
+        public new virtual void Test<T, T1>(int i, string s) { }
+        public new virtual void Test<T, T1>(string s, int i) { }
+        public new virtual void Test<T, T1>(T t, T1 t1) { }
+        public new virtual void Test<T, T1>(T1 t1, T t) { }
+    }
+
+    class OtherClass
+    {
+        public virtual void Test() { }
+        public virtual void Test<T>() { }
+        public virtual void Test<T1, T>() { }
+        public virtual void Test(int i) { }
+        public virtual void Test<T>(int i) { }
+        public virtual void Test<T>(T t) { }
+        public virtual void Test<T12, T34>(int i) { }
+        public virtual void Test<T1, T>(T1 t) { }
+        public virtual void Test<T2, T1>(T1 t1) { }
+        public virtual void Test<T124, T144>(int i, string s) { }
+        public virtual void Test<T22, T133>(string s, int i) { }
+        public virtual void Test<T33, T111>(T33 t, T111 t1) { }
+        public virtual void Test<T111, T33>(T33 t, T111 t1) { }
+    }
+
+    public static int[] ToSkip = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+    public static (Type, Type)[] TypesEqual =
+    [
+        (typeof(Inherited1), typeof(Inherited2)),
+        (typeof(BaseClass), typeof(Inherited2)),
+        (typeof(BaseClass), typeof(BaseClass)),
+        (typeof(Inherited1), typeof(Inherited1)),
+        (typeof(Overriden), typeof(Overriden)),
+        (typeof(OtherClass), typeof(OtherClass)),
+    ];
+
+    public static (Type, Type)[] TypesSignatureEqual =
+    [
+        (typeof(BaseClass), typeof(Overriden)),
+        (typeof(BaseClass), typeof(Shadowed)),
+        (typeof(Inherited1), typeof(Shadowed)),
+        (typeof(Inherited1), typeof(Overriden)),
+        (typeof(OtherClass), typeof(BaseClass)),
+        (typeof(OtherClass), typeof(Shadowed)),
+        (typeof(OtherClass), typeof(Overriden)),
+        (typeof(OtherClass), typeof(Inherited2)),
+    ];
+
+    public static (Type, Type)[] AllTypes = [.. TypesEqual, .. TypesSignatureEqual];
+
+    private void VerifyEqual(MethodInfo method1, MethodInfo method2)
+        => VerifyEqualInternal(method1, method2, true);
+
+    private void VerifyNotEqual(MethodInfo method1, MethodInfo method2)
+        => VerifyEqualInternal(method1, method2, false);
+
+    private void VerifyEqualInternal(MethodInfo method1, MethodInfo method2, bool should)
+    {
+        method1.IsEqual(method2).Should().Be(should);
+
+        var equalityComparer = new MethodEqualityComparer();
+        equalityComparer.Equals(method1, method2).Should().Be(should);
+
+        if(should)
+            (equalityComparer.GetHashCode(method1) == equalityComparer.GetHashCode(method2)).Should().BeTrue();
+    }
+
+    private void VerifySigEqual(MethodInfo method1, MethodInfo method2)
+        => VerifySigEqualInternal(method1, method2, true);
+
+    private void VerifySigNotEqual(MethodInfo method1, MethodInfo method2)
+        => VerifySigEqualInternal(method1, method2, false);
+
+    private void VerifySigEqualInternal(MethodInfo method1, MethodInfo method2, bool should)
+    {
+        method1.IsSignatureEqual(method2).Should().Be(should);
+
+        var equalitySigComparer = new MethodSignatureEqualityComparer();
+        equalitySigComparer.Equals(method1, method2).Should().Be(should);
+
+        if (should)
+            (equalitySigComparer.GetHashCode(method1) == equalitySigComparer.GetHashCode(method2)).Should().BeTrue();
+    }
+
+    private MethodInfo GetMethod(Type type, int toSkip) => type.GetMethods().Skip(toSkip).First();
+    private MethodInfo MakeGeneric<Type>(MethodInfo method)
+    {
+        var concreteArgs = Enumerable.Repeat(typeof(Type), method.GetGenericArguments().Length).ToArray();
+        return method.MakeGenericMethod(concreteArgs);
+    }
 
     [Test]
-    public void Test_IsEqual_ReturnsTrue_WhenSubclassesEqual([Values(0,1,2,3,4,5)] int toSkip)
-        => typeof(B).GetMethods().Skip(toSkip).First()
-                    .IsEqual(typeof(C).GetMethods().Skip(toSkip).First())
-                    .Should().BeTrue();
+    public void Test_Equality_WhenEqual([ValueSource(nameof(ToSkip))] int toSkip,
+                        [ValueSource(nameof(TypesEqual))] (Type type1, Type type2) types)
+    {
+        var method1 = GetMethod(types.type1, toSkip);
+        var method2 = GetMethod(types.type2, toSkip);
+
+        VerifyEqual(method1, method2);
+        VerifySigEqual(method1, method2);
+    }
 
     [Test]
-    public void Test_IsEqual_ReturnsTrue_WhenBaseAndSubclassEqual([Values(0, 1, 2, 3, 4, 5)] int toSkip)
-        => typeof(A).GetMethods().Skip(toSkip).First()
-                    .IsEqual(typeof(C).GetMethods().Skip(toSkip).First())
-                    .Should().BeTrue();
+    public void Test_Equality_WhenEqual_AndContructedSame([ValueSource(nameof(ToSkip))] int toSkip,
+                    [ValueSource(nameof(TypesEqual))] (Type type1, Type type2) types)
+    {
+        var method1 = GetMethod(types.type1, toSkip);
+        var method2 = GetMethod(types.type2, toSkip);
+
+        Assume.That(method1.IsGenericMethodDefinition);
+
+        var constructed1 = MakeGeneric<string>(method1);
+        var constructed2 = MakeGeneric<string>(method2);
+
+        VerifyEqual(constructed1, constructed2);
+        VerifySigEqual(constructed1, constructed2);
+    }
 
     [Test]
-    public void Test_IsEqual_ReturnsFalse_WhenSubclassesNotEqual([Values(0, 1, 2, 3, 4, 5)] int first, [Values(0, 1, 2, 3, 4, 5)] int second)
+    public void Test_SignatureEqual_WhenOnlySignatureEqual([ValueSource(nameof(ToSkip))] int toSkip,
+                    [ValueSource(nameof(TypesSignatureEqual))] (Type type1, Type type2) types)
+    {
+        var method1 = GetMethod(types.type1, toSkip);
+        var method2 = GetMethod(types.type2, toSkip);
+
+        VerifyNotEqual(method1, method2);
+        VerifySigEqual(method1, method2);
+    }
+
+    [Test]
+    public void Test_SignatureEqual_WhenOnlySignatureEqual_AndContructedSame(
+                [ValueSource(nameof(ToSkip))] int toSkip,
+                [ValueSource(nameof(TypesSignatureEqual))] (Type type1, Type type2) types)
+    {
+        var method1 = GetMethod(types.type1, toSkip);
+        var method2 = GetMethod(types.type2, toSkip);
+
+        Assume.That(method1.IsGenericMethodDefinition);
+
+        var constructed1 = MakeGeneric<string>(method1);
+        var constructed2 = MakeGeneric<string>(method2);
+
+        VerifyNotEqual(constructed1, constructed2);
+        VerifySigEqual(constructed1, constructed2);
+    }
+
+    [Test]
+    public void Test_NotEqual_WhenSignatureNotEqual(
+                [ValueSource(nameof(ToSkip))] int first,
+                [ValueSource(nameof(ToSkip))] int second,
+                [ValueSource(nameof(TypesSignatureEqual))] (Type type1, Type type2) types)
     {
         Assume.That(first != second);
 
-        typeof(B).GetMethods().Skip(first).First()
-            .IsEqual(typeof(C).GetMethods().Skip(second).First())
-            .Should().BeFalse();
+        var method1 = GetMethod(types.type1, first);
+        var method2 = GetMethod(types.type2, second);
+
+        VerifyNotEqual(method1, method2);
+        VerifySigNotEqual(method1, method2);
     }
 
     [Test]
-    public void Test_IsEqual_ReturnsFalse_WhenBaseAndSublassNotEqual([Values(0, 1, 2, 3, 4, 5)] int first, [Values(0, 1, 2, 3, 4, 5)] int second)
+    public void Test_NotEqual_WhenGenericDefinitionAndConstruction(
+            [ValueSource(nameof(ToSkip))] int toSkip,
+            [ValueSource(nameof(AllTypes))] (Type type1, Type type2) types)
     {
-        Assume.That(first != second);
+        var method1 = GetMethod(types.type1, toSkip);
+        var method2 = GetMethod(types.type2, toSkip);
 
-        typeof(A).GetMethods().Skip(first).First()
-            .IsEqual(typeof(B).GetMethods().Skip(second).First()).Should().BeFalse();
-    }
+        Assume.That(method1.IsGenericMethodDefinition);
 
+        var constructed = MakeGeneric<string>(method1);
 
-    [Test]
-    public void Test_IsEqual_ReturnsFalse_WhenGenericDefinitionAndConstructed([Values(0, 1, 2, 3, 4, 5)] int toSkip)
-    {
-        var method = typeof(B).GetMethods().Skip(toSkip).First();
-
-        Assume.That(method.IsGenericMethodDefinition);
-
-        typeof(A).GetMethods().Skip(toSkip).First() // Use a different reflected type as otherwise it will short circut to the built in comparison
-            .IsEqual(method.MakeGenericMethod(method.GetGenericArguments().Select(s => typeof(int)).ToArray()))
-            .Should().BeFalse();
+        VerifyNotEqual(constructed, method2);
+        VerifySigNotEqual(constructed, method2);
     }
 
     [Test]
-    public void Test_IsEqual_ReturnsFalse_WhenConstructedMethodsAreDifferent([Values(0, 1, 2, 3, 4, 5)] int toSkip)
+    public void Test_NotEqual_WhenConstructedMethodsAreDifferent(
+        [ValueSource(nameof(ToSkip))] int toSkip,
+        [ValueSource(nameof(AllTypes))] (Type type1, Type type2) types)
     {
-        var method = typeof(B).GetMethods().Skip(toSkip).First();
+        var method1 = GetMethod(types.type1, toSkip);
+        var method2 = GetMethod(types.type2, toSkip);
 
-        Assume.That(method.IsGenericMethodDefinition);
+        Assume.That(method1.IsGenericMethodDefinition);
 
-        // Use a different reflected type as otherwise it will short circut to the built in comparison
-        typeof(A).GetMethods().Skip(toSkip).First().MakeGenericMethod(method.GetGenericArguments().Select(s => typeof(string)).ToArray())
-            .IsEqual(method.MakeGenericMethod(method.GetGenericArguments().Select(s => typeof(int)).ToArray())).Should().BeFalse();
+        var constructed1 = MakeGeneric<string>(method1);
+        var constructed2 = MakeGeneric<int>(method2);
+
+        VerifyNotEqual(constructed1, constructed2);
+        VerifySigNotEqual(constructed1, constructed2);
     }
 
     class A1
