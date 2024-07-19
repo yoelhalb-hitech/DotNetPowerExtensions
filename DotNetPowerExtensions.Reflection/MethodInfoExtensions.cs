@@ -73,13 +73,56 @@ public static class MethodInfoExtensions
     {
         public bool Equals(MethodInfo? x, MethodInfo? y) => x is not null && y is not null && x.IsEqual(y);
 
-        public int GetHashCode(MethodInfo obj) => obj.Name.GetHashCode() * (obj.DeclaringType?.GetHashCode() ?? 12345);
+        public int GetHashCode(MethodInfo obj) => obj.GetHashCode() * (obj.DeclaringType?.GetHashCode() ?? 12345) * new MethodSignatureEqualityComparer().GetHashCode(obj);
+    }
+
+    public class MethodSignatureEqualityComparer : IEqualityComparer<MethodInfo>
+    {
+        public bool Equals(MethodInfo? x, MethodInfo? y) => x is not null && y is not null && x.IsSignatureEqual(y);
+
+        public int GetHashCode(MethodInfo obj) => obj.Name.GetHashCode() * obj.GetParameters().Count().GetHashCode() * obj.GetGenericArguments().Count().GetHashCode() * obj.IsGenericMethodDefinition.GetHashCode();
     }
 
     public static bool IsSignatureEqual(this MethodInfo methodInfo, MethodInfo other)
-        => methodInfo.Name == other.Name
-                && methodInfo.GetParameters().Select(p => p.ParameterType).SequenceEqual(other.GetParameters().Select(p => p.ParameterType))
-                && methodInfo.GetGenericArguments().SequenceEqual(other.GetGenericArguments());
+    {
+        if(methodInfo.Name != other.Name) return false;
+
+        if(methodInfo.IsGenericMethodDefinition != other.IsGenericMethodDefinition) return false;
+
+        var methodGenerics = methodInfo.GetGenericArguments().ToList();
+        var otherGenerics = other.GetGenericArguments().ToList();
+        if (methodGenerics.Count != otherGenerics.Count) return false;
+
+        for (int i = 0; i < methodGenerics.Count; i++)
+        {
+            if (methodGenerics[i].IsGenericParameter != otherGenerics[i].IsGenericParameter) return false;
+
+            if (!methodGenerics[i].IsGenericParameter && methodGenerics[i] != otherGenerics[i]) return false;
+        }
+
+        var methodParams = methodInfo.GetParameters();
+        var otherParams = other.GetParameters();
+
+        if(methodParams.Length != otherParams.Length) return false;
+
+        for (int i = 0; i < methodParams.Length; i++)
+        {
+            var paramType = methodParams[i].ParameterType;
+            var otherType = otherParams[i].ParameterType;
+            if(paramType.IsGenericParameter != otherType.IsGenericParameter) return false;
+
+            if (paramType.IsGenericParameter && methodGenerics.Contains(paramType))
+            {
+                if (methodGenerics.IndexOf(paramType) == otherGenerics.IndexOf(otherType)) continue;
+
+                return false;
+            }
+
+            if (paramType != otherType) return false;
+        }
+
+        return true;
+    }
 
     public static IEnumerable<MethodInfo> GetInterfaceMethods(this MethodInfo method)
     {
