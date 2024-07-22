@@ -34,7 +34,22 @@ public class TypeInfoService_Tests
         public override int Prop { get; set; }
     }
     class SinglePropShadowedOverridenInherited : SinglePropShadowedOverriden { }
-
+    class SinglePropComplexType
+    {
+        public virtual SingleProp? Prop { get; set; }
+    }
+    class SinglePropShadowedSubType : SinglePropComplexType
+    {
+        public new virtual SinglePropOverriden? Prop { get; set; }
+    }
+    class SingleProp_UsingSubType
+    {
+        public virtual SinglePropOverriden? Prop { get; set; }
+    }
+    class SinglePropShadowed_UsingBaseType : SingleProp_UsingSubType
+    {
+        public new virtual SingleProp? Prop { get; set; }
+    }
     [Test]
     [TestCase(typeof(SingleProp), Decleration, false, false, false)]
     [TestCase(typeof(SinglePropInherited), Decleration, true, false, false)]
@@ -44,8 +59,14 @@ public class TypeInfoService_Tests
     [TestCase(typeof(SinglePropShadowedInherited), Shadow, true, true, false)]
     [TestCase(typeof(SinglePropShadowedOverriden), ShadowOverride, false, true, true)]
     [TestCase(typeof(SinglePropShadowedOverridenInherited), ShadowOverride, true, true, true)]
+    [TestCase(typeof(SinglePropShadowedOverridenInherited), ShadowOverride, true, true, true)]
+    [TestCase(typeof(SinglePropComplexType), Decleration, false, false, false)]
+    [TestCase(typeof(SinglePropShadowedSubType), Shadow, false, true, false, typeof(SinglePropComplexType))]
+    [TestCase(typeof(SingleProp_UsingSubType), Decleration, false, false, false)]
+    [TestCase(typeof(SinglePropShadowed_UsingBaseType), Shadow, false, true, false, typeof(SingleProp_UsingSubType))]
 
-    public void Test_GetTypeInfo_SingleClassProp(Type type, DeclarationTypes decl, bool inherited, bool isShadow, bool overriden)
+    public void Test_GetTypeInfo_SingleClassProp(Type type, DeclarationTypes decl, bool inherited,
+                                        bool isShadow, bool overriden, Type? shadowedType = null)
     {
         var result = new TypeInfoService(type).GetTypeInfo();
 
@@ -54,7 +75,9 @@ public class TypeInfoService_Tests
         result.EventDetails.Should().BeEmpty();
         result.PropertyDetails.Length.Should().Be(1);
 
-        var propInfo = type.GetProperty(nameof(SingleProp.Prop))!;
+        // Can't do .GetProperty() because of shadowed properties
+        var props = type.GetProperties().Where(p => p.Name == nameof(SingleProp.Prop)).ToArray();
+        var propInfo = props.FirstOrDefault(p => p.DeclaringType == type) ?? props.Single();
         var propDetails = result.PropertyDetails.First();
 
         Validate(propDetails, propInfo, decl, inherited, true);
@@ -78,7 +101,10 @@ public class TypeInfoService_Tests
         if (isShadow)
         {
             var shadow = result.ShadowedPropertyDetails.First();
-            Validate(shadow, typeof(SinglePropOverridenInherited).GetProperty(nameof(SingleProp.Prop))!, Override, true, true);
+            var shadowedToUse = shadowedType ?? typeof(SinglePropOverridenInherited);
+            var declToUse = shadowedType is not null ? Decleration : Override;
+
+            Validate(shadow, shadowedToUse.GetProperty(nameof(SingleProp.Prop))!, declToUse, shadowedType is null, true);
             shadow.Name.Should().Be(nameof(SingleProp.Prop));
         }
 
