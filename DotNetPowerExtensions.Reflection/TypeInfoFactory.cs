@@ -202,7 +202,8 @@ internal class TypeInfoFactory
 
     private IEnumerable<PropertyInfo> GetPropsToUse(IEnumerable<PropertyInfo> props)
     {
-        // While only methods typically show the methods, there is an excpetion if the shadowed property type is a subclass of the base property type
+        // In general only .GetMethods() typically show the shadowd methods and not .GetProperties()
+        // However there is an excpetion if the shadowed property type is a subclass of the base property type
         // But we can figure this by checking for property type assignable to the others
         var groupedProps = props.GroupBy(p => p.Name);
 
@@ -219,7 +220,9 @@ internal class TypeInfoFactory
             {
                 // We need the type that can be assigned to all others as it is the sub class then...
                 var firstType = usable.First().PropertyType;
-                usable = usable.Where(u => u.PropertyType == firstType || !u.PropertyType.IsAssignableFrom(firstType)).ToArray();
+                usable = usable.Where(u => u.PropertyType == firstType ||
+                        (!u.PropertyType.IsAssignableFrom(firstType) && !firstType.IsAssignableFrom(u.PropertyType)))
+                    .ToArray();
             }
 
             yield return usable.First();
