@@ -38,7 +38,7 @@ jobs:
     - name: Build
       run: dotnet build ${{ matrix.package }}/${{ matrix.package }}.csproj --no-restore --configuration Release /p:Version=${VERSION}
     - name: Test
-      run: dotnet test ${{ matrix.package }}.Tests/${{ matrix.package }}.Tests.csproj --verbosity normal --configuration Release /p:Version=${VERSION} 
+      run: dotnet test ${{ matrix.package }}.Tests/${{ matrix.package }}.Tests.csproj --verbosity normal --configuration Release /p:Version=${VERSION} /p:TargetFramework=net7.0
     - name: Pack
       run: dotnet pack ${{ matrix.package }}/${{ matrix.package }}.csproj --configuration Release /p:Version=${VERSION} --no-build --output .      
     - name: Push Package to NuGet.org
