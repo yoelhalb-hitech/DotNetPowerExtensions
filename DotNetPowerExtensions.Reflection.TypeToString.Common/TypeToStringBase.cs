@@ -35,6 +35,7 @@ public abstract class TypeToStringBase
     public string GetTypeFullNameString(Type type) => typeFullNameCache.GetOrAdd(type, t => ToGenericTypeString(t, true, false, null));
 
     public abstract string? HandleCustomName(Type t);
+    public abstract string? HandleInvalidName(Type t);
     public virtual string ToGenericTypeString(Type type, bool fullName, bool emptyForStub, Type[]? genericArgs)
     {
         if (type is null) throw new ArgumentNullException(nameof(type));
@@ -48,6 +49,8 @@ public abstract class TypeToStringBase
             var custom = HandleCustomName(type);
             if (custom is not null) return custom;
         }
+
+        if (HandleInvalidName(type) is var valid && valid is not null) return valid;
 
         var currentGenericArgs = GetCurrentGenericArguments(type, genericArgs);
         var genericPart = string.Join(GenericSeparatorSymbol, currentGenericArgs

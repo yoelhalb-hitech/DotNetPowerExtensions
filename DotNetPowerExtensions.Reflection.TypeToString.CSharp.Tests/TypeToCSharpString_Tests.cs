@@ -27,6 +27,11 @@ namespace DotNetPowerExtensions.Reflection.Tests
         [Test]
         [TestCase(typeof(int), ExpectedResult = "int")]
         [TestCase(typeof(string), ExpectedResult = "string")]
+        [TestCase(typeof(object), ExpectedResult = "object")]
+        [TestCase(typeof(char), ExpectedResult = "char")]
+        [TestCase(typeof(short), ExpectedResult = "short")]
+        [TestCase(typeof(ushort), ExpectedResult = "ushort")]
+        [TestCase(typeof(void), ExpectedResult = "void")]
         [TestCase(typeof(Array), ExpectedResult = "Array")]
         [TestCase(typeof(Task), ExpectedResult = "Task")]
         [TestCase(typeof(Task<>), ExpectedResult = "Task<TResult>")]
@@ -52,6 +57,11 @@ namespace DotNetPowerExtensions.Reflection.Tests
         [Test]
         [TestCase(typeof(int), ExpectedResult = "int")]
         [TestCase(typeof(string), ExpectedResult = "string")]
+        [TestCase(typeof(object), ExpectedResult = "object")]
+        [TestCase(typeof(char), ExpectedResult = "char")]
+        [TestCase(typeof(short), ExpectedResult = "short")]
+        [TestCase(typeof(ushort), ExpectedResult = "ushort")]
+        [TestCase(typeof(void), ExpectedResult = "void")]
         [TestCase(typeof(Array), ExpectedResult = "Array")]
         [TestCase(typeof(Task), ExpectedResult = "Task")]
         [TestCase(typeof(Task<>), ExpectedResult = "Task<>")]
@@ -77,6 +87,10 @@ namespace DotNetPowerExtensions.Reflection.Tests
         [Test]
         [TestCase(typeof(int), ExpectedResult = "System.Int32")]
         [TestCase(typeof(string), ExpectedResult = "System.String")]
+        [TestCase(typeof(object), ExpectedResult = "System.Object")]
+        [TestCase(typeof(char), ExpectedResult = "System.Char")]
+        [TestCase(typeof(short), ExpectedResult = "System.Int16")]
+        [TestCase(typeof(ushort), ExpectedResult = "System.UInt16")]
         [TestCase(typeof(Array), ExpectedResult = "System.Array")]
         [TestCase(typeof(Task), ExpectedResult = "System.Threading.Tasks.Task")]
         [TestCase(typeof(Task<>), ExpectedResult = "System.Threading.Tasks.Task<TResult>")]
@@ -100,8 +114,16 @@ namespace DotNetPowerExtensions.Reflection.Tests
             => type.ToCSharpTypeString(true, false, null);
 
         [Test]
+        public void ToGenericTypeString_Test_FullName_NonEmptyOnStub_HandlesCorrectly_InvalidTypes()
+            => typeof(void).ToCSharpTypeString(true, false, null).Should().Be("void");
+
+        [Test]
         [TestCase(typeof(int), ExpectedResult = "System.Int32")]
         [TestCase(typeof(string), ExpectedResult = "System.String")]
+        [TestCase(typeof(object), ExpectedResult = "System.Object")]
+        [TestCase(typeof(char), ExpectedResult = "System.Char")]
+        [TestCase(typeof(short), ExpectedResult = "System.Int16")]
+        [TestCase(typeof(ushort), ExpectedResult = "System.UInt16")]
         [TestCase(typeof(Array), ExpectedResult = "System.Array")]
         [TestCase(typeof(Task), ExpectedResult = "System.Threading.Tasks.Task")]
         [TestCase(typeof(Task<>), ExpectedResult = "System.Threading.Tasks.Task<>")]
@@ -123,6 +145,10 @@ namespace DotNetPowerExtensions.Reflection.Tests
         [TestCase(typeof(ValueTuple<int, string>), ExpectedResult = "System.ValueTuple<System.Int32,System.String>")]
         public string ToGenericTypeString_Test_FullName_EmptyOnStub(Type type)
             => type.ToCSharpTypeString(true, true, null);
+
+        [Test]
+        public void ToGenericTypeString_Test_FullName_EmptyOnStub_HandlesCorrectly_InvalidTypes()
+            => typeof(void).ToCSharpTypeString(true, true, null).Should().Be("void");
     }
 }
 

@@ -28,18 +28,26 @@ internal class TypeToCSharpString : TypeToStringBase
     public override string? HandleCustomName(Type t)
         => t.FullName switch
         {
+            nameof(System) + ".Void" => "void",
             nameof(System) + "." + nameof(Int32) => "int",
             nameof(System) + "." + nameof(UInt32) => "uint",
+            nameof(System) + "." + nameof(Char) => "char",
             nameof(System) + "." + nameof(String) => "string",
             nameof(System) + "." + nameof(Single) => "float",
             nameof(System) + "." + nameof(Double) => "double",
             nameof(System) + "." + nameof(Decimal) => "decimal",
             nameof(System) + "." + nameof(Byte) => "byte",
             nameof(System) + "." + nameof(SByte) => "sbyte",
+            nameof(System) + "." + nameof(Int16) => "short",
+            nameof(System) + "." + nameof(UInt16) => "ushort",
             nameof(System) + "." + nameof(Int64) => "long",
             nameof(System) + "." + nameof(UInt64) => "ulong",
+            nameof(System) + "." + nameof(Object) => "object",
             nameof(System) + "." + nameof(IntPtr) => "nint",
             nameof(System) + "." + nameof(UIntPtr) => "nuint",
             _ => null,
         };
+
+    public override string? HandleInvalidName(Type t)
+        => t == typeof(void) ? "void" : null;
 }
