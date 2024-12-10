@@ -41,7 +41,7 @@ public class OnlyAnonymousForRequiredMembersForILocalFactory : MustInitializeAna
 
             var innerClass = classType.TypeArguments.First();
 
-            if (invocation.ArgumentList.Arguments.FirstOrDefault()?.Expression is ObjectCreationExpressionSyntax expr)
+            if (invocation.ArgumentList.Arguments.FirstOrDefault()?.Expression is BaseObjectCreationExpressionSyntax expr)
             {
                 var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(DiagnosticDesc, expr.GetLocation());
                 context.ReportDiagnostic(diagnostic);

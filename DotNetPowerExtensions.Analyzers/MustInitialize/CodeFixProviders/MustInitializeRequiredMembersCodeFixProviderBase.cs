@@ -17,7 +17,7 @@ public abstract class MustInitializeRequiredMembersCodeFixProviderBase<TAnalyzer
     protected virtual async Task<INamedTypeSymbol[]> GetMustInitializedSymbols(Document document, CancellationToken c) =>
                                             await document.GetTypeSymbolsAsync(Attributes, c).ConfigureAwait(false);
 
-    protected virtual async Task<(SyntaxNode, SyntaxNode)?> GetInitializerChanges(Document document, ObjectCreationExpressionSyntax typeDecl,
+    protected virtual async Task<(SyntaxNode, SyntaxNode)?> GetInitializerChanges(Document document, BaseObjectCreationExpressionSyntax typeDecl,
                                                                                                                     CancellationToken cancellationToken)
     {
         var symbol = (await document.GetTypeInfoAsync(typeDecl, cancellationToken).ConfigureAwait(false))?.Type;

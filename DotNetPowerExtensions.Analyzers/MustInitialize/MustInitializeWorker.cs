@@ -151,7 +151,7 @@ internal class MustInitializeWorker : WorkerBase
     }
 
     // NOTE: This one is for initializing the class itself so we don't care on MightRequire
-    public IEnumerable<string> GetNotInitializedNames(ObjectCreationExpressionSyntax typeDecl, ITypeSymbol symbol,
+    public IEnumerable<string> GetNotInitializedNames(BaseObjectCreationExpressionSyntax typeDecl, ITypeSymbol symbol,
                                                                                         IMethodSymbol? ctor, CancellationToken cancellationToken = default)
     {
         var props = GetMustInitialize(symbol, ctor, out _, cancellationToken).Select(m => m.As<ISymbol>()!.Name);

@@ -18,14 +18,15 @@ public class MustInitializeRequiredMembers : MustInitializeRequiredMembersBase
     public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
     {
         // TODO... maybe use an IOperation instead...
-        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeCreation(c, mustInitializeSymbols), SyntaxKind.ObjectCreationExpression);
+        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeCreation(c, mustInitializeSymbols),
+                SyntaxKind.ObjectCreationExpression, SyntaxKind.ImplicitObjectCreationExpression);
     }
 
     private void AnalyzeCreation(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] mustInitializeSymbols)
     {
         try
         {
-            var expr = context.Node as ObjectCreationExpressionSyntax;
+            var expr = context.Node as BaseObjectCreationExpressionSyntax;
             if (expr is null) return;
 
             var symbol = context.SemanticModel.GetTypeInfo(expr, context.CancellationToken).Type as ITypeSymbol;

@@ -40,7 +40,7 @@ public class MustInitializeRequiredMembersForILocalFactory : MustInitializeRequi
             var innerClass = classType.TypeArguments.First();
 
             var argExpression = invocation.ArgumentList.Arguments.FirstOrDefault()?.Expression;
-            if (argExpression is ObjectCreationExpressionSyntax) return; // Will be handled by `OnlyAnonymousForRequiredMembersForLocalService` analyzer
+            if (argExpression is BaseObjectCreationExpressionSyntax) return; // Will be handled by `OnlyAnonymousForRequiredMembersForLocalService` analyzer
 
             IEnumerable <string> props;
             if (argExpression is AnonymousObjectCreationExpressionSyntax creation)

@@ -589,4 +589,22 @@ internal sealed class MustInitializeRequiredMembers_Tests
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
+
+    [Test]
+    public async Task Test_Works_WithImplicitInitializer([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public class DeclareType
+        {
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main(){ DeclareType t = [|new (){/::/}|]; } }
+        """;
+
+        var fixCode = $$""" TestProp = default, TestField = default """;
+
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
+    }
 }
