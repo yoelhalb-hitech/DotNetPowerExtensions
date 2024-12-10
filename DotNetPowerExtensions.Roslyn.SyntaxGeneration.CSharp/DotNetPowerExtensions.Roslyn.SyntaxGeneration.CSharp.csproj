@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- CAUTION: we need Microsoft.CodeAnalysis.CSharp and Microsoft.CodeAnalysis.CSharp.Workspaces to be the same as Features -->
+    <!-- For VS 2019 -->
+    <!--<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="3.11.0" PrivateAssets="all" />-->
+    <!-- Needs to match the version of VS -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.4.0" PrivateAssets="all" />
+
+    <PackageReference Include="Mono.Cecil" Version="[0.10.0,)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.Reflection.TypeToString.CSharp\DotNetPowerExtensions.Reflection.TypeToString.CSharp.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.RoslynExtensions\DotNetPowerExtensions.RoslynExtensions.csproj" />
+  </ItemGroup>
+
+</Project>
