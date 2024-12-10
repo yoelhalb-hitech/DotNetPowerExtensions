@@ -1,0 +1,9 @@
+	<Project>
+		<PropertyGroup>
+			<EnableNETAnalyzers>true</EnableNETAnalyzers>
+			<AnalysisMode>Recommended</AnalysisMode>
+			<ImplicitUsings>enable</ImplicitUsings>
+			<LangVersion>latest</LangVersion>
+			<Nullable>enable</Nullable>
+		</PropertyGroup>
+	</Project>

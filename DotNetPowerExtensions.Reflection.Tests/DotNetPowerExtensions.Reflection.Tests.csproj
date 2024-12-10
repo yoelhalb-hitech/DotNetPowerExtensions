@@ -9,10 +9,11 @@
 		<Nullable>enable</Nullable>
 
 		<IsPackable>false</IsPackable>
+		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
 
 	<PropertyGroup>
-	  <NoWarn>1701;1702;CS0067;CS0649;</NoWarn>
+	  <NoWarn>1701;1702;CS0067;CS0649</NoWarn>
 	  <SignAssembly>True</SignAssembly>
 	  <AssemblyOriginatorKeyFile>..\SequelPay.DotNetPowerExtensions.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>

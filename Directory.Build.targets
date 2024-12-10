@@ -1,0 +1,50 @@
+<Project>
+  <PropertyGroup><!-- Needs to be here because it depends on the project file -->
+    <IsTestProject Condition="$(IsTestProject) == ''">$(ProjectName.EndsWith('Tests'))</IsTestProject>
+   <!-- <IsTestProject Condition="$(IsTestProject) == '' and !$(ProjectName.EndsWith('Tests'))">False</IsTestProject>-->
+  </PropertyGroup>
+
+  <ItemGroup Condition="!$(IsTestProject)">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup Condition="!$(IsTestProject)">
+    <PackageVersion>4.0.1</PackageVersion>
+
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IsPackable>True</IsPackable>
+    <PackageId>SequelPay.$(MSBuildProjectName)</PackageId>
+    <RootNamespace>SequelPay.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>SequelPay.$(MSBuildProjectName)</AssemblyName>
+
+    <Authors>Yoel</Authors>
+    <Company>SequelPay</Company>
+    <PackageProjectUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Description>Extensions to DotNet, mostly using attributes</Description>
+    <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
+    <Copyright>Copyright</Copyright>
+    <PackageTags>Reflection, Extensions</PackageTags>
+
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\SequelPay.DotNetPowerExtensions.snk</AssemblyOriginatorKeyFile>
+
+    <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' and !$(IsTestProject)">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+</Project>

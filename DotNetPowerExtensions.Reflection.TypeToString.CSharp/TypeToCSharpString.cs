@@ -1,6 +1,12 @@
 ﻿
 namespace SequelPay.DotNetPowerExtensions.Reflection;
 
+public static class CSharpTypeExtensions
+{
+    public static string ToCSharpTypeString(this Type type, bool fullName, bool emptyForStub, Type[]? genericArgs)
+        => new TypeToCSharpString().ToGenericTypeString(type, fullName, emptyForStub, genericArgs);
+}
+
 internal class TypeToCSharpString : TypeToStringBase
 {
     protected override string ArraySymbol => "[]";

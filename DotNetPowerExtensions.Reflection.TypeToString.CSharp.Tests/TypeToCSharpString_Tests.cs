@@ -20,6 +20,8 @@ namespace Outer
 namespace DotNetPowerExtensions.Reflection.Tests
 {
     using Outer.Inner;
+    using SequelPay.DotNetPowerExtensions.Reflection;
+
     public class TypeToCSharpString_Tests
     {
         [Test]
@@ -45,7 +47,7 @@ namespace DotNetPowerExtensions.Reflection.Tests
         [TestCase(typeof(ValueTuple<,>), ExpectedResult = "ValueTuple<T1,T2>")]
         [TestCase(typeof(ValueTuple<int,string>), ExpectedResult = "(int,string)")]
         public string ToGenericTypeString_Test_NonFullName_NonEmptyOnStub(Type type)
-            => new TypeToCSharpString().ToGenericTypeString(type, false, false, null);
+            => type.ToCSharpTypeString(false, false, null);
 
         [Test]
         [TestCase(typeof(int), ExpectedResult = "int")]
@@ -70,7 +72,7 @@ namespace DotNetPowerExtensions.Reflection.Tests
         [TestCase(typeof(ValueTuple<,>), ExpectedResult = "ValueTuple<,>")]
         [TestCase(typeof(ValueTuple<int, string>), ExpectedResult = "(int,string)")]
         public string ToGenericTypeString_Test_NonFullName_EmptyOnStub(Type type)
-            => new TypeToCSharpString().ToGenericTypeString(type, false, true, null);
+            => type.ToCSharpTypeString(false, true, null);
 
         [Test]
         [TestCase(typeof(int), ExpectedResult = "System.Int32")]
@@ -95,7 +97,7 @@ namespace DotNetPowerExtensions.Reflection.Tests
         [TestCase(typeof(ValueTuple<,>), ExpectedResult = "System.ValueTuple<T1,T2>")]
         [TestCase(typeof(ValueTuple<int, string>), ExpectedResult = "System.ValueTuple<System.Int32,System.String>")]
         public string ToGenericTypeString_Test_FullName_NonEmptyOnStub(Type type)
-            => new TypeToCSharpString().ToGenericTypeString(type, true, false, null);
+            => type.ToCSharpTypeString(true, false, null);
 
         [Test]
         [TestCase(typeof(int), ExpectedResult = "System.Int32")]
@@ -120,7 +122,7 @@ namespace DotNetPowerExtensions.Reflection.Tests
         [TestCase(typeof(ValueTuple<,>), ExpectedResult = "System.ValueTuple<,>")]
         [TestCase(typeof(ValueTuple<int, string>), ExpectedResult = "System.ValueTuple<System.Int32,System.String>")]
         public string ToGenericTypeString_Test_FullName_EmptyOnStub(Type type)
-            => new TypeToCSharpString().ToGenericTypeString(type, true, true, null);
+            => type.ToCSharpTypeString(true, true, null);
     }
 }
 

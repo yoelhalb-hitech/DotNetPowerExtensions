@@ -2,7 +2,7 @@
 
 namespace SequelPay.DotNetPowerExtensions.Reflection;
 
-internal abstract class TypeToStringBase
+public abstract class TypeToStringBase
 {
     // TODO... how to handle correctly `file` classes without name collision?
     protected static bool IsGenericType(Type type) => type.IsGenericType
@@ -35,7 +35,7 @@ internal abstract class TypeToStringBase
     public string GetTypeFullNameString(Type type) => typeFullNameCache.GetOrAdd(type, t => ToGenericTypeString(t, true, false, null));
 
     public abstract string? HandleCustomName(Type t);
-    internal protected string ToGenericTypeString(Type type, bool fullName, bool emptyForStub, Type[]? genericArgs)
+    public virtual string ToGenericTypeString(Type type, bool fullName, bool emptyForStub, Type[]? genericArgs)
     {
         if (type is null) throw new ArgumentNullException(nameof(type));
         // Note: We don't use FullName as it is much more complicated
