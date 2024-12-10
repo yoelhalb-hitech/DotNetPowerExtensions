@@ -1,21 +1,24 @@
-﻿
+﻿#pragma warning disable CA1812 // internal class is apparently never instantiated
+
 namespace Outer
 {
     namespace Inner
     {
-        class OuterGeneric<TOuter>
+        sealed class OuterGeneric<TOuter>
         {
-            public class InnerGeneric<TInner> { }
-            public class InnerTwoGeneric<TInner1, TInner2> { }
-            public class InnerNonGeneric { }
+            public sealed class InnerGeneric<TInner> { }
+            public sealed class InnerTwoGeneric<TInner1, TInner2> { }
+            public sealed class InnerNonGeneric { }
         }
-        class OuterNonGeneric
+        sealed class OuterNonGeneric
         {
-            public class InnerGeneric<TInner> { }
-            public class InnerNonGeneric { }
+            public sealed class InnerGeneric<TInner> { }
+            public sealed class InnerNonGeneric { }
         }
     }
 }
+
+#pragma warning restore CA1812  // internal class is apparently never instantiated
 
 namespace DotNetPowerExtensions.Reflection.Tests
 {
