@@ -2,7 +2,7 @@
 
 namespace DotNetPowerExtensions.Analyzers.Tests.AccessControl;
 
-internal class NonDelegateShouldNotBeAssigned_Tests : AnalyzerVerifierBase<NonDelegateShouldNotBeAssigned>
+internal sealed class NonDelegateShouldNotBeAssigned_Tests : AnalyzerVerifierBase<NonDelegateShouldNotBeAssigned>
 {
     [Test]
     public async Task Test_DoesNotWarn_WhenNoNonDelegate()

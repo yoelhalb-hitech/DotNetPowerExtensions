@@ -1,4 +1,8 @@
-﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Diagnostics;
+using SequelPay.DotNetPowerExtensions.RoslynExtensions;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
@@ -35,10 +39,7 @@ public class NonDelegateShouldNotBeAssigned : DiagnosticAnalyzer
                 compilationContext.RegisterSyntaxNodeAction(c => AnalyzeIdentifier(c, symbol), SyntaxKind.IdentifierName);
             });
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 
     private void AnalyzeIdentifier(SyntaxNodeAnalysisContext context, INamedTypeSymbol symbol)
@@ -59,9 +60,6 @@ public class NonDelegateShouldNotBeAssigned : DiagnosticAnalyzer
                 context.ReportDiagnostic(diag);
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }
