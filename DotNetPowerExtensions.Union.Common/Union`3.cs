@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-#pragma warning disable CA1716
 namespace SequelPay.DotNetPowerExtensions;
 
 public struct Union<TFirst, TSecond, TThird> : IUnion
@@ -48,5 +47,3 @@ public struct Union<TFirst, TSecond, TThird> : IUnion
         return left.Value != right.Value;
     }
 }
-
-#pragma warning restore CA1716

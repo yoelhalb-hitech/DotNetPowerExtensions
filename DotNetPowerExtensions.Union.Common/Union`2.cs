@@ -1,10 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-#pragma warning disable CA1716
 namespace SequelPay.DotNetPowerExtensions;
 
 public struct Union<TFirst, TSecond> : IUnion
-    where TFirst : class 
+    where TFirst : class
     where TSecond : class
 {
     [DisallowNull] public TFirst? First { get => Value as TFirst; set => Value = value ?? throw new ArgumentNullException(nameof(value), "Cannot set to null"); }
@@ -43,5 +42,3 @@ public struct Union<TFirst, TSecond> : IUnion
         return left.Value != right.Value;
     }
 }
-
-#pragma warning restore CA1716

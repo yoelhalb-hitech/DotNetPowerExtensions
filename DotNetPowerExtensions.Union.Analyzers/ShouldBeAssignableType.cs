@@ -1,8 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
-using SequelPay.DotNetPowerExtensions;
-using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
-
+﻿
 namespace SequelPay.DotNetPowerExtensions.Analyzers.Union;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -35,10 +31,7 @@ public class ShouldBeAssignableType : DiagnosticAnalyzer
                 compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, new[] { symbol1, symbol2 }), SyntaxKind.InvocationExpression);
             });
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 
     private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol?[] symbols)
@@ -70,9 +63,6 @@ public class ShouldBeAssignableType : DiagnosticAnalyzer
                 context.ReportDiagnostic(diag);
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

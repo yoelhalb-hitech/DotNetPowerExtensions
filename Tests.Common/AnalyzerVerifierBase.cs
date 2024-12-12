@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using System.Reflection;
 using System.Threading;
 
 namespace DotNetPowerExtensions.Analyzers.Tests;
@@ -36,11 +37,15 @@ public abstract class AnalyzerVerifierBase<TAnlayzer> : AnalyzerVerifier<TAnlayz
 
     internal static Task VerifyAnalyzerAsync(AnalyzerTest<NUnitVerifier> test, DiagnosticResult[] expected)
     {
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+        var assemblies = typeof(TAnlayzer).Assembly.GetReferencedAssemblies()
                 .Where(a => a.FullName?.StartsWith(NamespaceString, StringComparison.Ordinal) == true);
-        foreach ( var assembly in assemblies.Where(a => !string.IsNullOrWhiteSpace(a.Location)))
+        foreach ( var assembly in assemblies)//.Where(a => !string.IsNullOrWhiteSpace(a.Location)))
         {
-            test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(assembly.Location));
+            var asm = Assembly.Load(assembly.FullName);
+            if(!string.IsNullOrWhiteSpace(asm.Location))
+            {
+                test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(asm.Location));
+            }
         }
 
         test.ExpectedDiagnostics.AddRange(expected);

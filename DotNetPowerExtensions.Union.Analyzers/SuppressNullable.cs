@@ -1,10 +1,5 @@
-﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
-using SequelPay.DotNetPowerExtensions;
-using System.Collections.Immutable;
-
+﻿
 namespace SequelPay.DotNetPowerExtensions.Analyzers.Union;
-
-#if !NET45 && !NET46
 
 // This has to be in a different assembly than the other analyzer for it to work..
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -26,25 +21,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
                 AnalyzeDiagnostic(diagnostic, context);
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-            throw;
-        }
-    }
-
-    private static bool ContainsMustInitialize(MemberDeclarationSyntax member, SuppressionAnalysisContext context, string name)
-    {
-        // Make sure it is the correct type and not just something with the same name...
-        var mustInitializeDecl = context.Compilation.GetTypeSymbol(typeof(MustInitializeAttribute));
-        if (mustInitializeDecl is null) return false;
-
-        var propSymbols = context.Compilation.GetSymbolsWithName(name, cancellationToken: context.CancellationToken);
-        if (!propSymbols.Any()) return false; // TODO...
-
-        var propSymbol = context.GetSemanticModel(member.SyntaxTree).GetDeclaredSymbol(member);
-
-        return propSymbol?.HasAttribute(mustInitializeDecl) ?? false;
+        catch { }
     }
 
     private static void AnalyzeDiagnostic(Diagnostic diagnostic, SuppressionAnalysisContext context)
@@ -68,12 +45,6 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
 
             context.ReportSuppression(Suppression.Create(OfRule, diagnostic));
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-            throw;
-        }
+        catch { }
     }
 }
-
-#endif

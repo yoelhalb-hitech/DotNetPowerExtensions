@@ -3,7 +3,7 @@ using NUnit.Framework.Internal;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.Union;
 
-internal class ShouldBeAssignableType_Tests : AnalyzerVerifierBase<ShouldBeAssignableType>
+internal sealed class ShouldBeAssignableType_Tests : AnalyzerVerifierBase<ShouldBeAssignableType>
 {
     [Test]
     public async Task Test_Works()
