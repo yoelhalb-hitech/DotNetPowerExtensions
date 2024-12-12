@@ -4,16 +4,20 @@
    <!-- <IsTestProject Condition="$(IsTestProject) == '' and !$(ProjectName.EndsWith('Tests'))">False</IsTestProject>-->
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(IsAnalyzerProject)">
+  <Import Condition="$(IsAnalyzerProject)" Project="AnalyzerProject.targets" />
+  <!--<PropertyGroup Condition="$(IsAnalyzerProject)">
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 
-    <IncludeBuildOutput>false</IncludeBuildOutput> <!-- Needed for .net 4.5 to be able to referene this -->
+    <IncludeBuildOutput>false</IncludeBuildOutput> --><!-- Needed for .net 4.5 to be able to referene this --><!--
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsAnalyzerProject)">
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
-  </ItemGroup>
+
+    <ProjectReference Include="..\DotNetPowerExtensions.RoslynExtensions\DotNetPowerExtensions.RoslynExtensions.csproj" />
+  </ItemGroup>-->
 
   <ItemGroup Condition="!$(IsTestProject)">
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
@@ -75,12 +79,12 @@
   </Target>
 
   <Target Name="_AddAnalyzersToOutput" Condition="$(IsPackable) and '$(TargetFramework)' == 'netstandard2.0'" AfterTargets="Build">
-    <MSBuild Projects="@(ProjectReference)" Targets="OutputResolveReferences" Condition="'%(ProjectReference.ReferenceOutputAssembly)' == 'false'">
+    <MSBuild Projects="@(ProjectReference)" Targets="OutputResolveReferences" Condition="'%(ProjectReference.IsAnalyzer)' == 'true'">
       <Output TaskParameter="TargetOutputs" ItemName="MyReferenceCopyLocalPaths" />
     </MSBuild>
 
     <!-- https://stackoverflow.com/questions/1272499/msbuild-get-assembly-reference-from-projectreference?rq=1 -->
-    <MSBuild Projects="@(ProjectReference)" Targets="Build" BuildInParallel="true" Condition="'%(ProjectReference.ReferenceOutputAssembly)' == 'false'">
+    <MSBuild Projects="@(ProjectReference)" Targets="Build" BuildInParallel="true" Condition="'%(ProjectReference.IsAnalyzer)' == 'true'">
       <Output TaskParameter="TargetOutputs" ItemName="OutputAssemblies" />
     </MSBuild>
     <ItemGroup>

@@ -1,11 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Diagnostics;
-using SequelPay.DotNetPowerExtensions.RoslynExtensions;
-using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
-
+﻿
 namespace SequelPay.DotNetPowerExtensions.Analyzers.AccessControl;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
