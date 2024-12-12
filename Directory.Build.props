@@ -7,6 +7,8 @@
       <EnableNETAnalyzers>true</EnableNETAnalyzers>
       <AnalysisMode>all</AnalysisMode>
       <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+
+      <AssemblyName>SequelPay.$(MSBuildProjectName)</AssemblyName>
 		</PropertyGroup>
 
     <ItemGroup>

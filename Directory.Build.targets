@@ -33,7 +33,6 @@
     <IsPackable>True</IsPackable>
     <PackageId>SequelPay.$(MSBuildProjectName)</PackageId>
     <RootNamespace>SequelPay.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-    <AssemblyName>SequelPay.$(MSBuildProjectName)</AssemblyName>
 
     <Authors>Yoel</Authors>
     <Company>SequelPay</Company>
