@@ -8,4 +8,8 @@
       <AnalysisMode>all</AnalysisMode>
       <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 		</PropertyGroup>
+
+    <ItemGroup>
+      <AnalyzerAssets Include="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    </ItemGroup>
 	</Project>
