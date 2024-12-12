@@ -8,6 +8,8 @@
       <AnalysisMode>all</AnalysisMode>
       <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 
+      <IsAnalyzerProject>false</IsAnalyzerProject><!-- Provide default -->
+
       <AssemblyName>SequelPay.$(MSBuildProjectName)</AssemblyName>
 		</PropertyGroup>
 
