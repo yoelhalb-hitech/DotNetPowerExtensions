@@ -64,6 +64,9 @@
       Include="..\DotNetPowerExtensions.NonDelegate.Analyzers\DotNetPowerExtensions.NonDelegate.Analyzers.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.NonDelegate\DotNetPowerExtensions.NonDelegate.csproj" />
 
+    <ProjectReference Include="..\DotNetPowerExtensions.EnumerableExtensions\DotNetPowerExtensions.EnumerableExtensions.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.StringExtensions\DotNetPowerExtensions.StringExtensions.csproj" />
+
     <ProjectReference Include="..\DotNetPowerExtensions.Union.Common\DotNetPowerExtensions.Union.Common.csproj" />
     <ProjectReference Condition="'$(TargetFramework)' == 'netstandard2.0'" IsAnalyzer="true" Include="..\DotNetPowerExtensions.Union.Analyzers\DotNetPowerExtensions.Union.Analyzers.csproj" />
   </ItemGroup>

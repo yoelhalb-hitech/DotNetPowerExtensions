@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.EnumerableExtensions\DotNetPowerExtensions.EnumerableExtensions.csproj" />
+  </ItemGroup>
+
+</Project>

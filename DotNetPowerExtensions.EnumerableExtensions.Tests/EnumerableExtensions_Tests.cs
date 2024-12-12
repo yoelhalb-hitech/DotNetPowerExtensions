@@ -1,17 +1,19 @@
-﻿
-using SequelPay.DotNetPowerExtensions;
+﻿using SequelPay.DotNetPowerExtensions;
 
 namespace DotNetPowerExtensions.Tests.Extensions;
 
 internal class EnumerableExtensions_Tests
 {
+    internal static readonly int[] ArrayWithOne = [123];
+    internal static readonly int[] ArrayWithTwo = [123, 456];
+
     [Test]
     public void Test_Empty()
     {
         Assert.Throws<ArgumentNullException>(() => (null as int[])!.Empty());
         Array.Empty<int>().Empty().Should().BeTrue();
-        new int[] {123}.Empty().Should().BeFalse();
-        new int[] { 123, 456 }.Empty().Should().BeFalse();
+        ArrayWithOne.Empty().Should().BeFalse();
+        ArrayWithTwo.Empty().Should().BeFalse();
     }
 
     [Test]
@@ -19,8 +21,8 @@ internal class EnumerableExtensions_Tests
     {
         (null as int[]).NullOrEmpty().Should().BeTrue();
         Array.Empty<int>().NullOrEmpty().Should().BeTrue();
-        new int[] { 123 }.NullOrEmpty().Should().BeFalse();
-        new int[] { 123, 456 }.NullOrEmpty().Should().BeFalse();
+        ArrayWithOne.NullOrEmpty().Should().BeFalse();
+        ArrayWithTwo.NullOrEmpty().Should().BeFalse();
     }
 
     [Test]
@@ -28,7 +30,7 @@ internal class EnumerableExtensions_Tests
     {
         (null as int[]).HasOnlyOne().Should().BeFalse();
         Array.Empty<int>().HasOnlyOne().Should().BeFalse();
-        new int[] { 123 }.HasOnlyOne().Should().BeTrue();
-        new int[] { 123, 456 }.HasOnlyOne().Should().BeFalse();
+        ArrayWithOne.HasOnlyOne().Should().BeTrue();
+        ArrayWithTwo.HasOnlyOne().Should().BeFalse();
     }
 }
