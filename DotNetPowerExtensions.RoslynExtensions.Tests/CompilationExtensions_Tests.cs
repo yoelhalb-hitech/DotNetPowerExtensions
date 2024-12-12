@@ -1,7 +1,9 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace DotNetPowerExtensions.RoslynExtensions.Tests;
 
+[SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers", Justification = "We need File to load the module")]
 public class CompilationExtensions_Tests
 {
     [Test]

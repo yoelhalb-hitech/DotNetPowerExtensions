@@ -2,14 +2,16 @@
 using Microsoft.CodeAnalysis.Shared.Extensions;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
-internal static class CecilExtensions
+public static class CecilExtensions
 {
     public static string GetCecilTypeName(this ITypeSymbol type) => type.GetFullName().Replace("+", "/");//Cecil uses `/` for inner types
     public static string GetTypeName(this TypeReference type) => type.FullName.Replace("/", "+");
 
+    [SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers", Justification = "We need File to load the module")]
     public static ModuleDefinition? GetModuleDefinition(this Compilation compilation, IAssemblySymbol assembly,
                                                                                 CancellationToken cancellationToken = default)
     {

@@ -1,4 +1,6 @@
 ﻿
+using System.Diagnostics.CodeAnalysis;
+
 namespace DotNetPowerExtensions.RoslynExtensions.Tests;
 
 public class MethodSymbolExtensions_Tests
@@ -133,6 +135,7 @@ public class MethodSymbolExtensions_Tests
     [TestCase(true, true, false, true, 3)]
     [TestCase(true, true, true, false, 4)]
     [TestCase(true, true, true, true, 5)]
+    [SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers", Justification = "We need File to load the module")]
     public void Test_GetConstructorChain_WithThisAndBase_WhenMultipleProjects(bool hasThis, bool hasBase, bool hasThisInBaseClass, bool hasBaseInBaseClass, int resultCount)
     {
         var dirPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());

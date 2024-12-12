@@ -1,8 +1,10 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using Mono.Cecil;
 
 namespace DotNetPowerExtensions.RoslynExtensions.Tests;
 
+[SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers", Justification = "We need File to load the module")]
 public class CecilExtensions_Tests
 {
     private static string GetCecilFullName(bool outerNS, bool innerNS,
@@ -35,7 +37,7 @@ public class CecilExtensions_Tests
                                                                             hasInnerInner, isStructInnerInner, innerInnerGenericCount);
 
         var (_, symbol) = TestUtils.GetModelAndTypeSymbol(code);
-        var result = symbol.GetCecilTypeName();
+        var result = symbol?.GetCecilTypeName();
 
         var expectedName = GetCecilFullName(outerNS, innerNS, outerGenericCount, hasInner, innerGenericCount, hasInnerInner, innerInnerGenericCount);
 
@@ -66,7 +68,7 @@ public class CecilExtensions_Tests
 
             var md = ModuleDefinition.ReadModule(outputFile1, new ReaderParameters() { InMemory = true }); // This way it is not blocking
 
-            var td = md.ToTypeDefinition(symbol);
+            var td = md?.ToTypeDefinition(symbol);
 
             td.Should().NotBeNull();
 

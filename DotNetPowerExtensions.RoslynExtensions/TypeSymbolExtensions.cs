@@ -71,7 +71,7 @@ public static class TypeSymbolExtensions
             name = $"{classDecl.MetadataName}+{name}";
 
         var ns = typeSymbol.GetNamespace();
-        return ns + (ns.HasValue() ? "." : "") + name;
+        return ns + (!string.IsNullOrWhiteSpace(ns) ? "." : "") + name;
     }
 
     public static bool InheritsFromOrEquals(this ITypeSymbol typeSymbol, ITypeSymbol baseType, bool includeInterfaces)
