@@ -7,13 +7,15 @@ using Microsoft.CodeAnalysis.Testing.Verifiers;
 namespace DotNetPowerExtensions.Analyzers.Tests;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "This is how Microsoft does it")]
-internal abstract class CodeFixVerifierBase<TAnalyzer, TCodeFix> :
+public abstract class CodeFixVerifierBase<TAnalyzer, TCodeFix> :
                         CodeFixVerifier<TAnalyzer, TCodeFix, CSharpCodeFixTest<TAnalyzer, TCodeFix, NUnitVerifier>, NUnitVerifier>
             where TAnalyzer : DiagnosticAnalyzer, new()
             where TCodeFix : CodeFixProvider, new()
 {
+#pragma warning disable CA2211 // Non-constant fields should not be visible
     public static string[] Suffixes = AnalyzerVerifierBase<TAnalyzer>.Suffixes;
     public static string[] Prefixes = AnalyzerVerifierBase<TAnalyzer>.Prefixes;
+#pragma warning restore CA2211 // Non-constant fields should not be visible
 
     public static Task VerifyCodeFixAsync(string source, params string[] fixedSource)
         => VerifyCodeFixAsync(source, DiagnosticResult.EmptyDiagnosticResults, fixedSource);
@@ -34,11 +36,7 @@ internal abstract class CodeFixVerifierBase<TAnalyzer, TCodeFix> :
             TestCode = AnalyzerVerifierBase<TAnalyzer>.NamespacePart + source,
         };
 
-        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
-                                                typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
-        test.ExpectedDiagnostics.AddRange(expected);
-
-        return test.RunAsync(CancellationToken.None);
+        return AnalyzerVerifierBase<TAnalyzer>.VerifyAnalyzerAsync(test, expected);
     }
 
     public static new Task VerifyCodeFixAsync(string source, DiagnosticResult[] expected, string fixedSource)
@@ -77,10 +75,6 @@ internal abstract class CodeFixVerifierBase<TAnalyzer, TCodeFix> :
             FixedCode = newFix,
         };
 
-        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
-                                                typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location));
-        test.ExpectedDiagnostics.AddRange(expected);
-
-        return test.RunAsync(CancellationToken.None);
+        return AnalyzerVerifierBase<TAnalyzer>.VerifyAnalyzerAsync(test, expected);
     }
 }

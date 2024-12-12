@@ -1,19 +1,16 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Testing;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
-using SequelPay.DotNetPowerExtensions;
 using System.Threading;
 
 namespace DotNetPowerExtensions.Analyzers.Tests;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "This is how Microsoft does it")]
-internal abstract class NullableAnalyzerVerifierBase<TAnalyzer> : AnalyzerVerifier<TAnalyzer, CSharpAnalyzerTest<TAnalyzer, NUnitVerifier>, NUnitVerifier>
+public abstract class NullableAnalyzerVerifierBase<TAnalyzer> : AnalyzerVerifierBase<TAnalyzer>
             where TAnalyzer : DiagnosticAnalyzer, new()
 {
-    public static string[] Suffixes = AnalyzerVerifierBase<TAnalyzer>.Suffixes;
-    public static string[] Prefixes = AnalyzerVerifierBase<TAnalyzer>.Prefixes;
-
     [Obsolete($"Use {nameof(NullableVerifyAnalyzerAsync)} instead")]
     public static new Task VerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)
     {
@@ -21,15 +18,13 @@ internal abstract class NullableAnalyzerVerifierBase<TAnalyzer> : AnalyzerVerifi
     }
     public static Task NullableVerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)
     {
+#pragma warning disable RS1035 // Do not use APIs banned for analyzers
         var test = new NullableCSharpAnalyzerTest<TAnalyzer, NUnitVerifier>
         {
             TestCode = "#nullable enable" + Environment.NewLine + AnalyzerVerifierBase<TAnalyzer>.NamespacePart + source,
         };
+#pragma warning restore RS1035 // Do not use APIs banned for analyzers
 
-        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(
-                                                typeof(MustInitializeAttribute).Assembly.Location));
-        test.ExpectedDiagnostics.AddRange(expected);
-
-        return test.RunAsync(CancellationToken.None);
+        return VerifyAnalyzerAsync(test, expected);
     }
 }
