@@ -19,6 +19,9 @@
     <ProjectReference Include="..\DotNetPowerExtensions.RoslynExtensions\DotNetPowerExtensions.RoslynExtensions.csproj" />
   </ItemGroup>-->
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45' Or  '$(TargetFramework)' == 'net452' Or '$(TargetFramework)' == 'net46' Or '$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'net462'">
+    <PackageReference Include="System.ValueTuple" />
+  </ItemGroup>
   <ItemGroup Condition="!$(IsTestProject)">
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
   </ItemGroup>
@@ -66,9 +69,6 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\SequelPay.DotNetPowerExtensions.snk</AssemblyOriginatorKeyFile>
 
     <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddAnalyzersToOutput</TargetsForTfmSpecificContentInPackage>
     <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->

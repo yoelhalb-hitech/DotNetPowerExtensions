@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetPowerExtensions.RoslynExtensions\DotNetPowerExtensions.RoslynExtensions.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.StringExtensions\DotNetPowerExtensions.StringExtensions.csproj" />
   </ItemGroup>
 
 </Project>

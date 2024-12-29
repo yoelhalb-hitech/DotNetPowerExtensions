@@ -1,64 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netstandard2.1;net452;net47;net7.0</TargetFrameworks>
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<AnalysisMode>Recommended</AnalysisMode>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<LangVersion>12.0</LangVersion>
-		<Nullable>enable</Nullable>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>DotNetPowerExtensions.Reflection.Tests, PublicKey=002400000480000094000000060200000024000052534131000400000100010049c1c8a4b34d9a58f1b76473eb42cbea2336c86a66a4cb071b8e3368d3be608e6b558807bcacaf22b98e48c6451da32f477ca23cebf1e460306c884374ba053b0e154183028d9d1152ead270b584484a44e1a0855ad78671b846e22213751737fcadc52adc1731673efa509b49c2f407b18ab4e54dff160530f2a78aded947ae</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <!--<PackageReference Include="SequelPay.DotNetPowerExtensions" Version="[2.0.0,)" />-->
-	  <PackageReference Include="SequelPay.DotNetPowerExtensions.Analyzers" Version="[2.0.0,)">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="System.ValueTuple" Version="[4.3.0,)" Condition="'$(TargetFramework)' == 'net45'" />
-	  <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
-		<PrivateAssets>all</PrivateAssets>
-		<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-	  </PackageReference>
+		<InternalsVisibleTo Include="DotNetPowerExtensions.Reflection.Tests" PublicKey="$(PublicKey)" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\DotNetPowerExtensions.Reflection.Core\DotNetPowerExtensions.Reflection.Core.csproj" />
-	  <ProjectReference Include="..\DotNetPowerExtensions\DotNetPowerExtensions.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup>
-		<PackageId>SequelPay.DotNetPowerExtensions.Reflection</PackageId>
-		<PackageVersion>4.0.1</PackageVersion>
-		<Authors>Yoel</Authors>
-		<PackageProjectUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</RepositoryUrl>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<Description>Extensions to DotNet, mostly using attributes</Description>
-		<PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
-		<Copyright>Copyright</Copyright>
 		<PackageTags>Reflection, Extensions</PackageTags>
-		<NoPackageAnalysis>true</NoPackageAnalysis>
-		<Company>SequelPay</Company>
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<SignAssembly>True</SignAssembly>
-		<AssemblyOriginatorKeyFile>..\SequelPay.DotNetPowerExtensions.snk</AssemblyOriginatorKeyFile>
-		<RootNamespace>SequelPay.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-		<AssemblyName>SequelPay.$(MSBuildProjectName)</AssemblyName>
-		<!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
 </Project>

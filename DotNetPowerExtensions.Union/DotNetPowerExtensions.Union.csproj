@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetPowerExtensions.Union.Common\DotNetPowerExtensions.Union.Common.csproj" />
+
     <ProjectReference IsAnalyzer="true" Condition="'$(TargetFramework)' == 'netstandard2.0'"
         Include="..\DotNetPowerExtensions.Union.Analyzers\DotNetPowerExtensions.Union.Analyzers.csproj" />
   </ItemGroup>

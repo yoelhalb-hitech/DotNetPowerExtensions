@@ -24,7 +24,7 @@ public class TypeSymbolExtensions_Tests
         var semanticModel = GetSemanticModel(tree);
 
         var props = tree.GetRoot().DescendantNodes().OfType<PropertyDeclarationSyntax>();
-        var propTypeSymbols = props.Select(prop => semanticModel.GetDeclaredSymbol(prop)!.Type).OfType<INamedTypeSymbol>();
+        var propTypeSymbols = props.Select(prop => semanticModel.GetDeclaredSymbol(prop)!.Type).OfType<INamedTypeSymbol>().ToList();
 
         var result = propTypeSymbols.First()!.IsGenericEqualOrSubOf(propTypeSymbols.Last()!, true);
 
@@ -72,7 +72,7 @@ public class TypeSymbolExtensions_Tests
         var c = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First();
 
         var symbol = GetSemanticModel(tree).GetDeclaredSymbol(c);
-        var result = symbol!.GetConstructors(false);
+        var result = symbol!.GetConstructors(false).ToList();
 
         result.Should().NotBeNullOrEmpty();
         result.Count().Should().Be(2);

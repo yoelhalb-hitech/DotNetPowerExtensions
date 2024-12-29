@@ -1,7 +1,5 @@
-﻿using System.Collections.Concurrent;
-using SequelPay.DotNetPowerExtensions.Reflection.Core.Models;
-using SequelPay.DotNetPowerExtensions.Reflection;
-using SequelPay.DotNetPowerExtensions.Reflection.Models;
+﻿using SequelPay.DotNetPowerExtensions.Reflection.Models;
+using System.Collections.Concurrent;
 
 namespace SequelPay.DotNetPowerExtensions.Reflection;
 

@@ -8,4 +8,7 @@
     <ProjectReference Include="..\DotNetPowerExtensions.Reflection.TypeToString.Common\DotNetPowerExtensions.Reflection.TypeToString.Common.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <PackageTags>Reflection, Extensions, CSharp</PackageTags>
+  </PropertyGroup>
 </Project>

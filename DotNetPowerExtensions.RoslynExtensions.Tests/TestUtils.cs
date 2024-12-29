@@ -39,19 +39,19 @@ internal class TestUtils
         if (outerNS) { sb.AppendLine("namespace Outer {"); }
         if (innerNS) { sb.AppendLine("namespace Inner {"); }
 
-        sb.Append(CultureInfo.InvariantCulture, $"public {(isStructOuter ? "struct" : "class")} OuterType");
+        sb.Append($"public {(isStructOuter ? "struct" : "class")} OuterType");
         if (outerGenericCount > 0) sb.Append("<" + Enumerable.Range(0, outerGenericCount).Select(i => "TOuter" + i).Join(",") + ">");
         sb.Append('{');
         if (hasInner)
         {
             sb.AppendLine();
-            sb.Append(CultureInfo.InvariantCulture, $"public {(isStructInner ? "struct" : "class")} InnerType");
+            sb.Append($"public {(isStructInner ? "struct" : "class")} InnerType");
             if (innerGenericCount > 0) sb.Append("<" + Enumerable.Range(0, innerGenericCount).Select(i => "TInner" + i).Join(",") + ">");
             sb.Append('{');
             if (hasInnerInner)
             {
                 sb.AppendLine();
-                sb.Append(CultureInfo.InvariantCulture, $"public {(isStructInnerInner ? "struct" : "class")} InnerInnerType");
+                sb.Append($"public {(isStructInnerInner ? "struct" : "class")} InnerInnerType");
                 if (innerInnerGenericCount > 0) sb.Append("<" + Enumerable.Range(0, innerInnerGenericCount).Select(i => "TInnerInner" + i).Join(",") + ">");
                 sb.AppendLine("{}");
             }

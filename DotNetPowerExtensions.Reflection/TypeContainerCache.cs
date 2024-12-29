@@ -33,7 +33,7 @@ internal class TypeContainerCache : Outer<TypeContainerCache>.TypeContainerCache
     internal static string FixForFileClass(string path) => fileClassRegex.Replace(path, "$1<$2>+$3");
 
     internal static List<Assembly> processedAssemblies = new();
-    
+
     internal override void Ensure()
     {
         var notProcessed = AppDomain.CurrentDomain.GetAssemblies().Except(processedAssemblies);
@@ -43,11 +43,11 @@ internal class TypeContainerCache : Outer<TypeContainerCache>.TypeContainerCache
             assembly.GetTypes().ToList().ForEach(t =>
             {
                 // TODO... if there is a name collision in 2 assmeblies?
-                try 
+                try
                 {
                     var container = InsertPathContainer(GetFullName(t));
                     pathTypeDict[container.FullPath] = t;
-                } 
+                }
                 catch { }
             });
         }

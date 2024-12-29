@@ -39,7 +39,7 @@ internal partial class Outer<TTypeContainerCache>
                 if (candidates.HasOnlyOne()) return candidates.Take(1);
             }
 
-            // We couldn't match directly, so let's try to assume that any missing info means to not use it       
+            // We couldn't match directly, so let's try to assume that any missing info means to not use it
             if (!genericPart.HasValue())
             {
                 var nonGeneric = candidates.Where(m => !m.IsGeneric);
