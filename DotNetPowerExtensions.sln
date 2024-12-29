@@ -77,9 +77,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.EnumerableExtensions", "DotNetPowerExtensions.EnumerableExtensions\DotNetPowerExtensions.EnumerableExtensions.csproj", "{3AB35A5E-5897-409E-8567-72CDE9E518C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.EnumerableExtensions.Tests", "DotNetPowerExtensions.EnumerableExtensions.Tests\DotNetPowerExtensions.EnumerableExtensions.Tests.csproj", "{4C184F58-191A-4DD2-90F5-7ABC9B71EC08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.MustInitialize.Common", "DotNetPowerExtensions.MustInitialize.Common\DotNetPowerExtensions.MustInitialize.Common.csproj", "{CFD28C51-7050-4852-9018-469842060AEF}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Union", "Union", "{D8F4A4CD-3A9A-481D-8CAB-01FCD97B8526}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NonDelegate", "NonDelegate", "{1971F3D9-ED6A-4385-B228-12B551DA54E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MustInitialize", "MustInitialize", "{ADDF8E29-2D3F-4335-BB78-0A7FAECD4540}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,6 +199,10 @@ Global
 		{4C184F58-191A-4DD2-90F5-7ABC9B71EC08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C184F58-191A-4DD2-90F5-7ABC9B71EC08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C184F58-191A-4DD2-90F5-7ABC9B71EC08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD28C51-7050-4852-9018-469842060AEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD28C51-7050-4852-9018-469842060AEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD28C51-7050-4852-9018-469842060AEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD28C51-7050-4852-9018-469842060AEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -224,6 +232,7 @@ Global
 		{A2FF6127-F8FE-482E-A335-08B557F045CE} = {D8F4A4CD-3A9A-481D-8CAB-01FCD97B8526}
 		{D94E1BC6-AAFD-4868-A3F9-E1A25F13C020} = {D8F4A4CD-3A9A-481D-8CAB-01FCD97B8526}
 		{4C184F58-191A-4DD2-90F5-7ABC9B71EC08} = {3F448616-5E66-4CD9-82FF-E97FBA82DAE5}
+		{CFD28C51-7050-4852-9018-469842060AEF} = {ADDF8E29-2D3F-4335-BB78-0A7FAECD4540}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {541D2802-7BBF-4DF0-891C-F58D9A35CDBF}
