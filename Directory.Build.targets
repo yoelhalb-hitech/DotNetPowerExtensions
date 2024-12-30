@@ -22,6 +22,7 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net45' Or  '$(TargetFramework)' == 'net452' Or '$(TargetFramework)' == 'net46' Or '$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'net462'">
     <PackageReference Include="System.ValueTuple" />
   </ItemGroup>
+
   <ItemGroup Condition="!$(IsTestProject)">
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
   </ItemGroup>
@@ -32,11 +33,19 @@
 
     <PackageReference Include="NUnit" />
     <PackageReference Include="NUnit.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+    <PackageReference Include="SkbKontur.NUnit.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
 
     <PackageReference Include="NUnit3TestAdapter" />
 
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="FluentAssertions.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+    <PackageReference Include="Meziantou.FluentAssertionsAnalyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Moq.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+    <PackageReference Include="MoqAnalyzer" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+    <PackageReference Include="Philips.CodeAnalysis.MoqAnalyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+    <PackageReference Include="PosInformatique.Moq.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
   </ItemGroup>
 
   <ItemGroup Condition="$(IsTestProject)">

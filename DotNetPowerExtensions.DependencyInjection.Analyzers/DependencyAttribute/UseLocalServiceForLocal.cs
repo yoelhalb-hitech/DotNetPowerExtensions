@@ -41,10 +41,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                                                 SyntaxKind.ConstructorDeclaration);
             });
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 
     private void AnalyzeConstructor(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] localSymbols,
@@ -78,15 +75,9 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                         context.ReportDiagnostic(diagnostic);
                     }
                 }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex);
-                }
+                catch { }
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

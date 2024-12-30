@@ -35,7 +35,7 @@ internal sealed class LocalFactory<TClass> : ILocalFactory<TClass> // Making it 
                             .ToDictionary(p => p.Name);
 
         var classFields = type.GetFields(bindingFlags)
-                            .ToDictionary(f => f.Name);
+                            .ToDictionary(f => f.Name); // TODO...  this can throw if there is a shadow, so use TypeDetailInfo instead and add a test...
 
         // TODO... we should add analyzer to ensure that the properties/fields exists on the original type
         foreach (var prop in arg.GetType().GetProperties(bindingFlags))

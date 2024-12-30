@@ -3,12 +3,13 @@
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class DependencyShouldNotBeAbstract : DiagnosticAnalyzer
+public class ForTypeMustBeParent : DiagnosticAnalyzer
 {
+
     protected const string Category = "Language";
-    public const string DiagnosticId = "DNPE0209";
-    protected const string Title = "DependencyShouldNotBeAbstract";
-    protected const string Message = "Use `{0}Base` instead of `{0}` when class is abstract";
+    public const string DiagnosticId = "DNPE0210";
+    protected const string Title = "ForTypeMustBeParent";
+    protected const string Message = "{0} is not a base class or interface";
     protected const string Description = Message + ".";
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
@@ -33,10 +34,7 @@ public class DependencyShouldNotBeAbstract : DiagnosticAnalyzer
                     .RegisterSyntaxNodeAction(c => AnalyzeClass(c, symbols), SyntaxKind.Attribute);
             });
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 
     private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] attributeSymbols)
@@ -44,24 +42,25 @@ public class DependencyShouldNotBeAbstract : DiagnosticAnalyzer
         try
         {
             // Since a class decleration can be partial we will only report it on the attribute
-            var result = DependencyAnalyzerUtils.GetAttributeInfo(context,
+            var result = DependencyAnalyzerUtils.GetAttributeWithTypes(context,
                                                             DependencyAnalyzerUtils.DependencyAttributeNames, attributeSymbols);
             if (result is null) return;
-
-            var (attr, attrName, methodSymbol) = result.Value!;
+            var (attr, attrName, methodSymbol, types) = result.Value;
 
             var parent = context.Node.FirstAncestorOrSelf<TypeDeclarationSyntax>();
             if (parent is null) return;
 
-            var classSymbol = context.SemanticModel.GetDeclaredSymbol(parent, context.CancellationToken);
-            if (classSymbol is null || !classSymbol.IsAbstract) return;
+            if (context.SemanticModel.GetDeclaredSymbol(parent!, context.CancellationToken) is not INamedTypeSymbol classSymbol) return;
 
-            var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, attr!.GetLocation(), attrName);
-            context.ReportDiagnostic(diagnostic);
+            var bases = new[] { classSymbol }.Concat(classSymbol.GetAllBaseTypes().Concat(classSymbol.AllInterfaces)).ToArray();
+
+            foreach (var type in types.Where(t => bases.All(b => !b.IsEqualTo(t))))
+            {
+                var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, attr!.GetLocation(), type.Name);
+
+                context.ReportDiagnostic(diagnostic);
+            }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

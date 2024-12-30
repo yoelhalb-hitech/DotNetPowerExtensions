@@ -49,10 +49,7 @@ public class UseShouldOnlyBeForGeneric : DiagnosticAnalyzer
                     .RegisterSyntaxNodeAction(c => AnalyzeClass(c, symbols), SyntaxKind.Attribute);
             });
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 
     private string[] DependencyAttributeNames =
@@ -84,9 +81,6 @@ public class UseShouldOnlyBeForGeneric : DiagnosticAnalyzer
 
             context.ReportDiagnostic(diagnostic);
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

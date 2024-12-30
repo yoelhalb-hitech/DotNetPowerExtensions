@@ -37,10 +37,7 @@ public class DependencyTypeDoesNotMatchBase : DiagnosticAnalyzer
                     .RegisterSyntaxNodeAction(c => AnalyzeClass(c, symbols, baseSymbols), SyntaxKind.Attribute);
             });
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 
     private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] attributeSymbols, INamedTypeSymbol[] baseSymbols)
@@ -69,9 +66,6 @@ public class DependencyTypeDoesNotMatchBase : DiagnosticAnalyzer
                 context.ReportDiagnostic(diagnostic);
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

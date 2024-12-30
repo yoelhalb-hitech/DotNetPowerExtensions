@@ -1,7 +1,8 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
+﻿/*using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
 using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
 
+We will instead do a suppression in the MustInitialize for the MightRequire case
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -65,3 +66,4 @@ public class OriginalNotExisting : MustInitializeRequiredMembersBase
         }
     }
 }
+*/

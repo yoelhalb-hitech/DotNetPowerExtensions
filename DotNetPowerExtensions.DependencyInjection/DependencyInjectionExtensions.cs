@@ -29,14 +29,14 @@ public static class DependencyInjectionExtensions
         var types = AppDomain.CurrentDomain.GetAssemblies()
                          .SelectMany(a =>
                          {
-                             try { return a.GetTypes(); } catch { return ArrayUtils.Empty<Type>(); } // Sometimes it throws
+                             try { return a.GetTypes(); } catch { return (Type[])[]; } // Sometimes it throws
                          })
                          .Where(t =>
                          {
                              try { return Attribute.IsDefined(t, typeof(DependencyAttribute), false); } catch { return false; }
                          });
 
-        foreach (var type in types.Where(t => !t.IsInterface && !t.IsAbstract))
+        foreach (Type type in types!.OfType<Type>().Where(t => !t.IsInterface && !t.IsAbstract))
         {
             foreach (var attribute in Attribute.GetCustomAttributes(type, typeof(DependencyAttribute), false).OfType<DependencyAttribute>())
             {
@@ -44,19 +44,39 @@ public static class DependencyInjectionExtensions
                 {
                     if (attribute.DependencyType == DependencyType.None) continue;
 
-                    var implementingType = type.IsGenericTypeDefinition ? attribute.Use : type;
-                    if (implementingType is null) continue; // TODO... Maybe add analyzer for it
+                    Type implementingType = type!;
+                    if (type.IsGenericTypeDefinition && attribute.Use is not null)
+                    {
+                        //// TODO... Maybe add analyzer for this
+                        //if (!attribute.Use.IsGenericType || attribute.Use.IsGenericTypeDefinition
+                        //        || attribute.Use.GetGenericTypeDefinition() != type) continue;
 
-                    var forTypes = attribute.For.Any() ? attribute.For : new[] { implementingType };
+                        implementingType = attribute.Use!;
+                    }
 
-                    foreach (var forType in forTypes)
+                    var forTypes = attribute.For;
+                    //if (!forTypes.Any() && type.IsGenericTypeDefinition
+                    //        && attribute.Use is not null && !type.IsAssignableFrom(attribute.Use)) continue; // TODO... Maybe add analyzer for this
+                    //else if (!forTypes.Any()) forTypes = new[] { type };
+                    if (!forTypes.Any()) forTypes = new[] { type };
+
+                    foreach (var forType in forTypes.OfType<Type>())
                     {
                         try
                         {
-                            if (attribute.DependencyType == DependencyType.Scoped) services.AddScoped(forType, implementingType);
-                            else if (attribute.DependencyType == DependencyType.Transient) services.AddTransient(forType, implementingType);
-                            else if (attribute.DependencyType == DependencyType.Singleton) services.AddSingleton(forType, implementingType);
-                            else if (attribute.DependencyType == DependencyType.Local) services.AddLocal(forType, implementingType);
+                            // TODO... add analyzer in the callsite to not call a service that has multiple registrations unless keyed
+                            //// TODO... Maybe add analyzer for this
+                            //if (implementingType.IsGenericTypeDefinition != forType.IsGenericTypeDefinition) continue;
+                            //if((!implementingType.IsGenericTypeDefinition && !forType.IsAssignableFrom(implementingType))) continue;
+
+                            if (attribute.DependencyType == DependencyType.Scoped)
+                                    services.AddScoped(forType, implementingType ?? forType);
+                            else if (attribute.DependencyType == DependencyType.Transient)
+                                    services.AddTransient(forType, implementingType ?? forType);
+                            else if (attribute.DependencyType == DependencyType.Singleton)
+                                    services.AddSingleton(forType, implementingType ?? forType);
+                            else if (attribute.DependencyType == DependencyType.Local)
+                                    services.AddLocal(forType, implementingType ?? forType);
                         }
                         catch { }  // TODO...
                     }

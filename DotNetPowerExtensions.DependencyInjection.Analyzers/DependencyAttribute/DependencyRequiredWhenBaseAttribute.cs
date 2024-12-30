@@ -36,10 +36,7 @@ public class DependencyRequiredWhenBase : DiagnosticAnalyzer
                                 SyntaxKind.ClassDeclaration, SyntaxKind.StructDeclaration, SyntaxKind.RecordDeclaration, SyntaxKind.RecordStructDeclaration);
             });
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 
     private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] attributeSymbols, INamedTypeSymbol[] baseAttributeSymbols)
@@ -73,9 +70,6 @@ public class DependencyRequiredWhenBase : DiagnosticAnalyzer
                 context.ReportDiagnostic(diagnostic);
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

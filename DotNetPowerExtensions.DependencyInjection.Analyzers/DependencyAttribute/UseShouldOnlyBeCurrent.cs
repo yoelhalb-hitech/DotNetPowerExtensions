@@ -1,14 +1,17 @@
 ﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
+using SequelPay.DotNetPowerExtensions;
+using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class GenericRequiresUse : DiagnosticAnalyzer
+public class UseShouldOnlyBeCurrent : DiagnosticAnalyzer
 {
     protected const string Category = "Language";
-    public const string DiagnosticId = "DNPE0208";
-    protected const string Title = "GenericRequiresUse";
-    protected const string Message = "The `Use` attribute is required for generic types";
+    public const string DiagnosticId = "DNPE0207";
+    protected const string Title = "UseShouldBeCurrent";
+    protected const string Message = "The `Use` attribute should only be the current generic type";
     protected const string Description = Message + ".";
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
@@ -32,10 +35,7 @@ public class GenericRequiresUse : DiagnosticAnalyzer
                     .RegisterSyntaxNodeAction(c => AnalyzeClass(c, symbols), SyntaxKind.Attribute);
             });
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 
     private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] attributeSymbols)
@@ -49,7 +49,7 @@ public class GenericRequiresUse : DiagnosticAnalyzer
             var (attr, attrName, methodSymbol) = result.Value;
 
             var (useExpression, innerExpression) = DependencyAnalyzerUtils.GetUse(attr);
-            if (innerExpression is TypeOfExpressionSyntax) return;
+            if (innerExpression is not TypeOfExpressionSyntax typeExpression) return;
 
             var parent = context.Node.FirstAncestorOrSelf<TypeDeclarationSyntax>();
             if (parent is null) return;
@@ -57,13 +57,13 @@ public class GenericRequiresUse : DiagnosticAnalyzer
             if (context.SemanticModel.GetDeclaredSymbol(parent!, context.CancellationToken) is not INamedTypeSymbol classSymbol) return;
             if (!classSymbol.IsGenericType) return;
 
-            var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, useExpression?.GetLocation() ?? attr!.GetLocation());
+            if (context.SemanticModel.GetSymbolInfo(typeExpression.Type!, context.CancellationToken).Symbol is not INamedTypeSymbol typeSymbol) return;
+            if (typeSymbol.IsGenericType && classSymbol.ConstructUnboundGenericType().IsEqualTo(typeSymbol.ConstructUnboundGenericType())) return;
+
+            var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, useExpression!.GetLocation());
 
             context.ReportDiagnostic(diagnostic);
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

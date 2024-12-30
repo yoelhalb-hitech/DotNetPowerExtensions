@@ -15,12 +15,9 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="$(RoslynVersion)" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Features" Version="$(RoslynVersion)" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="$(RoslynVersion)" />
-
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0" />
-
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" />
-
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing.NUnit" Version="1.1.1" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeFix.Testing.NUnit" Version="1.1.1" />
   </ItemGroup>
@@ -35,22 +32,22 @@
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageVersion Include="NUnit" Version="3.14.0" />
-    <PackageVersion Include="NUnit.Analyzers" Version="3.9.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageVersion Include="FluentAssertions" Version="6.8.0" />
-    <PackageVersion Include="FluentAssertions.Analyzers" Version="0.17.2" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
   </ItemGroup>
 
+
   <ItemGroup>
-    <PackageVersion Include="coverlet.collector" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-
-    <PackageVersion Include="NUnit" Version="3.14.0" />
     <PackageVersion Include="NUnit.Analyzers" Version="3.9.0" />
+    <PackageVersion Include="SkbKontur.NUnit.Analyzers" Version="0.1.3" />
 
-    <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
-
-    <PackageVersion Include="FluentAssertions" Version="6.8.0" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.17.2" />
+    <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.21" />
+
+    <PackageVersion Include="Moq.Analyzers" Version="0.2.0" />
+    <PackageVersion Include="MoqAnalyzer" Version="1.0.5922.38414" />
+    <PackageVersion Include="Philips.CodeAnalysis.MoqAnalyzers" Version="1.1.0" />
+    <PackageVersion Include="PosInformatique.Moq.Analyzers" Version="1.11.0" />
   </ItemGroup>
 </Project>

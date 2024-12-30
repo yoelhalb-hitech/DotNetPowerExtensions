@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{41252400-4EDD-424F-893D-D7FFC925F808}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		AnalyzerProject.targets = AnalyzerProject.targets
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
 		Directory.Packages.props = Directory.Packages.props
@@ -53,11 +54,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.Rosly
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.Roslyn.SyntaxGeneration.CSharp.Tests", "DotNetPowerExtensions.Roslyn.SyntaxGeneration.CSharp.Tests\DotNetPowerExtensions.Roslyn.SyntaxGeneration.CSharp.Tests.csproj", "{585BC253-DA93-4B6A-A14D-9EEE9B20C8A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.DependencyInjection", "DotNetPowerExtensions.DependencyInjection\DotNetPowerExtensions.DependencyInjection.csproj", "{B0CFF64E-A54E-4E12-AB86-842985E49A6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.DependencyInjection.Common", "DotNetPowerExtensions.DependencyInjection.Common\DotNetPowerExtensions.DependencyInjection.Common.csproj", "{8B524BE5-D53C-418B-AB31-43EB0F2230A6}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.NonDelegate", "DotNetPowerExtensions.NonDelegate\DotNetPowerExtensions.NonDelegate.csproj", "{552C920B-329B-4C7E-8E84-EF3044668D70}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.NonDelegate.Common", "DotNetPowerExtensions.NonDelegate.Common\DotNetPowerExtensions.NonDelegate.Common.csproj", "{F39050FA-D80C-4204-85E3-973613AD90B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.NonDelegate.Analyzers", "DotNetPowerExtensions.NonDelegate.Analyzers\DotNetPowerExtensions.NonDelegate.Analyzers.csproj", "{6FE39353-273A-492C-8502-DD343DAB3EFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.DependencyInjection.Analyzers", "DotNetPowerExtensions.DependencyInjection.Analyzers\DotNetPowerExtensions.DependencyInjection.Analyzers.csproj", "{DB9D1614-DC21-4F98-8068-8DB898ED372E}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3F448616-5E66-4CD9-82FF-E97FBA82DAE5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Common", "Tests.Common\Tests.Common.csproj", "{B00F6283-CEDD-47CF-8CB7-7221D72A54CD}"
@@ -77,6 +85,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.EnumerableExtensions", "DotNetPowerExtensions.EnumerableExtensions\DotNetPowerExtensions.EnumerableExtensions.csproj", "{3AB35A5E-5897-409E-8567-72CDE9E518C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.EnumerableExtensions.Tests", "DotNetPowerExtensions.EnumerableExtensions.Tests\DotNetPowerExtensions.EnumerableExtensions.Tests.csproj", "{4C184F58-191A-4DD2-90F5-7ABC9B71EC08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.DependencyInjection.Tests", "DotNetPowerExtensions.DependencyInjection.Tests\DotNetPowerExtensions.DependencyInjection.Tests.csproj", "{99CCA724-463B-41D6-8700-0FCEF7DB12E4}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.MustInitialize.Common", "DotNetPowerExtensions.MustInitialize.Common\DotNetPowerExtensions.MustInitialize.Common.csproj", "{CFD28C51-7050-4852-9018-469842060AEF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Union", "Union", "{D8F4A4CD-3A9A-481D-8CAB-01FCD97B8526}"
@@ -84,6 +95,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NonDelegate", "NonDelegate", "{1971F3D9-ED6A-4385-B228-12B551DA54E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MustInitialize", "MustInitialize", "{ADDF8E29-2D3F-4335-BB78-0A7FAECD4540}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DependencyInjection", "DependencyInjection", "{9BF780D9-1DFD-424D-B639-9F5F8E97A92D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -151,6 +164,14 @@ Global
 		{585BC253-DA93-4B6A-A14D-9EEE9B20C8A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{585BC253-DA93-4B6A-A14D-9EEE9B20C8A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{585BC253-DA93-4B6A-A14D-9EEE9B20C8A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0CFF64E-A54E-4E12-AB86-842985E49A6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0CFF64E-A54E-4E12-AB86-842985E49A6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0CFF64E-A54E-4E12-AB86-842985E49A6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0CFF64E-A54E-4E12-AB86-842985E49A6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B524BE5-D53C-418B-AB31-43EB0F2230A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B524BE5-D53C-418B-AB31-43EB0F2230A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B524BE5-D53C-418B-AB31-43EB0F2230A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B524BE5-D53C-418B-AB31-43EB0F2230A6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{552C920B-329B-4C7E-8E84-EF3044668D70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{552C920B-329B-4C7E-8E84-EF3044668D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{552C920B-329B-4C7E-8E84-EF3044668D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -163,6 +184,10 @@ Global
 		{6FE39353-273A-492C-8502-DD343DAB3EFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FE39353-273A-492C-8502-DD343DAB3EFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FE39353-273A-492C-8502-DD343DAB3EFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB9D1614-DC21-4F98-8068-8DB898ED372E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB9D1614-DC21-4F98-8068-8DB898ED372E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB9D1614-DC21-4F98-8068-8DB898ED372E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB9D1614-DC21-4F98-8068-8DB898ED372E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B00F6283-CEDD-47CF-8CB7-7221D72A54CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B00F6283-CEDD-47CF-8CB7-7221D72A54CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B00F6283-CEDD-47CF-8CB7-7221D72A54CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -199,6 +224,10 @@ Global
 		{4C184F58-191A-4DD2-90F5-7ABC9B71EC08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C184F58-191A-4DD2-90F5-7ABC9B71EC08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C184F58-191A-4DD2-90F5-7ABC9B71EC08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99CCA724-463B-41D6-8700-0FCEF7DB12E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99CCA724-463B-41D6-8700-0FCEF7DB12E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99CCA724-463B-41D6-8700-0FCEF7DB12E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99CCA724-463B-41D6-8700-0FCEF7DB12E4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CFD28C51-7050-4852-9018-469842060AEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CFD28C51-7050-4852-9018-469842060AEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFD28C51-7050-4852-9018-469842060AEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -222,9 +251,12 @@ Global
 		{469E74A2-71A4-4163-AA7E-6E6E3D05792C} = {306DCEC8-6A0F-4AE3-A35D-5F68296E6CEF}
 		{1103BEDD-9775-47A0-BD6F-12543BBD51C3} = {42DCCB24-4EF2-40B5-B0F5-FB81A89B2B31}
 		{585BC253-DA93-4B6A-A14D-9EEE9B20C8A5} = {469E74A2-71A4-4163-AA7E-6E6E3D05792C}
+		{B0CFF64E-A54E-4E12-AB86-842985E49A6E} = {9BF780D9-1DFD-424D-B639-9F5F8E97A92D}
+		{8B524BE5-D53C-418B-AB31-43EB0F2230A6} = {9BF780D9-1DFD-424D-B639-9F5F8E97A92D}
 		{552C920B-329B-4C7E-8E84-EF3044668D70} = {1971F3D9-ED6A-4385-B228-12B551DA54E1}
 		{F39050FA-D80C-4204-85E3-973613AD90B0} = {1971F3D9-ED6A-4385-B228-12B551DA54E1}
 		{6FE39353-273A-492C-8502-DD343DAB3EFF} = {1971F3D9-ED6A-4385-B228-12B551DA54E1}
+		{DB9D1614-DC21-4F98-8068-8DB898ED372E} = {9BF780D9-1DFD-424D-B639-9F5F8E97A92D}
 		{B00F6283-CEDD-47CF-8CB7-7221D72A54CD} = {3F448616-5E66-4CD9-82FF-E97FBA82DAE5}
 		{ECDE3D2D-338F-4F3B-ACFC-9F737EF45D68} = {1971F3D9-ED6A-4385-B228-12B551DA54E1}
 		{5AD9354E-B1B3-4407-8807-327CC7D48D52} = {D8F4A4CD-3A9A-481D-8CAB-01FCD97B8526}
@@ -232,6 +264,7 @@ Global
 		{A2FF6127-F8FE-482E-A335-08B557F045CE} = {D8F4A4CD-3A9A-481D-8CAB-01FCD97B8526}
 		{D94E1BC6-AAFD-4868-A3F9-E1A25F13C020} = {D8F4A4CD-3A9A-481D-8CAB-01FCD97B8526}
 		{4C184F58-191A-4DD2-90F5-7ABC9B71EC08} = {3F448616-5E66-4CD9-82FF-E97FBA82DAE5}
+		{99CCA724-463B-41D6-8700-0FCEF7DB12E4} = {9BF780D9-1DFD-424D-B639-9F5F8E97A92D}
 		{CFD28C51-7050-4852-9018-469842060AEF} = {ADDF8E29-2D3F-4335-BB78-0A7FAECD4540}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

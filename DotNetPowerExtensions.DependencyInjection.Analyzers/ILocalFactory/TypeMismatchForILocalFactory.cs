@@ -1,7 +1,8 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
+﻿/*using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
 using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
 using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
 
+We will bring in the logic in RoslynExtensions...
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -61,9 +62,7 @@ public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
             }
 
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }
+*/
