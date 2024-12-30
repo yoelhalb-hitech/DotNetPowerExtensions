@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+
+    <IsAnalyzerProject>true</IsAnalyzerProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.DependencyInjection\DotNetPowerExtensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Common\DotNetPowerExtensions.MustInitialize.Common.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.Union\DotNetPowerExtensions.Union.csproj" />
+  </ItemGroup>
+
+</Project>

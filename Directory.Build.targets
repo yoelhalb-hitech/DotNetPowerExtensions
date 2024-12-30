@@ -1,23 +1,11 @@
 <Project>
   <PropertyGroup><!-- Needs to be here because it depends on the project file -->
     <IsTestProject Condition="$(IsTestProject) == ''">$(ProjectName.EndsWith('Tests'))</IsTestProject>
-   <!-- <IsTestProject Condition="$(IsTestProject) == '' and !$(ProjectName.EndsWith('Tests'))">False</IsTestProject>-->
   </PropertyGroup>
 
   <Import Condition="$(IsAnalyzerProject)" Project="AnalyzerProject.targets" />
-  <!--<PropertyGroup Condition="$(IsAnalyzerProject)">
-    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-
-    <IncludeBuildOutput>false</IncludeBuildOutput> --><!-- Needed for .net 4.5 to be able to referene this --><!--
-  </PropertyGroup>
-
-  <ItemGroup Condition="$(IsAnalyzerProject)">
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
-
-    <ProjectReference Include="..\DotNetPowerExtensions.RoslynExtensions\DotNetPowerExtensions.RoslynExtensions.csproj" />
-  </ItemGroup>-->
+  <Import Condition="!$(IsTestProject) and !$(IsAnalyzerProject)" Project="Package.targets" />
+  <Import Condition="$(IsTestProject)" Project="Tests.targets" />
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45' Or  '$(TargetFramework)' == 'net452' Or '$(TargetFramework)' == 'net46' Or '$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'net462'">
     <PackageReference Include="System.ValueTuple" />
@@ -27,89 +15,9 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(IsTestProject)">
-    <PackageReference Include="coverlet.collector" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-
-    <PackageReference Include="NUnit" />
-    <PackageReference Include="NUnit.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
-    <PackageReference Include="SkbKontur.NUnit.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
-
-    <PackageReference Include="NUnit3TestAdapter" />
-
-    <PackageReference Include="FluentAssertions" />
-    <PackageReference Include="FluentAssertions.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
-    <PackageReference Include="Meziantou.FluentAssertionsAnalyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
-
-    <PackageReference Include="Moq" />
-    <PackageReference Include="Moq.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
-    <PackageReference Include="MoqAnalyzer" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
-    <PackageReference Include="Philips.CodeAnalysis.MoqAnalyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
-    <PackageReference Include="PosInformatique.Moq.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
-  </ItemGroup>
-
-  <ItemGroup Condition="$(IsTestProject)">
-    <Using Include="NUnit.Framework" />
-    <Using Include="FluentAssertions" />
-  </ItemGroup>
-
-  <PropertyGroup Condition="!$(IsTestProject) and !$(IsAnalyzerProject)">
-    <PackageVersion>4.0.1</PackageVersion>
-
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <IsPackable>True</IsPackable>
-    <PackageId>SequelPay.$(MSBuildProjectName)</PackageId>
-    <RootNamespace>SequelPay.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-
-    <Authors>Yoel</Authors>
-    <Company>SequelPay</Company>
-    <PackageProjectUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</RepositoryUrl>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Extensions to DotNet, mostly using attributes</Description>
-    <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
-    <Copyright>Copyright</Copyright>
-    <PackageTags>Reflection, Extensions</PackageTags>
-
-    <NoPackageAnalysis>true</NoPackageAnalysis>
-
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-
-    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddAnalyzersToOutput</TargetsForTfmSpecificContentInPackage>
-    <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
-  </PropertyGroup>
-
   <!-- https://stackoverflow.com/questions/6161824/return-the-referencecopylocalpaths-from-msbuild-task -->
   <Target Condition="!$(IsTestProject)" Name="OutputResolveReferences" DependsOnTargets="ResolveReferences" Returns="@(ReferenceCopyLocalPaths)">
   </Target>
-
-  <Target Name="_AddAnalyzersToOutput" Condition="$(IsPackable) and '$(TargetFramework)' == 'netstandard2.0'" AfterTargets="Build">
-    <MSBuild Projects="@(ProjectReference)" Targets="OutputResolveReferences" Condition="'%(ProjectReference.IsAnalyzer)' == 'true'">
-      <Output TaskParameter="TargetOutputs" ItemName="MyReferenceCopyLocalPaths" />
-    </MSBuild>
-
-    <!-- https://stackoverflow.com/questions/1272499/msbuild-get-assembly-reference-from-projectreference?rq=1 -->
-    <MSBuild Projects="@(ProjectReference)" Targets="Build" BuildInParallel="true" Condition="'%(ProjectReference.IsAnalyzer)' == 'true'">
-      <Output TaskParameter="TargetOutputs" ItemName="OutputAssemblies" />
-    </MSBuild>
-    <ItemGroup>
-      <TfmSpecificPackageFile Include="@(OutputAssemblies)"  PackagePath="analyzers/dotnet/cs" />
-      <TfmSpecificPackageFile Include="@(MyReferenceCopyLocalPaths)" PackagePath="analyzers/dotnet/cs" />
-    </ItemGroup>
-  </Target>
-
-  <ItemGroup Condition="$(IsPackable)">
-    <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
-    <None Include="..\DotNetPowerExtensions\README.md" Link="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' and !$(IsTestProject)">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>

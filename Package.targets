@@ -1,0 +1,54 @@
+<Project>
+  <PropertyGroup>
+    <PackageVersion>4.0.1</PackageVersion>
+
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+    <PackageId>SequelPay.$(MSBuildProjectName)</PackageId>
+    <RootNamespace>SequelPay.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+
+    <Authors>Yoel</Authors>
+    <Company>SequelPay</Company>
+    <PackageProjectUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Description>Extensions to DotNet, mostly using attributes</Description>
+    <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
+    <Copyright>Copyright</Copyright>
+    <PackageTags>Reflection, Extensions</PackageTags>
+
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddAnalyzersToOutput</TargetsForTfmSpecificContentInPackage>
+    <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
+  </PropertyGroup>
+
+  <Target Name="_AddAnalyzersToOutput" Condition="'$(TargetFramework)' == 'netstandard2.0'" AfterTargets="Build">
+    <MSBuild Projects="@(ProjectReference)" Targets="OutputResolveReferences" Condition="'%(ProjectReference.IsAnalyzer)' == 'true'">
+      <Output TaskParameter="TargetOutputs" ItemName="MyReferenceCopyLocalPaths" />
+    </MSBuild>
+
+    <!-- https://stackoverflow.com/questions/1272499/msbuild-get-assembly-reference-from-projectreference?rq=1 -->
+    <MSBuild Projects="@(ProjectReference)" Targets="Build" BuildInParallel="true" Condition="'%(ProjectReference.IsAnalyzer)' == 'true'">
+      <Output TaskParameter="TargetOutputs" ItemName="OutputAssemblies" />
+    </MSBuild>
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="@(OutputAssemblies)"  PackagePath="analyzers/dotnet/cs" />
+      <TfmSpecificPackageFile Include="@(MyReferenceCopyLocalPaths)" PackagePath="analyzers/dotnet/cs" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
+    <None Include="..\DotNetPowerExtensions\README.md" Link="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>

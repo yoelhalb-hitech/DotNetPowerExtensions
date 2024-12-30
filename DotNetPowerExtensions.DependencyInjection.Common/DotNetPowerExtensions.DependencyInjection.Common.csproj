@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="SequelPay.DotNetPowerExtensions" PublicKey="$(PublicKey)" />
     <InternalsVisibleTo Include="SequelPay.DotNetPowerExtensions.DependencyInjection" PublicKey="$(PublicKey)" />
     <InternalsVisibleTo Include="SequelPay.DotNetPowerExtensions.DependencyInjection.Tests" PublicKey="$(PublicKey)" />
   </ItemGroup>

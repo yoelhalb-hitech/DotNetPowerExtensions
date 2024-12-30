@@ -1,0 +1,27 @@
+<Project>
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+    <PackageReference Include="SkbKontur.NUnit.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+
+    <PackageReference Include="NUnit3TestAdapter" />
+
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="FluentAssertions.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+    <PackageReference Include="Meziantou.FluentAssertionsAnalyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Moq.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+    <PackageReference Include="MoqAnalyzer" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+    <PackageReference Include="Philips.CodeAnalysis.MoqAnalyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+    <PackageReference Include="PosInformatique.Moq.Analyzers" PrivateAssets="all" IncludeAssets="$(AnalyzerAssets)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="NUnit.Framework" />
+    <Using Include="FluentAssertions" />
+  </ItemGroup>
+</Project>
