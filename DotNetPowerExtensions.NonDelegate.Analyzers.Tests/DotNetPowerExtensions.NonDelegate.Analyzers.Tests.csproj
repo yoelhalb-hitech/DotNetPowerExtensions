@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetPowerExtensions.NonDelegate.Analyzers\DotNetPowerExtensions.NonDelegate.Analyzers.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.NonDelegate.Common\DotNetPowerExtensions.NonDelegate.Common.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.NonDelegate\DotNetPowerExtensions.NonDelegate.csproj" />
     <ProjectReference Include="..\Tests.Common\Tests.Common.csproj" />
   </ItemGroup>
 
