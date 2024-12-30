@@ -103,4 +103,30 @@ public static class TypeSymbolExtensions
 
     public static IMethodSymbol? GetDefaultConstructor(this ITypeSymbol typeSymbol)
         => typeSymbol.GetConstructors(false).FirstOrDefault(m => m.Parameters.Length == 0);
+
+    /// <summary>
+    /// Return all fields, including inherited/shadowed ones (unless it is base private)
+    /// </summary>
+    /// <param name="typeSymbol">The <see cref="ITypeSymbol"/> containing/inheriting the fields</param>
+    public static IEnumerable<IFieldSymbol>? GetAllFields(this ITypeSymbol typeSymbol)
+        => typeSymbol.GetAllBaseTypesAndThis()
+            .SelectMany(b => b.GetMembers().OfType<IFieldSymbol>()
+                                    .Where(f => b.IsEqualTo(typeSymbol) || !f.DeclaredAccessibility.HasFlag(Accessibility.Private)));
+
+    /// <summary>
+    /// Return all properties, including inherited/shadowed (unless it is base private), but not overriden properties
+    /// </summary>
+    /// <param name="typeSymbol">The <see cref="ITypeSymbol"/> containing/inheriting the fields</param>
+    /// <remarks>Does not include interfaces currently, including default implemented</remarks>
+    public static IEnumerable<IPropertySymbol>? GetAllProperties(this ITypeSymbol typeSymbol)
+    {
+        var baseProperties = typeSymbol.BaseType?.GetAllProperties()
+                                .Where(p => !p.DeclaredAccessibility.HasFlag(Accessibility.Private));
+
+        var currentPropeties = typeSymbol.GetMembers().OfType<IPropertySymbol>().ToArray();
+        // TODO... does this work correctly wih generic bases that the base is generic?
+        var overridenProperties = currentPropeties.Where(p => p.IsOverride).Select(p => p.OverriddenProperty).OfType<IPropertySymbol>();
+
+        return (baseProperties?.Except(overridenProperties) ?? new IPropertySymbol[] { }).Concat(currentPropeties);
+    }
 }

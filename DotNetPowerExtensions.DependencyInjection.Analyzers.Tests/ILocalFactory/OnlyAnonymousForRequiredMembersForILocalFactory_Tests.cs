@@ -1,5 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
-
+﻿
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.ILocalFactory;
 
 internal class OnlyAnonymousForRequiredMembersForILocalFactory_Tests : AnalyzerVerifierBase<OnlyAnonymousForRequiredMembersForILocalFactory>

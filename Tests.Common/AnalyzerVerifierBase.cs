@@ -35,6 +35,7 @@ public abstract class AnalyzerVerifierBase<TAnlayzer> : AnalyzerVerifier<TAnlayz
         return VerifyAnalyzerAsync(test, expected);
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers", Justification = "Just a test, and we depend on it")]
     internal static Task VerifyAnalyzerAsync(AnalyzerTest<NUnitVerifier> test, DiagnosticResult[] expected)
     {
         var assemblies = typeof(TAnlayzer).Assembly.GetReferencedAssemblies()

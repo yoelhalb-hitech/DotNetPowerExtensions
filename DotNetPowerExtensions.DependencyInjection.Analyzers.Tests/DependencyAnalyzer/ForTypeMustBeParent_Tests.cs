@@ -1,7 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
-using Microsoft.CodeAnalysis.Testing;
-using SequelPay.DotNetPowerExtensions;
-
+﻿
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyAnalyzer;
 
 internal class ForTypeMustBeParent_Tests : AnalyzerVerifierBase<ForTypeMustBeParent>

@@ -23,7 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageVersion Include="System.ValueTuple" Version="[4.3.0,)" />
+    <!-- The Analyzer testing NUnit have a conflict with this -->
+    <PackageVersion Condition="!$(IsTestProject)" Include="System.ValueTuple" Version="[4.3.0,)" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="Mono.Cecil" Version="[0.10.0,)" />
   </ItemGroup>

@@ -1,6 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
-using SequelPay.DotNetPowerExtensions;
-
+﻿
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyAnalyzer;
 
 // Actually the analyzer just checks for abstract while the attribute itself prevents using it on interface

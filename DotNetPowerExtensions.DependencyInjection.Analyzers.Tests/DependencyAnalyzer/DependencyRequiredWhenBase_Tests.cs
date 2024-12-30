@@ -1,8 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
-using Microsoft.CodeAnalysis.Testing;
-using Newtonsoft.Json.Linq;
-using SequelPay.DotNetPowerExtensions;
-
+﻿
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyAnalyzer;
 
 internal class DependencyRequiredWhenBase_Tests : AnalyzerVerifierBase<DependencyRequiredWhenBase>

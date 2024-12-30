@@ -1,6 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
-using Microsoft.CodeAnalysis.Testing;
-
+﻿
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.ILocalFactory;
 
 internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMismatchForILocalFactory>

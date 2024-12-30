@@ -1,9 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
-using Microsoft.CodeAnalysis.Testing;
-using Newtonsoft.Json.Linq;
-using SequelPay.DotNetPowerExtensions;
-using System;
-
+﻿
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyAnalyzer;
 
 internal class DependencyTypeDoesNotMatchBase_Tests : AnalyzerVerifierBase<DependencyTypeDoesNotMatchBase>

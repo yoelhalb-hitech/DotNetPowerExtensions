@@ -1,30 +1,40 @@
-﻿/*using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
-
-We will bring in the logic in RoslynExtensions...
+﻿
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
+public class TypeMismatchForILocalFactory : DiagnosticAnalyzer
 {
+    protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0203";
     protected const string Title = "TypeMismatchForLocalService";
     protected const string Message = "Type of Member '{0}' should be '{1}'";
     protected const string Description = "Type mismatch between initlaizer and members decorated with the MustInitialize attribute.";
-    protected override DiagnosticDescriptor DiagnosticDesc => Diagnostic;
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
     protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
 
-
-    public override void Register(CompilationStartAnalysisContext compilationContext, INamedTypeSymbol[] mustInitializeSymbols)
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Diagnostic);
+    public override void Initialize(AnalysisContext context)
     {
-        // TODO... maybe use an IOperation instead...
-        compilationContext.RegisterSyntaxNodeAction(AnalyzeInvocation, SyntaxKind.InvocationExpression);
+        try
+        {
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
+            context.EnableConcurrentExecution();
+
+            context.RegisterCompilationStartAction(compilationContext =>
+            {
+                var typedSymbol = compilationContext.Compilation.GetTypeSymbol(typeof(ILocalFactory<>));
+                if (typedSymbol is null) return;
+
+                // TODO... maybe use an IOperation instead...
+                compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, typedSymbol), SyntaxKind.InvocationExpression);
+
+            });
+        }
+        catch { }
     }
 
-    private void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
+    private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol serviceTypeSymbol)
     {
         try
         {
@@ -40,7 +50,7 @@ public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
 
             var worker = new MustInitializeWorker(context.Compilation, context.SemanticModel);
 
-            if (!classType.IsGenericEqual(worker.GetTypeSymbol(typeof(ILocalFactory<>)))) return;
+            if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
 
             var innerClass = classType.TypeArguments.FirstOrDefault();
             if (innerClass is null) return;
@@ -65,4 +75,3 @@ public class TypeMismatchForILocalFactory : MustInitializeRequiredMembersBase
         catch { }
     }
 }
-*/
