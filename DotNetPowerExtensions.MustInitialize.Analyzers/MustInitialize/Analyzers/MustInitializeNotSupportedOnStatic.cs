@@ -29,9 +29,6 @@ public class MustInitializeNotSupportedOnStatic : MustInitializeAnalyzerBase
             var attribute = symbol.GetAttribute(mustInitializeSymbols);
             if (attribute is not null) context.ReportDiagnostic(CreateDiagnostic(attribute));
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

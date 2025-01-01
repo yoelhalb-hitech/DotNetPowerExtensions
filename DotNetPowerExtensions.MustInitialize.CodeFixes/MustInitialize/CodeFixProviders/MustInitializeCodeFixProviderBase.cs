@@ -1,8 +1,4 @@
-﻿extern alias Workspaces;
-
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using Workspaces::Microsoft.CodeAnalysis.CodeActions;
-using Workspaces::Microsoft.CodeAnalysis.Editing;
+﻿using Microsoft.CodeAnalysis.Editing;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
@@ -40,11 +36,7 @@ public abstract class MustInitializeCodeFixProviderBase<TAnalyzer, TNode> : Code
                     equivalenceKey: Title),
                 diagnostic);
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-            throw;
-        }
+        catch { }
     }
 
     protected abstract Task<(SyntaxNode declToReplace, SyntaxNode newDecl)?> CreateChanges(Document document, TNode declaration, CancellationToken c);
@@ -64,10 +56,6 @@ public abstract class MustInitializeCodeFixProviderBase<TAnalyzer, TNode> : Code
 
             return documentEditor.GetChangedDocument();
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-            throw;
-        }
+        catch { return document; }
     }
 }

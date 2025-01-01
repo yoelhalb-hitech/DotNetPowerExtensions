@@ -1,4 +1,5 @@
-﻿
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+
 namespace DotNetPowerExtensions.MustInitialize.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]

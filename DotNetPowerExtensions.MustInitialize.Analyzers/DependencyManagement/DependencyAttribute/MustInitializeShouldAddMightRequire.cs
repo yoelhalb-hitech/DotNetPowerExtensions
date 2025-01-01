@@ -1,4 +1,5 @@
 ﻿using SequelPay.DotNetPowerExtensions;
+using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 namespace DotNetPowerExtensions.MustInitialize.Analyzers;
 
@@ -90,9 +91,6 @@ public class MustInitializeShouldAddMightRequire : MustInitializeRequiredMembers
 
 
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

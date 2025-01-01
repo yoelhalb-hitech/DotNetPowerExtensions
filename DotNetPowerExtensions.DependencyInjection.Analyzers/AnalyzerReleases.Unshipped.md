@@ -5,7 +5,7 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-DNPE0202 | Language | Warning | OnlyAnonymousForRequiredMembersForILocalFactory
+DNPE0202 | Language | Warning | OnlyAnonymousForILocalFactory
 DNPE0203 | Language | Warning | TypeMismatchForILocalFactory
 DNPE0204 | Language | Warning | UseLocalServiceForLocal
 DNPE0206 | Language | Warning | UseShouldOnlyBeForGeneric

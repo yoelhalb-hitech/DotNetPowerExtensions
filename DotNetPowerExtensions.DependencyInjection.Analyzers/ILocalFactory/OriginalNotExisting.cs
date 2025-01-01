@@ -8,9 +8,9 @@ public class OriginalNotExisting : DiagnosticAnalyzer
 {
     protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0217";
-    protected const string Title = "OriginalNotMustIntialize";
+    protected const string Title = "OriginalNotExisting";
     protected const string Message = "Member '{0}' does not exist";
-    protected const string Description = "the member does not exist on the original type and is also not a `MightRequire`.";
+    protected const string Description = "The member does not exist on the original type.";
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
     protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
@@ -36,7 +36,6 @@ public class OriginalNotExisting : DiagnosticAnalyzer
         catch { }
     }
 
-
     private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol serviceTypeSymbol)
     {
         try
@@ -50,17 +49,14 @@ public class OriginalNotExisting : DiagnosticAnalyzer
 
             if (methodSymbol.Name != nameof(ILocalFactory<object>.Create)) return;
 
-
-            var worker = new MustInitializeWorker(context.Compilation, context.SemanticModel);
-
             if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
 
             var innerClass = classType.TypeArguments.FirstOrDefault();
             if (innerClass is null) return;
 
-            var props = worker.GetMembersGroupedByName(innerClass).Select(g => g.Key)
-                .Union(MightRequireUtils.GetMightRequiredInfos(innerClass, worker.MightRequireSymbols).Select(m => m.Name))
-                .ToArray();
+            var props = innerClass.GetAllProperties().Select(p => p.Name)
+                    .Concat(innerClass.GetAllFields().Select(p => p.Name))
+                    .ToList();
 
             var declared = creation.Initializers.Where(i => !string.IsNullOrWhiteSpace(i.GetName())).ToDictionary(i => i.GetName()!, i => i.GetNameToken()!.Value);
 

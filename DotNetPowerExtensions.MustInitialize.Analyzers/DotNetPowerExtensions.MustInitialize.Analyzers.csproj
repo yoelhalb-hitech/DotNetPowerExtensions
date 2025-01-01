@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DotNetPowerExtensions.DependencyInjection\DotNetPowerExtensions.DependencyInjection.csproj" />
+    <InternalsVisibleTo Include="SequelPay.DotNetPowerExtensions.MustInitialize.CodeFixes" PublicKey="$(PublicKey)" />
+    <InternalsVisibleTo Include="SequelPay.DotNetPowerExtensions.MustInitialize.Features" PublicKey="$(PublicKey)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.DependencyInjection.Analyzers.Common\DotNetPowerExtensions.DependencyInjection.Analyzers.Common.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.DependencyInjection.Common\DotNetPowerExtensions.DependencyInjection.Common.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Common\DotNetPowerExtensions.MustInitialize.Common.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.Union\DotNetPowerExtensions.Union.csproj" />
   </ItemGroup>

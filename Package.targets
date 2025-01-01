@@ -14,7 +14,8 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Extensions to DotNet, mostly using attributes</Description>
+    <Description Condition="!$(MSBuildProjectName.EndsWith('Common'))">Extensions to DotNet, mostly using attributes</Description>
+    <Description Condition="$(MSBuildProjectName.EndsWith('Common'))">Do not install this package manually, it will be added as a prerequisite by other packages that require it.    </Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
     <PackageTags>Reflection, Extensions</PackageTags>
@@ -30,12 +31,12 @@
   </PropertyGroup>
 
   <Target Name="_AddAnalyzersToOutput" Condition="'$(TargetFramework)' == 'netstandard2.0'" AfterTargets="Build">
-    <MSBuild Projects="@(ProjectReference)" Targets="OutputResolveReferences" Condition="'%(ProjectReference.IsAnalyzer)' == 'true'">
+    <MSBuild Projects="@(PackAnalyzer)" Targets="OutputResolveReferences">
       <Output TaskParameter="TargetOutputs" ItemName="MyReferenceCopyLocalPaths" />
     </MSBuild>
 
     <!-- https://stackoverflow.com/questions/1272499/msbuild-get-assembly-reference-from-projectreference?rq=1 -->
-    <MSBuild Projects="@(ProjectReference)" Targets="Build" BuildInParallel="true" Condition="'%(ProjectReference.IsAnalyzer)' == 'true'">
+    <MSBuild Projects="@(PackAnalyzer)" Targets="Build" BuildInParallel="true">
       <Output TaskParameter="TargetOutputs" ItemName="OutputAssemblies" />
     </MSBuild>
     <ItemGroup>

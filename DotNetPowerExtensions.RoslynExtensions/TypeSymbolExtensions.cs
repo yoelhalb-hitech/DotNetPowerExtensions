@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.Shared.Extensions;
+using System.Linq;
 
 namespace SequelPay.DotNetPowerExtensions.RoslynExtensions;
 
@@ -108,25 +109,49 @@ public static class TypeSymbolExtensions
     /// Return all fields, including inherited/shadowed ones (unless it is base private)
     /// </summary>
     /// <param name="typeSymbol">The <see cref="ITypeSymbol"/> containing/inheriting the fields</param>
-    public static IEnumerable<IFieldSymbol>? GetAllFields(this ITypeSymbol typeSymbol)
-        => typeSymbol.GetAllBaseTypesAndThis()
-            .SelectMany(b => b.GetMembers().OfType<IFieldSymbol>()
-                                    .Where(f => b.IsEqualTo(typeSymbol) || !f.DeclaredAccessibility.HasFlag(Accessibility.Private)));
-
-    /// <summary>
-    /// Return all properties, including inherited/shadowed (unless it is base private), but not overriden properties
-    /// </summary>
-    /// <param name="typeSymbol">The <see cref="ITypeSymbol"/> containing/inheriting the fields</param>
-    /// <remarks>Does not include interfaces currently, including default implemented</remarks>
-    public static IEnumerable<IPropertySymbol>? GetAllProperties(this ITypeSymbol typeSymbol)
+    /// <param name="includeShadowed">If shadowed fields should be included in the result</param>
+    public static IEnumerable<IFieldSymbol>? GetAllFields(this ITypeSymbol typeSymbol, bool includeShadowed = false)
     {
-        var baseProperties = typeSymbol.BaseType?.GetAllProperties()
+        var currentFields = typeSymbol.GetMembers().OfType<IFieldSymbol>().ToArray();
+
+        if (typeSymbol.BaseType is null) return currentFields;
+
+        var baseFields = typeSymbol.BaseType.GetAllFields(includeShadowed)
                                 .Where(p => !p.DeclaredAccessibility.HasFlag(Accessibility.Private));
 
-        var currentPropeties = typeSymbol.GetMembers().OfType<IPropertySymbol>().ToArray();
-        // TODO... does this work correctly wih generic bases that the base is generic?
-        var overridenProperties = currentPropeties.Where(p => p.IsOverride).Select(p => p.OverriddenProperty).OfType<IPropertySymbol>();
+        if (includeShadowed) return baseFields.Concat(currentFields);
 
-        return (baseProperties?.Except(overridenProperties) ?? new IPropertySymbol[] { }).Concat(currentPropeties);
+        var currentNames = currentFields.Select(p => p.Name).ToList();
+
+        // TODO... We need to check what is going on with explicit implementations
+        return baseFields.Where(p => !currentNames.Contains(p.Name)).Concat(currentFields);
+    }
+
+    /// <summary>
+    /// Return all properties, including inherited (unless it is base private), but not overriden properties
+    /// </summary>
+    /// <param name="typeSymbol">The <see cref="ITypeSymbol"/> containing/inheriting the fields</param>
+    /// <param name="includeShadowed">If shadowed properties should be included in the result</param>
+    /// <remarks>Does not include interfaces currently, including default implemented</remarks>
+    public static IEnumerable<IPropertySymbol>? GetAllProperties(this ITypeSymbol typeSymbol, bool includeShadowed = false)
+    {
+        var currentPropeties = typeSymbol.GetMembers().OfType<IPropertySymbol>().ToArray();
+
+        if (typeSymbol.BaseType is null) return currentPropeties;
+
+        var baseProperties = typeSymbol.BaseType.GetAllProperties(includeShadowed)
+                                .Where(p => !p.DeclaredAccessibility.HasFlag(Accessibility.Private));
+
+        if(includeShadowed)
+        {
+            var overridenProperties = currentPropeties.Where(p => p.IsOverride).Select(p => p.OverriddenProperty).OfType<IPropertySymbol>();
+
+            return baseProperties.Except(overridenProperties).Concat(currentPropeties);
+        }
+
+        var currentNames = currentPropeties.Select(p => p.Name).ToList();
+
+        // TODO... We need to check what is going on with explicit implementations
+        return baseProperties.Where(p => !currentNames.Contains(p.Name)).Concat(currentPropeties);
     }
 }

@@ -68,9 +68,6 @@ public class MightRequireTypeConflict : DiagnosticAnalyzer
                 }
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

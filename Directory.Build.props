@@ -20,4 +20,8 @@
     <ItemGroup>
       <AnalyzerAssets Include="runtime; build; native; contentfiles; analyzers; buildtransitive" />
     </ItemGroup>
+
+    <ItemDefinitionGroup>
+      <PackAnalyzer />
+    </ItemDefinitionGroup>
 	</Project>

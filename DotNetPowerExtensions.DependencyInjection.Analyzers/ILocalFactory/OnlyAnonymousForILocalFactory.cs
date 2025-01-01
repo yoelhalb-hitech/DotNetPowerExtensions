@@ -2,19 +2,18 @@
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class TypeMismatchForILocalFactory : DiagnosticAnalyzer
+public class OnlyAnonymousForILocalFactory : DiagnosticAnalyzer
 {
     protected const string Category = "Language";
-    public const string DiagnosticId = "DNPE0203";
-    protected const string Title = "TypeMismatchForLocalService";
-    protected const string Message = "Type of Member '{0}' should be '{1}'";
-    protected const string Description = "Type mismatch between initializer and member type.";
+    public const string DiagnosticId = "DNPE0202";
+    protected const string Title = "OnlyAnonymousForLocalFactory";
+    protected const string Message = "Only an anonymous object is allowed for initializing with LocalService";
+    protected const string Description = "Only an anonymous object is allowed for initializing with LocalService.";
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
     protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Diagnostic);
-
     public override void Initialize(AnalysisContext context)
     {
         try
@@ -40,8 +39,7 @@ public class TypeMismatchForILocalFactory : DiagnosticAnalyzer
         try
         {
             var invocation = context.Node as InvocationExpressionSyntax;
-            if (invocation is null
-                || invocation.ArgumentList.Arguments.FirstOrDefault()?.Expression is not AnonymousObjectCreationExpressionSyntax creation
+            if(invocation is null
                 || context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol
                 || methodSymbol.ReceiverType is not INamedTypeSymbol classType
                 || !classType.IsGenericType) return;
@@ -50,25 +48,13 @@ public class TypeMismatchForILocalFactory : DiagnosticAnalyzer
 
             if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
 
-            var innerClass = classType.TypeArguments.FirstOrDefault();
-            if (innerClass is null) return;
+            var innerClass = classType.TypeArguments.First();
 
-            var props = innerClass.GetAllProperties().Select(p => (p.Name, p.Type))
-                    .Concat(innerClass.GetAllFields().Select(p => (p.Name, p.Type)))
-                    .ToDictionary(x => x.Item1, x => x.Item2);
-
-            var declared = creation.Initializers.Where(i => !string.IsNullOrWhiteSpace(i.GetName())).ToDictionary(i => i.GetName()!, i => i.Expression);
-
-            var nonMatchings = declared.Where(i => i.Key is not null && props.ContainsKey(i.Key)
-                                                        && !context.SemanticModel.GetTypeInfo(i.Value, context.CancellationToken).Type.IsEqualTo(props[i.Key]));
-
-            foreach (var nonMatching in nonMatchings)
+            if (invocation.ArgumentList.Arguments.FirstOrDefault()?.Expression is BaseObjectCreationExpressionSyntax expr)
             {
-                var diag = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, nonMatching.Value.GetLocation(),
-                                                                        nonMatching.Key, props[nonMatching.Key!].ToStringWithoutNamesapce());
-                context.ReportDiagnostic(diag);
+                var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, expr.GetLocation());
+                context.ReportDiagnostic(diagnostic);
             }
-
         }
         catch { }
     }

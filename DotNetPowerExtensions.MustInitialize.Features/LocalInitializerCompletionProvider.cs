@@ -1,12 +1,8 @@
 ﻿extern alias Features;
 extern alias Workspaces;
 
-using Features::Microsoft.CodeAnalysis.Completion;
 using Features::Microsoft.CodeAnalysis.Completion.Providers;
-using Microsoft.CodeAnalysis.Text;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
-using Workspaces::Microsoft.CodeAnalysis.Host.Mef;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
 using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
 using Workspaces::Roslyn.Utilities;
 
@@ -70,11 +66,7 @@ public class LocalInitializerCompletionProvider : LSPCompletionProvider
                     rules: CompletionItemRules.Create(enterKeyRule: EnterKeyRule.Never)));
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-            return;
-        }
+        catch { }
     }
 
     protected HashSet<string> GetInitializedMembers(SyntaxTree tree, int position, CancellationToken cancellationToken)

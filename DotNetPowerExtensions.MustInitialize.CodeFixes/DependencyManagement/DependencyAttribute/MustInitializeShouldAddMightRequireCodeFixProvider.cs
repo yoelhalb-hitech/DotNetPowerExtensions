@@ -1,10 +1,5 @@
-﻿extern alias Workspaces;
-
-using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
-using Workspaces::Microsoft.CodeAnalysis.Editing;
-
-using Workspaces::Microsoft.CodeAnalysis.CodeActions;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
+﻿
+using Microsoft.CodeAnalysis.Editing;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.CodeFixProviders;
 
@@ -45,11 +40,7 @@ public class MustInitializeShouldAddMightRequireCodeFixProvider : CodeFixProvide
                     equivalenceKey: Title),
                 diagnostic);
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-            throw;
-        }
+        catch { }
     }
 
 
@@ -88,11 +79,7 @@ public class MustInitializeShouldAddMightRequireCodeFixProvider : CodeFixProvide
 
             return documentEditor.GetChangedDocument();
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-            throw;
-        }
+        catch { return document; }
     }
 
     private IEnumerable<AttributeListSyntax> GetAttributeList(List<Union<IPropertySymbol, IFieldSymbol>> list)

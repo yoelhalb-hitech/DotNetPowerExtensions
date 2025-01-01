@@ -14,9 +14,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetPowerExtensions.DependencyInjection.Common\DotNetPowerExtensions.DependencyInjection.Common.csproj" />
+  </ItemGroup>
 
-    <ProjectReference Condition="'$(TargetFramework)' == 'netstandard2.0'" IsAnalyzer="true"
-                      Include="..\DotNetPowerExtensions.DependencyInjection.Analyzers\DotNetPowerExtensions.DependencyInjection.Analyzers.csproj" />
+  <ItemGroup>
+    <PackAnalyzer Include="..\DotNetPowerExtensions.DependencyInjection.Analyzers\DotNetPowerExtensions.DependencyInjection.Analyzers.csproj" />
   </ItemGroup>
 
 </Project>

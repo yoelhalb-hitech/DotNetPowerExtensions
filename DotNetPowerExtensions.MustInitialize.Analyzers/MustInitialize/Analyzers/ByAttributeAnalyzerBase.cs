@@ -1,4 +1,5 @@
-﻿
+﻿using SequelPay.DotNetPowerExtensions;
+
 namespace DotNetPowerExtensions.MustInitialize.Analyzers;
 
 public abstract class ByAttributeAnalyzerBase : MustInitializeAnalyzerBase

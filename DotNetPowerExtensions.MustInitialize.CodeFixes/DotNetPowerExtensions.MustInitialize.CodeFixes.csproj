@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Analyzers\DotNetPowerExtensions.MustInitialize.Analyzers.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Common\DotNetPowerExtensions.MustInitialize.Common.csproj" />
-    <ProjectReference Include="..\Tests.Common\Tests.Common.csproj" />
   </ItemGroup>
 
 </Project>

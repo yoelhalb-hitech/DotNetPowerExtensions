@@ -1,7 +1,7 @@
 ﻿
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
-internal static class DependencyAnalyzerUtils
+public static class DependencyAnalyzerUtils
 {
     public static Type[] BaseAttributes =
     {

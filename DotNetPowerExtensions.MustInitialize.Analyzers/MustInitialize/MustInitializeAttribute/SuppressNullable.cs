@@ -1,4 +1,5 @@
-﻿
+﻿using System.Text.RegularExpressions;
+
 namespace DotNetPowerExtensions.MustInitialize.Analyzers;
 
 #if !NET45 && !NET46
@@ -23,11 +24,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
                 SuppressNullableAnalyzer.AnalyzeDiagnostic(diagnostic, context);
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-            throw;
-        }
+        catch { }
     }
     private const string mustInitialize = "MustInitialize";
     private static bool ContainsMustInitialize(MemberDeclarationSyntax member, SuppressionAnalysisContext context, string name)
@@ -73,11 +70,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
                 var type = match.Groups[1].Value;
                 var name = match.Groups[2].Value;
 
-                if (node.Parent is null)
-                {
-                    Logger.LogInfo("Parent missing for symbol, how is that possible?");
-                    return;
-                }
+                if (node.Parent is null) return; // Shouldn't happen
 
                 if (type == "field")
                 {
@@ -93,11 +86,7 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
 
             context.ReportSuppression(Suppression.Create(MustInitializeRule, diagnostic));
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-            throw;
-        }
+        catch { }
     }
 }
 

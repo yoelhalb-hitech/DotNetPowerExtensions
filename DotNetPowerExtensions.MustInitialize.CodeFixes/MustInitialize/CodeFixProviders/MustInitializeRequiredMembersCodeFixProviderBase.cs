@@ -1,5 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-using Microsoft.CodeAnalysis.Operations;
+﻿using Microsoft.CodeAnalysis.Operations;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
@@ -33,7 +32,7 @@ public abstract class MustInitializeRequiredMembersCodeFixProviderBase<TAnalyzer
 
         var initalizer = typeDecl.Initializer
                         ?? SyntaxFactory.InitializerExpression(SyntaxKind.ObjectInitializerExpression);
-        foreach (var prop in props ?? ArrayUtils.Empty<string>())
+        foreach (var prop in props ?? Array.Empty<string>())
         {
             var expr = SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression,
                                                         SyntaxFactory.IdentifierName(prop),

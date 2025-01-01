@@ -1,12 +1,9 @@
 ﻿extern alias Features;
 extern alias Workspaces;
 
-using Features::Microsoft.CodeAnalysis.QuickInfo;
-using Workspaces::Microsoft.CodeAnalysis.Host;
-using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
-using Workspaces::System.Diagnostics.CodeAnalysis;
 using Features::Microsoft.CodeAnalysis.LanguageService;
-using System.Reflection;
+using Features::Microsoft.CodeAnalysis.QuickInfo;
+using Workspaces::System.Diagnostics.CodeAnalysis;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
@@ -45,9 +42,8 @@ public class LocalInitializerQuickInfoProvider : CommonSemanticQuickInfoProvider
                     context.Options,
                 cancellationToken).ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch
         {
-            Logger.LogError(ex);
             return null;
         }
     }
@@ -68,9 +64,8 @@ public class LocalInitializerQuickInfoProvider : CommonSemanticQuickInfoProvider
             var tokenInfo = new TokenInformation(ImmutableArray.Create(symbol));
             return await CreateContentAsync(services, semanticModel, token, tokenInfo, null, options, cancellationToken).ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch
         {
-            Logger.LogError(ex);
             return null;
         }
     }

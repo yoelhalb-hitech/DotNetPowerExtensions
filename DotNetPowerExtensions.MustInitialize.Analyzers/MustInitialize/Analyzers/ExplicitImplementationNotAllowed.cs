@@ -29,9 +29,6 @@ public class ExplicitImplementationNotAllowed : MustInitializeAnalyzerBase
             var hasAttribute = symbol.ExplicitInterfaceImplementations.Any(p => p.HasAttribute(mustInitializeSymbols));
             if (hasAttribute) context.ReportDiagnostic(CreateDiagnostic(symbol));
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

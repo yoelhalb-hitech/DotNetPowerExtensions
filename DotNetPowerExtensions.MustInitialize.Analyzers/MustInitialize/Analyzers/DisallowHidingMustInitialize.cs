@@ -40,9 +40,6 @@ public class DisallowHidingMustInitialize : MustInitializeAnalyzerBase
                 return;
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

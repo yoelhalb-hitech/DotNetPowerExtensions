@@ -2,8 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Analyzers\DotNetPowerExtensions.MustInitialize.Analyzers.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.CodeFixes\DotNetPowerExtensions.MustInitialize.CodeFixes.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Features\DotNetPowerExtensions.MustInitialize.Features.csproj" />
+    <ProjectReference Include="..\Tests.Common\Tests.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Features" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features"/><!-- This one is needed at runtime for the completion provider test s-->
+  </ItemGroup>
 
 </Project>

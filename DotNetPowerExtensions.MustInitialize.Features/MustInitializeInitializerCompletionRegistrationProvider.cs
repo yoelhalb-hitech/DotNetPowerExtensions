@@ -1,10 +1,5 @@
-﻿extern alias Features;
-extern alias Workspaces;
+﻿extern alias Workspaces;
 
-using Features::Microsoft.CodeAnalysis.Completion;
-using Microsoft.CodeAnalysis.Text;
-using System.Reflection;
-using Workspaces::Microsoft.CodeAnalysis.Host;
 using Workspaces::Microsoft.CodeAnalysis.Options;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
@@ -30,7 +25,7 @@ internal class MustInitializeInitializerCompletionRegistrationProvider : CommonC
             {
                 if (handled || processing) return;
                 processing = true;
-            }            
+            }
 
             var cs = CompletionService.GetService(context.Document);
             if (cs is null) return;
@@ -83,15 +78,12 @@ internal class MustInitializeInitializerCompletionRegistrationProvider : CommonC
                 {
                     lock (lockObject)
                     {
-                        handled = true;                        
-                    }                    
+                        handled = true;
+                    }
                 }
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
         finally
         {
             lock (lockObject)

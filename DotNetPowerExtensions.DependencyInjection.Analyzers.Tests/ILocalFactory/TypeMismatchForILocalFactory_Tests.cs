@@ -11,9 +11,9 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
         using System.Collections.Generic;
         public class DeclareType
         {
-            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public AppDomain TestGeneralName { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
+            public string TestProp { get; set; }
+            public AppDomain TestGeneralName { get; set; }
+            public List<(string, int)> TestField;
         }
 
         class Program { void Main() =>
@@ -38,7 +38,7 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
     }
 
     [Test]
-    public async Task Test_WarnsWhenNoAttribute()
+    public async Task Test_Works([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
         using System;
@@ -63,31 +63,6 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
     }
 
     [Test]
-    public async Task Test_Works([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
-    {
-        var test = $$"""
-        using System;
-        using System.Collections.Generic;
-        public class DeclareType
-        {
-            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public AppDomain TestGeneralName { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
-        }
-
-        class Program { void Main() =>
-            (null as ILocalFactory<DeclareType>).Create(new
-            {
-                TestProp = [|10|],
-                TestGeneralName = [|""|],
-                TestField = [|true|]
-            }); }
-        """;
-
-        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
-    }
-
-    [Test]
     public async Task Test_Works_WithSubClass([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
     {
         var test = $$"""
@@ -95,9 +70,9 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
         using System.Collections.Generic;
         public class DeclareType
         {
-            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public AppDomain TestGeneralName { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
+            public string TestProp { get; set; }
+            public AppDomain TestGeneralName { get; set; }
+            public List<(string, int)> TestField;
         }
         public class Subclass : DeclareType{}
 
@@ -121,13 +96,13 @@ internal class TypeMismatchForILocalFactory_Tests: AnalyzerVerifierBase<TypeMism
         using System.Collections.Generic;
         public class DeclareType
         {
-            [{{prefix}}MustInitialize{{suffix}}] public virtual string TestProp { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public AppDomain TestGeneralName { get; set; }
-            [{{prefix}}MustInitialize{{suffix}}] public List<(string, int)> TestField;
+            public virtual string TestProp { get; set; }
+            public AppDomain TestGeneralName { get; set; }
+            public List<(string, int)> TestField;
         }
         public class Subclass : DeclareType
         {
-            [{{prefix}}MustInitialize{{suffix}}] public override string TestProp { get; set; }
+            public override string TestProp { get; set; }
         }
 
         class Program { void Main() =>

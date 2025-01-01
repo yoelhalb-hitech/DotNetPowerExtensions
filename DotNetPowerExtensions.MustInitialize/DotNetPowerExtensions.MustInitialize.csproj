@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
@@ -6,6 +6,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Common\DotNetPowerExtensions.MustInitialize.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackAnalyzer Include="..\DotNetPowerExtensions.MustInitialize.Analyzers\DotNetPowerExtensions.MustInitialize.Analyzers.csproj" />
+    <PackAnalyzer Include="..\DotNetPowerExtensions.MustInitialize.CodeFixes\DotNetPowerExtensions.MustInitialize.CodeFixes.csproj" />
+    <PackAnalyzer Include="..\DotNetPowerExtensions.MustInitialize.Features\DotNetPowerExtensions.MustInitialize.Features.csproj" />
   </ItemGroup>
 
 </Project>

@@ -25,9 +25,6 @@ public abstract class RequiredWhenOverridingBase : ByAttributeAnalyzerBase
 
             context.ReportDiagnostic(CreateDiagnostic(symbol));
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

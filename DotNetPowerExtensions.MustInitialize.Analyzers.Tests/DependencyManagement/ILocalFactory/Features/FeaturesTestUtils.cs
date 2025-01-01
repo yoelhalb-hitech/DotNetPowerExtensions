@@ -1,11 +1,11 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
+﻿using Microsoft.CodeAnalysis.Completion;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis.Host.Mef;
 using Microsoft.CodeAnalysis.Host;
+using Microsoft.CodeAnalysis.Host.Mef;
 using Microsoft.CodeAnalysis.Text;
+using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 using System.Reflection;
-using Microsoft.CodeAnalysis.Completion;
 
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.ILocalFactory.Features;
 
@@ -25,7 +25,8 @@ internal class FeaturesTestUtils
                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
                MetadataReference.CreateFromFile(Assembly.Load("System.Runtime").Location),
                MetadataReference.CreateFromFile(Assembly.Load("netstandard").Location),
-               MetadataReference.CreateFromFile(typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location)
+               MetadataReference.CreateFromFile(typeof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Assembly.Location),
+               MetadataReference.CreateFromFile(typeof(SequelPay.DotNetPowerExtensions.ILocalFactory<>).Assembly.Location),
            })
            .WithCompilationOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
            .WithAnalyzerReferences(new AnalyzerReference[]

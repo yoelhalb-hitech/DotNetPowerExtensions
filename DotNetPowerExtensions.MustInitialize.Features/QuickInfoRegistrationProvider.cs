@@ -1,11 +1,7 @@
 ﻿extern alias Features;
 extern alias Workspaces;
 
-using Features::Microsoft.CodeAnalysis.Completion;
 using Features::Microsoft.CodeAnalysis.QuickInfo;
-using Microsoft.CodeAnalysis.Text;
-using System.Reflection;
-using Workspaces::Microsoft.CodeAnalysis.Host;
 using Workspaces::Microsoft.CodeAnalysis.Options;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
@@ -44,9 +40,6 @@ internal class QuickInfoRegistrationProvider : CommonCompletionProvider
 
             handled = true;
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

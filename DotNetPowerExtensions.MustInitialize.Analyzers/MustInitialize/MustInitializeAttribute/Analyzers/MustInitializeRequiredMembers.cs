@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.Operations;
 
 namespace DotNetPowerExtensions.MustInitialize.Analyzers;
 
@@ -37,9 +38,6 @@ public class MustInitializeRequiredMembers : MustInitializeRequiredMembersBase
 
             ReportDiagnostics(context, expr, props);
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

@@ -1,4 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
+﻿using DotNetPowerExtensions.MustInitialize.Analyzers;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 

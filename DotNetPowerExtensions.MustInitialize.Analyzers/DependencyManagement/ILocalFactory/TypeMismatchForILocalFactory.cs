@@ -1,19 +1,22 @@
 ﻿
+using DotNetPowerExtensions.MustInitialize.Analyzers;
+
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class OnlyAnonymousForRequiredMembersForILocalFactory : DiagnosticAnalyzer
+public class TypeMismatchForILocalFactory : DiagnosticAnalyzer
 {
     protected const string Category = "Language";
-    public const string DiagnosticId = "DNPE0202";
-    protected const string Title = "OnlyAnonymousForRequiredMembers";
-    protected const string Message = "Only an anonymous object is allowed for initializing with LocalService";
-    protected const string Description = "Only an anonymous object is allowed for initializing with LocalService.";
+    public const string DiagnosticId = "DNPE0218";
+    protected const string Title = "MightRequireTypeMismatchForLocalService";
+    protected const string Message = "Type of Member '{0}' should be '{1}'";
+    protected const string Description = "Type mismatch between initializer and members decorated with the MightRequire attribute.";
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
     protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Diagnostic);
+
     public override void Initialize(AnalysisContext context)
     {
         try
@@ -39,7 +42,8 @@ public class OnlyAnonymousForRequiredMembersForILocalFactory : DiagnosticAnalyze
         try
         {
             var invocation = context.Node as InvocationExpressionSyntax;
-            if(invocation is null
+            if (invocation is null
+                || invocation.ArgumentList.Arguments.FirstOrDefault()?.Expression is not AnonymousObjectCreationExpressionSyntax creation
                 || context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol
                 || methodSymbol.ReceiverType is not INamedTypeSymbol classType
                 || !classType.IsGenericType) return;
@@ -48,13 +52,29 @@ public class OnlyAnonymousForRequiredMembersForILocalFactory : DiagnosticAnalyze
 
             if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
 
-            var innerClass = classType.TypeArguments.First();
+            var worker = new MustInitializeWorker(context.Compilation, context.SemanticModel);
 
-            if (invocation.ArgumentList.Arguments.FirstOrDefault()?.Expression is BaseObjectCreationExpressionSyntax expr)
+            if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
+
+            var innerClass = classType.TypeArguments.FirstOrDefault();
+            if (innerClass is null) return;
+
+            var props = MightRequireUtils.GetMightRequiredInfos(innerClass, worker.MightRequireSymbols).Select(m => (m.Name, m.Type))
+                .ToDictionary(x => x.Item1, x => x.Item2);
+
+
+            var declared = creation.Initializers.Where(i => !string.IsNullOrWhiteSpace(i.GetName())).ToDictionary(i => i.GetName()!, i => i.Expression);
+
+            var nonMatchings = declared.Where(i => i.Key is not null && props.ContainsKey(i.Key)
+                                                        && !context.SemanticModel.GetTypeInfo(i.Value, context.CancellationToken).Type.IsEqualTo(props[i.Key]));
+
+            foreach (var nonMatching in nonMatchings)
             {
-                var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, expr.GetLocation());
-                context.ReportDiagnostic(diagnostic);
+                var diag = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, nonMatching.Value.GetLocation(),
+                                                                        nonMatching.Key, props[nonMatching.Key!].ToStringWithoutNamesapce());
+                context.ReportDiagnostic(diag);
             }
+
         }
         catch { }
     }

@@ -1,17 +1,13 @@
 ﻿extern alias Features;
 extern alias Workspaces;
 
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
-using Features::Microsoft.CodeAnalysis.Completion;
+using Features::Microsoft.CodeAnalysis;
 using Features::Microsoft.CodeAnalysis.Completion.Providers;
 using Microsoft.CodeAnalysis.CSharp.Completion.Providers;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.Operations;
-using Workspaces::Roslyn.Utilities;
-using Workspaces::Microsoft.CodeAnalysis.Host.Mef;
-using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
 using System.Diagnostics;
-using Features::Microsoft.CodeAnalysis;
+using Workspaces::Roslyn.Utilities;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
@@ -93,11 +89,7 @@ internal class MustInitializeInitializerCompletionProvider : ObjectAndWithInitia
                     rules: rules));
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-            return;
-        }
+        catch { }
     }
 
     private static readonly CompletionItemRules s_rules = CompletionItemRules.Create(enterKeyRule: EnterKeyRule.Never);

@@ -27,5 +27,5 @@ public class PropertyDetail : MemberDetail<PropertyInfo, PropertyDetail, IProper
     IMethodDetail? IPropertyDetail.SetMethod => SetMethod;
     IMethodDetail? IPropertyDetail.BasePrivateGetMethod => BasePrivateGetMethod;
     IMethodDetail? IPropertyDetail.BasePrivateSetMethod => BasePrivateSetMethod;
-    IPropertyDetail? IPropertyDetail.OverridenProperty => OverridenProperty;    
+    IPropertyDetail? IPropertyDetail.OverridenProperty => OverridenProperty;
 }

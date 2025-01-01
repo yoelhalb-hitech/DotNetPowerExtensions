@@ -28,7 +28,7 @@ internal class MustInitializeInitializerCompletionProvider_Tests
         	public int PublicField;
             internal int AProp { get; set; }
         	[MustInitialize] internal int InternalProp { get; set; }
-            [MustInitialize] int XField; // Naming is o make sure that MustInitialize is indeed the first
+            [MustInitialize] int XField; // Naming is to make sure that MustInitialize is indeed the first
 
         	public static void Test(ILocalFactory<TestClass> factory)
         	{

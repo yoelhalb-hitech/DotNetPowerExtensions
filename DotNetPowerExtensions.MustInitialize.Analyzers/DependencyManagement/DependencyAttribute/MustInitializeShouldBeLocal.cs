@@ -1,4 +1,5 @@
-﻿
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+
 namespace DotNetPowerExtensions.MustInitialize.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -45,9 +46,6 @@ public class MustInitializeShouldBeLocal : MustInitializeRequiredMembersBase
                 context.ReportDiagnostic(diagnostic);
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

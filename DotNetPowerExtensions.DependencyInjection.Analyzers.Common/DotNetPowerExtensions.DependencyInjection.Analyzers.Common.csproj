@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DotNetPowerExtensions.DependencyInjection.Analyzers.Common\DotNetPowerExtensions.DependencyInjection.Analyzers.Common.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.DependencyInjection.Common\DotNetPowerExtensions.DependencyInjection.Common.csproj" />
   </ItemGroup>
 
 </Project>

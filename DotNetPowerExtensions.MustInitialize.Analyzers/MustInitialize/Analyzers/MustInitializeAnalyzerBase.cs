@@ -45,9 +45,6 @@ public abstract class MustInitializeAnalyzerBase : DiagnosticAnalyzer
                 Register(compilationContext, symbols.OfType<INamedTypeSymbol>().ToArray());
             });
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

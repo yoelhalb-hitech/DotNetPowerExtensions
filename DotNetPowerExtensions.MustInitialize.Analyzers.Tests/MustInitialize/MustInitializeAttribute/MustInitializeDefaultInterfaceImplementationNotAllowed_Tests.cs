@@ -1,5 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-
+﻿
 namespace DotNetPowerExtensions.Analyzers.Tests.MustInitialize.MustInitializeAttribute;
 
 internal sealed class MustInitializeDefaultInterfaceImplementationNotAllowed_Tests

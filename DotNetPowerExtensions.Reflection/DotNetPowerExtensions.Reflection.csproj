@@ -10,7 +10,12 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\DotNetPowerExtensions.Reflection.Core\DotNetPowerExtensions.Reflection.Core.csproj" />
-	</ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Common\DotNetPowerExtensions.MustInitialize.Common.csproj" />
+
+    <ProjectReference PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" Include="..\DotNetPowerExtensions.MustInitialize.Analyzers\DotNetPowerExtensions.MustInitialize.Analyzers.csproj" />
+    <ProjectReference PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" Include="..\DotNetPowerExtensions.MustInitialize.CodeFixes\DotNetPowerExtensions.MustInitialize.CodeFixes.csproj" />
+    <ProjectReference PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" Include="..\DotNetPowerExtensions.MustInitialize.Features\DotNetPowerExtensions.MustInitialize.Features.csproj" />
+  </ItemGroup>
 
 	<PropertyGroup>
 		<PackageTags>Reflection, Extensions</PackageTags>

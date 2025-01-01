@@ -1,9 +1,4 @@
-﻿extern alias Workspaces;
-
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MightRequireAttribute;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
-using Microsoft.CodeAnalysis.CSharp.Extensions;
-using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
+﻿using Microsoft.CodeAnalysis.CSharp.Extensions;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 

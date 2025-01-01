@@ -1,7 +1,5 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.MustInitializeAttribute.CodeFixProviders;
-using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.CodeFixProviders;
 

@@ -1,5 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.Analyzers;
-
+﻿
 namespace SequelPay.DotNetPowerExtensions.Analyzers.MustInitialize.CodeFixProviders;
 
 public abstract class RequiredWhenImplementingInterfaceCodeFixProviderBase<TAnalyzer>

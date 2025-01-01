@@ -1,73 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net45;net7.0</TargetFrameworks>
-	<EnableNETAnalyzers>true</EnableNETAnalyzers>
-	<AnalysisMode>Recommended</AnalysisMode>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<LangVersion>11.0</LangVersion>
-	<Nullable>enable</Nullable>
-	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
   </PropertyGroup>
-
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>
-		  DotNetPowerExtensions.Tests, PublicKey=002400000480000094000000060200000024000052534131000400000100010049c1c8a4b34d9a58f1b76473eb42cbea2336c86a66a4cb071b8e3368d3be608e6b558807bcacaf22b98e48c6451da32f477ca23cebf1e460306c884374ba053b0e154183028d9d1152ead270b584484a44e1a0855ad78671b846e22213751737fcadc52adc1731673efa509b49c2f407b18ab4e54dff160530f2a78aded947ae
-	  </_Parameter1>
-    </AssemblyAttribute>
-  </ItemGroup>
 
   <PropertyGroup>
-    <PackageId>SequelPay.DotNetPowerExtensions</PackageId>
-    <PackageVersion>4.0.0</PackageVersion>
-    <Authors>Yoel</Authors>
-    <PackageProjectUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/yoelhalb-hitech/DotNetPowerExtensions</RepositoryUrl>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>Extensions to DotNet, mostly using attributes</Description>
-    <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
-    <Copyright>Copyright</Copyright>
-    <PackageTags>TestCodeFix, analyzers, nullable, MustInitialize</PackageTags>
-    <NoPackageAnalysis>true</NoPackageAnalysis>
-	<Company>SequelPay</Company>
-	<PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\SequelPay.DotNetPowerExtensions.snk</AssemblyOriginatorKeyFile>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <AssemblyName>SequelPay.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>SequelPay.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="README.md" Link="README.md">
-      <PackagePath>\</PackagePath>
-      <Pack>True</Pack>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" />
-	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
-		<PrivateAssets>all</PrivateAssets>
-		<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-	</PackageReference>
-  <ItemGroup>
-    <ProjectReference Condition="'$(TargetFramework)' == 'netstandard2.0'" ReferenceOutputAssembly="false"
-      Include="..\DotNetPowerExtensions.NonDelegate.Analyzers\DotNetPowerExtensions.NonDelegate.Analyzers.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.DependencyInjection\DotNetPowerExtensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize\DotNetPowerExtensions.MustInitialize.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.NonDelegate\DotNetPowerExtensions.NonDelegate.csproj" />
 
     <ProjectReference Include="..\DotNetPowerExtensions.EnumerableExtensions\DotNetPowerExtensions.EnumerableExtensions.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.StringExtensions\DotNetPowerExtensions.StringExtensions.csproj" />
 
-    <ProjectReference Include="..\DotNetPowerExtensions.Union.Common\DotNetPowerExtensions.Union.Common.csproj" />
-    <ProjectReference Condition="'$(TargetFramework)' == 'netstandard2.0'" IsAnalyzer="true" Include="..\DotNetPowerExtensions.Union.Analyzers\DotNetPowerExtensions.Union.Analyzers.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.Union\DotNetPowerExtensions.Union.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.DependencyInjection\DotNetPowerExtensions.DependencyInjection.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackAnalyzer Include="..\DotNetPowerExtensions.DependencyInjection.Analyzers\DotNetPowerExtensions.DependencyInjection.Analyzers.csproj" />
+
+    <PackAnalyzer Include="..\DotNetPowerExtensions.MustInitialize.Analyzers\DotNetPowerExtensions.MustInitialize.Analyzers.csproj" />
+    <PackAnalyzer Include="..\DotNetPowerExtensions.MustInitialize.CodeFixes\DotNetPowerExtensions.MustInitialize.CodeFixes.csproj" />
+    <PackAnalyzer Include="..\DotNetPowerExtensions.MustInitialize.Features\DotNetPowerExtensions.MustInitialize.Features.csproj" />
+
+    <PackAnalyzer Include="..\DotNetPowerExtensions.NonDelegate.Analyzers\DotNetPowerExtensions.NonDelegate.Analyzers.csproj" />
+
+
+    <PackAnalyzer Include="..\DotNetPowerExtensions.Union.Analyzers\DotNetPowerExtensions.Union.Analyzers.csproj" />
+
+    <PackAnalyzer Include="..\DotNetPowerExtensions.DependencyInjection.Analyzers\DotNetPowerExtensions.DependencyInjection.Analyzers.csproj" />
+  </ItemGroup>
+
 </Project>

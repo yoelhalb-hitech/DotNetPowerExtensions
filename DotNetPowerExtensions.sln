@@ -3,15 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Analyzers", "DotNetPowerExtensions.Analyzers\DotNetPowerExtensions.Analyzers.csproj", "{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.Analyzers.Vsix", "DotNetPowerExtensions.Analyzers.Vsix\DotNetPowerExtensions.Analyzers.Vsix.csproj", "{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Analyzers.Tests", "DotNetPowerExtensions.Analyzers.Tests\DotNetPowerExtensions.Analyzers.Tests.csproj", "{8C1003BC-C123-4575-8670-0467A3404396}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions", "DotNetPowerExtensions\DotNetPowerExtensions.csproj", "{639544EE-B1B2-42AC-8CCC-6768895379DC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Tests", "DotNetPowerExtensions.Tests\DotNetPowerExtensions.Tests.csproj", "{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetPowerExtensions.Reflection.Core", "DotNetPowerExtensions.Reflection.Core\DotNetPowerExtensions.Reflection.Core.csproj", "{5621592A-9C5C-4E94-913F-5C9A85E75208}"
 EndProject
@@ -121,32 +113,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{37BF9DE2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.MustInitialize.Analyzers.Tests", "DotNetPowerExtensions.MustInitialize.Analyzers.Tests\DotNetPowerExtensions.MustInitialize.Analyzers.Tests.csproj", "{3C46E05B-8723-468E-BFB3-BCF6E456682C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPowerExtensions.DependencyInjection.Analyzers.Common", "DotNetPowerExtensions.DependencyInjection.Analyzers.Common\DotNetPowerExtensions.DependencyInjection.Analyzers.Common.csproj", "{308A8F49-46DA-4683-B006-1C592CB820B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DA93F35-CDAF-4F19-8D92-6D3E4025F00D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9326D5F3-D76B-4B9E-B98C-4E9E5C3A9323}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8C1003BC-C123-4575-8670-0467A3404396}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C1003BC-C123-4575-8670-0467A3404396}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C1003BC-C123-4575-8670-0467A3404396}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C1003BC-C123-4575-8670-0467A3404396}.Release|Any CPU.Build.0 = Release|Any CPU
 		{639544EE-B1B2-42AC-8CCC-6768895379DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{639544EE-B1B2-42AC-8CCC-6768895379DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{639544EE-B1B2-42AC-8CCC-6768895379DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{639544EE-B1B2-42AC-8CCC-6768895379DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A984A6B2-30CE-4685-8AA3-8F2B28AB0E1C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5621592A-9C5C-4E94-913F-5C9A85E75208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5621592A-9C5C-4E94-913F-5C9A85E75208}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5621592A-9C5C-4E94-913F-5C9A85E75208}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -279,6 +257,10 @@ Global
 		{3C46E05B-8723-468E-BFB3-BCF6E456682C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C46E05B-8723-468E-BFB3-BCF6E456682C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C46E05B-8723-468E-BFB3-BCF6E456682C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{308A8F49-46DA-4683-B006-1C592CB820B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{308A8F49-46DA-4683-B006-1C592CB820B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{308A8F49-46DA-4683-B006-1C592CB820B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{308A8F49-46DA-4683-B006-1C592CB820B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -323,6 +305,7 @@ Global
 		{05ED30FB-1A55-4253-8D3E-F8594BE46E01} = {843B1EB1-CE76-49C5-B2F1-E46CEF856F88}
 		{37BF9DE2-5E19-49BD-BAE1-414D0598950F} = {ADDF8E29-2D3F-4335-BB78-0A7FAECD4540}
 		{3C46E05B-8723-468E-BFB3-BCF6E456682C} = {37BF9DE2-5E19-49BD-BAE1-414D0598950F}
+		{308A8F49-46DA-4683-B006-1C592CB820B1} = {F5E99DBC-0A7A-42AB-BCB6-81FDAD31921C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {541D2802-7BBF-4DF0-891C-F58D9A35CDBF}

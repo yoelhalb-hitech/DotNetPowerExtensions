@@ -54,9 +54,6 @@ public class MustIinitializeAccessibilityNotLessThanConstructor : MustInitialize
             // We have a ctor that is in a scope that the must initialize property is not accessed
             if (!hasAllCtorAccessibility) context.ReportDiagnostic(CreateDiagnostic(attribute));
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }

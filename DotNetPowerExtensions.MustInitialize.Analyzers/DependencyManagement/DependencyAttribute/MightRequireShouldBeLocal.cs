@@ -1,4 +1,5 @@
-﻿
+﻿using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+
 namespace DotNetPowerExtensions.MustInitialize.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -32,10 +33,7 @@ public class MightRequireShouldBeLocal : DiagnosticAnalyzer
                     .RegisterSyntaxNodeAction(c => AnalyzeClass(c, symbols, mightRequireSymbols), SyntaxKind.Attribute);
             });
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 
     private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] attributeSymbols, INamedTypeSymbol[] mightRequireSymbols)
@@ -58,9 +56,6 @@ public class MightRequireShouldBeLocal : DiagnosticAnalyzer
                 context.ReportDiagnostic(diagnostic);
             }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-        }
+        catch { }
     }
 }
