@@ -19,6 +19,9 @@ internal static class Utils
         mock
             .Setup(m => m.Add(It.IsAny<ServiceDescriptor>()))
             .Callback<ServiceDescriptor>(c => list.Add(c));
+        mock
+            .Setup(m => m.GetEnumerator())
+            .Returns(() => list.GetEnumerator());
 
         SequelPay.DotNetPowerExtensions.DependencyInjectionExtensions.AddDependencies(mock.Object);
 

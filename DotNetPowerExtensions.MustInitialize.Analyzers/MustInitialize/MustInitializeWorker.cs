@@ -30,32 +30,18 @@ internal class MustInitializeWorker : WorkerBase
     public static string ShortName => nameof(SequelPay.DotNetPowerExtensions.MustInitializeAttribute).Replace(nameof(Attribute), "");
     public static AttributeListSyntax GetAttributeSyntax() => SyntaxFactoryExtensions.ParseAttribute("[" + ShortName + "]");
 
-    public IEnumerable<IGrouping<string, Union<IPropertySymbol, IFieldSymbol>>> GetMembersGroupedByName(ITypeSymbol symbol)
-    {
-                // We don't need the interfaces, since we require to specify it directly on the implementation, and c# 8 default interfaces are not allowed
-        var bases = symbol.GetAllBaseTypes().ToList();
-        var symbols = new[] { symbol }.Concat(bases);
-        var allMembers = symbols.SelectMany(s => s.GetMembers()
-                                                    .OfType<IPropertySymbol>()
-                                                    .Select(p => new Union<IPropertySymbol, IFieldSymbol>(p))
-                                                    .Concat(
-                                                            s.GetMembers()
-                                                            .OfType<IFieldSymbol>()
-                                                            .Select(p => new Union<IPropertySymbol, IFieldSymbol>(p))));
-
-        return allMembers.GroupBy(r => r.As<ISymbol>()!.Name);
-    }
-
     public IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetClosestMembersWithAttribute(ITypeSymbol symbol, INamedTypeSymbol[] attributeSymbols)
     {
         // We don't need the interfaces, since we require to specify it directly on the implementation, and c# 8 default interfaces are not allowed
-        var bases = symbol.GetAllBaseTypes().ToList();
 
         // We take the closest base, this way if it has been marked with `Initialized` instead we will be fine
         // Remember that each override must be marked and hiding is not allowed (unless `Initialized`)
-        return GetMembersGroupedByName(symbol)
-                .Select(n => n.OrderBy(x => bases.IndexOf(x.As<ISymbol>()!.ContainingType)).First())
-                .Where(n => n.As<ISymbol>()!.HasAttribute(attributeSymbols));
+        return symbol.GetAllProperties()
+                        .Where(p => p.HasAttribute(attributeSymbols))
+                        .Select(p => new Union<IPropertySymbol, IFieldSymbol>(p))
+                        .Concat(symbol.GetAllFields()
+                            .Where(f => f.HasAttribute(attributeSymbols))
+                            .Select(f => new Union<IPropertySymbol, IFieldSymbol>(f)));
     }
 
     public IEnumerable<Union<IPropertySymbol, IFieldSymbol>> GetInitialized(IMethodSymbol method, CancellationToken cancellationToken = default)

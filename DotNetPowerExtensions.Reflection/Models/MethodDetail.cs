@@ -1,7 +1,5 @@
-﻿using SequelPay.DotNetPowerExtensions;
-using SequelPay.DotNetPowerExtensions.Reflection.Core.Models;
-
-namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
+﻿
+namespace SequelPay.DotNetPowerExtensions.Reflection;
 
 public class MethodDetail : MemberDetail<MethodInfo, MethodDetail, IMethodDetail>, IMethodDetail
 {
@@ -53,7 +51,7 @@ public class MethodDetail : MemberDetail<MethodInfo, MethodDetail, IMethodDetail
 
         var methodInfo = ReflectionInfo.MakeGenericMethod(args.Select(a => a.Type).ToArray());
         return new MethodDetail
-        {            
+        {
             OverridenMethod = OverridenMethod,
             ExplicitDetail = ExplicitDetail,
             GenericDefinition = this,

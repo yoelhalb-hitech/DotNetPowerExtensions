@@ -7,7 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\DotNetPowerExtensions.Reflection.Core\DotNetPowerExtensions.Reflection.Core.csproj" />
 		<ProjectReference Include="..\DotNetPowerExtensions.Reflection\DotNetPowerExtensions.Reflection.csproj" />
 	</ItemGroup>
 

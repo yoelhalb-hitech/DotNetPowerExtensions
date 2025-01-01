@@ -1,4 +1,4 @@
-﻿// namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
+﻿// namespace SequelPay.DotNetPowerExtensions.Reflection;
 
 //public enum DeclarationTypes
 //{

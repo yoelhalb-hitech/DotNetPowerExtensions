@@ -1,5 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Reflection.Models;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 
 namespace SequelPay.DotNetPowerExtensions.Reflection;
 

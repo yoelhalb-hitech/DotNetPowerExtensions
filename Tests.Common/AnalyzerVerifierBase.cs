@@ -40,7 +40,8 @@ public abstract class AnalyzerVerifierBase<TAnlayzer> : AnalyzerVerifier<TAnlayz
     {
         var assemblies = typeof(TAnlayzer).Assembly.GetReferencedAssemblies()
                 .Where(a => a.FullName?.StartsWith(NamespaceString, StringComparison.Ordinal) == true);
-        foreach ( var assembly in assemblies)//.Where(a => !string.IsNullOrWhiteSpace(a.Location)))
+
+        foreach ( var assembly in assemblies)
         {
             var asm = Assembly.Load(assembly.FullName);
             if(!string.IsNullOrWhiteSpace(asm.Location))

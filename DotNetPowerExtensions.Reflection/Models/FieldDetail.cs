@@ -1,7 +1,5 @@
 ﻿
-using SequelPay.DotNetPowerExtensions.Reflection.Core.Models;
-
-namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
+namespace SequelPay.DotNetPowerExtensions.Reflection;
 
 public class FieldDetail : MemberDetail<FieldInfo, FieldDetail, IFieldDetail>, IFieldDetail
 {

@@ -1,7 +1,5 @@
-﻿using SequelPay.DotNetPowerExtensions;
-using SequelPay.DotNetPowerExtensions.Reflection.Core.Models;
-
-namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
+﻿
+namespace SequelPay.DotNetPowerExtensions.Reflection;
 
 public interface IMemberDetail<out T> : IMemberDetail where T : MemberInfo
 {
@@ -31,10 +29,10 @@ public abstract class MemberDetail<T> : IMemberDetail<T> where T : MemberInfo
     public abstract T? ExplicitInterfaceReflectionInfo { get; }
 }
 
-public class MemberDetail<T, TDetail, TInterfaceDetail> : MemberDetail<T>, Core.Models.IMemberDetail<TInterfaceDetail>
+public class MemberDetail<T, TDetail, TInterfaceDetail> : MemberDetail<T>, Common.IMemberDetail<TInterfaceDetail>
     where T : MemberInfo
     where TDetail : MemberDetail<T, TDetail, TInterfaceDetail>, TInterfaceDetail
-    where TInterfaceDetail : Core.Models.IMemberDetail<TInterfaceDetail>
+    where TInterfaceDetail : Common.IMemberDetail<TInterfaceDetail>
 {
     internal MemberDetail() { }
 
@@ -42,5 +40,5 @@ public class MemberDetail<T, TDetail, TInterfaceDetail> : MemberDetail<T>, Core.
     public override Type? ExplicitInterface => (ExplicitDetail?.DeclaringType as TypeDetailInfo)?.Type;
     public override T? ExplicitInterfaceReflectionInfo => (ExplicitDetail as IMemberDetail<T>)?.ReflectionInfo;
 
-    TInterfaceDetail? Core.Models.IMemberDetail<TInterfaceDetail>.ExplicitDetail => ExplicitDetail;
+    TInterfaceDetail? Common.IMemberDetail<TInterfaceDetail>.ExplicitDetail => ExplicitDetail;
 }

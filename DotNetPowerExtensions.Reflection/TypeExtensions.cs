@@ -16,7 +16,7 @@ public static class TypeExtensions
         static T? GetDefault<T>() => default(T);
     }
 
-    public static Models.TypeDetailInfo GetTypeDetailInfo(this Type t) => TypeInfoService.GetTypeInfo(t);
+    public static TypeDetailInfo GetTypeDetailInfo(this Type t) => TypeInfoService.GetTypeInfo(t);
 
     public static bool IsNullAllowed(this Type t) => t.GetDefault() is null;  // If type.GetDefault() is null then null is allowed, otherwise it's not...
 

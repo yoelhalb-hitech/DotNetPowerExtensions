@@ -52,12 +52,10 @@ public class TypeMismatchForILocalFactory : DiagnosticAnalyzer
 
             if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
 
-            var worker = new MustInitializeWorker(context.Compilation, context.SemanticModel);
-
-            if (!classType.IsGenericEqual(serviceTypeSymbol)) return;
-
             var innerClass = classType.TypeArguments.FirstOrDefault();
             if (innerClass is null) return;
+
+            var worker = new MustInitializeWorker(context.Compilation, context.SemanticModel);
 
             var props = MightRequireUtils.GetMightRequiredInfos(innerClass, worker.MightRequireSymbols).Select(m => (m.Name, m.Type))
                 .ToDictionary(x => x.Item1, x => x.Item2);

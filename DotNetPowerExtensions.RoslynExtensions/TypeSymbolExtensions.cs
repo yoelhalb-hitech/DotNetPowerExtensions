@@ -110,14 +110,14 @@ public static class TypeSymbolExtensions
     /// </summary>
     /// <param name="typeSymbol">The <see cref="ITypeSymbol"/> containing/inheriting the fields</param>
     /// <param name="includeShadowed">If shadowed fields should be included in the result</param>
-    public static IEnumerable<IFieldSymbol>? GetAllFields(this ITypeSymbol typeSymbol, bool includeShadowed = false)
+    public static IEnumerable<IFieldSymbol> GetAllFields(this ITypeSymbol typeSymbol, bool includeShadowed = false)
     {
-        var currentFields = typeSymbol.GetMembers().OfType<IFieldSymbol>().ToArray();
+        var currentFields = typeSymbol.GetMembers().OfType<IFieldSymbol>().Where(f => f.CanBeReferencedByName).ToArray();
 
         if (typeSymbol.BaseType is null) return currentFields;
 
         var baseFields = typeSymbol.BaseType.GetAllFields(includeShadowed)
-                                .Where(p => !p.DeclaredAccessibility.HasFlag(Accessibility.Private));
+                                .Where(f => f.DeclaredAccessibility != Accessibility.Private);
 
         if (includeShadowed) return baseFields.Concat(currentFields);
 
@@ -132,15 +132,15 @@ public static class TypeSymbolExtensions
     /// </summary>
     /// <param name="typeSymbol">The <see cref="ITypeSymbol"/> containing/inheriting the fields</param>
     /// <param name="includeShadowed">If shadowed properties should be included in the result</param>
-    /// <remarks>Does not include interfaces currently, including default implemented</remarks>
-    public static IEnumerable<IPropertySymbol>? GetAllProperties(this ITypeSymbol typeSymbol, bool includeShadowed = false)
+    /// <remarks>Does not include interfaces currently, not even default implemented, so be carefull</remarks>
+    public static IEnumerable<IPropertySymbol> GetAllProperties(this ITypeSymbol typeSymbol, bool includeShadowed = false)
     {
         var currentPropeties = typeSymbol.GetMembers().OfType<IPropertySymbol>().ToArray();
 
         if (typeSymbol.BaseType is null) return currentPropeties;
 
         var baseProperties = typeSymbol.BaseType.GetAllProperties(includeShadowed)
-                                .Where(p => !p.DeclaredAccessibility.HasFlag(Accessibility.Private));
+                                .Where(p => p.DeclaredAccessibility != Accessibility.Private);
 
         if(includeShadowed)
         {

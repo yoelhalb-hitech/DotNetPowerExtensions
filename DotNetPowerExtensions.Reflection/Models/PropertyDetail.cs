@@ -1,7 +1,5 @@
-﻿using SequelPay.DotNetPowerExtensions;
-using SequelPay.DotNetPowerExtensions.Reflection.Core.Models;
-
-namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
+﻿
+namespace SequelPay.DotNetPowerExtensions.Reflection;
 
 public class PropertyDetail : MemberDetail<PropertyInfo, PropertyDetail, IPropertyDetail>, IPropertyDetail
 {

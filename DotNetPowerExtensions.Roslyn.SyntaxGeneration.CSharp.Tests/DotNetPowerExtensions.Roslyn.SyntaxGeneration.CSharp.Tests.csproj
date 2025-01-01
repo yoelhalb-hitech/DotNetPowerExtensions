@@ -7,12 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- CAUTION: we need Microsoft.CodeAnalysis.CSharp and Microsoft.CodeAnalysis.CSharp.Workspaces to be the same as Features -->
-    <!-- For VS 2019 -->
-    <!--<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="3.11.0" PrivateAssets="all" />-->
-    <!-- Needs to match the version of VS -->
-    <PackageReference Include="AutoMockFixture.NUnit3" Version="7.0.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.4.0" PrivateAssets="all" />
+    <PackageReference Include="AutoMockFixture.NUnit3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" PrivateAssets="all" />
   </ItemGroup>
 
 

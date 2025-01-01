@@ -35,6 +35,7 @@
     <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageVersion Include="FluentAssertions" Version="6.8.0" />
     <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="AutoMockFixture.NUnit3" Version="7.0.1" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="NUnit.Analyzers" Version="3.9.0" />

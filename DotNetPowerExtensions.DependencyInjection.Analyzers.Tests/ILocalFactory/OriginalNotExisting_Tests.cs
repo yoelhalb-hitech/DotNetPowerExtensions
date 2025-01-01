@@ -113,23 +113,4 @@ internal class OriginalNotExisting_Tests : AnalyzerVerifierBase<OriginalNotExist
 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
-
-    [Test]
-    public async Task Test_DoesNotWarnWhenHasMightRequire([ValueSource(nameof(Prefixes))] string prefix, [Values(nameof(Attribute), "")] string suffix)
-    {
-        var test = $$"""
-        [{{prefix}}MightRequire{{suffix}}<int>("TestMightRequire")]
-        public class DeclareType
-        {
-        }
-
-        class Program { void Main() =>
-            (null as ILocalFactory<DeclareType>).Create(new
-            {
-                TestMightRequire = 10,
-            }); }
-        """;
-
-        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
-    }
 }

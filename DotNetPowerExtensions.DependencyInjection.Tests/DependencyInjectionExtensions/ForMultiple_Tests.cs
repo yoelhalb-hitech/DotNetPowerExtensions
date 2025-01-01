@@ -8,20 +8,36 @@ namespace DotNetPowerExtensions.Tests.DependencyInjectionExtensions;
 internal sealed class ForMultiple_Tests
 {
     [Transient]
+#if NET5_0_OR_GREATER
     [Transient<FooBase>]
     [Transient<IFoo>]
+#endif
+    [Transient(typeof(FooBase))]
+    [Transient(typeof(IFoo))]
     internal sealed class TestMultipleAttributesDoesNotThrow : FooBase, IFoo { }
 
+#if NET5_0_OR_GREATER
     [Transient<FooTransientForMultiple, FooBase, IFoo>]
+#endif
+    [Transient(typeof(FooTransientForMultiple), typeof(FooBase), typeof(IFoo))]
     internal sealed class FooTransientForMultiple : FooBase, IFoo { }
 
+#if NET5_0_OR_GREATER
     [Scoped<FooScopedForMultiple, FooBase, IFoo>]
+#endif
+    [Scoped(typeof(FooScopedForMultiple), typeof(FooBase), typeof(IFoo))]
     internal sealed class FooScopedForMultiple : FooBase, IFoo { }
 
+#if NET5_0_OR_GREATER
     [Singleton<FooSingletonForMultiple, FooBase, IFoo>]
+#endif
+    [Singleton(typeof(FooSingletonForMultiple), typeof(FooBase), typeof(IFoo))]
     internal sealed class FooSingletonForMultiple : FooBase, IFoo { }
 
+#if NET5_0_OR_GREATER
     [Local<FooLocalForMultiple, FooBase, IFoo>]
+#endif
+    [Local(typeof(FooLocalForMultiple), typeof(FooBase), typeof(IFoo))]
     internal sealed class FooLocalForMultiple : FooBase, IFoo { }
 
     [Test]

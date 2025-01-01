@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;net7.0</TargetFrameworks>
+    <TargetFrameworks>net472;net7.0</TargetFrameworks><!-- Would prefer to test on net45 but NUnit has an issue with the ValueTuple package-->
 
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>

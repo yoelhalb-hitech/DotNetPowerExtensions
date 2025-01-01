@@ -2,7 +2,7 @@
   <PropertyGroup>
     <PackageVersion>4.0.1</PackageVersion>
 
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
     <PackageId>SequelPay.$(MSBuildProjectName)</PackageId>
     <RootNamespace>SequelPay.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>

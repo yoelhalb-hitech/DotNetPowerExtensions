@@ -4,7 +4,7 @@
   </PropertyGroup>
 
   <Import Condition="$(IsAnalyzerProject)" Project="AnalyzerProject.targets" />
-  <Import Condition="!$(IsTestProject) and !$(IsAnalyzerProject)" Project="Package.targets" />
+  <Import Condition="!$(IsTestProject) and !$(IsAnalyzerProject) and '$(GeneratePackageOnBuild)' != 'false'" Project="Package.targets" />
   <Import Condition="$(IsTestProject)" Project="Tests.targets" />
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45' Or  '$(TargetFramework)' == 'net452' Or '$(TargetFramework)' == 'net46' Or '$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'net462'">

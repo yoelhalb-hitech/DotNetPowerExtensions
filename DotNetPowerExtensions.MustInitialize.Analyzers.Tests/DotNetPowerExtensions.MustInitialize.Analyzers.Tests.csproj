@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.DependencyInjection.Analyzers\DotNetPowerExtensions.DependencyInjection.Analyzers.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Analyzers\DotNetPowerExtensions.MustInitialize.Analyzers.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.CodeFixes\DotNetPowerExtensions.MustInitialize.CodeFixes.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Features\DotNetPowerExtensions.MustInitialize.Features.csproj" />
@@ -15,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Features" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features"/><!-- This one is needed at runtime for the completion provider test s-->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" /><!-- This one is needed at runtime for the completion provider test s-->
   </ItemGroup>
 
 </Project>

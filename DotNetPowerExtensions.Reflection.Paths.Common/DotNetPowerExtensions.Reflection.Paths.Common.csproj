@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SequelPay.DotNetPowerExtensions.Reflection.Paths" PublicKey="$(PublicKey)" />
+    <InternalsVisibleTo Include="SequelPay.DotNetPowerExtensions.Reflection.Paths.Tests" PublicKey="$(PublicKey)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.EnumerableExtensions\DotNetPowerExtensions.EnumerableExtensions.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.Reflection.Common\DotNetPowerExtensions.Reflection.Common.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.StringExtensions\DotNetPowerExtensions.StringExtensions.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.Union\DotNetPowerExtensions.Union.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageTags>Reflection path system</PackageTags>
+  </PropertyGroup>
+</Project>

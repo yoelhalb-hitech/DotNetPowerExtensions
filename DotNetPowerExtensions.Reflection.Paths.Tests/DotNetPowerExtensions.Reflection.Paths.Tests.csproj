@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;net7.0</TargetFrameworks>
+
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.Reflection.Paths.Common\DotNetPowerExtensions.Reflection.Paths.Common.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.Reflection.Paths\DotNetPowerExtensions.Reflection.Paths.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.Reflection\DotNetPowerExtensions.Reflection.csproj" />
+  </ItemGroup>
+
+</Project>

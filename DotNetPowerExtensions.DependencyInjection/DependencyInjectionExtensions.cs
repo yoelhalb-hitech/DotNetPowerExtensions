@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Reflection;
 
 namespace SequelPay.DotNetPowerExtensions;
 
@@ -22,6 +24,25 @@ public static class DependencyInjectionExtensions
         return services.AddTransient(composedFor, composed).AddTransient(serviceType, implementationType);
     }
 
+    public static void TryAddLocal<TService>(this IServiceCollection services) where TService : class
+                => services.TryAddLocal(typeof(TService));
+    public static void TryAddLocal(this IServiceCollection services, Type serviceType)
+                    => services.TryAddLocal(serviceType, serviceType);
+
+    public static void TryAddLocal(this IServiceCollection services, Type serviceType, Type implementationType)
+    {
+        if (services is null) throw new ArgumentNullException(nameof(services));
+        if (serviceType is null) throw new ArgumentNullException(nameof(serviceType));
+        if (implementationType is null) throw new ArgumentNullException(nameof(implementationType));
+
+        var composedFor = typeof(ILocalFactory<>).MakeGenericType(serviceType);
+        var composed = typeof(LocalFactory<>).MakeGenericType(implementationType);
+
+        // We also need to add the serviceType, as the idea is the have the dependencies resolved, however we want the user to only use the LocaFactory but this will be done in an analyzer
+        services.TryAddTransient(composedFor, composed);
+        services.TryAddTransient(serviceType, implementationType);
+    }
+
     public static IServiceCollection AddDependencies(this IServiceCollection services)
     {
         if (services is null) throw new ArgumentNullException(nameof(services));
@@ -38,7 +59,7 @@ public static class DependencyInjectionExtensions
 
         foreach (Type type in types!.OfType<Type>().Where(t => !t.IsInterface && !t.IsAbstract))
         {
-            foreach (var attribute in Attribute.GetCustomAttributes(type, typeof(DependencyAttribute), false).OfType<DependencyAttribute>())
+            foreach (var attribute in type.GetCustomAttributes(false).OfType<DependencyAttribute>())
             {
                 try
                 {

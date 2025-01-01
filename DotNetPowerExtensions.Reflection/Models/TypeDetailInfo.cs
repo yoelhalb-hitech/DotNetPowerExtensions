@@ -1,8 +1,6 @@
-﻿using SequelPay.DotNetPowerExtensions;
-using SequelPay.DotNetPowerExtensions.Reflection.Core.Models;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
+namespace SequelPay.DotNetPowerExtensions.Reflection;
 
 public class TypeDetailInfo : ITypeDetailInfo
 {

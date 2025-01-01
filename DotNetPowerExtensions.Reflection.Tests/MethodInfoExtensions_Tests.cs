@@ -1,5 +1,4 @@
-﻿using SequelPay.DotNetPowerExtensions.Reflection;
-using static SequelPay.DotNetPowerExtensions.Reflection.MethodInfoExtensions;
+﻿using static SequelPay.DotNetPowerExtensions.Reflection.MethodInfoExtensions;
 
 namespace DotNetPowerExtensions.Reflection.Tests;
 

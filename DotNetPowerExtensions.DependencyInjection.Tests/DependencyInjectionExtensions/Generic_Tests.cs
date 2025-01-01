@@ -7,16 +7,28 @@ namespace DotNetPowerExtensions.Tests.DependencyInjectionExtensions;
 
 internal sealed class Generic_Tests
 {
+#if NET5_0_OR_GREATER
     [Transient<IFoo>(Use = typeof(FooTransientGeneric<string>))]
+#endif
+    [Transient(typeof(IFoo), Use = typeof(FooTransientGeneric<string>))]
     internal sealed class FooTransientGeneric<T> : FooBase, IFoo { }
 
+#if NET5_0_OR_GREATER
     [Scoped<IFoo>(Use = typeof(FooScopedGeneric<string>))]
+#endif
+    [Scoped(typeof(IFoo), Use = typeof(FooScopedGeneric<string>))]
     internal sealed class FooScopedGeneric<T> : FooBase, IFoo { }
 
+#if NET5_0_OR_GREATER
     [Singleton<IFoo>(Use = typeof(FooSingletonGeneric<string>))]
+#endif
+    [Singleton(typeof(IFoo), Use = typeof(FooSingletonGeneric<string>))]
     internal sealed class FooSingletonGeneric<T> : FooBase, IFoo { }
 
+#if NET5_0_OR_GREATER
     [Local<IFoo>(Use = typeof(FooLocalGeneric<string>))]
+#endif
+    [Local(typeof(IFoo), Use = typeof(FooLocalGeneric<string>))]
     internal sealed class FooLocalGeneric<T> : FooBase, IFoo { }
 
     [Test]

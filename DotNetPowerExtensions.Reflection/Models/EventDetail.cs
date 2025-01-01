@@ -1,7 +1,5 @@
-﻿using SequelPay.DotNetPowerExtensions;
-using SequelPay.DotNetPowerExtensions.Reflection.Core.Models;
-
-namespace SequelPay.DotNetPowerExtensions.Reflection.Models;
+﻿
+namespace SequelPay.DotNetPowerExtensions.Reflection;
 
 public class EventDetail : MemberDetail<EventInfo, EventDetail, IEventDetail>, IEventDetail
 {
@@ -10,7 +8,7 @@ public class EventDetail : MemberDetail<EventInfo, EventDetail, IEventDetail>, I
     public ITypeDetailInfo EventHandlerType => ReflectionInfo.EventHandlerType!.GetTypeDetailInfo();
 
     [Initialized] public override MemberDetailTypes MemberDetailType { get => MemberDetailTypes.Event; internal set => throw new NotSupportedException(); }
-    
+
     [MustInitialize] public FieldDetail? BackingField { get; internal set; }
     [MustInitialize] public MethodDetail AddMethod { get; internal set; }
     [MustInitialize] public MethodDetail RemoveMethod { get; internal set; }

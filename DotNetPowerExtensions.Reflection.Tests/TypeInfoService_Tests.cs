@@ -1,8 +1,6 @@
-﻿using SequelPay.DotNetPowerExtensions.Reflection.Core.Models;
-using SequelPay.DotNetPowerExtensions.Reflection.Models;
-using System.Diagnostics.CodeAnalysis;
-using static SequelPay.DotNetPowerExtensions.Reflection.Core.Models.DeclarationTypes;
-using static SequelPay.DotNetPowerExtensions.Reflection.Core.Models.MemberDetailTypes;
+﻿using System.Diagnostics.CodeAnalysis;
+using static SequelPay.DotNetPowerExtensions.Reflection.Common.DeclarationTypes;
+using static SequelPay.DotNetPowerExtensions.Reflection.Common.MemberDetailTypes;
 
 namespace DotNetPowerExtensions.Reflection.Tests;
 public class TypeInfoService_Tests

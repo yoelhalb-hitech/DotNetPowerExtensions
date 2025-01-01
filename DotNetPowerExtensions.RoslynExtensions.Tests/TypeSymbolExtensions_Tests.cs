@@ -142,4 +142,323 @@ public class TypeSymbolExtensions_Tests
 
         result.Should().Be(expectedName);
     }
+
+    #region GetAllFields
+
+    [Test]
+    public void Test_GetAllFields_NoBase()
+    {
+        var source = """
+        public class DeclareType
+        {
+            public string field1;
+            public int field2;
+            protected List<string> protectedField1;
+            protected int[] protectedField2;
+            private Type privateField1;
+            private Assembly privateField2;
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source);
+        var c = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First();
+
+        var symbol = GetSemanticModel(tree).GetDeclaredSymbol(c);
+        var result = symbol!.GetAllFields().ToList();
+
+        result.Should().NotBeNullOrEmpty();
+        result.Count().Should().Be(6);
+
+        result.Select(r => r.Name).Should().BeEquivalentTo(new[] { "field1", "field2", "protectedField1", "protectedField2", "privateField1", "privateField2" } );
+    }
+
+    [Test]
+    public void Test_GetAllFields_DoesNotIncludeCompilerGeneratedFields()
+    {
+        var source = """
+        public class DeclareType
+        {
+            public string prop1 { get; set; }
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source);
+        var c = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First();
+
+        var symbol = GetSemanticModel(tree).GetDeclaredSymbol(c);
+        var result = symbol!.GetAllFields().ToList();
+
+        result.Should().BeEmpty();
+    }
+
+    [Test]
+    public void Test_GetAllFields_WithBase()
+    {
+        var source = """
+        public class DeclareTypeBase
+        {
+            public string field1;
+            public int field2;
+            protected List<string> protectedField1;
+            protected int[] protectedField2;
+            private Type privateField1;
+            private Assembly privateField2;
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            public string newField1;
+            public int newField2;
+            protected List<string> newProtectedField1;
+            protected int[] newProtectedField2;
+            private Type newPrivateField1;
+            private Assembly newPrivateField2;
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source);
+        var c = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Last();
+
+        var symbol = GetSemanticModel(tree).GetDeclaredSymbol(c);
+        var result = symbol!.GetAllFields().ToList();
+
+        result.Should().NotBeNullOrEmpty();
+        result.Count().Should().Be(10);
+
+        result.Select(r => r.Name).Should().BeEquivalentTo(new[]
+        {
+            "field1", "field2", "protectedField1", "protectedField2",
+            "newField1", "newField2", "newProtectedField1", "newProtectedField2", "newPrivateField1", "newPrivateField2"
+        });
+    }
+
+    [Test]
+    public void Test_GetAllFields_IncludeShadow()
+    {
+        var source = """
+        public class DeclareTypeBase
+        {
+            public string field1;
+            public int field2;
+            protected List<string> protectedField1;
+            protected int[] protectedField2;
+            private Type privateField1;
+            private Assembly privateField2;
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            public string field1;
+            public int field2;
+            protected List<string> protectedField1;
+            protected int[] protectedField2;
+            private Type privateField1;
+            private Assembly privateField2;
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source);
+        var c = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Last();
+
+        var symbol = GetSemanticModel(tree).GetDeclaredSymbol(c);
+        var result = symbol!.GetAllFields(true).ToList();
+
+        result.Should().NotBeNullOrEmpty();
+        result.Count().Should().Be(10);
+
+        result.Select(r => r.Name).Should().BeEquivalentTo(new[]
+        {
+            "field1", "field2", "protectedField1", "protectedField2",
+            "field1", "field2", "protectedField1", "protectedField2", "privateField1", "privateField2"
+        });
+    }
+
+    [Test]
+    public void Test_GetAllFields_NoIncludeShadow()
+    {
+        var source = """
+        public class DeclareTypeBase
+        {
+            public string field1;
+            public int field2;
+            protected List<string> protectedField1;
+            protected int[] protectedField2;
+            private Type privateField1;
+            private Assembly privateField2;
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            public string field1;
+            public int field2;
+            protected List<string> protectedField1;
+            protected int[] protectedField2;
+            private Type privateField1;
+            private Assembly privateField2;
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source);
+        var c = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Last();
+
+        var symbol = GetSemanticModel(tree).GetDeclaredSymbol(c);
+        var result = symbol!.GetAllFields(false).ToList();
+
+        result.Should().NotBeNullOrEmpty();
+        result.Count().Should().Be(6);
+
+        result.Select(r => r.Name).Should().BeEquivalentTo(new[]
+        {
+            "field1", "field2", "protectedField1", "protectedField2", "privateField1", "privateField2"
+        });
+    }
+
+    #endregion
+
+    #region GetAllProperties
+
+    [Test]
+    public void Test_GetAllProperties_NoBase()
+    {
+        var source = """
+        public class DeclareType
+        {
+            public string Prop1 { get; set; }
+            public int Prop2 { get; }
+            protected List<string> protectedProp1 { set; }
+            protected int[] protectedProp2 { get; set; }
+            private Type privateProp1 { get; set; }
+            private Assembly privateProp2 { set; }
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source);
+        var c = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().First();
+
+        var symbol = GetSemanticModel(tree).GetDeclaredSymbol(c);
+        var result = symbol!.GetAllProperties().ToList();
+
+        result.Should().NotBeNullOrEmpty();
+        result.Count().Should().Be(6);
+
+        result.Select(r => r.Name).Should().BeEquivalentTo(new[] { "Prop1", "Prop2", "protectedProp1", "protectedProp2", "privateProp1", "privateProp2" });
+    }
+
+    [Test]
+    public void Test_GetAllProperties_WithBase()
+    {
+        var source = """
+        public class DeclareTypeBase
+        {
+            public string Prop1 { get; set; }
+            public int Prop2 { get; }
+            protected List<string> protectedProp1 { set; }
+            protected int[] protectedProp2 { get; set; }
+            private Type privateProp1 { get; set; }
+            private Assembly privateProp2 { set; }
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            public string newProp1 { get; set; }
+            public int newProp2 { get; }
+            protected List<string> newProtectedProp1 { set; }
+            protected int[] newProtectedProp2 { get; set; }
+            private Type newPrivateProp1 { get; set; }
+            private Assembly newPrivateProp2 { set; }
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source);
+        var c = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Last();
+
+        var symbol = GetSemanticModel(tree).GetDeclaredSymbol(c);
+        var result = symbol!.GetAllProperties().ToList();
+
+        result.Should().NotBeNullOrEmpty();
+        result.Count().Should().Be(10);
+
+        result.Select(r => r.Name).Should().BeEquivalentTo(new[]
+        {
+            "Prop1", "Prop2", "protectedProp1", "protectedProp2",
+            "newProp1", "newProp2", "newProtectedProp1", "newProtectedProp2", "newPrivateProp1", "newPrivateProp2",
+        });
+    }
+
+    [Test]
+    public void Test_GetAllProperties_IncludeShadow()
+    {
+        var source = """
+        public class DeclareTypeBase
+        {
+            public string Prop1 { get; set; }
+            public int Prop2 { get; }
+            protected List<string> protectedProp1 { set; }
+            protected int[] protectedProp2 { get; set; }
+            private Type privateProp1 { get; set; }
+            private Assembly privateProp2 { set; }
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            public string Prop1 { get; set; }
+            public int Prop2 { get; }
+            protected List<string> protectedProp1 { set; }
+            protected int[] protectedProp2 { get; set; }
+            private Type privateProp1 { get; set; }
+            private Assembly privateProp2 { set; }
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source);
+        var c = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Last();
+
+        var symbol = GetSemanticModel(tree).GetDeclaredSymbol(c);
+        var result = symbol!.GetAllProperties(true).ToList();
+
+        result.Should().NotBeNullOrEmpty();
+        result.Count().Should().Be(10);
+
+        result.Select(r => r.Name).Should().BeEquivalentTo(new[]
+        {
+            "Prop1", "Prop2", "protectedProp1", "protectedProp2",
+            "Prop1", "Prop2", "protectedProp1", "protectedProp2", "privateProp1", "privateProp2",
+        });
+    }
+
+    [Test]
+    public void Test_GetAllProperties_NoIncludeShadow()
+    {
+        var source = """
+        public class DeclareTypeBase
+        {
+            public string Prop1 { get; set; }
+            public int Prop2 { get; }
+            protected List<string> protectedProp1 { set; }
+            protected int[] protectedProp2 { get; set; }
+            private Type privateProp1 { get; set; }
+            private Assembly privateProp2 { set; }
+        }
+        public class DeclareType : DeclareTypeBase
+        {
+            public string Prop1 { get; set; }
+            public int Prop2 { get; }
+            protected List<string> protectedProp1 { set; }
+            protected int[] protectedProp2 { get; set; }
+            private Type privateProp1 { get; set; }
+            private Assembly privateProp2 { set; }
+        }
+        """;
+
+        var tree = SyntaxFactory.ParseSyntaxTree(source);
+        var c = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Last();
+
+        var symbol = GetSemanticModel(tree).GetDeclaredSymbol(c);
+        var result = symbol!.GetAllProperties(false).ToList();
+
+        result.Should().NotBeNullOrEmpty();
+        result.Count().Should().Be(6);
+
+        result.Select(r => r.Name).Should().BeEquivalentTo(new[]
+        {
+            "Prop1", "Prop2", "protectedProp1", "protectedProp2", "privateProp1", "privateProp2",
+        });
+    }
+
+    #endregion
 }
