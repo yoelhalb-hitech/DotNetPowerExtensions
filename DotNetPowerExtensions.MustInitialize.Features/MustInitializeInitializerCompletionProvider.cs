@@ -40,7 +40,7 @@ internal class MustInitializeInitializerCompletionProvider : ObjectAndWithInitia
             if (await IsExclusiveAsync(document, position, cancellationToken).ConfigureAwait(false)) context.IsExclusive = true;
 
             var enclosing = semanticModel.GetEnclosingNamedType(position, cancellationToken);
-            Contract.ThrowIfNull(enclosing);
+            if (enclosing is null) return;
 
             var worker = new MustInitializeWorker(semanticModel);
             var ctor = GetCtor(semanticModel, position, cancellationToken);

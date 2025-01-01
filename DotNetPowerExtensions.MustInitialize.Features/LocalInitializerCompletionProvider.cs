@@ -45,7 +45,7 @@ public class LocalInitializerCompletionProvider : LSPCompletionProvider
             context.IsExclusive = true;
 
             var enclosing = semanticModel.GetEnclosingNamedType(position, cancellationToken);
-            Contract.ThrowIfNull(enclosing);
+            if (enclosing is null) return;
 
             var worker = new MustInitializeWorker(semanticModel);
             var requiredTo = worker.GetRequiredToInitialize(type, null, context.CancellationToken);
