@@ -9,6 +9,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+    <ProjectReference Include="..\DotNetPowerExtensions.StringExtensions\DotNetPowerExtensions.StringExtensions.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.EnumerableExtensions\DotNetPowerExtensions.EnumerableExtensions.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.Reflection.Common\DotNetPowerExtensions.Reflection.Common.csproj" />
     <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Common\DotNetPowerExtensions.MustInitialize.Common.csproj" />
@@ -20,7 +21,6 @@
     <ProjectReference PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" Include="..\DotNetPowerExtensions.RoslynExtensions\DotNetPowerExtensions.RoslynExtensions.csproj" />
     <ProjectReference PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" Include="..\DotNetPowerExtensions.DependencyInjection.Common\DotNetPowerExtensions.DependencyInjection.Common.csproj" />
     <ProjectReference PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" Include="..\DotNetPowerExtensions.DependencyInjection.Analyzers.Common\DotNetPowerExtensions.DependencyInjection.Analyzers.Common.csproj" />
-    <ProjectReference Include="..\DotNetPowerExtensions.StringExtensions\DotNetPowerExtensions.StringExtensions.csproj" />
     <ProjectReference PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" Include="..\DotNetPowerExtensions.Union.Common\DotNetPowerExtensions.Union.Common.csproj" />
   </ItemGroup>
 

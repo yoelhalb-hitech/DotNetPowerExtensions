@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace DotNetPowerExtensions.MustInitialize.Analyzers;
 
@@ -63,7 +64,8 @@ public class SuppressNullableAnalyzer : DiagnosticSuppressor
             }
             else if (node is ConstructorDeclarationSyntax) // Because sometimes the warning is on the constructor instead of the proeprty/field
             {
-                var regex = new Regex(@"(\S*)\s*'(.*)'");
+                var regex = new Regex(@"(\S*)\s*'([^']*)'"); // The newer VS and compilers have another quote at the end for a suggestion to add 'required' so we have to explictly require the capture not to inlcude a quote
+
 #pragma warning disable CA1305 // The behavior of '{0}' could vary based on the current user's locale settings. Provide a value for the 'IFormatProvider' argument.
                 var match = regex.Match(diagnostic.GetMessage());
 #pragma warning restore CA1305 // The behavior of '{0}' could vary based on the current user's locale settings. Provide a value for the 'IFormatProvider' argument.
