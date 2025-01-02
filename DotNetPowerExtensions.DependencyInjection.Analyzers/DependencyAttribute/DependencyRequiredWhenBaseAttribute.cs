@@ -1,4 +1,6 @@
 ﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
+using System.Linq;
+using Utils = SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers.DependencyAnalyzerUtils;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
@@ -8,7 +10,7 @@ public class DependencyRequiredWhenBase : DiagnosticAnalyzer
     protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0211";
     protected const string Title = "DependencyRequiredWhenBase";
-    protected const string Message = "`{0}` for {1} is required";
+    protected const string Message = "`{0}` for {1} is required, unless marked `abstract`";
     protected const string Description = Message + ".";
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
@@ -27,9 +29,9 @@ public class DependencyRequiredWhenBase : DiagnosticAnalyzer
             {
                 Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
 
-                var symbols = DependencyAnalyzerUtils.AllDependencies.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
+                var symbols = Utils.AllDependencies.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
 
-                var baseSymbols = DependencyAnalyzerUtils.BaseAttributes.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
+                var baseSymbols = Utils.BaseAttributes.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
 
                 compilationContext
                     .RegisterSyntaxNodeAction(c => AnalyzeClass(c, symbols, baseSymbols),
@@ -48,7 +50,7 @@ public class DependencyRequiredWhenBase : DiagnosticAnalyzer
             if (decl is null) return;
 
             var symbol = context.SemanticModel.GetDeclaredSymbol(decl, context.CancellationToken);
-            if (symbol is null || (symbol.BaseType is null && !symbol.Interfaces.Any())) return;
+            if (symbol is null || symbol.IsAbstract || (symbol.BaseType is null && !symbol.Interfaces.Any())) return;
 
             var bases = symbol.GetAllBaseTypes()
                             .Concat(symbol.AllInterfaces)
@@ -56,18 +58,22 @@ public class DependencyRequiredWhenBase : DiagnosticAnalyzer
                             .ToArray();
             if (!bases.Any()) return;
 
-            var types = symbol.GetAttributes()
-                                .Where(a => attributeSymbols.ContainsGeneric(a.AttributeClass))
-                                .SelectMany(a => DependencyAnalyzerUtils.GetForTypes(a))
-                                .ToArray();
+            var attrForDict = attributeSymbols.GroupBy(s => Utils.AttributeToBaseName(s)).ToDictionary(
+                        g => g.Key,
+                        g => symbol.GetAttributes(g.ToArray()).SelectMany(a => Utils.GetForTypes(a)));
 
-            var basesMissing = bases.Where(b => types.All(t => !t.IsEqualTo(b)));
-
-            foreach (var baseType in basesMissing)
+            foreach (var baseType in bases)
             {
-                var attrName = baseType.GetAttribute(baseAttributeSymbols)!.AttributeClass!.Name.Replace("Base", "");
-                var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, decl!.GetLocation(), attrName, baseType.Name);
-                context.ReportDiagnostic(diagnostic);
+                var baseAttribs = baseType.GetAttributes(baseAttributeSymbols).Select(a => a.AttributeClass).OfType<INamedTypeSymbol>();
+
+                foreach (var baseAttr in baseAttribs)
+                {
+                    if (attrForDict[baseAttr.Name].Contains(baseType, SymbolEqualityComparer.Default)) continue;
+
+                    var attrName = Utils.BaseToAttributeName(baseAttr);
+                    var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, decl!.GetLocation(), attrName, baseType.Name);
+                    context.ReportDiagnostic(diagnostic);
+                }
             }
         }
         catch { }

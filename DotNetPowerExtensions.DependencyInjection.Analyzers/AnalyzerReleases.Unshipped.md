@@ -14,5 +14,5 @@ DNPE0208 | Language | Warning | GenericRequiresUse
 DNPE0209 | Language | Warning | DependencyShouldNotBeAbstract
 DNPE0210 | Language | Warning | ForTypeMustBeParent
 DNPE0211 | Language | Warning | DependencyRequiredWhenBase
-DNPE0212 | Language | Warning | DependencyTypeDoesNotMatchBase
+DNPE0212 | Language | Warning | DependencyTypeNotOnBase
 DNPE0217 | Language | Warning | OriginalNotExisting

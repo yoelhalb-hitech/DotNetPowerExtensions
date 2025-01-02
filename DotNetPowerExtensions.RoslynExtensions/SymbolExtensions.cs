@@ -51,13 +51,22 @@ public static class SymbolExtensions
     public static bool ContainsSymbol<T>(this IEnumerable<T> symbols, T? other) where T : ISymbol
         => other is not null && symbols.Any(s => s.IsEqualTo(other));
 
+    public static IEnumerable<AttributeData> GetAttributes(this ISymbol symbol, INamedTypeSymbol[] attributeSymbols)
+     => symbol
+         .GetAttributes()
+         .Where(a => attributeSymbols.ContainsGenericOrSub(a.AttributeClass?.OriginalDefinition, false));
+
+
     public static AttributeData? GetAttribute(this ISymbol symbol, INamedTypeSymbol[] attributeSymbols)
         => symbol
-            .GetAttributes()
-            .FirstOrDefault(a => attributeSymbols.ContainsGenericOrSub(a.AttributeClass?.OriginalDefinition, false));
+            .GetAttributes(attributeSymbols)
+            .FirstOrDefault();
 
     public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol[] attributeSymbols)
         => symbol.GetAttribute(attributeSymbols) is not null;
+
+    public static IEnumerable<AttributeData> GetAttributes(this ISymbol symbol, INamedTypeSymbol attributeSymbol)
+        => symbol.GetAttributes(new[] { attributeSymbol });
 
     public static AttributeData? GetAttribute(this ISymbol symbol, INamedTypeSymbol attributeSymbol)
         => symbol.GetAttribute(new[] { attributeSymbol });

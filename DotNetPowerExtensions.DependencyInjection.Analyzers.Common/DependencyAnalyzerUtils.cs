@@ -63,6 +63,23 @@ public static class DependencyAnalyzerUtils
         typeof(TransientAttribute<,,,,,,>),
         typeof(TransientAttribute<,,,,,,,>),
     };
+
+    public static string BaseToAttributeName(AttributeData attribute) => BaseToAttributeName(attribute.AttributeClass!);
+
+    public static string BaseToAttributeName(INamedTypeSymbol baseType) => BaseToAttributeName(baseType.Name);
+
+    public static string BaseToAttributeName(string baseName) => baseName.Replace("Base", "");
+
+    public static string AttributeToBaseName(INamedTypeSymbol attributeType) => AttributeToBaseName(attributeType.Name);
+
+    public static string AttributeToBaseName(Type attributeType) => AttributeToBaseName(attributeType.Name);
+    public static string AttributeToBaseName(string attributeName) => attributeName.Replace(nameof(Attribute), "Base" + nameof(Attribute));
+
+    public static Type AttributeToBase(INamedTypeSymbol attributeType) => AttributeToBase(attributeType.Name);
+    public static Type AttributeToBase(Type attributeType) => AttributeToBase(attributeType.Name);
+    public static Type AttributeToBase(string attributeName)
+        => BaseAttributes.First(a => a.Name == AttributeToBaseName(attributeName));
+
     //CAUTION: The test framework for whatever reason has a compile issue if the following is before the decleration of the referenced props
     public static Type[] AllDependencies = LocalAttributes.Concat(NonLocalAttributes).ToArray();
 
@@ -125,16 +142,6 @@ public static class DependencyAnalyzerUtils
         if (info is null) return null;
 
         var (attr, name, symbol) = info.Value;
-
-        var args = attr!.ArgumentList?.Arguments.Where(a => a.NameEquals is null).ToArray();
-        if (args?.Any() != true && attr.Name is not GenericNameSyntax
-                            && (attr.Name is not QualifiedNameSyntax qualified || qualified.Right is not GenericNameSyntax))
-            return null;
-
-        var argTypes = args?.Select(a => GetInner(a.Expression))
-            .OfType<TypeOfExpressionSyntax>()
-            .Select(e => context.SemanticModel.GetSymbolInfo(e.Type, context.CancellationToken).Symbol)
-                .OfType<ITypeSymbol>();
 
         var types = GetForTypes(attr, symbol, context.SemanticModel, context.CancellationToken);
         if (types is null) return null; // Should not happen
