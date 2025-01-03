@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyAnalyzer;
 
 internal class UseShouldOnlyBeForGeneric_Tests : AnalyzerVerifierBase<UseShouldOnlyBeForGeneric>
@@ -6,6 +8,20 @@ internal class UseShouldOnlyBeForGeneric_Tests : AnalyzerVerifierBase<UseShouldO
     public static string[] Attributes => new string[] { nameof(SingletonAttribute), nameof(ScopedAttribute), nameof(TransientAttribute), nameof(LocalAttribute) }
                                                         .Select(n => n.Replace(nameof(Attribute), "", StringComparison.Ordinal))
                                                         .ToArray();
+
+    [Test]
+    public async Task Test_MessageIsCorrect()
+    {
+        var test = $$"""
+        [Transient<TestType>(Use=typeof(TestType))]
+        public class TestType
+        {
+        }
+        """;
+
+        await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0206", DiagnosticSeverity.Warning)
+                                                .WithSpan(2, 22, 2, 42).WithMessage("The `Use` attribute is only for generic types")).ConfigureAwait(false);
+    }
 
     [Test]
     public async Task Test_Works([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,

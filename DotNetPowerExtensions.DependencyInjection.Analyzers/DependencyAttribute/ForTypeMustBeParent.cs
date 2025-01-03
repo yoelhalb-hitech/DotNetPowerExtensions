@@ -9,7 +9,7 @@ public class ForTypeMustBeParent : DiagnosticAnalyzer
     protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0210";
     protected const string Title = "ForTypeMustBeParent";
-    protected const string Message = "{0} is not a base class or interface";
+    protected const string Message = "{0} is not a base class or interface of {1}";
     protected const string Description = Message + ".";
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
@@ -31,13 +31,13 @@ public class ForTypeMustBeParent : DiagnosticAnalyzer
                 var symbols = DependencyAnalyzerUtils.AllDependencies.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
 
                 compilationContext
-                    .RegisterSyntaxNodeAction(c => AnalyzeClass(c, symbols), SyntaxKind.Attribute);
+                    .RegisterSyntaxNodeAction(c => AnalyzeAttribute(c, symbols), SyntaxKind.Attribute);
             });
         }
         catch { }
     }
 
-    private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] attributeSymbols)
+    private void AnalyzeAttribute(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] attributeSymbols)
     {
         try
         {
@@ -56,7 +56,7 @@ public class ForTypeMustBeParent : DiagnosticAnalyzer
 
             foreach (var type in types.Where(t => bases.All(b => !b.IsEqualTo(t))))
             {
-                var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, attr!.GetLocation(), type.Name);
+                var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, attr!.GetLocation(), type.Name, classSymbol.Name);
 
                 context.ReportDiagnostic(diagnostic);
             }

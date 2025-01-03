@@ -23,6 +23,20 @@ internal class DependencyShouldNotBeAbstract_Tests : AnalyzerVerifierBase<Depend
     }
 
     [Test]
+    public async Task Test_MessageIsCorrect()
+    {
+        var test = $$"""
+        [Transient]
+        public abstract class TestType
+        {
+        }
+        """;
+
+        await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0209", DiagnosticSeverity.Warning)
+                                                .WithSpan(2, 2, 2, 11).WithMessage("Use `TransientBase` instead of `Transient` when class is abstract")).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_DoesNotWarnWhenNonAbstract([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
                                                             [ValueSource(nameof(Suffixes))] string suffix)
     {

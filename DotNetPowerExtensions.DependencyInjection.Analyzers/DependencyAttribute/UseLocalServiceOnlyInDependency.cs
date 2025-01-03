@@ -3,12 +3,12 @@
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class UseLocalServiceForLocal : DiagnosticAnalyzer
+public class UseLocalServiceOnlyInDependency : DiagnosticAnalyzer
 {
     protected const string Category = "Language";
-    public const string DiagnosticId = "DNPE0204";
-    protected const string Title = "UseLocalServiceForLocal";
-    protected const string Message = "Use `ILocalFactory<{0}>` because `{0}` decorated with the `Local` attribute";
+    public const string DiagnosticId = "DNPE0220";
+    protected const string Title = "UseLocalServiceOnlyInDependency";
+    protected const string Message = "Only use `ILocalFactory<>` in a class decorated with `Singleton/Scoped/Transient/Local` attribute";
     protected const string Description = Message + ".";
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
@@ -26,6 +26,9 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
             {
                 Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
 
+                var localServiceSymbol = metadata(typeof(ILocalFactory<>));
+                if (localServiceSymbol is null) return;
+
                 var localSymbols = DependencyAnalyzerUtils.LocalAttributes.Select(t => metadata(t)).OfType<INamedTypeSymbol>().ToArray();
                 if (!localSymbols.Any()) return;
 
@@ -34,7 +37,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                                             .ToArray();
 
                 compilationContext
-                    .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, localSymbols, symbols),
+                    .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, localSymbols, localServiceSymbol, symbols),
                                                 SyntaxKind.ConstructorDeclaration);
             });
         }
@@ -42,7 +45,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
     }
 
     private void AnalyzeConstructor(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] localSymbols,
-                                                                INamedTypeSymbol[] attributeSymbols)
+                                                                INamedTypeSymbol serviceTypeSymbol, INamedTypeSymbol[] attributeSymbols)
     {
         try
         {
@@ -51,10 +54,9 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
             if (ctor is null || !ctor.ParameterList.Parameters.Any()
                 || context.SemanticModel.GetDeclaredSymbol(ctor, context.CancellationToken) is not IMethodSymbol methodSymbol) return;
 
-            // Check if this is a service
             if (methodSymbol.ContainingType.GetAttributes()
                             .Where(a => a.AttributeClass is not null)
-                            .All(a => !attributeSymbols.ContainsGeneric(a.AttributeClass!))) return;
+                            .Any(a => attributeSymbols.ContainsGeneric(a.AttributeClass!))) return;
 
             var nonLocalSymbols = attributeSymbols.Except(localSymbols).ToArray();
 
@@ -68,7 +70,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                     var symbol = context.SemanticModel.GetSymbolInfo(t, context.CancellationToken).Symbol;
                     if (symbol is null) continue;
 
-                    if (symbol.HasAttribute(localSymbols) && !symbol.HasAttribute(nonLocalSymbols))
+                    if (symbol.IsGenericEqual(serviceTypeSymbol))
                     {
                         var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, parameter.GetLocation(), symbol.Name);
                         context.ReportDiagnostic(diagnostic);

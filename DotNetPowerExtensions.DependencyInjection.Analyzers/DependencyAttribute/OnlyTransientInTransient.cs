@@ -3,12 +3,12 @@
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class UseLocalServiceForLocal : DiagnosticAnalyzer
+public class UseTransientOnlyInTransient : DiagnosticAnalyzer
 {
     protected const string Category = "Language";
-    public const string DiagnosticId = "DNPE0204";
-    protected const string Title = "UseLocalServiceForLocal";
-    protected const string Message = "Use `ILocalFactory<{0}>` because `{0}` decorated with the `Local` attribute";
+    public const string DiagnosticId = "DNPE0223";
+    protected const string Title = "UseTransientOnlyInTransient";
+    protected const string Message = "A transient service should only be used in a class decorated with `Transient` or `Local`";
     protected const string Description = Message + ".";
 
     [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
@@ -29,12 +29,15 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                 var localSymbols = DependencyAnalyzerUtils.LocalAttributes.Select(t => metadata(t)).OfType<INamedTypeSymbol>().ToArray();
                 if (!localSymbols.Any()) return;
 
+                var transientSymbols = DependencyAnalyzerUtils.TransientAttributes.Select(t => metadata(t)).OfType<INamedTypeSymbol>().ToArray();
+                if (!transientSymbols.Any()) return;
+
                 var symbols = DependencyAnalyzerUtils.NonLocalAttributes.Select(t => metadata(t)).OfType<INamedTypeSymbol>()
-                                            .Concat(localSymbols)
+                                            .Concat(transientSymbols)
                                             .ToArray();
 
                 compilationContext
-                    .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, localSymbols, symbols),
+                    .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, localSymbols, transientSymbols, symbols),
                                                 SyntaxKind.ConstructorDeclaration);
             });
         }
@@ -42,7 +45,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
     }
 
     private void AnalyzeConstructor(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] localSymbols,
-                                                                INamedTypeSymbol[] attributeSymbols)
+            INamedTypeSymbol[] transientSymbols, INamedTypeSymbol[] attributeSymbols)
     {
         try
         {
@@ -56,7 +59,15 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                             .Where(a => a.AttributeClass is not null)
                             .All(a => !attributeSymbols.ContainsGeneric(a.AttributeClass!))) return;
 
-            var nonLocalSymbols = attributeSymbols.Except(localSymbols).ToArray();
+            if (methodSymbol.ContainingType.GetAttributes()
+                .Where(a => a.AttributeClass is not null)
+                .All(a => !attributeSymbols.ContainsGeneric(a.AttributeClass!))) return;
+
+            var otherSymbols = attributeSymbols.Except(localSymbols).Except(transientSymbols).ToList();
+
+            if (methodSymbol.ContainingType.GetAttributes()
+                .Where(a => a.AttributeClass is not null)
+                .All(a => !otherSymbols.ContainsGeneric(a.AttributeClass!))) return;
 
             foreach (var parameter in ctor.ParameterList.Parameters)
             {
@@ -68,7 +79,7 @@ public class UseLocalServiceForLocal : DiagnosticAnalyzer
                     var symbol = context.SemanticModel.GetSymbolInfo(t, context.CancellationToken).Symbol;
                     if (symbol is null) continue;
 
-                    if (symbol.HasAttribute(localSymbols) && !symbol.HasAttribute(nonLocalSymbols))
+                    if (symbol.HasAttribute(transientSymbols))
                     {
                         var diagnostic = Microsoft.CodeAnalysis.Diagnostic.Create(Diagnostic, parameter.GetLocation(), symbol.Name);
                         context.ReportDiagnostic(diagnostic);

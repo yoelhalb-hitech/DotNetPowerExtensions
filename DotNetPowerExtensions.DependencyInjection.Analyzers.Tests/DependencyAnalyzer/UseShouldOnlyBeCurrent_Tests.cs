@@ -8,6 +8,22 @@ internal class UseShouldOnlyBeCurrent_Tests : AnalyzerVerifierBase<UseShouldOnly
                                                         .ToArray();
 
     [Test]
+    public async Task Test_MessageIsCorrect()
+    {
+        var test = $$"""
+        public interface ITestType {}
+        public interface ITestType2 {}
+        [Transient<ITestType>(Use=typeof(System.Collections.Generic.List<string>))]
+        public class TestType<T> : ITestType, ITestType2
+        {
+        }
+        """;
+
+        await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0207", DiagnosticSeverity.Warning)
+                                                .WithSpan(4, 23, 4, 74).WithMessage("The `Use` attribute should only be the current generic type")).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_Works([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
                                             [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>", "<ITestType, ITestType2>")] string generics)
     {

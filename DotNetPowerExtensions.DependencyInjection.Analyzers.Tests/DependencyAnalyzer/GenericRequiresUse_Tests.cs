@@ -24,6 +24,22 @@ internal class GenericRequiresUse_Tests : AnalyzerVerifierBase<GenericRequiresUs
     }
 
     [Test]
+    public async Task Test_MessageIsCorrect()
+    {
+        var test = $$"""
+        public interface ITestType {}
+        public interface ITestType2 {}
+        [Transient<ITestType>]
+        public class TestType<T> : ITestType, ITestType2
+        {
+        }
+        """;
+
+        await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0208", DiagnosticSeverity.Warning)
+                                                .WithSpan(4, 2, 4, 22).WithMessage("The `Use` attribute is required for generic types")).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_Works_WithNull([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
                                      [Values("", nameof(Attribute))] string suffix, [Values("", "<ITestType>", "<ITestType, ITestType2>")] string generics)
     {

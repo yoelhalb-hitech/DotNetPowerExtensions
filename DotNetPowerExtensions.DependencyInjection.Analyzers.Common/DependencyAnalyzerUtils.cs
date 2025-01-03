@@ -33,26 +33,8 @@ public static class DependencyAnalyzerUtils
         typeof(LocalAttribute<,,,,,,,>),
     };
 
-    public static Type[] NonLocalAttributes =
+    public static Type[] TransientAttributes =
     {
-        typeof(SingletonAttribute),
-        typeof(SingletonAttribute<>),
-        typeof(SingletonAttribute<,>),
-        typeof(SingletonAttribute<,,>),
-        typeof(SingletonAttribute<,,,>),
-        typeof(SingletonAttribute<,,,,>),
-        typeof(SingletonAttribute<,,,,,>),
-        typeof(SingletonAttribute<,,,,,,>),
-        typeof(SingletonAttribute<,,,,,,,>),
-        typeof(ScopedAttribute),
-        typeof(ScopedAttribute<>),
-        typeof(ScopedAttribute<,>),
-        typeof(ScopedAttribute<,,>),
-        typeof(ScopedAttribute<,,,>),
-        typeof(ScopedAttribute<,,,,>),
-        typeof(ScopedAttribute<,,,,,>),
-        typeof(ScopedAttribute<,,,,,,>),
-        typeof(ScopedAttribute<,,,,,,,>),
         typeof(TransientAttribute),
         typeof(TransientAttribute<>),
         typeof(TransientAttribute<,>),
@@ -63,6 +45,34 @@ public static class DependencyAnalyzerUtils
         typeof(TransientAttribute<,,,,,,>),
         typeof(TransientAttribute<,,,,,,,>),
     };
+
+    public static Type[] ScopedAttributes =
+    {
+        typeof(ScopedAttribute),
+        typeof(ScopedAttribute<>),
+        typeof(ScopedAttribute<,>),
+        typeof(ScopedAttribute<,,>),
+        typeof(ScopedAttribute<,,,>),
+        typeof(ScopedAttribute<,,,,>),
+        typeof(ScopedAttribute<,,,,,>),
+        typeof(ScopedAttribute<,,,,,,>),
+        typeof(ScopedAttribute<,,,,,,,>),
+    };
+
+    public static Type[] SingletonAttributes =
+    {
+        typeof(SingletonAttribute),
+        typeof(SingletonAttribute<>),
+        typeof(SingletonAttribute<,>),
+        typeof(SingletonAttribute<,,>),
+        typeof(SingletonAttribute<,,,>),
+        typeof(SingletonAttribute<,,,,>),
+        typeof(SingletonAttribute<,,,,,>),
+        typeof(SingletonAttribute<,,,,,,>),
+        typeof(SingletonAttribute<,,,,,,,>),
+    };
+
+    public static Type[] NonLocalAttributes = [..SingletonAttributes, ..ScopedAttributes, ..TransientAttributes];
 
     public static string BaseToAttributeName(AttributeData attribute) => BaseToAttributeName(attribute.AttributeClass!);
 

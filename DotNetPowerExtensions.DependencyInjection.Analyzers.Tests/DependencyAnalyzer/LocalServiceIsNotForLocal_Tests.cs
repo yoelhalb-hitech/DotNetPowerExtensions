@@ -1,7 +1,7 @@
 ﻿
 namespace DotNetPowerExtensions.Analyzers.Tests.DependencyManagement.DependencyAnalyzer;
 
-internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServiceForLocal>
+internal class LocalServiceIsNotForLocal_Tests : AnalyzerVerifierBase<LocalServiceIsNotForLocal>
 {
     public static string[] Attributes => new string[]
     {
@@ -20,31 +20,35 @@ internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServ
         [Transient]
         public class TransientType
         {
-            public TransientType(LocalType t){}
+            public TransientType(ILocalFactory<LocalType> t){}
             public string TestProp { get; set; }
         }
 
-        [Local]
+        [Transient]
         public class LocalType {}
         """;
 
-        await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0204", DiagnosticSeverity.Warning)
-                                                .WithSpan(5, 26, 5, 37).WithMessage("Use `ILocalFactory<LocalType>` because `LocalType` decorated with the `Local` attribute")).ConfigureAwait(false);
+        await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0219", DiagnosticSeverity.Warning)
+                                                .WithSpan(5, 26, 5, 52).WithMessage("`LocalType` is not decorated with the `Local` attribute")).ConfigureAwait(false);
     }
 
     [Test]
-    public async Task Test_Works([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
-                                                                                                            [ValueSource(nameof(Suffixes))] string suffix)
+    public async Task Test_Works([ValueSource(nameof(Prefixes))] string prefix,
+            [ValueSource(nameof(Attributes))] string attribute,
+            [ValueSource(nameof(Attributes))] string originalAttribute,
+            [ValueSource(nameof(Suffixes))] string suffix)
     {
+        Assume.That(originalAttribute, Is.Not.EqualTo("Local"));
+
         var test = $$"""
         [{{prefix}}{{attribute}}{{suffix}}]
         public class TransientType
         {
-            public TransientType([|LocalType t|]){}
+            public TransientType([|ILocalFactory<LocalType> t|]){}
             public string TestProp { get; set; }
         }
 
-        [{{prefix}}Local{{suffix}}]
+        [{{prefix}}{{originalAttribute}}{{suffix}}]
         public class LocalType {}
         """;
 
@@ -53,8 +57,11 @@ internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServ
 
     [Test]
     public async Task Test_Works_WithGenerics([ValueSource(nameof(Prefixes))] string prefix,
-                                                [ValueSource(nameof(Attributes))] string attribute, [ValueSource(nameof(Suffixes))] string suffix)
+                                                [ValueSource(nameof(Attributes))] string attribute,
+                                                [ValueSource(nameof(Attributes))] string originalAttribute,
+                                                [ValueSource(nameof(Suffixes))] string suffix)
     {
+        Assume.That(originalAttribute, Is.Not.EqualTo("Local"));
 
         var genericSuffix = suffix.Contains("()", StringComparison.Ordinal)
                                     ? suffix.Replace("()", "<TransientType>()", StringComparison.Ordinal)
@@ -64,11 +71,11 @@ internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServ
         [{{prefix}}{{attribute}}{{genericSuffix}}]
         public class TransientType
         {
-            public TransientType([|LocalType t|]){}
+            public TransientType([|ILocalFactory<LocalType> t|]){}
             public string TestProp { get; set; }
         }
 
-        [{{prefix}}Local{{suffix}}]
+        [{{prefix}}{{originalAttribute}}{{suffix}}]
         public class LocalType {}
         """;
 
@@ -85,12 +92,12 @@ internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServ
         [{{prefix}}{{attribute}}{{suffix}}]
         public class TransientType
         {
-            public TransientType(LocalType t){}
+            public TransientType(ILocalFactory<LocalType> t){}
             public string TestProp { get; set; }
         }
 
-        [{{prefix}}Local{{suffix}}]
         [{{prefix}}{{attribute}}{{suffix}}]
+        [{{prefix}}Local{{suffix}}]
         public class LocalType {}
         """;
 
@@ -103,7 +110,7 @@ internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServ
         var test = $$"""
         public class TransientType
         {
-            public TransientType(LocalType t){}
+            public TransientType(ILocalFactory<LocalType> t){}
             public string TestProp { get; set; }
         }
 
@@ -121,12 +128,11 @@ internal class UseLocalServiceForLocal_Tests : AnalyzerVerifierBase<UseLocalServ
         [{{prefix}}{{attribute}}{{suffix}}]
         public class TransientType
         {
-            public TransientType(LocalType t){}
+            public TransientType(ILocalFactory<LocalType> t){}
             public string TestProp { get; set; }
         }
 
-        public class LocalAttribute : System.Attribute {}
-        [Local{{suffix}}]
+        public interface ILocalFactory<T>{}
         public class LocalType {}
         """;
 

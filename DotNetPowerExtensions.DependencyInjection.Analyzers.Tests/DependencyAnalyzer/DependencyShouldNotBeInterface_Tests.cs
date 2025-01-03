@@ -24,6 +24,21 @@ internal class DependencyShouldNotBeInterface_Tests : AnalyzerVerifierBase<Depen
     }
 
     [Test]
+    public async Task Test_MessageIsCorrect()
+    {
+        var test = $$"""
+        [{|CS0592:Transient|}]
+        public interface ITestType
+        {
+        }
+
+        """;
+
+        await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0209", DiagnosticSeverity.Warning)
+                                                .WithSpan(2, 2, 2, 11).WithMessage("Use `TransientBase` instead of `Transient` when class is abstract")).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_DoesNotWarnWhenNonInterface([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
                                                             [Values("", nameof(Attribute))] string suffix)
     {

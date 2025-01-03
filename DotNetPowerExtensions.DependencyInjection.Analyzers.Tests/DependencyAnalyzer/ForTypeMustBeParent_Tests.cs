@@ -25,15 +25,14 @@ internal class ForTypeMustBeParent_Tests : AnalyzerVerifierBase<ForTypeMustBePar
     public async Task Test_MessageIsCorrect()
     {
         var test = $$"""
-        public interface TestIFace {}
-        [Transient(typeof(TestIFace))]
-        public class TestType<T>
+        [Transient(typeof(string))]
+        public class TestType
         {
         }
         """;
 
         await VerifyAnalyzerAsync(test, new DiagnosticResult("DNPE0210", DiagnosticSeverity.Warning)
-                                                .WithSpan(3, 2, 3, 30).WithMessage("TestIFace is not a base class or interface")).ConfigureAwait(false);
+                                                .WithSpan(2, 2, 2, 27).WithMessage("String is not a base class or interface of TestType")).ConfigureAwait(false);
     }
 
     [Test]
