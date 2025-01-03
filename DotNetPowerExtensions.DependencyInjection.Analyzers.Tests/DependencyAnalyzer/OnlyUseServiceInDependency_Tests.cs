@@ -50,6 +50,24 @@ internal class OnlyUseServiceInDependency_Tests : AnalyzerVerifierBase<OnlyUseSe
     }
 
     [Test]
+    public async Task Test_DoesNotWarnForTypeOutsideCodeBase([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
+                                                                                                        [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        [{{prefix}}{{attribute}}{{suffix}}]
+        public class TransientType
+        {
+            public TransientType(System.Collections.Generic.List<string> l){}
+            public string TestProp { get; set; }
+        }
+
+        public class LocalType {}
+        """;
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_DoesNotWarn_WhenAttribute([ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Attributes))] string attribute,
                                                                                                         [ValueSource(nameof(Suffixes))] string suffix)
     {

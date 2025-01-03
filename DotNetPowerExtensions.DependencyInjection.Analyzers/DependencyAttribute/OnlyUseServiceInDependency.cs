@@ -1,4 +1,5 @@
 ﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
+using System.Linq;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
@@ -60,6 +61,8 @@ public class OnlyUseServiceInDependency : DiagnosticAnalyzer
 
                     var symbol = context.SemanticModel.GetSymbolInfo(t, context.CancellationToken).Symbol;
                     if (symbol is null) continue;
+
+                    if (!symbol.OriginalDefinition.ContainingModule.ReferencedAssemblySymbols.Contains(attributeSymbols.First().ContainingAssembly)) return; // It is not from this code base and so we don't expect it to have been declared with our attributes
 
                     if (!symbol.HasAttribute(attributeSymbols))
                     {
