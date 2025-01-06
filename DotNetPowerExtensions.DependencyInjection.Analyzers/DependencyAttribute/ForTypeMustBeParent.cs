@@ -1,40 +1,24 @@
-﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
+﻿using DotNetPowerExtensions.DependencyInjection.Analyzers;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class ForTypeMustBeParent : DiagnosticAnalyzer
+public class ForTypeMustBeParent : AnalyzerBase
 {
-
-    protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0210";
     protected const string Title = "ForTypeMustBeParent";
     protected const string Message = "{0} is not a base class or interface of {1}";
-    protected const string Description = Message + ".";
 
-    [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
-    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message + ".");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Diagnostic);
 
-    public override void Initialize(AnalysisContext context)
+    protected override void Register(CompilationStartAnalysisContext compilationContext, MetadataUtil metadataUtil)
     {
-        try
-        {
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
-            context.EnableConcurrentExecution();
+        var symbols = metadataUtil.GetTypeSymbols(DependencyAnalyzerUtils.AllDependencies);
 
-            context.RegisterCompilationStartAction(compilationContext =>
-            {
-                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
-
-                var symbols = DependencyAnalyzerUtils.AllDependencies.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
-
-                compilationContext
-                    .RegisterSyntaxNodeAction(c => AnalyzeAttribute(c, symbols), SyntaxKind.Attribute);
-            });
-        }
-        catch { }
+        compilationContext
+            .RegisterSyntaxNodeAction(c => AnalyzeAttribute(c, symbols), SyntaxKind.Attribute);
     }
 
     private void AnalyzeAttribute(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] attributeSymbols)

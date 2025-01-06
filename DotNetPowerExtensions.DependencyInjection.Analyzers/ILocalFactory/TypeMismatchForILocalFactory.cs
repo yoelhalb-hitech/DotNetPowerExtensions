@@ -2,37 +2,25 @@
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class TypeMismatchForILocalFactory : DiagnosticAnalyzer
+public class TypeMismatchForILocalFactory : AnalyzerBase
 {
-    protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0203";
     protected const string Title = "TypeMismatchForLocalService";
     protected const string Message = "Type of Member '{0}' should be '{1}'";
     protected const string Description = "Type mismatch between initializer and member type.";
 
-    [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
     protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Diagnostic);
 
-    public override void Initialize(AnalysisContext context)
+    protected override void Register(CompilationStartAnalysisContext compilationContext, MetadataUtil metadataUtil)
     {
-        try
-        {
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
-            context.EnableConcurrentExecution();
+        var typedSymbol = metadataUtil.GetTypeSymbol(typeof(ILocalFactory<>));
+        if (typedSymbol is null) return;
 
-            context.RegisterCompilationStartAction(compilationContext =>
-            {
-                var typedSymbol = compilationContext.Compilation.GetTypeSymbol(typeof(ILocalFactory<>));
-                if (typedSymbol is null) return;
+        // TODO... maybe use an IOperation instead...
+        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, typedSymbol), SyntaxKind.InvocationExpression);
 
-                // TODO... maybe use an IOperation instead...
-                compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, typedSymbol), SyntaxKind.InvocationExpression);
-
-            });
-        }
-        catch { }
     }
 
     private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol serviceTypeSymbol)

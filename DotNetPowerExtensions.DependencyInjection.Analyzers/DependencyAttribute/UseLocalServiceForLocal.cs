@@ -1,44 +1,29 @@
-﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
-
-namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+﻿namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class UseLocalServiceForLocal : DiagnosticAnalyzer
+public class UseLocalServiceForLocal : AnalyzerBase
 {
-    protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0204";
     protected const string Title = "UseLocalServiceForLocal";
     protected const string Message = "Use `ILocalFactory<{0}>` because `{0}` decorated with the `Local` attribute";
-    protected const string Description = Message + ".";
 
-    [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
-    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message + ".");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Diagnostic);
-    public override void Initialize(AnalysisContext context)
+
+    protected override void Register(CompilationStartAnalysisContext compilationContext, MetadataUtil metadataUtil)
     {
-        try
-        {
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
-            context.EnableConcurrentExecution();
+        // We do not do it for the base attributes as they are not instantiated directly and can be used for a subclass
+        var localSymbols = metadataUtil.GetTypeSymbols(DependencyAnalyzerUtils.LocalAttributes);
+        if (!localSymbols.Any()) return;
 
-            context.RegisterCompilationStartAction(compilationContext =>
-            {
-                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
+        var symbols = metadataUtil.GetTypeSymbols(DependencyAnalyzerUtils.NonLocalAttributes)
+                                    .Concat(localSymbols)
+                                    .ToArray();
 
-                var localSymbols = DependencyAnalyzerUtils.LocalAttributes.Select(t => metadata(t)).OfType<INamedTypeSymbol>().ToArray();
-                if (!localSymbols.Any()) return;
-
-                var symbols = DependencyAnalyzerUtils.NonLocalAttributes.Select(t => metadata(t)).OfType<INamedTypeSymbol>()
-                                            .Concat(localSymbols)
-                                            .ToArray();
-
-                compilationContext
-                    .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, localSymbols, symbols),
-                                                SyntaxKind.ConstructorDeclaration);
-            });
-        }
-        catch { }
+        compilationContext
+            .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, localSymbols, symbols),
+                                        SyntaxKind.ConstructorDeclaration);
     }
 
     private void AnalyzeConstructor(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] localSymbols,

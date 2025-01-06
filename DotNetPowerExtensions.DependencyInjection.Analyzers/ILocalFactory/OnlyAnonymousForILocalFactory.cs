@@ -1,37 +1,28 @@
 ﻿
+using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
+using static DotNetPowerExtensions.DependencyInjection.Analyzers.AnalyzerBase;
+
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class OnlyAnonymousForILocalFactory : DiagnosticAnalyzer
+public class OnlyAnonymousForILocalFactory : AnalyzerBase
 {
-    protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0202";
     protected const string Title = "OnlyAnonymousForLocalFactory";
     protected const string Message = "Only an anonymous object is allowed for initializing with LocalService";
-    protected const string Description = "Only an anonymous object is allowed for initializing with LocalService.";
 
-    [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
-    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message + ".");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Diagnostic);
-    public override void Initialize(AnalysisContext context)
+
+    protected override void Register(CompilationStartAnalysisContext compilationContext, MetadataUtil metadataUtil)
     {
-        try
-        {
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
-            context.EnableConcurrentExecution();
+        var typedSymbol = metadataUtil.GetTypeSymbol(typeof(ILocalFactory<>));
+        if (typedSymbol is null) return;
 
-            context.RegisterCompilationStartAction(compilationContext =>
-            {
-                var typedSymbol = compilationContext.Compilation.GetTypeSymbol(typeof(ILocalFactory<>));
-                if (typedSymbol is null) return;
+        // TODO... maybe use an IOperation instead...
+        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, typedSymbol), SyntaxKind.InvocationExpression);
 
-                // TODO... maybe use an IOperation instead...
-                compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, typedSymbol), SyntaxKind.InvocationExpression);
-
-            });
-        }
-        catch { }
     }
 
     private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol serviceTypeSymbol)

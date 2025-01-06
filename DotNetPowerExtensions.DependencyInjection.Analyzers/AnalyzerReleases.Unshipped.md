@@ -22,3 +22,5 @@ DNPE0221 | Language | Warning | UseServiceOnlyInDependency
 DNPE0222 | Language | Warning | OnlyUseServiceInDependency
 DNPE0223 | Language | Warning | UseTransientOnlyInTransient
 DNPE0224 | Language | Warning | NoScopedInSingleton
+DNPE0225 | Language | Warning | DoNotInstantiateService
+DNPE0226 | Language | Warning | OnlyOneCtorInDependency

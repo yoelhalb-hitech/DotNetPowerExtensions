@@ -1,47 +1,32 @@
-﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
-
+﻿
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class UseTransientOnlyInTransient : DiagnosticAnalyzer
+public class UseTransientOnlyInTransient : AnalyzerBase
 {
-    protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0223";
     protected const string Title = "UseTransientOnlyInTransient";
     protected const string Message = "A transient service should only be used in a class decorated with `Transient` or `Local`";
-    protected const string Description = Message + ".";
 
-    [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
-    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message + ".");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Diagnostic);
-    public override void Initialize(AnalysisContext context)
+
+    protected override void Register(CompilationStartAnalysisContext compilationContext, MetadataUtil metadataUtil)
     {
-        try
-        {
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
-            context.EnableConcurrentExecution();
+        var localSymbols = metadataUtil.GetTypeSymbols(DependencyAnalyzerUtils.LocalAttributes);
+        if (!localSymbols.Any()) return;
 
-            context.RegisterCompilationStartAction(compilationContext =>
-            {
-                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
+        var transientSymbols = metadataUtil.GetTypeSymbols(DependencyAnalyzerUtils.TransientAttributes);
+        if (!transientSymbols.Any()) return;
 
-                var localSymbols = DependencyAnalyzerUtils.LocalAttributes.Select(t => metadata(t)).OfType<INamedTypeSymbol>().ToArray();
-                if (!localSymbols.Any()) return;
+        var symbols = metadataUtil.GetTypeSymbols(DependencyAnalyzerUtils.NonLocalAttributes)
+                                    .Concat(transientSymbols)
+                                    .ToArray();
 
-                var transientSymbols = DependencyAnalyzerUtils.TransientAttributes.Select(t => metadata(t)).OfType<INamedTypeSymbol>().ToArray();
-                if (!transientSymbols.Any()) return;
-
-                var symbols = DependencyAnalyzerUtils.NonLocalAttributes.Select(t => metadata(t)).OfType<INamedTypeSymbol>()
-                                            .Concat(transientSymbols)
-                                            .ToArray();
-
-                compilationContext
-                    .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, localSymbols, transientSymbols, symbols),
-                                                SyntaxKind.ConstructorDeclaration);
-            });
-        }
-        catch { }
+        compilationContext
+            .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, localSymbols, transientSymbols, symbols),
+                                        SyntaxKind.ConstructorDeclaration);
     }
 
     private void AnalyzeConstructor(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] localSymbols,

@@ -1,42 +1,26 @@
-﻿
+﻿using DotNetPowerExtensions.DependencyInjection.Analyzers;
 using SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class DoNotInstantiateService : DiagnosticAnalyzer
+public class DoNotInstantiateService : AnalyzerBase
 {
-    protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0225";
     protected const string Title = "DoNotInstantiateService";
     protected const string Message = "Do not instantiate a service manually, use DI instead";
-    protected const string Description = Message + ".";
 
-    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message + ".");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Diagnostic);
-    public override void Initialize(AnalysisContext context)
+
+    protected override void Register(CompilationStartAnalysisContext compilationContext, MetadataUtil metadataUtil)
     {
-        try
-        {
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
-            context.EnableConcurrentExecution();
+        var symbols = metadataUtil.GetTypeSymbols(DependencyAnalyzerUtils.AllDependencies.Concat(DependencyAnalyzerUtils.BaseAttributes));
 
-            context.RegisterCompilationStartAction(compilationContext =>
-            {
-                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
-
-                var symbols = DependencyAnalyzerUtils.AllDependencies
-                                .Concat(DependencyAnalyzerUtils.BaseAttributes)
-                                .Select(t => metadata(t)).OfType<INamedTypeSymbol>().ToArray();
-
-                // TODO... maybe use an IOperation instead...
-                compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, symbols),
-                                    SyntaxKind.ObjectCreationExpression, SyntaxKind.ImplicitObjectCreationExpression);
-
-            });
-        }
-        catch { }
+        // TODO... maybe use an IOperation instead...
+        compilationContext.RegisterSyntaxNodeAction(c => AnalyzeInvocation(c, symbols),
+                            SyntaxKind.ObjectCreationExpression, SyntaxKind.ImplicitObjectCreationExpression);
     }
 
     private void AnalyzeInvocation(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] symbols)

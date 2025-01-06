@@ -6,57 +6,25 @@ using System.Diagnostics.CodeAnalysis;
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class UseShouldOnlyBeForGeneric : DiagnosticAnalyzer
+public class UseShouldOnlyBeForGeneric : AnalyzerBase
 {
-    protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0206";
     protected const string Title = "UseIsOnlyForGeneric";
     protected const string Message = "The `Use` attribute is only for generic types";
     protected const string Description = Message + ".";
 
-    [SuppressMessage("Microsoft.Design", "CA1051: Do not declare visible instance fields", Justification = "The compiler only consideres fields when tracking analyzer releases")]
-    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+    protected DiagnosticDescriptor Diagnostic = new DiagnosticDescriptor(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message + ".");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Diagnostic);
-    public override void Initialize(AnalysisContext context)
+
+    protected override void Register(CompilationStartAnalysisContext compilationContext, MetadataUtil metadataUtil)
     {
-        try
-        {
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
-            context.EnableConcurrentExecution();
+        var symbols = metadataUtil.GetTypeSymbols(DependencyAnalyzerUtils.AllDependencies);
 
-            context.RegisterCompilationStartAction(compilationContext =>
-            {
-                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
-
-                var allAttributeTypes = new[]
-                {
-                    typeof(LocalAttribute),
-                    typeof(LocalAttribute<>),
-                    typeof(SingletonAttribute),
-                    typeof(SingletonAttribute<>),
-                    typeof(ScopedAttribute),
-                    typeof(ScopedAttribute<>),
-                    typeof(TransientAttribute),
-                    typeof(TransientAttribute<>),
-                    typeof(SequelPay.DotNetPowerExtensions.DependencyAttribute),
-                    typeof(NonDependencyAttribute),
-                    typeof(NonDependencyAttribute<>),
-                };
-                var symbols = allAttributeTypes.Select(t => metadata(t)).Where(x => x is not null).Select(x => x!).ToArray();
-
-                compilationContext
-                    .RegisterSyntaxNodeAction(c => AnalyzeClass(c, symbols), SyntaxKind.Attribute);
-            });
-        }
-        catch { }
+        compilationContext
+            .RegisterSyntaxNodeAction(c => AnalyzeClass(c, symbols),
+                                        SyntaxKind.Attribute);
     }
-
-    private string[] DependencyAttributeNames =
-    {
-        nameof(SingletonAttribute), nameof(ScopedAttribute), nameof(TransientAttribute),
-        nameof(LocalAttribute), nameof(NonDependencyAttribute), nameof(SequelPay.DotNetPowerExtensions.DependencyAttribute),
-    };
 
     private void AnalyzeClass(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] attributeSymbols)
     {

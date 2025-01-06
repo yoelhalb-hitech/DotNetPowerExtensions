@@ -1,41 +1,26 @@
-﻿using SequelPay.DotNetPowerExtensions.RoslynExtensions;
-using System.Linq;
+﻿using DotNetPowerExtensions.DependencyInjection.Analyzers;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.DependencyAttribute.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class OnlyOneCtorInDependency : DiagnosticAnalyzer
+public class OnlyOneCtorInDependency : AnalyzerBase
 {
-    protected const string Category = "Language";
     public const string DiagnosticId = "DNPE0226";
     protected const string Title = "OnlyOneCtorInDependency";
     protected const string Message = "Only one public ctor is allowed in a class decorated with `Singleton/Scoped/Transient/Local` attribute";
-    protected const string Description = Message + ".";
 
-    protected DiagnosticDescriptor Diagnostic = new(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+    protected DiagnosticDescriptor Diagnostic = new(DiagnosticId, Title, Message, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Message + ".");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Diagnostic);
-    public override void Initialize(AnalysisContext context)
+
+    protected override void Register(CompilationStartAnalysisContext compilationContext, MetadataUtil metadataUtil)
     {
-        try
-        {
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
-            context.EnableConcurrentExecution();
+        // We do not do it for the base attributes as they are not instantiated directly and can be used for a subclass
+        var symbols = metadataUtil.GetTypeSymbols(DependencyAnalyzerUtils.AllDependencies);
 
-            context.RegisterCompilationStartAction(compilationContext =>
-            {
-                Func<Type, INamedTypeSymbol?> metadata = t => compilationContext.Compilation.GetTypeSymbol(t);
-
-                // We do not do it for the base attributes as they are not instantiated directly and can be used for a subclass
-                var symbols = DependencyAnalyzerUtils.AllDependencies.Select(t => metadata(t)).OfType<INamedTypeSymbol>()
-                                            .ToArray();
-
-                compilationContext
-                    .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, symbols),
-                                                SyntaxKind.ClassDeclaration);
-            });
-        }
-        catch { }
+        compilationContext
+            .RegisterSyntaxNodeAction(c => AnalyzeConstructor(c, symbols),
+                                        SyntaxKind.ClassDeclaration);
     }
 
     private void AnalyzeConstructor(SyntaxNodeAnalysisContext context, INamedTypeSymbol[] attributeSymbols)
