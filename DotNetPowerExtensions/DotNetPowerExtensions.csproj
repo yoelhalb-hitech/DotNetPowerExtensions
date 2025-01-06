@@ -29,7 +29,6 @@
 
     <PackAnalyzer Include="..\DotNetPowerExtensions.NonDelegate.Analyzers\DotNetPowerExtensions.NonDelegate.Analyzers.csproj" />
 
-
     <PackAnalyzer Include="..\DotNetPowerExtensions.Union.Analyzers\DotNetPowerExtensions.Union.Analyzers.csproj" />
 
     <PackAnalyzer Include="..\DotNetPowerExtensions.DependencyInjection.Analyzers\DotNetPowerExtensions.DependencyInjection.Analyzers.csproj" />

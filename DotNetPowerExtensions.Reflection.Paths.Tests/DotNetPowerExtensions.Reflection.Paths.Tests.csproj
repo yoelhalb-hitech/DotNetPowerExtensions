@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="../Tests.targets" /><!-- Since we set IsTestProject to false we need to import it manually for the build to succeed-->
-
   <PropertyGroup>
     <TargetFrameworks>net472;net7.0</TargetFrameworks>
 
-    <IsTestProject>false</IsTestProject><!-- So Github testing should ignore it on publish -->
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
