@@ -25,7 +25,7 @@ jobs:
                 - DotNetPowerExtensions.Reflection
                 - DotNetPowerExtensions.Reflection.TypeToString.CSharp
                 - DotNetPowerExtensions.RoslynExtensions
-                - DotNetPowerExtensions
+                - DotNetPowerExtensions #TODO.... this is not good, as it does not run the test projects for all dependencies...
     steps:
     - name: Checkout
       uses: actions/checkout@v3
