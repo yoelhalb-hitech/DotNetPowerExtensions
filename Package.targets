@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <PackageVersion>5.0.0-beta</PackageVersion>
+    <PackageVersion>5.0.0-beta2</PackageVersion>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
@@ -36,6 +36,7 @@
     </MSBuild>
 
     <!-- https://stackoverflow.com/questions/1272499/msbuild-get-assembly-reference-from-projectreference?rq=1 -->
+    <!-- Use target of `Build` instead of `GetTargetPath` to ensure that the analzyers were built -->
     <MSBuild Projects="@(PackAnalyzer)" Targets="Build" BuildInParallel="true">
       <Output TaskParameter="TargetOutputs" ItemName="OutputAssemblies" />
     </MSBuild>

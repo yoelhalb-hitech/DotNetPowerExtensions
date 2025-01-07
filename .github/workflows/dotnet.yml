@@ -62,7 +62,8 @@ jobs:
             dotnet build ${{ matrix.package }}.Analyzers.Tests/${{ matrix.package }}.Analyzers.Tests.csproj --disable-build-servers --no-restore --configuration Release /p:Version=${VERSION}
             dotnet test ${{ matrix.package }}.Analyzers.Tests/${{ matrix.package }}.Analyzers.Tests.csproj --no-build --verbosity normal --configuration Release /p:Version=${VERSION}
         fi
+    # Since the packing process involves building custom targets for correct analyzer packing we can not use `--no-build` and we have to use ` --disable-build-servers`
     - name: Pack
-      run: dotnet pack ${{ matrix.package }}/${{ matrix.package }}.csproj --configuration Release /p:Version=${VERSION} --no-build --output .      
+      run: dotnet pack ${{ matrix.package }}/${{ matrix.package }}.csproj --configuration Release /p:Version=${VERSION} --disable-build-servers --output .      
     - name: Push Package to NuGet.org
       run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json

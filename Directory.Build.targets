@@ -3,8 +3,10 @@
     <IsTestProject Condition="$(IsTestProject) == ''">$(ProjectName.EndsWith('Tests'))</IsTestProject>
   </PropertyGroup>
 
+
   <Import Condition="$(IsAnalyzerProject)" Project="AnalyzerProject.targets" />
-  <Import Condition="!$(IsTestProject) and !$(IsAnalyzerProject) and '$(GeneratePackageOnBuild)' != 'false'" Project="Package.targets" />
+  <!-- The .Net SDK sets `GeneratePackageOnBuild` to false is not set in the project file, so we instead rely on our custom property `DoNotPack` -->
+  <Import Condition="'$(IsTestProject)'  != 'true' And '$(IsAnalyzerProject)' != 'true' And '$(DoNotPack)' != 'false'" Project="Package.targets" />
   <Import Condition="$(IsTestProject)" Project="Tests.targets" />
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45' Or  '$(TargetFramework)' == 'net452' Or '$(TargetFramework)' == 'net46' Or '$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'net462'">

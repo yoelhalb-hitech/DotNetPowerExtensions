@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
 
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild><!-- Not ready yet-->
+    <DoNotPack>false</DoNotPack><!-- Not ready yet-->
   </PropertyGroup>
 
   <ItemGroup>
