@@ -1,0 +1,66 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+# Based on https://acraven.medium.com/a-nuget-package-workflow-using-github-actions-7da8c6557863
+
+name: Publish Nuget
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+        matrix:
+            package:
+                - DotNetPowerExtensions.NonDelegate.Common
+                - DotNetPowerExtensions.NonDelegate
+                - DotNetPowerExtensions.EnumerableExtensions
+                - DotNetPowerExtensions.StringExtensions
+                - DotNetPowerExtensions.Union.Common
+                - DotNetPowerExtensions.Union
+                - DotNetPowerExtensions.DependencyInjection.Common
+                - DotNetPowerExtensions.DependencyInjection
+                - DotNetPowerExtensions.MustInitialize.Common
+                - DotNetPowerExtensions.MustInitialize
+                - DotNetPowerExtensions.Reflection.Common
+                - DotNetPowerExtensions.Reflection
+                - DotNetPowerExtensions.Reflection.TypeToString.Common
+                - DotNetPowerExtensions.Reflection.TypeToString.CSharp
+                - DotNetPowerExtensions.Roslyn.SyntaxGeneration.CSharp
+                - DotNetPowerExtensions.RoslynExtensions
+                - DotNetPowerExtensions #TODO.... this is not good, as it does not run the test projects for all dependencies...
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Verify commit exists in origin/main
+      run: |
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+        git branch --remote --contains | grep origin/main
+    - name: Set VERSION variable from tag
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.x.x
+    - name: Restore dependencies
+      run: dotnet restore
+    # Sometimes the build can end in race conditions, so we use `--disable-build-servers`
+    - name: Build
+      run: dotnet build ${{ matrix.package }}/${{ matrix.package }}.csproj --no-restore --disable-build-servers --configuration Release /p:Version=${VERSION}
+    # Since `dotnet test` doesn't have `--disable-build-servers` we do it in a seperate build step and then test with `--no-build`
+    - name: Test
+      run: |
+        if [ -f ${{ matrix.package }}.Tests/${{ matrix.package }}.Tests.csproj ]; then
+            dotnet build ${{ matrix.package }}.Tests/${{ matrix.package }}.Tests.csproj --disable-build-servers --no-restore --configuration Release /p:Version=${VERSION}
+            dotnet test ${{ matrix.package }}.Tests/${{ matrix.package }}.Tests.csproj --no-build --verbosity normal --configuration Release /p:Version=${VERSION}
+        fi
+        if [ -f ${{ matrix.package }}.Analyzers.Tests/${{ matrix.package }}.Analyzers.Tests.csproj ]; then
+            dotnet build ${{ matrix.package }}.Analyzers.Tests/${{ matrix.package }}.Analyzers.Tests.csproj --disable-build-servers --no-restore --configuration Release /p:Version=${VERSION}
+            dotnet test ${{ matrix.package }}.Analyzers.Tests/${{ matrix.package }}.Analyzers.Tests.csproj --no-build --verbosity normal --configuration Release /p:Version=${VERSION}
+        fi
+    # Since the packing process involves building custom targets for correct analyzer packing we can not use `--no-build` and we have to use ` --disable-build-servers`
+    - name: Pack
+      run: dotnet pack ${{ matrix.package }}/${{ matrix.package }}.csproj --configuration Release /p:Version=${VERSION} --disable-build-servers --output . 
+    - name: Push Package to NuGet.org
+      run: dotnet nuget push SequelPay.${{ matrix.package }}.${VERSION}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
