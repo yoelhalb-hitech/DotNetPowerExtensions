@@ -1,7 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;net8.0</TargetFrameworks><!-- Would prefer to test on net45 but NUnit has an issue with the ValueTuple package-->
+    <!-- Would prefer to test on net45 but NUnit has an issue with the ValueTuple package-->
+    <!-- dotnet has an issue testing the legacy .netframework on linux see https://github.com/dotnet/runtime/issues/81395 -->
+    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">net472;net8.0</TargetFrameworks>
+    <TargetFramework Condition="'$(OS)' != 'Windows_NT'">net8.0</TargetFramework>
 
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>

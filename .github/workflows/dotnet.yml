@@ -52,7 +52,7 @@ jobs:
             dotnet test ${{ matrix.package }}.Tests/${{ matrix.package }}.Tests.csproj --no-build --verbosity normal --configuration Release /p:Version=${VERSION}
         fi
         if [ -f ${{ matrix.package }}.Analyzers.Tests/${{ matrix.package }}.Analyzers.Tests.csproj ]; then
-            dotnet build ${{ matrix.package }}.Analyzers.Tests/${{ matrix.package }}.Analyzers.Tests.csproj -disable-build-servers --no-restore --configuration Release /p:Version=${VERSION}
+            dotnet build ${{ matrix.package }}.Analyzers.Tests/${{ matrix.package }}.Analyzers.Tests.csproj --disable-build-servers --no-restore --configuration Release /p:Version=${VERSION}
             dotnet test ${{ matrix.package }}.Analyzers.Tests/${{ matrix.package }}.Analyzers.Tests.csproj --no-build --verbosity normal --configuration Release /p:Version=${VERSION}
         fi
     - name: Pack
