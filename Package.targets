@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <PackageVersion>5.0.0-alpha2</PackageVersion>
+    <PackageVersion>5.0.0-beta</PackageVersion>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 

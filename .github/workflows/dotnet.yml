@@ -16,14 +16,21 @@ jobs:
     strategy:
         matrix:
             package:
+                - DotNetPowerExtensions.NonDelegate.Common
                 - DotNetPowerExtensions.NonDelegate
                 - DotNetPowerExtensions.EnumerableExtensions
                 - DotNetPowerExtensions.StringExtensions
+                - DotNetPowerExtensions.Union.Common
                 - DotNetPowerExtensions.Union
+                - DotNetPowerExtensions.DependencyInjection.Common
                 - DotNetPowerExtensions.DependencyInjection
+                - DotNetPowerExtensions.MustInitialize.Common
                 - DotNetPowerExtensions.MustInitialize
+                - DotNetPowerExtensions.Reflection.Common
                 - DotNetPowerExtensions.Reflection
+                - DotNetPowerExtensions.Reflection.TypeToString.Common
                 - DotNetPowerExtensions.Reflection.TypeToString.CSharp
+                - DotNetPowerExtensions.Roslyn.SyntaxGeneration.CSharp
                 - DotNetPowerExtensions.RoslynExtensions
                 - DotNetPowerExtensions #TODO.... this is not good, as it does not run the test projects for all dependencies...
     steps:
