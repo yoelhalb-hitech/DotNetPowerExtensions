@@ -64,6 +64,6 @@ jobs:
         fi
     # Since the packing process involves building custom targets for correct analyzer packing we can not use `--no-build` and we have to use ` --disable-build-servers`
     - name: Pack
-      run: dotnet pack ${{ matrix.package }}/${{ matrix.package }}.csproj --configuration Release /p:Version=${VERSION} --disable-build-servers --output .      
+      run: dotnet pack ${{ matrix.package }}/${{ matrix.package }}.csproj --configuration Release /p:Version=${VERSION} --disable-build-servers --output . 
     - name: Push Package to NuGet.org
-      run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push SequelPay.${{ matrix.package }}.${VERSION}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
