@@ -177,6 +177,25 @@ internal sealed class MustInitializeAccessibilityNotLessThanConstructor_Tests : 
         await VerifyAnalyzerAsync(test).ConfigureAwait(false);
     }
 
+    [Test]
+    public async Task Test_MustInitialize_NoDiagnostic_OnEqualAllCtors_OuterClassMultipleCtors_WhenRecord_BugRepro([ValueSource(nameof(ClassAccessTypes))] string classAccess,
+                        [ValueSource(nameof(AccessTypesWithEmpty))] string access,
+                        [ValueSource(nameof(Prefixes))] string prefix, [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public record TypeName
+        {
+            internal TypeName(string t){}
+            internal TypeName(){}
+            [MustInitialize] internal string TestProp { get; set; }
+            [MustInitialize] internal string TestField;
+        }
+        """;
+
+
+        await VerifyAnalyzerAsync(test).ConfigureAwait(false);
+    }
+
     #endregion
 
 

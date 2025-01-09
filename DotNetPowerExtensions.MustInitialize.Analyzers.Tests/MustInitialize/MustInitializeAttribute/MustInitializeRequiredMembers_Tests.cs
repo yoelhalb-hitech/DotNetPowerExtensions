@@ -84,6 +84,27 @@ internal sealed class MustInitializeRequiredMembers_Tests
     }
 
     [Test]
+    public async Task Test_Warns_WhenUsingRecord([ValueSource(nameof(Prefixes))] string prefix,
+                                                                                [ValueSource(nameof(Suffixes))] string suffix)
+    {
+        var test = $$"""
+        public record DeclareType
+        {
+            public DeclareType(){}
+            public DeclareType(int i){}
+            [{{prefix}}MustInitialize{{suffix}}] public string TestProp { get; set; }
+            [{{prefix}}MustInitialize{{suffix}}] public string TestField;
+        }
+
+        class Program { void Main() => [|new DeclareType(10){/::/}|]; }
+        """;
+
+        var fixCode = $$""" TestProp = default, TestField = default """;
+
+        await VerifyCodeFixAsync(test, fixCode).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task Test_Warns_WhenUsingCtorCallingAnother_MultipleSourceFiles([ValueSource(nameof(Prefixes))] string prefix,
                                                                                 [ValueSource(nameof(Suffixes))] string suffix)
     {
