@@ -23,3 +23,4 @@ DNPE0214 | Language | Warning | MightRequireTypeConflict
 DNPE0215 | Language | Warning | MustInitializeShouldAddMightRequire
 DNPE0216 | Language | Warning | MustInitializeConflictsWithMightRequire
 DNPE0218 | Language | Warning | TypeMismatchForILocalFactory
+DNPE0219 | Language | Warning | MustInitializeNotAllowedGenericWithNew
