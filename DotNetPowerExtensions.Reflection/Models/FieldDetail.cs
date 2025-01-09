@@ -1,7 +1,7 @@
 ﻿
 namespace SequelPay.DotNetPowerExtensions.Reflection;
 
-public class FieldDetail : MemberDetail<FieldInfo, FieldDetail, IFieldDetail>, IFieldDetail
+public record FieldDetail : MemberDetail<FieldInfo, FieldDetail, IFieldDetail>, IFieldDetail
 {
     internal FieldDetail() { }
     [Initialized] public override FieldDetail? ExplicitDetail { get => null; internal set => throw new NotSupportedException(); }

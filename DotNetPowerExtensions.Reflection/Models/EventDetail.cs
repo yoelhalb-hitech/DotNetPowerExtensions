@@ -1,7 +1,7 @@
 ﻿
 namespace SequelPay.DotNetPowerExtensions.Reflection;
 
-public class EventDetail : MemberDetail<EventInfo, EventDetail, IEventDetail>, IEventDetail
+public record EventDetail : MemberDetail<EventInfo, EventDetail, IEventDetail>, IEventDetail
 {
     internal EventDetail() { }
 

@@ -1,7 +1,7 @@
 ﻿
 namespace SequelPay.DotNetPowerExtensions.Reflection;
 
-public class ConstructorDetail : MemberDetail<ConstructorInfo, ConstructorDetail, IConstructorDetail>, IConstructorDetail
+public record ConstructorDetail : MemberDetail<ConstructorInfo, ConstructorDetail, IConstructorDetail>, IConstructorDetail
 {
     [Initialized] public override string Name { get => ""; internal set => throw new NotSupportedException(); }
     [Initialized] public override MemberDetailTypes MemberDetailType { get => MemberDetailTypes.Constructor; internal set => throw new NotSupportedException(); }

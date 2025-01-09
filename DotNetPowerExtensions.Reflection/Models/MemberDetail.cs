@@ -9,7 +9,7 @@ public interface IMemberDetail<out T> : IMemberDetail where T : MemberInfo
     public T? ExplicitInterfaceReflectionInfo { get; }
 }
 
-public abstract class MemberDetail<T> : IMemberDetail<T> where T : MemberInfo
+public abstract record MemberDetail<T> : IMemberDetail<T> where T : MemberInfo
 {
     internal MemberDetail() { }
 
@@ -29,7 +29,7 @@ public abstract class MemberDetail<T> : IMemberDetail<T> where T : MemberInfo
     public abstract T? ExplicitInterfaceReflectionInfo { get; }
 }
 
-public class MemberDetail<T, TDetail, TInterfaceDetail> : MemberDetail<T>, Common.IMemberDetail<TInterfaceDetail>
+public record MemberDetail<T, TDetail, TInterfaceDetail> : MemberDetail<T>, Common.IMemberDetail<TInterfaceDetail>
     where T : MemberInfo
     where TDetail : MemberDetail<T, TDetail, TInterfaceDetail>, TInterfaceDetail
     where TInterfaceDetail : Common.IMemberDetail<TInterfaceDetail>

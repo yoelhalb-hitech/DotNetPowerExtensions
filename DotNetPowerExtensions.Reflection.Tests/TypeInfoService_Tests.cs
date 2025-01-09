@@ -202,6 +202,87 @@ public class TypeInfoService_Tests
         result.ShadowedPropertyDetails.Should().BeEmpty();
     }
 
+    [Test]
+    [TestCase(typeof(SingleMethod), Decleration, false, false, false)]
+    [TestCase(typeof(SingleMethodInherited), Decleration, true, false, false)]
+    [TestCase(typeof(SingleMethodOverriden), Override, false, false, true)]
+    [TestCase(typeof(SingleMethodOverridenInherited), Override, true, false, true)]
+    [TestCase(typeof(SingleMethodShadowed), Shadow, false, true, false)]
+    [TestCase(typeof(SingleMethodShadowedInherited), Shadow, true, true, false)]
+    [TestCase(typeof(SingleMethodShadowedOverriden), ShadowOverride, false, true, true)]
+    [TestCase(typeof(SingleMethodShadowedOverridenInherited), ShadowOverride, true, true, true)]
+    [TestCase(typeof(SingleGenericMethod), Decleration, false, false, false)]
+    [TestCase(typeof(SingleGenericMethodInherited), Decleration, true, false, false)]
+    [TestCase(typeof(SingleGenericMethodOverriden), Override, false, false, true)]
+    [TestCase(typeof(SingleGenericMethodOverridenInherited), Override, true, false, true)]
+    [TestCase(typeof(SingleGenericMethodShadowed), Shadow, false, true, false)]
+    [TestCase(typeof(SingleGenericMethodShadowedInherited), Shadow, true, true, false)]
+    [TestCase(typeof(SingleGenericMethodShadowedOverriden), ShadowOverride, false, true, true)]
+    [TestCase(typeof(SingleGenericMethodShadowedOverridenInherited), ShadowOverride, true, true, true)]
+
+    public void Test_GetTypeInfo_SingleClassMethod_WhenTypeDoesNotReturnBaseTypeMethods(Type type, DeclarationTypes decl, bool inherited, bool isShadow, bool overriden)
+    {
+        var dict = new Dictionary<MethodInfo, MethodInfo>();
+        var mock = new Mock<Type>();
+        mock.Setup(m => m.GetMethods(It.IsAny<BindingFlags>())).Returns<BindingFlags>(b =>
+        type.GetMethods(b).Where(m => m.DeclaringType == type).Select(m =>
+        {
+            if(dict.TryGetValue(m, out MethodInfo? value)) return value;
+
+            var mi = new Mock<MethodInfo>(MockBehavior.Strict);
+            mi.Setup(m => m.Name).Returns(m.Name);
+            mi.Setup(m => m.Attributes).Returns(m.Attributes);
+            mi.Setup(m => m.GetParameters()).Returns(m.GetParameters());
+            mi.Setup(m => m.IsGenericMethodDefinition).Returns(m.IsGenericMethodDefinition);
+            mi.Setup(m => m.IsGenericMethod).Returns(m.IsGenericMethod);
+            mi.Setup(m => m.GetGenericArguments()).Returns(m.GetGenericArguments());
+            mi.Setup(m => m.ReturnParameter).Returns(m.ReturnParameter);
+            mi.Setup(m => m.ReflectedType).Returns(mock.Object);
+            mi.Setup(m => m.GetHashCode()).Returns(m.GetHashCode() * 12345);
+            if(m.DeclaringType == type) mi.Setup(m => m.DeclaringType).Returns(mock.Object);
+
+            dict.Add(m, mi.Object);
+            return mi.Object;
+        }).ToArray());
+        mock.Setup(m => m.BaseType).Returns(type.BaseType);
+
+        var result = new TypeInfoService(mock.Object).GetTypeInfo();
+
+        result.PropertyDetails.Should().BeEmpty();
+        result.FieldDetails.Should().BeEmpty();
+        result.EventDetails.Should().BeEmpty();
+        result.MethodDetails.Length.Should().Be(1);
+
+        var isGenericMethod = result.MethodDetails.First().GenericArguments.Any();
+
+        var typeForMethod = inherited ? type.BaseType : type;
+        var methodInfo = typeForMethod.GetMethods().First(m => m.Name.StartsWith(nameof(SingleMethod.TestMethod))
+                                && (m.DeclaringType == type || m.DeclaringType == type.BaseType));
+        var methodDetails = result.MethodDetails.First();
+
+        // `InReflectionForCurrentType` should be false for inherited because we removed it
+        Validate(methodDetails, dict.ContainsKey(methodInfo) ? dict[methodInfo] : methodInfo, decl, inherited, !inherited);
+        methodDetails.Name.Should().Be(nameof(SingleMethod.TestMethod));
+
+        if (overriden)
+        {
+            methodDetails.OverridenMethod.Should().NotBeNull();
+            methodDetails.OverridenMethod!.DeclarationType.Should().NotBe(Override).And.NotBe(ShadowOverride);
+        }
+        else { methodDetails.OverridenMethod.Should().BeNull(); }
+
+        result.ShadowedMethodDetails.Length.Should().Be(isShadow ? 1 : 0);
+        if (isShadow)
+        {
+            var shadow = result.ShadowedMethodDetails.First();
+            var typeToCompare = !isGenericMethod ? typeof(SingleMethodOverridenInherited) : typeof(SingleGenericMethodOverridenInherited);
+            Validate(shadow, typeToCompare.GetMethods().First(m => m.Name.StartsWith(nameof(SingleMethod.TestMethod))), Override, true, true);
+            shadow.Name.Should().Be(nameof(SingleMethod.TestMethod));
+        }
+
+        result.ShadowedPropertyDetails.Should().BeEmpty();
+    }
+
     class SingleEvent
     {
         public virtual event EventHandler? Event;

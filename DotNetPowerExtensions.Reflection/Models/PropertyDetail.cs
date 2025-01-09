@@ -1,7 +1,7 @@
 ﻿
 namespace SequelPay.DotNetPowerExtensions.Reflection;
 
-public class PropertyDetail : MemberDetail<PropertyInfo, PropertyDetail, IPropertyDetail>, IPropertyDetail
+public record PropertyDetail : MemberDetail<PropertyInfo, PropertyDetail, IPropertyDetail>, IPropertyDetail
 {
 	internal PropertyDetail(){}
 

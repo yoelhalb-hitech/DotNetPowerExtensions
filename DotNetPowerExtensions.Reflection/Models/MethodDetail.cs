@@ -1,7 +1,7 @@
 ﻿
 namespace SequelPay.DotNetPowerExtensions.Reflection;
 
-public class MethodDetail : MemberDetail<MethodInfo, MethodDetail, IMethodDetail>, IMethodDetail
+public record MethodDetail : MemberDetail<MethodInfo, MethodDetail, IMethodDetail>, IMethodDetail
 {
     internal MethodDetail() { }
 

@@ -1,7 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace SequelPay.DotNetPowerExtensions.Reflection;
 
+[DebuggerDisplay("Name = {Name} FullName = {Type.FullName}")]
 public class TypeDetailInfo : ITypeDetailInfo
 {
 	internal TypeDetailInfo(Type type)
