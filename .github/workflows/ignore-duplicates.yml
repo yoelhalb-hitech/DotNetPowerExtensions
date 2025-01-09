@@ -31,6 +31,8 @@ jobs:
                 - DotNetPowerExtensions.RoslynExtensions
                 - DotNetPowerExtensions #TODO.... this is not good, as it does not run the test projects for all dependencies...
     steps:
+    - name: Set Tag # From https://stackoverflow.com/a/65130107
+      run: echo "GIT_TAG=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
     - name: Checkout
       uses: actions/checkout@v3
     - name: Verify commit exists in origin/main
