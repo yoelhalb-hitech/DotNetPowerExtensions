@@ -1,9 +1,12 @@
 ﻿extern alias Features;
 extern alias Workspaces;
 
+using Features::Microsoft.CodeAnalysis;
 using Features::Microsoft.CodeAnalysis.LanguageService;
 using Features::Microsoft.CodeAnalysis.QuickInfo;
+using SequelPay.DotNetPowerExtensions.Reflection;
 using Workspaces::System.Diagnostics.CodeAnalysis;
+using static Features::Microsoft.CodeAnalysis.QuickInfo.CommonSemanticQuickInfoProvider;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
@@ -58,17 +61,71 @@ public class LocalInitializerQuickInfoProvider : CommonSemanticQuickInfoProvider
     {
         try
         {
-            var symbol = FeatureUtils.BindTokenToDeclaringSymbol(semanticModel, token, cancellationToken);
-            if (symbol is null) return null;
+            var (symbol, mightRquire) = FeatureUtils.BindTokenToDeclaringSymbol(semanticModel, token, cancellationToken);
+            if (symbol is null && mightRquire is null) return null;
 
-            var tokenInfo = new TokenInformation(ImmutableArray.Create(symbol));
-            return await CreateContentAsync(services, semanticModel, token, tokenInfo, null, options, cancellationToken).ConfigureAwait(false);
+            if (symbol is not null)
+            {
+                // We don't invoke it directly because different versions of Roslyn have different signatures
+                var invoked = this.GetType().InvokeMethod(nameof(CreateContentAsync), null,
+                        new Dictionary<string, object?>
+                        {
+                            ["services"] = services,
+                            ["semanticModel"] = semanticModel,
+                            ["token"] = token,
+                            ["tokenInformation"] = new TokenInformation(ImmutableArray.Create(symbol)),
+                            ["options"] = options,
+                            ["cancellationToken"] = cancellationToken
+                        }) as Task<QuickInfoItem?>;
+                return await invoked!.ConfigureAwait(false);
+            }
+
+            var text = $"{(mightRquire!.Type)} MightRequire<{mightRquire.ContainingSymbol.Name}>.{mightRquire.Name}";
+            var info = QuickInfoItem.Create(
+                token.Span,
+                ImmutableArray.Create("MightRequire"),
+                ImmutableArray.Create(
+                    QuickInfoSection.Create(
+                        QuickInfoSectionKinds.Description, ImmutableArray.Create(new TaggedText(QuickInfoSectionKinds.Description, text)) // result[SymbolDescriptionGroups.MainDescription]
+                    )
+                )
+            );
+            return info;
         }
         catch
         {
             return null;
         }
     }
+
+    private string ToName(INamedTypeSymbol? namedType)
+    => namedType?.SpecialType switch
+    {
+        SpecialType.System_String => "string",
+        SpecialType.System_Boolean => "bool",
+        SpecialType.System_Int32 => "int",
+        SpecialType.System_UInt32 => "uint",
+        SpecialType.System_Char => "char",
+        SpecialType.System_Single => "float",
+        SpecialType.System_Double => "double",
+        SpecialType.System_Decimal => "decimal",
+        SpecialType.System_Byte => "byte",
+        SpecialType.System_SByte => "sbyte",
+        SpecialType.System_Int16 => "short",
+        SpecialType.System_UInt16 => "ushort",
+        SpecialType.System_Int64 => "long",
+        SpecialType.System_UInt64 => "ulong",
+        SpecialType.System_Object => "object",
+        SpecialType.System_IntPtr => "nint",
+        SpecialType.System_UIntPtr => "nuint",
+        SpecialType.System_ValueType => "(" + string.Join(",", namedType.GetAllTypeArguments().Select(t => ToName(t as INamedTypeSymbol))) + ")",
+        SpecialType.System_Void => "void",
+        SpecialType.System_Array => ToName(namedType.GetAllTypeArguments().First() as INamedTypeSymbol) + "[]",
+        SpecialType.System_Nullable_T => ToName(namedType.GetAllTypeArguments().First() as INamedTypeSymbol) + "?",
+        { } => namedType.Name,
+        _ => "",
+};
+
 
     protected override bool GetBindableNodeForTokenIndicatingLambda(SyntaxToken token, [NotNullWhen(true)] out SyntaxNode? found)
     {

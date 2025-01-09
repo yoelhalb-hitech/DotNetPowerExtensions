@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetPowerExtensions.MustInitialize.Analyzers\DotNetPowerExtensions.MustInitialize.Analyzers.csproj" />
+    <ProjectReference Include="..\DotNetPowerExtensions.Reflection\DotNetPowerExtensions.Reflection.csproj" />
   </ItemGroup>
 
   <!-- Since we do InternalsAssemblyName we have to do it after IgnoresAccessChecksToGenerator -->

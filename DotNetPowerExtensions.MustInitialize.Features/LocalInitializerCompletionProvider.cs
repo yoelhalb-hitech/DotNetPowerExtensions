@@ -3,8 +3,8 @@ extern alias Workspaces;
 
 using Features::Microsoft.CodeAnalysis.Completion.Providers;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
-using Workspaces::Microsoft.CodeAnalysis.Shared.Extensions;
-using Workspaces::Roslyn.Utilities;
+
+using SequelPay.DotNetPowerExtensions.Reflection;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
@@ -56,14 +56,20 @@ public class LocalInitializerCompletionProvider : LSPCompletionProvider
             var uninitialized = requiredTo.Where(m => !alreadyTypedMembers.Contains(m.name));
             foreach (var uninitializedMember in uninitialized)
             {
-                context.AddItem(SymbolCompletionItem.CreateWithSymbolId(
-                    displayText: uninitializedMember.name.EscapeIdentifier(),
-                    displayTextSuffix: "",
-                    insertionText: null,
-                    symbols: ImmutableArray.Create(uninitializedMember.symbol),
-                    contextPosition: initializerLocation.SourceSpan.Start,
-                    inlineDescription: "MustInitialize",
-                    rules: CompletionItemRules.Create(enterKeyRule: EnterKeyRule.Never)));
+                // We don't invoke it directly because different versions of Roslyn have different signatures
+                var item = typeof(SymbolCompletionItem).InvokeMethod(
+                    nameof(SymbolCompletionItem.CreateWithSymbolId), null,
+                    new Dictionary<string, object?>
+                    {
+                        ["displayText"] = uninitializedMember.name.EscapeIdentifier(),
+                        ["displayTextSuffix"] = "",
+                        ["insertionText"] = null,
+                        ["symbols"] = ImmutableArray.Create(uninitializedMember.symbol),
+                        ["contextPosition"] = initializerLocation.SourceSpan.Start,
+                        ["inlineDescription"] = "MustInitialize",
+                        ["rules"] = CompletionItemRules.Create(enterKeyRule: EnterKeyRule.Never)
+                    }) as CompletionItem;
+                context.AddItem(item!);
             }
         }
         catch { }

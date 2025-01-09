@@ -1,35 +1,29 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Extensions;
+using static DotNetPowerExtensions.MustInitialize.Analyzers.MightRequireUtils;
 
 namespace SequelPay.DotNetPowerExtensions.Analyzers.DependencyManagement.ILocalFactory.Features;
 
 internal class FeatureUtils
 {
-    public static ISymbol? BindTokenToDeclaringSymbol(SemanticModel semanticModel, SyntaxToken token, CancellationToken cancellationToken = default)
+    public static (ISymbol?, MightRequiredInfo?) BindTokenToDeclaringSymbol(SemanticModel semanticModel, SyntaxToken token, CancellationToken cancellationToken = default)
     {
         // We only care if it is a simple identifier name
-        if (token.Kind() is not SyntaxKind.IdentifierToken || token.Parent is not IdentifierNameSyntax identifier) return null;
-
-        return BindIDentifierToDeclaringSymbol(semanticModel, identifier, cancellationToken);
-    }
-
-    public static ISymbol? BindIDentifierToDeclaringSymbol(SemanticModel semanticModel, IdentifierNameSyntax identifier, CancellationToken cancellationToken = default)
-    {
-        // We only care if it is a simple identifier name
-        if (identifier.Parent is not NameEqualsSyntax nameEquals
+        if (token.Kind() is not SyntaxKind.IdentifierToken
+            || token.Parent is not IdentifierNameSyntax identifier
+            || identifier.Parent is not NameEqualsSyntax nameEquals
             || nameEquals.Parent is not AnonymousObjectMemberDeclaratorSyntax declerator
-            || declerator.Parent is not AnonymousObjectCreationExpressionSyntax creation) return null;
+            || declerator.Parent is not AnonymousObjectCreationExpressionSyntax creation) return (null,null);
 
         var type = FeatureUtils.GetInitializedType(semanticModel, creation, cancellationToken);
-        if (type is null) return null;
+        if (type is null) return (null, null);
 
         var members = type.GetMembers(identifier.Identifier.Text);
-        if (members.OfType<IPropertySymbol>().Any()) return members.First(); // Can only be one
-        if (members.OfType<IFieldSymbol>().Any()) return members.First(); // Can only be one
+        if (members.OfType<IPropertySymbol>().Any()) return (members.First(), null); // Can only be one
+        if (members.OfType<IFieldSymbol>().Any()) return (members.First(), null); // Can only be one
 
         var mightRequire = MightRequireUtils.GetMightRequiredInfos(type, new MustInitializeWorker(semanticModel).MightRequireSymbols)
-                                .FirstOrDefault(m => m.Name == identifier.Identifier.Text)?
-                                .Attribute.AttributeConstructor;
-        return mightRequire;
+                                .FirstOrDefault(m => m.Name == identifier.Identifier.Text);
+        return (null, mightRequire);
     }
 
     public static SyntaxToken? GetToken(SemanticModel semanticModel, int position, CancellationToken cancellationToken)

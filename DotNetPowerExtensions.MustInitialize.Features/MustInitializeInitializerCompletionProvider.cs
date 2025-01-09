@@ -58,8 +58,10 @@ internal class MustInitializeInitializerCompletionProvider : ObjectAndWithInitia
             var alreadyTypedMembers = GetInitializedMembers(semanticModel.SyntaxTree, position, cancellationToken);
             var uninitializedMembers = members.Where(m => !alreadyTypedMembers.Contains(m.Name));
 
+            var obj = typeof(CompletionOptions).GetProperty("MemberDisplayOptions")?.GetValue(context.CompletionOptions) ?? context.CompletionOptions;
+            var hideAdvancedMembers = obj.GetType().GetProperty("HideAdvancedMembers")?.GetValue(obj) as bool? ?? false;
             uninitializedMembers = uninitializedMembers.Where(m => requiredTo.Contains(m.Name)
-                                            || m.IsEditorBrowsable(context.CompletionOptions.HideAdvancedMembers, semanticModel.Compilation))
+                                            || m.IsEditorBrowsable(hideAdvancedMembers, semanticModel.Compilation))
                                         .OrderByDescending(m => m.IsRequired() || requiredTo.Contains(m.Name)) // Remember that false is before true...
                                         .ThenBy(m => m.Name);
 
@@ -108,7 +110,7 @@ internal class MustInitializeInitializerCompletionProvider : ObjectAndWithInitia
         if (symbol is IFieldSymbol fieldSymbol) return !fieldSymbol.Type.IsStructType();
         else if (symbol is IPropertySymbol propertySymbol) return !propertySymbol.Type.IsStructType();
 
-        throw ExceptionUtilities.Unreachable;
+        return false;
     }
 
     private IMethodSymbol? GetCtor(SemanticModel semanticModel, int position, CancellationToken cancellationToken)
