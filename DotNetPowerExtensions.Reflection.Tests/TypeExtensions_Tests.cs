@@ -101,13 +101,20 @@ public class TypeExtensions_Tests
     public bool Test_IsDelegate(Type type) => type.IsDelegate();
 
 #pragma warning disable CA1852 // Type can be sealed because it has no subtypes in its containing assembly and is not externally visible
-    class TestClass
+    interface IFace { int TestMethod(int i); int ExplicitMethod(int i); }
+    class TestClass : IFace
     {
         public static int TestMethod() => 1;
         internal static int TestMethod(int i) => 2;
         private static int TestMethod(string s) => 3;
-        protected static int TestMethod(string s, int i) => 4;
+        protected static int TestMethod(string s, int i2) => 4;
+        public static int TestMethod(TestClass t) => 5;
+        public static int TestMethod(TestClassSub t) => 6;
+        int IFace.TestMethod(int i) => 7;
+        int IFace.ExplicitMethod(int i) => 8;
     }
+    class TestClassSub : TestClass { }
+    class TestClassSub2 : TestClass { }
 #pragma warning restore CA1852 // Type can be sealed because it has no subtypes in its containing assembly and is not externally visible
 
     [Test]
@@ -115,8 +122,27 @@ public class TypeExtensions_Tests
     [TestCase(new object[] { "" }, ExpectedResult = 3)]
     [TestCase(new object[] { "", 0 }, ExpectedResult = 4)]
     public int Test_InvokeMethod(object[]? args) => (int)typeof(TestClass).InvokeMethod(nameof(TestClass.TestMethod), null, args)!;
+
     [Test]
-    public void Test_InvokeMethod_NoArgs() => typeof(TestClass).InvokeMethod(nameof(TestClass.TestMethod), null, null)!.Should().Be(1);
+    public void Test_InvokeMethod_MatchesExactly() => typeof(TestClass).InvokeMethod(nameof(TestClass.TestMethod), null, [new TestClassSub()])!.Should().Be(6);
+
+    [Test]
+    public void Test_InvokeMethod_MatchesAssignable() => typeof(TestClass).InvokeMethod(nameof(TestClass.TestMethod), null, [new TestClassSub2()])!.Should().Be(5);
+
+    [Test]
+    public void Test_InvokeMethod_MatchesImplicit_EvenWhenExplicit() => typeof(TestClass).InvokeMethod(nameof(IFace.TestMethod), new TestClass(), [2])!.Should().Be(2).And.NotBe(7);
+
+
+    [Test]
+    public void Test_InvokeMethod_MatchesExplicit_WhenNoImplicit() => typeof(TestClass).InvokeMethod(nameof(IFace.ExplicitMethod), new TestClass(), [2])!.Should().Be(8);
+
+    [Test]
+    [TestCase("i", 0, ExpectedResult = 2)]
+    [TestCase("s", "", ExpectedResult = 3)]
+    [TestCase("i2", 0, ExpectedResult = 4)]
+    public int Test_InvokeMethod_ByName(string name, object arg) => (int)typeof(TestClass).InvokeMethod(nameof(TestClass.TestMethod), null, new Dictionary<string, object?> { [name] = arg })!;
+
+    public void Test_InvokeMethod_NoArgs() => typeof(TestClass).InvokeMethod(nameof(TestClass.TestMethod), null, Array.Empty<object>())!.Should().Be(1);
 
 #pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
     [Test]

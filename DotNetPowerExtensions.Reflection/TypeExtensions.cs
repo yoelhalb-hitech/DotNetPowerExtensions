@@ -50,22 +50,77 @@ public static class TypeExtensions
     public static bool IsDelegate(this Type type) => typeof(Delegate).IsAssignableFrom(type.GetTypeInfo().BaseType);
 
     /// <summary>
-    /// Convenience reflection helper for the case when the method is not generic and the arguments are not null
+    /// Convenience reflection helper for the case when the method is not generic
+    /// </summary>
+    /// <param name="type"><see cref="Type"/> object of the containing class</param>
+    /// <param name="methodName">The name of the method</param>
+    /// <param name="instance">The object upon which to invoke the method, or null if it is a static method</param>
+    /// <param name="args">Array of arguments</param>
+    /// <returns>The return value of the object if any</returns>
+    /// <exception cref="Exception"></exception>
+    /// <remarks>This only works on a non generic</remarks>
+    public static object? InvokeMethod(this Type type, string methodName, object? instance = null, object[]? args = null)
+    {
+        // TODO... maybe add analyzer and code fix or completion provider to help the user at compile time
+
+        args ??= [];
+        if (args.Any(a => a is null)) throw new ArgumentNullException(nameof(args), "Null arguments not allowed");
+
+        var detail = type.GetTypeDetailInfo(); // Using this instead of Type to solve loads of issues...
+        var argTypes = args.Select(a => a.GetType()).ToArray();
+
+        Func<MethodDetail, bool> filterForExact = d => d.Name == methodName && d.Parameters.Select(p => p.ParameterType.Type).SequenceEqual(argTypes);
+        Func<MethodDetail, bool> filterForAssignable = d => d.Name == methodName && d.Parameters.Length == args.Length && d.Parameters.Select((p, i) => p.ParameterType.Type.IsAssignableFrom(argTypes[i])).All(b => b);
+
+        // TODO... maybe we should prefer an explicit method over a static method when `instance` was passed
+        var methods = detail.MethodDetails.Where(filterForExact);
+        if (!methods.Any()) methods = detail.MethodDetails.Where(filterForAssignable);
+        if (!methods.Any()) methods = detail.ExplicitMethodDetails.Where(filterForExact);
+        if (!methods.Any()) methods = detail.ExplicitMethodDetails.Where(filterForAssignable);
+        if (!methods.Any()) methods = detail.BasePrivateMethodDetails.Where(filterForExact);
+        if (!methods.Any()) methods = detail.BasePrivateMethodDetails.Where(filterForAssignable);
+
+        var typeString = argTypes.Any() ? $"specified arguments of {(argTypes.HasOnlyOne() ? "type" : "types")} `{string.Join(", ",argTypes.Select(p => p.Name))}`" : "no arguments";
+        if (methods.Empty()) throw new ArgumentOutOfRangeException($"Method `{methodName}` with {typeString} not found");
+        if (methods.HasMoreThanOne()) throw new AmbiguousMatchException($"Found multiple methods `{methodName}` {typeString}");
+
+        return methods.First().ReflectionInfo.Invoke(instance, args);
+    }
+
+    /// <summary>
+    /// Convenience reflection helper for the case when the method is not generic using named parameters
     /// </summary>
     /// <param name="type"></param>
     /// <param name="methodName"></param>
     /// <param name="instance"></param>
-    /// <param name="args"></param>
+    /// <param name="namedArgs">A <see cref="Dictionary{string, object}"/> of named arguments</param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public static object? InvokeMethod(this Type type, string methodName, object? instance = null, object[]? args = null)
+    public static object? InvokeMethod(this Type type, string methodName, object? instance, Dictionary<string, object?> namedArgs)
     {
-        if (args is not null && args.Any(a => a is null)) throw new ArgumentNullException(nameof(args), "Null arguments not allowed");
+        // TODO... maybe add analyzer and code fix or completion provider to help the user at compile time
+        var detail = type.GetTypeDetailInfo(); // Using this instead of Type to solve loads of issues...
+        var argTypes = namedArgs.ToDictionary(a => a.Key, a => a.Value?.GetType()).ToArray();
 
-        var method = type.GetMethod(methodName, BindingFlagsExtensions.AllBindings, null, args?.Select(p => p.GetType()).ToArray() ?? new Type[] { }, null);
-        if (method is null) throw new ArgumentOutOfRangeException($"Method `{methodName}` with specified arguments of types `{string.Join(", ",args?.Select(p => p.GetType().Name) ?? new string[]{})}` not found");
+        Func<MethodDetail, bool> filterForExact = d => d.Name == methodName && argTypes.All(a => d.Parameters.Any(p => p.Name == a.Key && (a.Value is null || p.ParameterType.Type == a.Value)));
+        Func<MethodDetail, bool> filterForAssignable = d => d.Name == methodName && argTypes.All(a => d.Parameters.Any(p => p.Name == a.Key && (a.Value is null || p.ParameterType.Type.IsAssignableFrom(a.Value))));
 
-        return method.Invoke(instance, args);
+        // TODO... maybe we should prefer an explicit method over a static method when `instance` was passed
+        var methods = detail.MethodDetails.Where(filterForExact);
+        if (!methods.Any()) methods = detail.MethodDetails.Where(filterForAssignable);
+        if (!methods.Any()) methods = detail.ExplicitMethodDetails.Where(filterForExact);
+        if (!methods.Any()) methods = detail.ExplicitMethodDetails.Where(filterForAssignable);
+        if (!methods.Any()) methods = detail.BasePrivateMethodDetails.Where(filterForExact);
+        if (!methods.Any()) methods = detail.BasePrivateMethodDetails.Where(filterForAssignable);
+
+        var typeString = argTypes.Any() ? $"specified arguments of `{string.Join(", ", argTypes.Select(p => p.Key + (p.Value is Type t ? ":" + t.Name : "")))}`" : "no arguments";
+        if (methods.Empty()) throw new ArgumentOutOfRangeException($"Method `{methodName}` with {typeString} not found");
+        if (methods.HasMoreThanOne() && methods.Any(m => m.Parameters.Length == namedArgs.Count)) methods = methods.Where(m => m.Parameters.Length == namedArgs.Count);
+        if (methods.HasMoreThanOne()) throw new AmbiguousMatchException($"Found multiple methods `{methodName}` {typeString}");
+
+        var method = methods.First();
+        var args = method.Parameters.Select(p => namedArgs.ContainsKey(p.Name) ? namedArgs[p.Name] : p.ParameterType.Type.GetDefault()).ToArray();
+        return method.ReflectionInfo.Invoke(instance, args);
     }
 
     private static ConcurrentDictionary<Type, ConcurrentDictionary<Type, InterfaceMapping>> interfaceMappings = new ConcurrentDictionary<Type, ConcurrentDictionary<Type, InterfaceMapping>>();
