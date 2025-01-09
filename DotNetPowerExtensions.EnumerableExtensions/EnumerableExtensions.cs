@@ -28,4 +28,12 @@ public static class EnumerableExtensions
     /// <returns>true if the source sequence is not null and contains exactly one element; otherwise, false.</returns>
     public static bool HasOnlyOne<TSource>(this IEnumerable<TSource>? source) => source?.NullOrEmpty() != true && source?.Skip(1).Empty() == true;
 
+    /// <summary>
+    /// Determines whether a sequence <see cref="IEnumerable"/> has more than one element
+    /// </summary>
+    /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+    /// <param name="source">The System.Collections.Generic.IEnumerable`1 to check for elements.</param>
+    /// <returns>true if the source sequence is not null and has more than one element; otherwise, false.</returns>
+    public static bool HasMoreThanOne<TSource>(this IEnumerable<TSource>? source) => source?.NullOrEmpty() != true && source?.Skip(1).Any() == true;
+
 }
