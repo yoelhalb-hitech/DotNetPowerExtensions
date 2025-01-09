@@ -114,7 +114,7 @@ internal class TypeInfoFactory
 
         if (isNewShadow)
         {
-            var localShadow = props.FirstOrDefault(p => p.Name == originalProp!.Name);
+            var localShadow = props.FirstOrDefault(p => p.Name == originalProp!.Name && p.DeclaringType == originalProp.ReflectionInfo.DeclaringType);
             shadowedProperties.Add(originalProp! with
             {
                 ReflectionInfo = localShadow ?? originalProp.ReflectionInfo,
@@ -184,7 +184,7 @@ internal class TypeInfoFactory
 
         if (isNewShadow)
         {
-            var localShadow = events.FirstOrDefault(e => e.Name == originalEvent!.Name);
+            var localShadow = events.FirstOrDefault(e => e.Name == originalEvent!.Name && e.DeclaringType == originalEvent.ReflectionInfo.DeclaringType);
             shadowedEvents.Add(originalEvent! with
             {
                 ReflectionInfo = localShadow ?? originalEvent.ReflectionInfo,
@@ -399,7 +399,7 @@ internal class TypeInfoFactory
                 .Where(d => !d.ReflectionInfo.IsPrivate // Base private will be handled separately direct
                         && !methodDetails.Contains(d)
                         && !shadowedMethods.Contains(d) // We can safely assume that if it is shadowed that the shadowedMethods will already contain it as the handler checks directly on the base
-                        && !methodDetails.Any(md => md.Name == d.Name && (md.OverridenMethod == d || md.ReflectionInfo.IsEqual(d.ReflectionInfo))))
+                        && !methodDetails.Any(md => md.Name == d.Name && (md.OverridenMethod == d || md.ReflectionInfo.IsSignatureEqual(d.ReflectionInfo))))
                 .Select(d => GetActualMethodDetail(d.ReflectionInfo, d.DeclarationType, d.OverridenMethod, d.ExplicitInterfaceReflectionInfo)));
 
         var explicitMethods = new List<MethodDetail>();
@@ -487,7 +487,7 @@ internal class TypeInfoFactory
             MethodDetails = methodDetails.ToArray(),
             ShadowedPropertyDetails = (baseType?.ShadowedPropertyDetails
                  .Where(p => shadowedProperties
-                    .All(p1 => p1.Name != p.Name || (new FollowThroughEnumerable<PropertyDetail>(p, p2 => p2.OverridenProperty)
+                    .All(p1 => p1.Name != p.Name || (new FollowThroughEnumerable<PropertyDetail>(p1, p2 => p2.OverridenProperty)
                                                                      .All(p2 => p2.DeclaringType != p.DeclaringType))))
                 .Select(p => p with
                 {
@@ -498,7 +498,7 @@ internal class TypeInfoFactory
                             ?? p.ReflectionInfo,
                     IsInherited = true,
                 }) ?? new PropertyDetail[] { })
-            .Concat(shadowedProperties).ToArray(),
+            .Concat(shadowedProperties).ToArray(), // We don't need to check for members not found on the current type only on the base, because if they were the same as a current member thus shadowing they would have been handled by the shadow system
             ShadowedMethodDetails = (baseType?.ShadowedMethodDetails
                 .Where(m => shadowedMethods
                     .All(m1 => m1.Name != m.Name
@@ -516,11 +516,11 @@ internal class TypeInfoFactory
                                                 && m1.IsEqual(m.ReflectionInfo))
                                         ?? m.ReflectionInfo,
                     IsInherited = true,
-                }) ?? new MethodDetail[] { }).Concat(shadowedMethods).ToArray(),
+                }) ?? new MethodDetail[] { }).Concat(shadowedMethods).ToArray(), // We don't need to check for members not found on the current type only on the base, because if they were the same as a current member thus shadowing they would have been handled by the shadow system
             ShadowedEventDetails = (baseType?.ShadowedEventDetails
                 .Where(e => shadowedEvents
                     .All(e1 => e1.Name != e.Name
-                        || (new FollowThroughEnumerable<EventDetail>(e, e2 => e2.OverridenEvent)
+                        || (new FollowThroughEnumerable<EventDetail>(e1, e2 => e2.OverridenEvent)
                                                                      .All(e2 => e2.DeclaringType != e.DeclaringType))))
 
             .Select(e => e with
@@ -531,7 +531,7 @@ internal class TypeInfoFactory
                                 && e1.DeclaringType == e.ReflectionInfo.DeclaringType)
                         ?? e.ReflectionInfo,
                 IsInherited = true,
-            }) ?? new EventDetail[] { }).Concat(shadowedEvents).ToArray(),
+            }) ?? new EventDetail[] { }).Concat(shadowedEvents).ToArray(), // We don't need to check for members not found on the current type only on the base, because if they were the same as a current member thus shadowing they would have been handled by the shadow system
             ShadowedFieldDetails = (baseType?.ShadowedFieldDetails
                 .Where(f => shadowed
                     .All(f1 => f1.Name != f.Name || f1.DeclaringType != f.ReflectionInfo.DeclaringType))
@@ -557,7 +557,7 @@ internal class TypeInfoFactory
                 })
                 // Sometimes the base fields are not returned in the current type fields via reflection so we have to make sure we take care of it
                 .Concat(baseType?.FieldDetails
-                    .Where(d => nonShadowed.Any(f => f.Name == d.Name) && shadowed.All(f => f.Name != d.Name || f.DeclaringType != d.ReflectionInfo.DeclaringType))
+                    .Where(d => nonShadowed.Any(f => f.Name == d.Name && f.DeclaringType != d.ReflectionInfo.DeclaringType) && shadowed.All(f => f.Name != d.Name || f.DeclaringType != d.ReflectionInfo.DeclaringType))
                     .Select(f => f with { InReflectionForCurrentType = false, IsInherited = true })
                     ?? [])
             ).ToArray(),

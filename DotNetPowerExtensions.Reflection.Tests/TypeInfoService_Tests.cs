@@ -97,10 +97,13 @@ public class TypeInfoService_Tests
         if (isShadow)
         {
             var shadow = result.ShadowedPropertyDetails.First();
-            var shadowedToUse = shadowedType ?? typeof(SinglePropOverridenInherited);
+            var typeToUse = shadowedType is not null ? type : typeof(SinglePropOverridenInherited);
             var declToUse = shadowedType is not null ? Decleration : Override;
 
-            Validate(shadow, shadowedToUse.GetProperty(nameof(SingleProp.Prop))!, declToUse, shadowedType is null, true);
+            var originalProp = typeToUse.GetProperties()
+                .First(p => p.Name == nameof(SingleProp.Prop) && (shadowedType is null || p.DeclaringType == shadowedType))!;
+
+            Validate(shadow, originalProp, declToUse, true, shadowedType is not null);
             shadow.Name.Should().Be(nameof(SingleProp.Prop));
         }
 
@@ -166,7 +169,8 @@ public class TypeInfoService_Tests
     [TestCase(typeof(SingleGenericMethodShadowedOverriden), ShadowOverride, false, true, true)]
     [TestCase(typeof(SingleGenericMethodShadowedOverridenInherited), ShadowOverride, true, true, true)]
 
-    public void Test_GetTypeInfo_SingleClassMethod(Type type, DeclarationTypes decl, bool inherited, bool isShadow, bool overriden)
+    public void Test_GetTypeInfo_SingleClassMethod(Type type, DeclarationTypes decl, bool inherited,
+                                        bool isShadow, bool overriden)
     {
         var result = new TypeInfoService(type).GetTypeInfo();
 
@@ -194,8 +198,8 @@ public class TypeInfoService_Tests
         if (isShadow)
         {
             var shadow = result.ShadowedMethodDetails.First();
-            var typeToCompare = !isGenericMethod ? typeof(SingleMethodOverridenInherited) : typeof(SingleGenericMethodOverridenInherited);
-            Validate(shadow, typeToCompare.GetMethods().First(m => m.Name.StartsWith(nameof(SingleMethod.TestMethod))), Override, true, true);
+            var typeToCompare = !isGenericMethod ? typeof(SingleMethodOverriden) : typeof(SingleGenericMethodOverriden);
+            Validate(shadow, type.GetMethods().First(m => m.Name.StartsWith(nameof(SingleMethod.TestMethod)) && m.DeclaringType == typeToCompare), Override, true, true);
             shadow.Name.Should().Be(nameof(SingleMethod.TestMethod));
         }
 
@@ -220,7 +224,8 @@ public class TypeInfoService_Tests
     [TestCase(typeof(SingleGenericMethodShadowedOverriden), ShadowOverride, false, true, true)]
     [TestCase(typeof(SingleGenericMethodShadowedOverridenInherited), ShadowOverride, true, true, true)]
 
-    public void Test_GetTypeInfo_SingleClassMethod_WhenTypeDoesNotReturnBaseTypeMethods(Type type, DeclarationTypes decl, bool inherited, bool isShadow, bool overriden)
+    public void Test_GetTypeInfo_SingleClassMethod_WhenTypeDoesNotReturnBaseTypeMethods(Type type,
+        DeclarationTypes decl, bool inherited, bool isShadow, bool overriden)
     {
         var dict = new Dictionary<MethodInfo, MethodInfo>();
         var mock = new Mock<Type>();
@@ -239,6 +244,7 @@ public class TypeInfoService_Tests
             mi.Setup(m => m.ReturnParameter).Returns(m.ReturnParameter);
             mi.Setup(m => m.ReflectedType).Returns(mock.Object);
             mi.Setup(m => m.GetHashCode()).Returns(m.GetHashCode() * 12345);
+            mi.Setup(m => m.Equals(It.IsAny<object>())).Returns<object>(obj => m.Equals(obj));
             if(m.DeclaringType == type) mi.Setup(m => m.DeclaringType).Returns(mock.Object);
 
             dict.Add(m, mi.Object);
@@ -275,8 +281,8 @@ public class TypeInfoService_Tests
         if (isShadow)
         {
             var shadow = result.ShadowedMethodDetails.First();
-            var typeToCompare = !isGenericMethod ? typeof(SingleMethodOverridenInherited) : typeof(SingleGenericMethodOverridenInherited);
-            Validate(shadow, typeToCompare.GetMethods().First(m => m.Name.StartsWith(nameof(SingleMethod.TestMethod))), Override, true, true);
+            var typeToCompare = !isGenericMethod ? typeof(SingleMethodOverriden) : typeof(SingleGenericMethodOverriden);
+            Validate(shadow, type.BaseType!.GetMethods().First(m => m.Name.StartsWith(nameof(SingleMethod.TestMethod)) && m.DeclaringType == typeToCompare), Override, true, false);
             shadow.Name.Should().Be(nameof(SingleMethod.TestMethod));
         }
 
@@ -344,7 +350,7 @@ public class TypeInfoService_Tests
         if (isShadow)
         {
             var shadow = result.ShadowedEventDetails.First();
-            Validate(shadow, typeof(SingleEventOverridenInherited).GetEvent(nameof(SingleEvent.Event))!, Override, true, true);
+            Validate(shadow, typeof(SingleEventOverridenInherited).GetEvent(nameof(SingleEvent.Event))!, Override, true, false);
             shadow.Name.Should().Be(nameof(SingleEvent.Event));
         }
 
