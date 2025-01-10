@@ -1,30 +1,30 @@
 ﻿using System.Collections;
 
-namespace SequelPay.DotNetPowerExtensions;
+namespace SequelPay.DotNetPowerExtensions.Collections;
 
 public class FollowThroughEnumerable<T> : IEnumerable<T>
 {
-    public FollowThroughEnumerable(T startingObject, Func<T, T> nextFunc, Func<T, bool> stopFunc)
+    public FollowThroughEnumerable(T startObject, Func<T, T> nextFunc, Func<T, bool> stopFunc)
     {
-        StartingObject = startingObject;
-        NextFunc = nextFunc;
-        StopFunc = stopFunc;
+        StartObject = startObject ?? throw new ArgumentNullException(nameof(startObject));
+        NextFunc = nextFunc ?? throw new ArgumentNullException(nameof(nextFunc));
+        StopFunc = stopFunc ?? throw new ArgumentNullException(nameof(stopFunc));
     }
 
-    public FollowThroughEnumerable(T startingObject, Func<T, T?> autoStopNextFunc)
+    public FollowThroughEnumerable(T startObject, Func<T, T?> autoStopNextFunc)
     {
-        StartingObject = startingObject;
-        AutoStopNextFunc = autoStopNextFunc;
+        StartObject = startObject ?? throw new ArgumentNullException(nameof(startObject));
+        AutoStopNextFunc = autoStopNextFunc ?? throw new ArgumentNullException(nameof(autoStopNextFunc));
     }
 
-    public T StartingObject { get; }
+    public T StartObject { get; }
     public Func<T, T?>? AutoStopNextFunc { get; }
     public Func<T, T>? NextFunc { get; }
     public Func<T, bool>? StopFunc { get; }
 
     public IEnumerator<T> GetEnumerator()
     {
-        var nextObject = StartingObject;
+        var nextObject = StartObject;
         while (nextObject is not null)
         {
             yield return nextObject;
